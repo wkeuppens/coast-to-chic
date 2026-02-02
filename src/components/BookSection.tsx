@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import runningMotion from '@/assets/running-motion.jpg';
+import bookMockup from '@/assets/book-mockup.jpg';
 
 const books = [
   {
@@ -37,11 +37,11 @@ export const BookSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <div className="aspect-[4/5] bg-white/10 overflow-hidden">
+            <div className="aspect-[4/5] bg-white/10 overflow-hidden flex items-center justify-center p-8">
               <img 
-                src={runningMotion}
-                alt="Runner in motion"
-                className="w-full h-full object-cover opacity-90"
+                src={bookMockup}
+                alt="Follow the Coast book"
+                className="w-full h-full object-contain"
               />
             </div>
           </motion.div>
