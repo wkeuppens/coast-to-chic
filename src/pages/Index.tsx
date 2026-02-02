@@ -34,7 +34,7 @@ const Index = () => {
         <StagesSection />
         <PhotoGallery />
         <BookSection />
-        <PullQuote text="Not a race. Just coastline. Just forward." variant="dark" />
+        <PullQuote text="Salty breeze. The sound of your own footsteps." variant="dark" />
         <EventsSection />
         <PartnersSection />
         <NewsletterSection />
