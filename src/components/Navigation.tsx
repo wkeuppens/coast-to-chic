@@ -3,10 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const navItems = [
-  { label: 'The Journey', href: '#journey' },
   { label: 'Stages', href: '#stages' },
-  { label: 'The Book', href: '#book' },
-  { label: 'Causes', href: '#causes' },
+  { label: 'Books', href: '#books' },
+  { label: 'Events', href: '#events' },
 ];
 
 export const Navigation = () => {
@@ -31,10 +30,10 @@ export const Navigation = () => {
             </a>
           ))}
           <a
-            href="#join"
+            href="#stages"
             className="text-sm font-medium text-white border border-white/30 px-4 py-2 hover:bg-white hover:text-black transition-all"
           >
-            Join a Stage
+            Register
           </a>
         </div>
 
@@ -72,14 +71,14 @@ export const Navigation = () => {
                 </motion.a>
               ))}
               <motion.a
-                href="#join"
+                href="#stages"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.3 }}
                 onClick={() => setIsOpen(false)}
                 className="text-3xl font-display text-accent"
               >
-                Join a Stage →
+                Register →
               </motion.a>
             </div>
           </motion.div>

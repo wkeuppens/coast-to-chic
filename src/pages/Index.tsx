@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
 import { JourneySection } from '@/components/JourneySection';
+import { HowItWorksSection } from '@/components/HowItWorksSection';
 import { StagesSection } from '@/components/StagesSection';
 import { BookSection } from '@/components/BookSection';
-import { CausesSection } from '@/components/CausesSection';
-import { JoinSection } from '@/components/JoinSection';
+import { EventsSection } from '@/components/EventsSection';
+import { PartnersSection } from '@/components/PartnersSection';
+import { NewsletterSection } from '@/components/NewsletterSection';
 import { Footer } from '@/components/Footer';
 import { CustomCursor } from '@/components/CustomCursor';
 import { LoadingScreen } from '@/components/LoadingScreen';
@@ -21,10 +23,12 @@ const Index = () => {
         <Navigation />
         <HeroSection />
         <JourneySection />
+        <HowItWorksSection />
         <StagesSection />
         <BookSection />
-        <CausesSection />
-        <JoinSection />
+        <EventsSection />
+        <PartnersSection />
+        <NewsletterSection />
         <Footer />
       </main>
     </>
