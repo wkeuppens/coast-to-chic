@@ -109,7 +109,12 @@ function perpendicularDistance(
 }
 
 // Convert points to smooth bezier path using Catmull-Rom splines
-function pointsToCatmullRomBezier(points: { x: number; y: number }[], tension: number = 0.5): string {
+// with adaptive tension based on angle sharpness
+function pointsToCatmullRomBezier(
+  points: { x: number; y: number }[], 
+  tension: number = 0.5,
+  adaptiveTension: boolean = false
+): string {
   if (points.length < 2) return '';
   if (points.length === 2) {
     return `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`;
@@ -123,11 +128,21 @@ function pointsToCatmullRomBezier(points: { x: number; y: number }[], tension: n
     const p2 = points[i + 1];
     const p3 = points[Math.min(points.length - 1, i + 2)];
     
+    // Calculate adaptive tension for sharp corners
+    let localTension = tension;
+    if (adaptiveTension && i > 0 && i < points.length - 2) {
+      const angle = calculateAngle(p0, p1, p2);
+      // If angle is sharp (less than 120 degrees), increase tension to smooth it
+      if (angle < 120) {
+        localTension = tension * (1 + (120 - angle) / 60);
+      }
+    }
+    
     // Calculate control points using Catmull-Rom to Bezier conversion
-    const cp1x = p1.x + (p2.x - p0.x) / 6 * tension;
-    const cp1y = p1.y + (p2.y - p0.y) / 6 * tension;
-    const cp2x = p2.x - (p3.x - p1.x) / 6 * tension;
-    const cp2y = p2.y - (p3.y - p1.y) / 6 * tension;
+    const cp1x = p1.x + (p2.x - p0.x) / 6 * localTension;
+    const cp1y = p1.y + (p2.y - p0.y) / 6 * localTension;
+    const cp2x = p2.x - (p3.x - p1.x) / 6 * localTension;
+    const cp2y = p2.y - (p3.y - p1.y) / 6 * localTension;
     
     d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
   }
@@ -135,16 +150,42 @@ function pointsToCatmullRomBezier(points: { x: number; y: number }[], tension: n
   return d;
 }
 
+// Calculate angle at point p1 (in degrees)
+function calculateAngle(
+  p0: { x: number; y: number },
+  p1: { x: number; y: number },
+  p2: { x: number; y: number }
+): number {
+  const v1x = p0.x - p1.x;
+  const v1y = p0.y - p1.y;
+  const v2x = p2.x - p1.x;
+  const v2y = p2.y - p1.y;
+  
+  const dot = v1x * v2x + v1y * v2y;
+  const mag1 = Math.sqrt(v1x * v1x + v1y * v1y);
+  const mag2 = Math.sqrt(v2x * v2x + v2y * v2y);
+  
+  if (mag1 === 0 || mag2 === 0) return 180;
+  
+  const cosAngle = Math.max(-1, Math.min(1, dot / (mag1 * mag2)));
+  return Math.acos(cosAngle) * (180 / Math.PI);
+}
+
 // Main smoothing function
-export function smoothPath(pathD: string, simplifyTolerance: number = 2, tension: number = 1): string {
+export function smoothPath(
+  pathD: string, 
+  simplifyTolerance: number = 2, 
+  tension: number = 1,
+  adaptiveTension: boolean = true
+): string {
   // Parse path to points
   const points = parsePathToPoints(pathD);
   
   if (points.length < 2) return pathD;
   
-  // Simplify to reduce noise
+  // Simplify to reduce noise (light simplification)
   const simplified = simplifyPoints(points, simplifyTolerance);
   
-  // Convert to smooth bezier
-  return pointsToCatmullRomBezier(simplified, tension);
+  // Convert to smooth bezier with adaptive tension for sharp corners
+  return pointsToCatmullRomBezier(simplified, tension, adaptiveTension);
 }
