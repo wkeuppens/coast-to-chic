@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { MagneticButton } from './MagneticButton';
 
 const stages = [
   {
@@ -51,17 +51,34 @@ export const StagesSection = () => {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
-            <p className="text-sm text-muted-foreground tracking-wide mb-4">Selected Stages</p>
+            <p className="text-sm text-muted-foreground tracking-wide mb-4 flex items-center gap-2">
+              <motion.span
+                animate={{ width: [20, 40, 20] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="h-px bg-foreground inline-block"
+              />
+              Selected Stages
+            </p>
             <h2 className="font-display text-4xl md:text-5xl font-medium text-foreground">
-              100km of your story.
+              100km of <span className="italic">your</span> story.
             </h2>
           </div>
-          <a 
+          <MagneticButton
             href="#" 
-            className="text-sm font-medium text-foreground underline underline-offset-4 hover:no-underline transition-all"
+            className="text-sm font-medium text-foreground group"
+            strength={0.3}
           >
-            View all stages →
-          </a>
+            <span className="relative">
+              View all stages
+              <motion.span 
+                className="absolute -bottom-1 left-0 h-px bg-foreground"
+                initial={{ width: '100%' }}
+                whileHover={{ width: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+            </span>
+            <span className="inline-block ml-1 transition-transform group-hover:translate-x-1">→</span>
+          </MagneticButton>
         </motion.div>
       </div>
 
@@ -91,36 +108,60 @@ const StageCard = ({
       href="#"
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.6, delay: index * 0.15 }}
       className="group relative w-80 md:w-auto border-r border-border last:border-r-0 overflow-hidden"
+      whileHover={{ y: -8 }}
     >
       {/* Image */}
-      <div className="aspect-[4/5] overflow-hidden">
-        <img 
+      <div className="aspect-[4/5] overflow-hidden relative">
+        <motion.img 
           src={stage.image} 
           alt={stage.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          className="w-full h-full object-cover"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.7 }}
         />
         
-        {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        {/* Status badge */}
+        {/* Status badge with pulse on open */}
         <div className="absolute top-4 right-4">
-          <span className={`text-xs font-medium px-3 py-1 ${
-            stage.status === 'completed' 
-              ? 'bg-foreground text-primary-foreground' 
-              : 'bg-accent text-accent-foreground'
-          }`}>
+          <motion.span 
+            className={`text-xs font-medium px-3 py-1 ${
+              stage.status === 'completed' 
+                ? 'bg-foreground text-primary-foreground' 
+                : 'bg-accent text-accent-foreground'
+            }`}
+            animate={stage.status === 'open' ? { scale: [1, 1.05, 1] } : {}}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             {stage.status === 'completed' ? 'Completed' : 'Open'}
-          </span>
+          </motion.span>
         </div>
+
+        {/* Hover reveal: Stage number */}
+        <motion.div
+          className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          initial={{ y: 10 }}
+          whileHover={{ y: 0 }}
+        >
+          <span className="font-display text-6xl font-bold opacity-30">{stage.id}</span>
+        </motion.div>
       </div>
 
       {/* Content */}
-      <div className="p-6 bg-background">
+      <div className="p-6 bg-background relative overflow-hidden">
+        {/* Animated underline */}
+        <motion.div
+          className="absolute top-0 left-0 h-0.5 bg-accent"
+          initial={{ width: 0 }}
+          whileHover={{ width: '100%' }}
+          transition={{ duration: 0.3 }}
+        />
+        
         <p className="text-xs text-muted-foreground mb-2">Stage {stage.id}</p>
-        <h3 className="font-display text-lg font-medium text-foreground mb-1">
+        <h3 className="font-display text-lg font-medium text-foreground mb-1 group-hover:text-accent transition-colors duration-300">
           {stage.title}
         </h3>
         <p className="text-sm text-muted-foreground">
