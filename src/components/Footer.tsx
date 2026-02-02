@@ -1,30 +1,24 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { HoverLink } from './HoverLink';
-import { ParallaxText } from './FloatingElement';
 
 const footerLinks = {
-  journey: [
-    { label: 'The Story', href: '#' },
-    { label: 'All Stages', href: '#' },
-    { label: 'Join a Team', href: '#' },
-    { label: 'Watch Film', href: '#' },
+  stages: [
+    { label: 'EU Stages', href: '#' },
+    { label: 'US Stages', href: '#' },
+    { label: 'Shared Stages', href: '#' },
+    { label: 'About Stages', href: '#' },
   ],
   books: [
     { label: 'Volume I', href: '#' },
     { label: 'Volume II', href: '#' },
-    { label: 'Kickstarter', href: '#' },
+    { label: 'About the Books', href: '#' },
   ],
-  causes: [
-    { label: 'Physical', href: '#' },
-    { label: 'Mental', href: '#' },
-    { label: 'Ocean', href: '#' },
-    { label: 'Donate', href: '#' },
+  events: [
+    { label: 'Follow The Kust', href: '#' },
+    { label: 'Tour du Mont Blanc', href: '#' },
   ],
-  connect: [
+  contact: [
     { label: 'Instagram', href: '#' },
-    { label: 'YouTube', href: '#' },
-    { label: 'Strava', href: '#' },
     { label: 'Contact', href: '#' },
   ],
 };
@@ -34,14 +28,7 @@ export const Footer = () => {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <footer ref={ref} className="bg-foreground text-primary-foreground overflow-hidden">
-      {/* Marquee text */}
-      <div className="border-b border-white/10 py-6">
-        <ParallaxText className="font-display text-4xl md:text-6xl font-medium text-white/10">
-          FOLLOW THE COAST · FOLLOW THE COAST · FOLLOW THE COAST ·
-        </ParallaxText>
-      </div>
-
+    <footer ref={ref} className="bg-foreground text-primary-foreground">
       <div className="py-16 md:py-24 px-6 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           {/* Top section */}
@@ -53,9 +40,9 @@ export const Footer = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <a href="#" className="font-display text-xl font-medium group">
-                <span className="block group-hover:translate-x-1 transition-transform">Follow</span>
-                <span className="block group-hover:translate-x-2 transition-transform delay-75">the Coast</span>
+              <a href="#" className="font-display text-xl font-medium">
+                <span className="block">Follow</span>
+                <span className="block">the Coast</span>
               </a>
             </motion.div>
 
@@ -84,13 +71,28 @@ export const Footer = () => {
               © 2025 Follow the Coast
             </p>
             <div className="flex gap-6 text-sm text-white/40">
-              <HoverLink href="#" className="hover:text-white transition-colors">
+              <a href="#" className="hover:text-white transition-colors">
                 Privacy
-              </HoverLink>
-              <HoverLink href="#" className="hover:text-white transition-colors">
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
                 Terms
-              </HoverLink>
+              </a>
             </div>
+          </motion.div>
+
+          {/* Contact email */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-8"
+          >
+            <a 
+              href="mailto:hello@followthecoast.com" 
+              className="text-sm text-white/40 hover:text-white transition-colors"
+            >
+              hello@followthecoast.com
+            </a>
           </motion.div>
         </div>
       </div>
@@ -116,21 +118,15 @@ const FooterColumn = ({
   >
     <p className="text-sm text-white/40 mb-4">{title}</p>
     <ul className="space-y-3">
-      {links.map((link, index) => (
-        <motion.li 
-          key={link.label}
-          initial={{ opacity: 0, x: -10 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.4, delay: delay + index * 0.05 }}
-        >
+      {links.map((link) => (
+        <li key={link.label}>
           <a 
             href={link.href}
-            className="text-sm text-white/70 hover:text-white transition-colors relative group inline-block"
+            className="text-sm text-white/70 hover:text-white transition-colors"
           >
             {link.label}
-            <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-white group-hover:w-full transition-all duration-300" />
           </a>
-        </motion.li>
+        </li>
       ))}
     </ul>
   </motion.div>
