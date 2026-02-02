@@ -2,98 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+/* Follow the Coast Design System
+   Fonts: Pressura GT (display) + Beausite Classic (body)
+   Note: Add @font-face declarations or upload font files for Pressura GT and Beausite Classic
+*/
 
-/* Follow the Coast Design System - Inspired by Appart Agency
-   Minimal, bold, lots of white space, playful typography */
+/* Fallback fonts - replace with actual font imports when available */
+@font-face {
+  font-family: 'Pressura GT';
+  src: local('Pressura GT');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Beausite Classic';
+  src: local('Beausite Classic');
+  font-display: swap;
+}
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
+    /* Off-white / bone background */
+    --background: 40 27% 95%;
+    /* Charcoal foreground */
+    --foreground: 210 7% 18%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    --card: 40 27% 95%;
+    --card-foreground: 210 7% 18%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover: 40 27% 95%;
+    --popover-foreground: 210 7% 18%;
 
-    --primary: 0 0% 8%;
-    --primary-foreground: 0 0% 100%;
+    /* Deep blue as primary */
+    --primary: 203 92% 15%;
+    --primary-foreground: 40 27% 95%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 8%;
+    /* Warm beige as secondary */
+    --secondary: 36 31% 83%;
+    --secondary-foreground: 210 7% 18%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    /* Warm grey for muted */
+    --muted: 36 6% 70%;
+    --muted-foreground: 206 17% 45%;
 
-    --accent: 174 62% 47%;
-    --accent-foreground: 0 0% 100%;
+    /* Rust/clay as accent */
+    --accent: 21 54% 50%;
+    --accent-foreground: 40 27% 95%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 40 27% 95%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 8%;
+    /* Warm grey border */
+    --border: 36 6% 80%;
+    --input: 36 6% 80%;
+    --ring: 203 92% 15%;
 
     --radius: 0rem;
 
-    /* Custom tokens */
-    --coast-teal: 174 62% 47%;
-    --coast-sand: 42 35% 92%;
-    --coast-stone: 0 0% 35%;
+    /* Brand color tokens */
+    --coast-deep-blue: 203 92% 15%;
+    --coast-rust: 21 54% 50%;
+    --coast-charcoal: 210 7% 18%;
+    --coast-warm-grey: 36 6% 70%;
+    --coast-bone: 40 27% 95%;
+    --coast-beige: 36 31% 83%;
+    --coast-blue-grey: 206 17% 45%;
 
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Pressura GT', 'Space Grotesk', sans-serif;
+    --font-body: 'Beausite Classic', 'Georgia', serif;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 40 27% 95%;
+    --sidebar-foreground: 210 7% 18%;
+    --sidebar-primary: 203 92% 15%;
+    --sidebar-primary-foreground: 40 27% 95%;
+    --sidebar-accent: 36 31% 83%;
+    --sidebar-accent-foreground: 210 7% 18%;
+    --sidebar-border: 36 6% 80%;
+    --sidebar-ring: 203 92% 15%;
   }
 
   .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 96%;
+    /* Charcoal background for dark mode */
+    --background: 210 7% 10%;
+    --foreground: 40 27% 95%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 96%;
+    --card: 210 7% 14%;
+    --card-foreground: 40 27% 95%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 210 7% 14%;
+    --popover-foreground: 40 27% 95%;
 
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 8%;
+    /* Bone as primary in dark mode */
+    --primary: 40 27% 95%;
+    --primary-foreground: 210 7% 10%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 96%;
+    --secondary: 210 7% 20%;
+    --secondary-foreground: 40 27% 95%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 210 7% 25%;
+    --muted-foreground: 36 6% 60%;
 
-    --accent: 174 62% 47%;
-    --accent-foreground: 0 0% 100%;
+    /* Rust/clay accent stays vibrant */
+    --accent: 21 54% 50%;
+    --accent-foreground: 40 27% 95%;
 
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 96%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 40 27% 95%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 0 0% 96%;
+    --border: 210 7% 22%;
+    --input: 210 7% 22%;
+    --ring: 40 27% 95%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 210 7% 10%;
+    --sidebar-foreground: 40 27% 95%;
+    --sidebar-primary: 40 27% 95%;
+    --sidebar-primary-foreground: 210 7% 10%;
+    --sidebar-accent: 210 7% 20%;
+    --sidebar-accent-foreground: 40 27% 95%;
+    --sidebar-border: 210 7% 22%;
+    --sidebar-ring: 21 54% 50%;
   }
 }
 
