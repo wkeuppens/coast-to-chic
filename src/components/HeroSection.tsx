@@ -24,7 +24,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-sm text-white/60 tracking-wide mb-6 font-body"
           >
-            A relay run around Europe's coastline
+            16,000 km. Counter-clockwise. One stage at a time.
           </motion.p>
           
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight mb-12">

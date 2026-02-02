@@ -45,15 +45,14 @@ export const JourneySection = () => {
               The route
             </p>
             <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground leading-tight mb-6">
-              Belgium to Greece.
+              Sea on the right.
               <br />
-              Counter-clockwise.
+              Always south.
             </h2>
             <div className="space-y-4 text-muted-foreground">
-              <p>Started July 2019 on the border between Belgium and the Netherlands.</p>
-              <p>Running south, keeping the sea on the right.</p>
-              <p>Belgium, France, Spain, Portugal, Italy. Currently in season 4.</p>
-              <p>Expected to reach Athens by end of 2026.</p>
+              <p>Started July 2019. A beach in Knokke. Salt air, grey sky.</p>
+              <p>Belgium. France. Spain. Portugal. Now Italy.</p>
+              <p>Athens by 2026. Maybe 2027. Depends on the weather.</p>
             </div>
           </motion.div>
 

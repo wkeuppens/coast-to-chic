@@ -6,19 +6,19 @@ const stageTypes = [
   {
     id: 'eu',
     title: 'EU Stages',
-    description: 'The main relay. Currently running from Italy toward Greece.',
-    status: 'Open for 2026',
+    description: 'Italy to Greece. The main line.',
+    status: '2026 open',
   },
   {
     id: 'us',
     title: 'US Stages',
-    description: 'West coast route. Limited stages available.',
-    status: 'Coming soon',
+    description: 'West coast. Limited.',
+    status: 'Soon',
   },
   {
     id: 'shared',
     title: 'Shared Stages',
-    description: 'Run with multiple teams on the same day.',
+    description: 'Same day. Multiple teams.',
     status: 'Open',
   },
 ];
@@ -87,7 +87,7 @@ export const StagesSection = () => {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-12 text-sm text-muted-foreground"
         >
-          Stages typically fill within minutes of release. Sign up for updates to be notified.
+          Stages fill fast. Minutes, usually.
         </motion.p>
       </div>
     </section>

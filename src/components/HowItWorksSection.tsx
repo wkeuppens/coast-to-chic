@@ -4,18 +4,18 @@ import { useRef } from 'react';
 const steps = [
   {
     number: '01',
-    title: 'Register',
-    description: 'Select a stage from the available list. Stages are 100km sections of coastline.',
+    title: 'Pick a stage',
+    description: '100 km of coastline. You choose which one.',
   },
   {
     number: '02',
-    title: 'Prepare',
-    description: 'Map your route. The crew provides coordinates for start and finish. You plan the path between.',
+    title: 'Plan the route',
+    description: 'We give you start and finish. You figure out the middle.',
   },
   {
     number: '03',
-    title: 'Run',
-    description: 'Meet the crew at 7am. Run for 24 hours. A photographer and support van travel with you.',
+    title: 'Run it',
+    description: '7am. A van. A photographer. 24 hours.',
   },
 ];
 
@@ -33,10 +33,10 @@ export const HowItWorksSection = () => {
           className="mb-16"
         >
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
-            The format
+            How it works
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
-            100km. 24 hours. One team.
+            A van. A photographer. You.
           </h2>
         </motion.div>
 
@@ -74,23 +74,19 @@ export const HowItWorksSection = () => {
             <ul className="space-y-3 text-foreground">
               <li className="flex items-start gap-3">
                 <span className="text-muted-foreground">—</span>
-                <span>Support van with driver, 24 hours</span>
+                <span>Van with driver. 24 hours.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-muted-foreground">—</span>
-                <span>Professional photographer, full day</span>
+                <span>Photographer. All day.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-muted-foreground">—</span>
-                <span>Food and water during the run</span>
+                <span>Food. Water. Coffee.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-muted-foreground">—</span>
-                <span>Digital photos after completion</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-muted-foreground">—</span>
-                <span>One book per registered participant</span>
+                <span>Photos after. One book per runner.</span>
               </li>
             </ul>
           </div>

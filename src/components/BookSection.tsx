@@ -54,15 +54,14 @@ export const BookSection = () => {
           >
             <p className="text-sm text-white/50 tracking-wide mb-4">The books</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium leading-tight mb-8">
-              Visual travel guides.
+              5,000 km per volume.
               <br />
-              One book per 5000km.
+              Photos. Routes. Notes.
             </h2>
             
             <p className="text-white/70 leading-relaxed mb-8">
-              Photography from each stage. Coastlines, harbors, terrain, weather. 
-              Travel notes for locations along the route. 
-              Stage stories from participating runners.
+              Harbours. Cliff paths. Weather that changed plans.
+              The stuff that happened.
             </p>
 
             <div className="space-y-4 mb-10">

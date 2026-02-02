@@ -16,14 +16,13 @@ export const NewsletterSection = () => {
           className="text-center"
         >
           <p className="text-sm text-white/50 tracking-wide mb-4">
-            Stay informed
+            Updates
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium mb-6">
-            Stage releases. Book launches. Updates.
+            New stages. Books. Routes.
           </h2>
           <p className="text-white/60 mb-10">
-            New stages are released a few times per year and fill quickly. 
-            Subscribe to be notified.
+            A few emails per year. When there's something to say.
           </p>
 
           <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
