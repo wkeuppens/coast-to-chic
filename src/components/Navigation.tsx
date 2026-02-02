@@ -12,7 +12,7 @@ export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#2B2E31]">
+    <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center justify-between px-6 md:px-12 py-6">
         <a href="#" className="font-display text-lg font-medium text-[#F4F2EE]">
           Follow the Coast
