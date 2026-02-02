@@ -27,8 +27,8 @@ export const RouteMap = () => {
         if (paths.length > 0) {
           const d = paths[0].getAttribute('d');
           if (d) {
-            // Smooth the path more aggressively - higher tolerance removes small hitches
-            const smoothed = smoothPath(d, 8, 1.5);
+            // Light simplification, but smooth sharp corners adaptively
+            const smoothed = smoothPath(d, 2, 1.2, true);
             setPathData(smoothed);
           }
         }
