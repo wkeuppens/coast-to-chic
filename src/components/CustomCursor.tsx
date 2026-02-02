@@ -1,11 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useSpring } from 'framer-motion';
+
+interface TrailPoint {
+  x: number;
+  y: number;
+  id: number;
+}
 
 export const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [cursorText, setCursorText] = useState('');
   const [isHidden, setIsHidden] = useState(false);
+  const [trail, setTrail] = useState<TrailPoint[]>([]);
+  const trailIdRef = useRef(0);
 
   const cursorX = useSpring(0, { stiffness: 500, damping: 28 });
   const cursorY = useSpring(0, { stiffness: 500, damping: 28 });
@@ -14,6 +22,13 @@ export const CustomCursor = () => {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+
+      // Add trail point
+      trailIdRef.current += 1;
+      setTrail((prev) => [
+        ...prev.slice(-8), // Keep last 8 points
+        { x: e.clientX, y: e.clientY, id: trailIdRef.current },
+      ]);
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -81,6 +96,14 @@ export const CustomCursor = () => {
     };
   }, [cursorX, cursorY]);
 
+  // Fade out trail points
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTrail((prev) => prev.slice(1));
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
   // Don't render on touch devices
   if (typeof window !== 'undefined' && 'ontouchstart' in window) {
     return null;
@@ -88,6 +111,25 @@ export const CustomCursor = () => {
 
   return (
     <>
+      {/* Trail effect */}
+      {trail.map((point, index) => (
+        <motion.div
+          key={point.id}
+          className="fixed pointer-events-none z-[9997]"
+          initial={{ opacity: 0.3, scale: 1 }}
+          animate={{ opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.4 }}
+          style={{
+            left: point.x,
+            top: point.y,
+          }}
+        >
+          <div
+            className="w-1 h-1 -ml-0.5 -mt-0.5 rounded-full bg-foreground/20"
+          />
+        </motion.div>
+      ))}
+
       {/* Main cursor dot */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
