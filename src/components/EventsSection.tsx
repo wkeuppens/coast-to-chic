@@ -34,10 +34,10 @@ export const EventsSection = () => {
           className="mb-16"
         >
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
-            Events
+            Side routes
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
-            Other ways to run.
+            Other runs we organise.
           </h2>
         </motion.div>
 
