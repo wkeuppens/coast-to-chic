@@ -37,7 +37,7 @@ export const EventsSection = () => {
             Events
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
-            Running events and gatherings
+            Other ways to run.
           </h2>
         </motion.div>
 
