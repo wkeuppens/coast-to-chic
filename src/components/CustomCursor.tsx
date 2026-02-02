@@ -132,7 +132,7 @@ export const CustomCursor = () => {
 
       {/* Main cursor dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-color"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
         style={{
           x: cursorX,
           y: cursorY,
@@ -147,7 +147,7 @@ export const CustomCursor = () => {
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
           <div 
-            className="w-4 h-4 -ml-2 -mt-2 rounded-full bg-accent"
+            className="w-4 h-4 -ml-2 -mt-2 rounded-full bg-white"
             style={{ 
               transform: 'translate(-50%, -50%)',
             }}
