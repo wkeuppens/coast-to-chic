@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Space Grotesk', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        display: ['Pressura GT', 'Space Grotesk', 'sans-serif'],
+        body: ['Beausite Classic', 'Georgia', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -52,9 +52,13 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         coast: {
-          teal: "hsl(var(--coast-teal))",
-          sand: "hsl(var(--coast-sand))",
-          stone: "hsl(var(--coast-stone))",
+          "deep-blue": "hsl(var(--coast-deep-blue))",
+          rust: "hsl(var(--coast-rust))",
+          charcoal: "hsl(var(--coast-charcoal))",
+          "warm-grey": "hsl(var(--coast-warm-grey))",
+          bone: "hsl(var(--coast-bone))",
+          beige: "hsl(var(--coast-beige))",
+          "blue-grey": "hsl(var(--coast-blue-grey))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
