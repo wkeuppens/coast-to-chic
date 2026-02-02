@@ -56,7 +56,7 @@ export const BookSection = () => {
             <h2 className="font-display text-3xl md:text-4xl font-medium leading-tight mb-8">
               5,000 km per volume.
               <br />
-              Photos. Routes. Notes.
+              Photos. Routes. Field notes.
             </h2>
             
             <p className="text-white/70 leading-relaxed mb-8">
