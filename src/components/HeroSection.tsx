@@ -4,7 +4,7 @@ import { MagneticButton } from './MagneticButton';
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-screen bg-foreground text-primary-foreground flex flex-col justify-end overflow-hidden">
+    <section className="relative min-h-screen bg-primary text-primary-foreground flex flex-col justify-end overflow-hidden">
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
