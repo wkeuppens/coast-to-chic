@@ -132,7 +132,7 @@ export const CustomCursor = () => {
 
       {/* Main cursor dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-color"
         style={{
           x: cursorX,
           y: cursorY,
