@@ -6,48 +6,43 @@ export const RouteMap = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  // Simplified centerline path extracted from the traced SVG
-  // Following the route: Belgium → France coast → Spain/Portugal → Mediterranean → Italy
+  // Precise centerline traced from the vectorized reference image
+  // Route: Belgium → France Atlantic coast → Spain/Portugal tip → Mediterranean → Italy
   const routePath = `
-    M 780 60
-    C 760 75, 740 90, 720 110
-    C 700 130, 680 155, 665 185
-    C 650 215, 640 250, 630 290
-    C 620 330, 605 370, 585 405
-    C 565 440, 540 470, 515 495
-    C 490 520, 460 540, 430 555
-    C 400 570, 365 580, 330 585
-    C 295 590, 260 590, 230 585
-    C 200 580, 175 570, 155 555
-    C 135 540, 120 520, 115 495
-    C 110 470, 115 445, 130 425
-    C 145 405, 170 395, 195 395
-    C 220 395, 245 410, 260 435
-    C 275 460, 280 490, 275 520
-    C 270 550, 255 580, 235 610
-    C 215 640, 190 670, 165 700
-    C 140 730, 120 765, 115 800
-    C 110 835, 120 870, 145 900
-    C 170 930, 210 950, 255 960
-    C 300 970, 350 970, 400 965
-    C 450 960, 500 950, 545 940
-    C 590 930, 635 920, 675 905
-    C 715 890, 750 870, 780 845
-    C 810 820, 835 790, 855 760
-    C 875 730, 890 700, 910 675
-    C 930 650, 955 630, 985 620
-    C 1015 610, 1050 610, 1085 620
-    C 1120 630, 1155 650, 1185 680
-    C 1215 710, 1240 745, 1260 785
-    C 1280 825, 1295 870, 1305 920
-    C 1315 970, 1320 1020, 1330 1065
-  `;
-
-  // Italy branch path
-  const italyPath = `
-    M 1425 700
-    C 1435 720, 1450 745, 1470 775
-    C 1490 805, 1515 840, 1520 875
+    M 780 59
+    C 775 62, 770 68, 762 78
+    C 752 92, 742 108, 730 125
+    C 718 142, 705 162, 692 182
+    C 678 205, 665 228, 655 252
+    C 645 278, 638 305, 628 332
+    C 618 360, 605 388, 588 412
+    C 570 438, 548 460, 522 478
+    C 496 496, 466 510, 432 518
+    C 398 526, 360 528, 325 522
+    C 290 516, 258 502, 235 480
+    C 212 458, 198 428, 195 398
+    C 192 368, 200 338, 218 315
+    C 236 292, 262 278, 290 275
+    C 318 272, 348 282, 368 302
+    C 388 322, 398 352, 395 382
+    C 392 412, 378 442, 355 468
+    C 332 495, 300 518, 268 542
+    C 235 568, 202 595, 175 625
+    C 148 658, 128 695, 120 735
+    C 112 778, 118 822, 140 862
+    C 162 902, 200 935, 248 958
+    C 298 982, 358 995, 420 998
+    C 482 1002, 548 995, 610 982
+    C 672 968, 732 948, 788 920
+    C 845 892, 898 858, 945 820
+    C 992 782, 1035 740, 1072 698
+    C 1108 655, 1140 612, 1168 572
+    C 1195 532, 1220 495, 1248 465
+    C 1278 435, 1312 412, 1350 402
+    C 1388 392, 1430 395, 1468 415
+    C 1505 435, 1538 472, 1555 520
+    C 1572 568, 1575 628, 1565 688
+    C 1555 748, 1532 808, 1510 858
   `;
 
   return (
@@ -58,7 +53,7 @@ export const RouteMap = () => {
         preserveAspectRatio="xMidYMid meet"
         fill="none"
       >
-        {/* Main route line - draws from start to end */}
+        {/* Main route line - draws from Belgium to Italy */}
         <motion.path
           d={routePath}
           stroke="hsl(var(--foreground))"
@@ -75,27 +70,10 @@ export const RouteMap = () => {
           }}
         />
         
-        {/* Italy branch */}
-        <motion.path
-          d={italyPath}
-          stroke="hsl(var(--foreground))"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
-          transition={{
-            duration: 1.5,
-            ease: "easeInOut",
-            delay: 3.8
-          }}
-        />
-        
         {/* Starting point marker - Belgium */}
         <motion.circle
           cx="780"
-          cy="60"
+          cy="59"
           r="8"
           fill="hsl(var(--primary))"
           initial={{ opacity: 0, scale: 0 }}
@@ -103,10 +81,10 @@ export const RouteMap = () => {
           transition={{ duration: 0.4, delay: 0.2 }}
         />
         
-        {/* End point marker - main route */}
+        {/* End point marker - Italy */}
         <motion.circle
-          cx="1330"
-          cy="1065"
+          cx="1510"
+          cy="858"
           r="10"
           fill="hsl(var(--primary))"
           initial={{ opacity: 0, scale: 0 }}
@@ -116,8 +94,8 @@ export const RouteMap = () => {
         
         {/* Pulsing effect on end position */}
         <motion.circle
-          cx="1330"
-          cy="1065"
+          cx="1510"
+          cy="858"
           r="10"
           fill="none"
           stroke="hsl(var(--primary))"
