@@ -27,8 +27,8 @@ export const RouteMap = () => {
         if (paths.length > 0) {
           const d = paths[0].getAttribute('d');
           if (d) {
-            // Smooth the path using Catmull-Rom splines
-            const smoothed = smoothPath(d, 3, 1.2);
+            // Smooth the path more aggressively - higher tolerance removes small hitches
+            const smoothed = smoothPath(d, 8, 1.5);
             setPathData(smoothed);
           }
         }
