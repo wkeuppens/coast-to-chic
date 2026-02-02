@@ -6,19 +6,19 @@ const causes = [
   {
     id: '01',
     title: 'Physical',
-    description: 'Inspiring people to challenge their limits. Supporting research and organizations helping those with disabilities.',
+    description: 'Research and support for people with physical disabilities. Partnerships with rehabilitation organizations.',
     icon: '◯',
   },
   {
     id: '02',
     title: 'Mental',
-    description: 'Fighting hopelessness together. Raising funds for suicide prevention and mental health organizations.',
+    description: 'Funding for suicide prevention. Mental health organizations in participating countries.',
     icon: '△',
   },
   {
     id: '03',
     title: 'Ocean',
-    description: 'Protecting what we run beside. Cleaning beaches, stopping plastic, building a sustainable future.',
+    description: 'Beach cleanups along the route. Partnerships with coastal conservation organizations.',
     icon: '□',
   },
 ];
@@ -34,13 +34,11 @@ export const CausesSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-2xl mx-auto mb-20"
+          className="max-w-2xl mb-20"
         >
-          <p className="text-sm text-muted-foreground tracking-wide mb-4">Why We Run</p>
+          <p className="text-sm text-muted-foreground tracking-wide mb-4">Causes</p>
           <h2 className="font-display text-4xl md:text-5xl font-medium text-foreground">
-            Three pillars.
-            <br />
-            One mission.
+            Three areas of support.
           </h2>
         </motion.div>
 

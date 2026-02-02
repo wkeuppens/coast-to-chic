@@ -49,18 +49,18 @@ export const HeroSection = () => {
               className="text-sm md:text-base text-white/70 mb-4 tracking-wide"
               delay={0.2}
             >
-              2025 — Malaga to Vibo Marina
+              Season 4 — Gibraltar to Monaco
             </CharReveal>
           </motion.div>
           
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight">
-            <TextReveal delay={0.4}>We run</TextReveal>
+            <TextReveal delay={0.4}>A relay run</TextReveal>
+            <br />
+            <TextReveal delay={0.6}>around Europe's</TextReveal>
             <br />
             <span className="text-accent">
-              <TextReveal delay={0.6}>the coast.</TextReveal>
+              <TextReveal delay={0.8}>coastline.</TextReveal>
             </span>
-            <br />
-            <TextReveal delay={0.8}>Together.</TextReveal>
           </h1>
 
           <motion.p
@@ -69,8 +69,9 @@ export const HeroSection = () => {
             transition={{ duration: 0.6, delay: 1.2 }}
             className="mt-8 text-lg md:text-xl text-white/70 max-w-xl leading-relaxed"
           >
-            The longest relay run ever. Stage by stage, team by team, 
-            we're writing the story of Europe's entire coastline.
+            100 kilometers per stage. One team per day.
+            <br />
+            Documented as it happens.
           </motion.p>
 
           <motion.div
@@ -80,11 +81,11 @@ export const HeroSection = () => {
             className="mt-10"
           >
             <MagneticButton
-              href="#join"
+              href="#stages"
               className="inline-flex items-center gap-3 text-white border border-white/30 px-6 py-4 hover:bg-white hover:text-black transition-all duration-300 group"
               strength={0.2}
             >
-              <span className="font-display font-medium">Pick your Stage</span>
+              <span className="font-display font-medium">View Stages</span>
               <motion.span 
                 className="text-xl"
                 whileHover={{ x: 4 }}
@@ -107,25 +108,19 @@ export const HeroSection = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/20">
           <StatItem>
             <CountUp end={9800} className="font-display text-3xl md:text-4xl font-medium" />
-            <p className="text-sm text-white/60 mt-1">km covered</p>
+            <p className="text-sm text-white/60 mt-1">km completed</p>
           </StatItem>
           <StatItem>
-            <CountUp end={100} className="font-display text-3xl md:text-4xl font-medium" />
-            <p className="text-sm text-white/60 mt-1">km per stage</p>
+            <CountUp end={98} className="font-display text-3xl md:text-4xl font-medium" />
+            <p className="text-sm text-white/60 mt-1">stages run</p>
           </StatItem>
           <StatItem>
             <CountUp end={24} className="font-display text-3xl md:text-4xl font-medium" />
-            <p className="text-sm text-white/60 mt-1">hours to finish</p>
+            <p className="text-sm text-white/60 mt-1">hours per stage</p>
           </StatItem>
           <StatItem>
-            <motion.span 
-              className="font-display text-3xl md:text-4xl font-medium"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-            >
-              ∞
-            </motion.span>
-            <p className="text-sm text-white/60 mt-1">stories created</p>
+            <span className="font-display text-3xl md:text-4xl font-medium">4</span>
+            <p className="text-sm text-white/60 mt-1">seasons</p>
           </StatItem>
         </div>
       </motion.div>

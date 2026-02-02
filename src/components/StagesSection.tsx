@@ -53,14 +53,12 @@ export const StagesSection = () => {
           <div>
             <p className="text-sm text-muted-foreground tracking-wide mb-4 flex items-center gap-2">
               <motion.span
-                animate={{ width: [20, 40, 20] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="h-px bg-foreground inline-block"
+                className="h-px bg-foreground inline-block w-8"
               />
-              Selected Stages
+              Stages
             </p>
             <h2 className="font-display text-4xl md:text-5xl font-medium text-foreground">
-              100km of <span className="italic">your</span> story.
+              100 km sections.
             </h2>
           </div>
           <MagneticButton
