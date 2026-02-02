@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import wavesLogo from '@/assets/waves-logo.png';
 
 const navItems = [
   { label: 'Stages', href: '#stages' },
@@ -14,8 +15,13 @@ export const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center justify-between px-6 md:px-12 py-6">
-        <a href="#" className="font-display text-lg font-medium text-[#F4F2EE]">
-          Follow the Coast
+        <a href="#" className="flex items-center gap-3">
+          <img src={wavesLogo} alt="" className="h-8 w-auto" />
+          <span className="font-display text-[10px] font-medium text-[#F4F2EE] uppercase tracking-wider leading-tight">
+            <span className="block">Follow</span>
+            <span className="block">The</span>
+            <span className="block">Coast</span>
+          </span>
         </a>
 
         {/* Desktop nav */}
