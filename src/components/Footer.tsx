@@ -13,7 +13,7 @@ const footerLinks = {
     { label: 'Volume II', href: '#' },
     { label: 'About the Books', href: '#' },
   ],
-  events: [
+  sideRoutes: [
     { label: 'Follow The Kust', href: '#' },
     { label: 'Tour du Mont Blanc', href: '#' },
   ],
