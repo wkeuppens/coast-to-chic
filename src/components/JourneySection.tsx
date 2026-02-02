@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { CountUp } from './CountUp';
-
+import { RouteMap } from './RouteMap';
 export const JourneySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -60,12 +60,9 @@ export const JourneySection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="aspect-square bg-secondary flex items-center justify-center"
+            className="aspect-square flex items-center justify-center"
           >
-            {/* Placeholder for map */}
-            <div className="text-center text-muted-foreground">
-              <p className="text-sm">Route map</p>
-            </div>
+            <RouteMap />
           </motion.div>
         </div>
       </div>
