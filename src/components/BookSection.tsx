@@ -18,7 +18,7 @@ const books = [
     id: 3,
     title: 'Volume III',
     subtitle: 'Gibraltar to Monaco',
-    status: 'Coming 2025',
+    status: 'Coming 2026',
   },
 ];
 
