@@ -37,11 +37,11 @@ export const BookSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <div className="aspect-[4/5] bg-white/10 overflow-hidden flex items-center justify-center p-8">
+            <div className="aspect-[4/5] overflow-hidden">
               <img 
                 src={bookMockup}
                 alt="Follow the Coast book"
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
           </motion.div>
