@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { smoothPath } from '@/lib/pathSmoothing';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -8,16 +9,44 @@ interface LoadingScreenProps {
 export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<'loading' | 'revealing' | 'done'>('loading');
+  const [pathData, setPathData] = useState<string | null>(null);
+  const [viewBox, setViewBox] = useState("0 0 800 600");
+
+  // Load the route SVG path
+  useEffect(() => {
+    fetch('/route-map.svg?v=' + Date.now())
+      .then(res => res.text())
+      .then(svgText => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, 'image/svg+xml');
+        
+        const svg = doc.querySelector('svg');
+        if (svg) {
+          const vb = svg.getAttribute('viewBox');
+          if (vb) setViewBox(vb);
+        }
+        
+        const paths = doc.querySelectorAll('path');
+        if (paths.length > 0) {
+          const d = paths[0].getAttribute('d');
+          if (d) {
+            const smoothed = smoothPath(d, 3, 1.2, false);
+            setPathData(smoothed);
+          }
+        }
+      })
+      .catch(err => console.error('Failed to load route SVG:', err));
+  }, []);
 
   useEffect(() => {
     // Simulate loading progress
-    const duration = 2000;
+    const duration = 2500;
     const interval = 20;
     const increment = 100 / (duration / interval);
     
     const timer = setInterval(() => {
       setProgress(prev => {
-        const next = prev + increment + Math.random() * 2;
+        const next = prev + increment + Math.random() * 1.5;
         if (next >= 100) {
           clearInterval(timer);
           return 100;
@@ -31,7 +60,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   useEffect(() => {
     if (progress >= 100 && phase === 'loading') {
-      setTimeout(() => setPhase('revealing'), 300);
+      setTimeout(() => setPhase('revealing'), 400);
     }
   }, [progress, phase]);
 
@@ -53,15 +82,56 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
+          {/* Route map trace as loading indicator */}
+          <motion.div
+            className="relative w-64 h-48 md:w-80 md:h-60 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            <svg
+              viewBox={viewBox}
+              className="w-full h-full"
+              preserveAspectRatio="xMidYMid meet"
+              fill="none"
+            >
+              {/* Background path (faint) */}
+              {pathData && (
+                <path
+                  d={pathData}
+                  stroke="hsl(var(--muted-foreground) / 0.15)"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                />
+              )}
+              {/* Animated progress path */}
+              {pathData && (
+                <motion.path
+                  d={pathData}
+                  stroke="hsl(var(--foreground))"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: progress / 100 }}
+                  transition={{ duration: 0.1, ease: "linear" }}
+                />
+              )}
+            </svg>
+          </motion.div>
+
           {/* Logo/Brand mark */}
           <motion.div
-            className="relative mb-12"
+            className="relative mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
             <motion.h1 
-              className="text-4xl md:text-6xl font-display font-bold tracking-tighter"
+              className="text-3xl md:text-5xl font-display font-bold tracking-tighter"
               animate={phase === 'revealing' ? { y: -20, opacity: 0 } : {}}
               transition={{ duration: 0.4 }}
             >
@@ -69,7 +139,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 className="inline-block"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
               >
                 Follow
               </motion.span>
@@ -77,7 +147,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 className="inline-block ml-3 text-muted-foreground"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
               >
                 the
               </motion.span>
@@ -85,31 +155,16 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 className="inline-block ml-3"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
               >
                 Coast
               </motion.span>
             </motion.h1>
           </motion.div>
 
-          {/* Progress bar */}
-          <motion.div 
-            className="w-48 md:w-64 h-px bg-border overflow-hidden"
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ duration: 0.4, delay: 0.6 }}
-          >
-            <motion.div
-              className="h-full bg-foreground origin-left"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: progress / 100 }}
-              transition={{ duration: 0.1 }}
-            />
-          </motion.div>
-
           {/* Progress text */}
           <motion.div
-            className="mt-6 font-mono text-sm text-muted-foreground"
+            className="font-mono text-sm text-muted-foreground"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.7 }}
