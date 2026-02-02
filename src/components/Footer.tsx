@@ -38,7 +38,7 @@ export const Footer = () => {
       {/* Marquee text */}
       <div className="border-b border-white/10 py-6">
         <ParallaxText className="font-display text-4xl md:text-6xl font-medium text-white/10">
-          RUN THE COAST · JOIN THE MOVEMENT · RUN THE COAST · JOIN THE MOVEMENT ·
+          FOLLOW THE COAST · FOLLOW THE COAST · FOLLOW THE COAST ·
         </ParallaxText>
       </div>
 
@@ -81,7 +81,7 @@ export const Footer = () => {
             className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
           >
             <p className="text-sm text-white/40">
-              © 2025 Follow the Coast. Running the European coastline, together.
+              © 2025 Follow the Coast
             </p>
             <div className="flex gap-6 text-sm text-white/40">
               <HoverLink href="#" className="hover:text-white transition-colors">

@@ -10,7 +10,7 @@ export const JourneySection = () => {
     <section id="journey" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-background">
       <div ref={ref} className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-start">
-          {/* Left: Cryptic manifesto style */}
+          {/* Left: Observational statement */}
           <div>
             <motion.p 
               initial={{ opacity: 0, x: -20 }}
@@ -18,22 +18,22 @@ export const JourneySection = () => {
               transition={{ duration: 0.6 }}
               className="text-sm text-muted-foreground tracking-wide mb-4"
             >
-              <span className="inline-block animate-pulse mr-2">●</span>
-              The Movement
+              <span className="inline-block mr-2">●</span>
+              The Project
             </motion.p>
             
             {isInView && (
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] text-foreground">
-                <TextReveal delay={0.2}>This is not</TextReveal>
+                <TextReveal delay={0.2}>Fragmented.</TextReveal>
                 <br />
                 <span className="text-muted-foreground">
-                  <TextReveal delay={0.5}>a race.</TextReveal>
+                  <TextReveal delay={0.5}>Long-term.</TextReveal>
                 </span>
               </h2>
             )}
           </div>
 
-          {/* Right: The story with staggered paragraphs */}
+          {/* Right: Factual description */}
           <div className="md:pt-16">
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -41,9 +41,9 @@ export const JourneySection = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6"
             >
-              Every 24 hours, one team conquers 100 kilometers of coastline. 
-              At 7 a.m., they take over from the team before them. At sunset, 
-              they pass the baton to the next.
+              Each stage covers approximately 100 kilometers. 
+              One team runs for 24 hours, starting at 7 a.m.
+              The next team takes over where they stopped.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -51,8 +51,9 @@ export const JourneySection = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-lg md:text-xl text-muted-foreground leading-relaxed"
             >
-              Stage by stage, day by day, we're stitching together something 
-              no one has ever done: <span className="text-foreground font-medium">running the entire European coastline.</span>
+              The route follows Europe's coastline. 
+              Different people carry it forward. 
+              <span className="text-foreground">Documented as it happens.</span>
             </motion.p>
           </div>
         </div>

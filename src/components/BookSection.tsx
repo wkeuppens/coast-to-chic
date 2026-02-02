@@ -39,23 +39,20 @@ export const BookSection = () => {
           >
             <p className="text-sm text-white/50 tracking-wide mb-4">The Books</p>
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] mb-8">
-              Written by
-              <br />
-              <span className="text-accent">your footsteps.</span>
+              Visual documentation.
             </h2>
             
             <p className="text-lg text-white/70 leading-relaxed mb-6">
-              We follow the runners with cameras. Every hidden harbor, every 
-              cliff at sunset, every lighthouse that has seen centuries pass—
-              captured and bound into a visual travel guide unlike any other.
+              Photographs from each stage. Harbors, coastlines, 
+              weather, terrain. Collected and printed.
             </p>
 
             <p className="text-lg text-white/70 leading-relaxed mb-10">
-              Volume I: Knokke to San Sebastián.
+              Volume I: Knokke to San Sebastián
               <br />
-              Volume II: San Sebastián to Gibraltar.
+              Volume II: San Sebastián to Gibraltar
               <br />
-              Volume III: Gibraltar to Monaco.
+              Volume III: Gibraltar to Monaco
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -63,14 +60,8 @@ export const BookSection = () => {
                 href="#" 
                 className="inline-flex items-center justify-center gap-2 border border-white/30 px-6 py-4 text-white hover:bg-white hover:text-black transition-all"
               >
-                <span className="font-display font-medium">Get the Book</span>
+                <span className="font-display font-medium">Order</span>
                 <span>→</span>
-              </a>
-              <a 
-                href="#" 
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 text-white/70 hover:text-white transition-colors"
-              >
-                <span>View on Kickstarter</span>
               </a>
             </div>
           </motion.div>
