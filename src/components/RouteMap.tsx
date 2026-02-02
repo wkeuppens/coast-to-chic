@@ -8,9 +8,11 @@ export const RouteMap = () => {
   const [viewBox, setViewBox] = useState("0 0 800 600");
 
   useEffect(() => {
-    fetch('/route-map.svg')
+    // Add cache buster to force reload
+    fetch('/route-map.svg?v=' + Date.now())
       .then(res => res.text())
       .then(svgText => {
+        console.log('SVG loaded:', svgText.substring(0, 200));
         const parser = new DOMParser();
         const doc = parser.parseFromString(svgText, 'image/svg+xml');
         
@@ -18,13 +20,16 @@ export const RouteMap = () => {
         const svg = doc.querySelector('svg');
         if (svg) {
           const vb = svg.getAttribute('viewBox');
+          console.log('ViewBox:', vb);
           if (vb) setViewBox(vb);
         }
         
-        // Get the path element
-        const path = doc.querySelector('path');
-        if (path) {
-          const d = path.getAttribute('d');
+        // Get all path elements (could be in a group)
+        const paths = doc.querySelectorAll('path');
+        console.log('Found paths:', paths.length);
+        if (paths.length > 0) {
+          const d = paths[0].getAttribute('d');
+          console.log('Path d length:', d?.length);
           if (d) setPathData(d);
         }
       })
