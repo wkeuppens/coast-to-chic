@@ -4,19 +4,21 @@
 
 /* Follow the Coast Design System
    Fonts: Pressura GT (display) + Beausite Classic (body)
-   Note: Add @font-face declarations or upload font files for Pressura GT and Beausite Classic
 */
 
-/* Fallback fonts - replace with actual font imports when available */
 @font-face {
   font-family: 'Pressura GT';
-  src: local('Pressura GT');
+  src: url('/fonts/GT_Pressura_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Beausite Classic';
-  src: local('Beausite Classic');
+  src: url('/fonts/Beausite_Classic_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
