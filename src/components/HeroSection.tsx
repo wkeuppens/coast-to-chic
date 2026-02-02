@@ -1,8 +1,19 @@
 import { motion } from 'framer-motion';
 import { TextReveal } from './TextReveal';
 import { MagneticButton } from './MagneticButton';
+import { useCurrentDistance } from '@/hooks/useCurrentDistance';
 
 export const HeroSection = () => {
+  const { distance, hasStarted } = useCurrentDistance(60000); // Update every minute
+  
+  // Format distance with thousand separators
+  const formattedDistance = distance.toLocaleString('en-US');
+  
+  // Show countdown or progress message
+  const distanceText = hasStarted 
+    ? `${formattedDistance} km completed. Counter-clockwise. One stage at a time.`
+    : `16,000 km. Counter-clockwise. One stage at a time.`;
+
   return (
     <section className="relative min-h-screen bg-primary text-primary-foreground flex flex-col justify-end overflow-hidden">
       {/* Background image with overlay */}
@@ -24,7 +35,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-sm text-white/60 tracking-wide mb-6 font-body"
           >
-            16,000 km. Counter-clockwise. One stage at a time.
+            {distanceText}
           </motion.p>
           
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight mb-12">
