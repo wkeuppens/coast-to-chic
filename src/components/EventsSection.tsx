@@ -1,5 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import coastalPath from '@/assets/coastal-path.jpg';
+import italianBridge from '@/assets/italian-bridge.jpg';
 
 const events = [
   {
@@ -9,6 +11,7 @@ const events = [
     date: '7 Feb 2026',
     distance: '35 or 75km',
     duration: '1 day',
+    image: coastalPath,
   },
   {
     id: 'tmb',
@@ -17,6 +20,7 @@ const events = [
     date: 'Summer 2026',
     distance: '170km',
     duration: 'Multi-day',
+    image: italianBridge,
   },
 ];
 
@@ -52,7 +56,11 @@ export const EventsSection = () => {
               className="group block"
             >
               <div className="aspect-[16/10] bg-muted mb-6 overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-muted to-border" />
+                <img 
+                  src={event.image} 
+                  alt={event.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
               <div className="flex justify-between items-start">
                 <div>

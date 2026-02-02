@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { TextReveal } from './TextReveal';
 import { MagneticButton } from './MagneticButton';
 import { useCurrentDistance } from '@/hooks/useCurrentDistance';
+import coastalTown from '@/assets/coastal-town.jpg';
 
 export const HeroSection = () => {
   const { distance, hasStarted } = useCurrentDistance(60000); // Update every minute
@@ -20,7 +21,7 @@ export const HeroSection = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1502904550040-7534597429ae?w=1920&q=80')`,
+          backgroundImage: `url(${coastalTown})`,
         }}
       >
         <div className="absolute inset-0 bg-black/50" />

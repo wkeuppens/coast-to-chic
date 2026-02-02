@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import runningMotion from '@/assets/running-motion.jpg';
 
 const books = [
   {
@@ -38,9 +39,9 @@ export const BookSection = () => {
           >
             <div className="aspect-[4/5] bg-white/10 overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&q=80" 
-                alt="Follow the Coast book"
-                className="w-full h-full object-cover opacity-80"
+                src={runningMotion}
+                alt="Runner in motion"
+                className="w-full h-full object-cover opacity-90"
               />
             </div>
           </motion.div>
