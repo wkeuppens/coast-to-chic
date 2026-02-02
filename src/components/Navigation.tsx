@@ -24,7 +24,7 @@ export const Navigation = () => {
             <a
               key={item.label}
               href={item.href}
-              className="text-sm text-white/80 hover:text-white transition-colors"
+              className="relative text-sm text-white/80 hover:text-white transition-colors after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-white after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"
             >
               {item.label}
             </a>
