@@ -11,7 +11,6 @@ import { NewsletterSection } from '@/components/NewsletterSection';
 import { Footer } from '@/components/Footer';
 import { CustomCursor } from '@/components/CustomCursor';
 import { LoadingScreen } from '@/components/LoadingScreen';
-import { ScrollProgress } from '@/components/ScrollProgress';
 import { MarqueeTicker } from '@/components/MarqueeTicker';
 import { PhotoGallery } from '@/components/PhotoGallery';
 import { PullQuote } from '@/components/PullQuote';
@@ -22,7 +21,6 @@ const Index = () => {
   return (
     <>
       <CustomCursor />
-      <ScrollProgress />
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       <main className="overflow-x-hidden cursor-none">
         <Navigation />
