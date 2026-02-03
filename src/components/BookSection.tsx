@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import bookMockup from '@/assets/book-mockup.jpg';
 
 const books = [
@@ -77,12 +78,12 @@ export const BookSection = () => {
               ))}
             </div>
 
-            <a 
-              href="#" 
+            <Link 
+              to="/order-books" 
               className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
             >
               <span className="border-b border-white/30 pb-1">Order books →</span>
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>

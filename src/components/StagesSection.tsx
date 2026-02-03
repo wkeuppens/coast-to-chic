@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { MagneticButton } from './MagneticButton';
 
 const stageTypes = [
@@ -8,18 +9,21 @@ const stageTypes = [
     title: 'EU Stages',
     description: 'Italy to Greece. The main line.',
     status: '2026 open',
+    href: '/eu-stages',
   },
   {
     id: 'us',
     title: 'US Stages',
     description: 'West coast. Limited.',
     status: 'Soon',
+    href: '/us-stages',
   },
   {
     id: 'shared',
     title: 'Shared Stages',
     description: 'Same day. Multiple teams.',
     status: 'Open',
+    href: '#stages',
   },
 ];
 
@@ -44,39 +48,40 @@ export const StagesSection = () => {
               Available registrations
             </h2>
           </div>
-          <MagneticButton
-            href="#" 
-            className="text-sm font-medium text-foreground"
-            strength={0.3}
-          >
-            <span className="border-b border-foreground pb-1">
-              View all stages →
-            </span>
-          </MagneticButton>
+          <Link to="/all-stages">
+            <MagneticButton
+              className="text-sm font-medium text-foreground"
+              strength={0.3}
+            >
+              <span className="border-b border-foreground pb-1">
+                View all stages →
+              </span>
+            </MagneticButton>
+          </Link>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-0 border-t border-border">
           {stageTypes.map((stage, index) => (
-            <motion.a
-              key={stage.id}
-              href="#"
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="border-b md:border-b-0 md:border-r border-border last:border-r-0 py-12 md:pr-12 group"
-            >
-              <div className="flex items-start justify-between mb-6">
-                <span className="text-xs text-muted-foreground uppercase tracking-wider">
-                  {stage.status}
-                </span>
-              </div>
-              <h3 className="font-display text-2xl font-medium text-foreground mb-3 group-hover:text-accent transition-colors">
-                {stage.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {stage.description}
-              </p>
-            </motion.a>
+            <Link key={stage.id} to={stage.href}>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="border-b md:border-b-0 md:border-r border-border last:border-r-0 py-12 md:pr-12 group cursor-pointer"
+              >
+                <div className="flex items-start justify-between mb-6">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                    {stage.status}
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-medium text-foreground mb-3 group-hover:text-accent transition-colors">
+                  {stage.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {stage.description}
+                </p>
+              </motion.div>
+            </Link>
           ))}
         </div>
 
