@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useAnimationControls, useMotionValue, animate } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useVelocity, useTransform, useAnimationFrame } from 'framer-motion';
+import { wrap } from '@popmotion/popcorn';
 
 const stats = [
   '16,000 km',
@@ -11,99 +12,61 @@ const stats = [
 ];
 
 export const MarqueeTicker = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const [isInteracting, setIsInteracting] = useState(false);
-  const animationRef = useRef<ReturnType<typeof animate> | null>(null);
+  const baseX = useMotionValue(0);
+  const smoothX = useSpring(baseX, { damping: 50, stiffness: 400 });
+  const velocityX = useVelocity(smoothX);
+  const isPaused = useRef(false);
+  const dragVelocity = useRef(0);
 
   const items = [...stats, ...stats, ...stats, ...stats];
-  
-  // Width of one set of items (for seamless looping)
-  const itemSetWidth = 1600; // Approximate width of one set
 
-  const startAutoScroll = (fromCurrentPosition = true) => {
-    if (animationRef.current) {
-      animationRef.current.stop();
+  // Base scroll speed (pixels per frame)
+  const baseSpeed = -0.5;
+  
+  useAnimationFrame((t, delta) => {
+    if (isPaused.current) return;
+    
+    // Apply drag velocity with decay
+    if (Math.abs(dragVelocity.current) > 0.1) {
+      baseX.set(baseX.get() + dragVelocity.current);
+      dragVelocity.current *= 0.98; // Friction decay
+    } else {
+      // Normal auto-scroll
+      dragVelocity.current = 0;
+      baseX.set(baseX.get() + baseSpeed);
     }
     
-    const currentX = fromCurrentPosition ? x.get() : 0;
-    // Normalize position to create seamless loop
-    const normalizedX = currentX % itemSetWidth;
-    
-    animationRef.current = animate(x, [normalizedX, normalizedX - itemSetWidth], {
-      duration: 30,
-      ease: 'linear',
-      repeat: Infinity,
-      repeatType: 'loop',
-    });
-  };
-
-  useEffect(() => {
-    startAutoScroll(false);
-    return () => {
-      if (animationRef.current) {
-        animationRef.current.stop();
-      }
-    };
-  }, []);
+    // Loop seamlessly
+    const currentX = baseX.get();
+    if (currentX < -1600) {
+      baseX.set(currentX + 1600);
+    } else if (currentX > 0) {
+      baseX.set(currentX - 1600);
+    }
+  });
 
   const handleDragEnd = (event: any, info: { velocity: { x: number } }) => {
-    setIsInteracting(false);
-    
-    const velocity = info.velocity.x;
-    const currentX = x.get();
-    
-    // Calculate momentum distance based on velocity
-    const momentumDistance = velocity * 0.5;
-    const targetX = currentX + momentumDistance;
-    
-    if (animationRef.current) {
-      animationRef.current.stop();
-    }
-    
-    // Animate with momentum first, then resume auto-scroll
-    animationRef.current = animate(x, targetX, {
-      type: 'spring',
-      velocity: velocity,
-      stiffness: 50,
-      damping: 20,
-      onComplete: () => {
-        // Resume auto-scroll after momentum settles
-        startAutoScroll(true);
-      },
-    });
-  };
-
-  const handleInteractionStart = () => {
-    setIsInteracting(true);
-    if (animationRef.current) {
-      animationRef.current.stop();
-    }
+    // Convert velocity to momentum
+    dragVelocity.current = info.velocity.x * 0.05;
+    isPaused.current = false;
   };
 
   return (
     <div 
-      ref={containerRef} 
       className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing"
-      onMouseEnter={() => {
-        if (!isInteracting && animationRef.current) {
-          animationRef.current.stop();
-        }
-      }}
-      onMouseLeave={() => {
-        if (!isInteracting) {
-          startAutoScroll(true);
-        }
-      }}
+      onMouseEnter={() => { isPaused.current = true; }}
+      onMouseLeave={() => { isPaused.current = false; }}
     >
       <motion.div
         className="flex gap-12 whitespace-nowrap"
-        style={{ x }}
+        style={{ x: smoothX }}
         drag="x"
-        dragConstraints={{ left: -10000, right: 10000 }}
+        dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0}
-        dragMomentum={false}
-        onDragStart={handleInteractionStart}
+        onDragStart={() => { isPaused.current = true; }}
+        onDrag={(event, info) => {
+          baseX.set(baseX.get() + info.delta.x);
+        }}
         onDragEnd={handleDragEnd}
       >
         {items.map((stat, index) => (
