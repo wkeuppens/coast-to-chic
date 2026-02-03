@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 
 const stats = [
@@ -13,7 +13,7 @@ const stats = [
 export const MarqueeTicker = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
-  const [isDragging, setIsDragging] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const items = [...stats, ...stats, ...stats, ...stats];
 
@@ -31,41 +31,43 @@ export const MarqueeTicker = () => {
     });
   };
 
-  // Start animation on mount
-  useState(() => {
+  useEffect(() => {
     startAutoScroll();
-  });
+  }, []);
+
+  const handleInteractionStart = () => {
+    setIsInteracting(true);
+    controls.stop();
+  };
+
+  const handleInteractionEnd = () => {
+    setIsInteracting(false);
+    startAutoScroll();
+  };
 
   return (
     <div 
       ref={containerRef} 
-      className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing"
+      className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing touch-pan-x"
+      onMouseEnter={() => !isInteracting && controls.stop()}
+      onMouseLeave={() => !isInteracting && startAutoScroll()}
+      onTouchStart={handleInteractionStart}
+      onTouchEnd={handleInteractionEnd}
     >
       <motion.div
         className="flex gap-12 whitespace-nowrap"
         animate={controls}
         drag="x"
-        dragConstraints={containerRef}
-        dragElastic={0.1}
-        onDragStart={() => {
-          setIsDragging(true);
-          controls.stop();
-        }}
-        onDragEnd={() => {
-          setIsDragging(false);
-          startAutoScroll();
-        }}
-        onHoverStart={() => {
-          if (!isDragging) controls.stop();
-        }}
-        onHoverEnd={() => {
-          if (!isDragging) startAutoScroll();
-        }}
+        dragConstraints={{ left: -2000, right: 200 }}
+        dragElastic={0.05}
+        dragMomentum={true}
+        onDragStart={handleInteractionStart}
+        onDragEnd={handleInteractionEnd}
       >
         {items.map((stat, index) => (
           <span
             key={index}
-            className="text-sm font-display tracking-wider uppercase flex items-center gap-12 select-none"
+            className="text-sm font-display tracking-wider uppercase flex items-center gap-12 select-none pointer-events-none"
           >
             {stat}
             <span className="text-white/30">•</span>
