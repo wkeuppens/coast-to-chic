@@ -55,7 +55,7 @@ export const JourneySection = () => {
             <div className="space-y-4 text-muted-foreground">
               <p>Started July 2019. A beach in Knokke. Salt air, grey sky.</p>
               <p>Belgium. France. Spain. Portugal. Now Italy.</p>
-              <p>Athens by 2026. Maybe 2027. Depends on the weather.</p>
+              <p>Athens by 2026. Rain or shine. Storms don't wait, neither do we.</p>
             </div>
           </motion.div>
 
