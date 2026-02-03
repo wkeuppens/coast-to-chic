@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { motion, useAnimationControls } from 'framer-motion';
+import { motion, useAnimationControls, useMotionValue, animate } from 'framer-motion';
 
 const stats = [
   '16,000 km',
@@ -12,57 +12,99 @@ const stats = [
 
 export const MarqueeTicker = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimationControls();
+  const x = useMotionValue(0);
   const [isInteracting, setIsInteracting] = useState(false);
+  const animationRef = useRef<ReturnType<typeof animate> | null>(null);
 
   const items = [...stats, ...stats, ...stats, ...stats];
+  
+  // Width of one set of items (for seamless looping)
+  const itemSetWidth = 1600; // Approximate width of one set
 
-  const startAutoScroll = () => {
-    controls.start({
-      x: ['0%', '-50%'],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: 'loop',
-          duration: 30,
-          ease: 'linear',
-        },
-      },
+  const startAutoScroll = (fromCurrentPosition = true) => {
+    if (animationRef.current) {
+      animationRef.current.stop();
+    }
+    
+    const currentX = fromCurrentPosition ? x.get() : 0;
+    // Normalize position to create seamless loop
+    const normalizedX = currentX % itemSetWidth;
+    
+    animationRef.current = animate(x, [normalizedX, normalizedX - itemSetWidth], {
+      duration: 30,
+      ease: 'linear',
+      repeat: Infinity,
+      repeatType: 'loop',
     });
   };
 
   useEffect(() => {
-    startAutoScroll();
+    startAutoScroll(false);
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.stop();
+      }
+    };
   }, []);
+
+  const handleDragEnd = (event: any, info: { velocity: { x: number } }) => {
+    setIsInteracting(false);
+    
+    const velocity = info.velocity.x;
+    const currentX = x.get();
+    
+    // Calculate momentum distance based on velocity
+    const momentumDistance = velocity * 0.5;
+    const targetX = currentX + momentumDistance;
+    
+    if (animationRef.current) {
+      animationRef.current.stop();
+    }
+    
+    // Animate with momentum first, then resume auto-scroll
+    animationRef.current = animate(x, targetX, {
+      type: 'spring',
+      velocity: velocity,
+      stiffness: 50,
+      damping: 20,
+      onComplete: () => {
+        // Resume auto-scroll after momentum settles
+        startAutoScroll(true);
+      },
+    });
+  };
 
   const handleInteractionStart = () => {
     setIsInteracting(true);
-    controls.stop();
-  };
-
-  const handleInteractionEnd = () => {
-    setIsInteracting(false);
-    startAutoScroll();
+    if (animationRef.current) {
+      animationRef.current.stop();
+    }
   };
 
   return (
     <div 
       ref={containerRef} 
-      className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing touch-pan-x"
-      onMouseEnter={() => !isInteracting && controls.stop()}
-      onMouseLeave={() => !isInteracting && startAutoScroll()}
-      onTouchStart={handleInteractionStart}
-      onTouchEnd={handleInteractionEnd}
+      className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing"
+      onMouseEnter={() => {
+        if (!isInteracting && animationRef.current) {
+          animationRef.current.stop();
+        }
+      }}
+      onMouseLeave={() => {
+        if (!isInteracting) {
+          startAutoScroll(true);
+        }
+      }}
     >
       <motion.div
         className="flex gap-12 whitespace-nowrap"
-        animate={controls}
+        style={{ x }}
         drag="x"
-        dragConstraints={{ left: -2000, right: 200 }}
-        dragElastic={0.05}
-        dragMomentum={true}
+        dragConstraints={{ left: -10000, right: 10000 }}
+        dragElastic={0}
+        dragMomentum={false}
         onDragStart={handleInteractionStart}
-        onDragEnd={handleInteractionEnd}
+        onDragEnd={handleDragEnd}
       >
         {items.map((stat, index) => (
           <span
