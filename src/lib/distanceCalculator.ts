@@ -23,6 +23,7 @@ const ACTIVE_RANGES: Array<{ start: string; end: string }> = [
   { start: '2026-10-08', end: '2026-11-23' },
 ];
 
+const BASE_DISTANCE_KM = 16000;  // Starting distance before April 16, 2026
 const KM_PER_DAY = 100;
 const DAY_START_HOUR = 7;  // 7am UTC+1
 const DAY_END_HOUR = 22;   // 10pm UTC+1
@@ -111,9 +112,9 @@ export function calculateCurrentDistance(): number {
   const now = new Date();
   const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   
-  // Count completed active days before today
+  // Start with base distance, then add completed active days
   const completedDays = countActiveDaysBefore(today);
-  let totalKm = completedDays * KM_PER_DAY;
+  let totalKm = BASE_DISTANCE_KM + (completedDays * KM_PER_DAY);
   
   // Add partial progress for today if it's an active day
   if (isActiveDate(today)) {
