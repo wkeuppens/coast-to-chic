@@ -1,6 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useVelocity, useTransform, useAnimationFrame } from 'framer-motion';
-import { wrap } from '@popmotion/popcorn';
+import { useRef, useCallback } from 'react';
+import { motion, useMotionValue, useSpring, useAnimationFrame } from 'framer-motion';
 
 const stats = [
   '16,000 km',
@@ -12,50 +11,90 @@ const stats = [
 ];
 
 export const MarqueeTicker = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const baseX = useMotionValue(0);
-  const smoothX = useSpring(baseX, { damping: 50, stiffness: 400 });
-  const velocityX = useVelocity(smoothX);
-  const isPaused = useRef(false);
-  const dragVelocity = useRef(0);
+  // Smoother spring for that Apple feel
+  const smoothX = useSpring(baseX, { 
+    damping: 40, 
+    stiffness: 90,
+    mass: 1
+  });
+  
+  const isHovering = useRef(false);
+  const userVelocity = useRef(0);
+  const lastInteractionTime = useRef(0);
 
   const items = [...stats, ...stats, ...stats, ...stats];
+  const itemSetWidth = 1600;
 
-  // Base scroll speed (pixels per frame)
-  const baseSpeed = -0.5;
+  // Base auto-scroll speed
+  const baseSpeed = -0.4;
+  // Friction for smooth deceleration (higher = more friction)
+  const friction = 0.985;
+  // Minimum velocity before resuming auto-scroll
+  const velocityThreshold = 0.05;
+  // Delay before resuming auto-scroll after interaction (ms)
+  const resumeDelay = 800;
   
-  useAnimationFrame((t, delta) => {
-    if (isPaused.current) return;
+  useAnimationFrame((time) => {
+    const now = Date.now();
+    const timeSinceInteraction = now - lastInteractionTime.current;
     
-    // Apply drag velocity with decay
-    if (Math.abs(dragVelocity.current) > 0.1) {
-      baseX.set(baseX.get() + dragVelocity.current);
-      dragVelocity.current *= 0.98; // Friction decay
-    } else {
-      // Normal auto-scroll
-      dragVelocity.current = 0;
-      baseX.set(baseX.get() + baseSpeed);
+    // Apply user velocity with smooth friction decay
+    if (Math.abs(userVelocity.current) > velocityThreshold) {
+      baseX.set(baseX.get() + userVelocity.current);
+      userVelocity.current *= friction;
+    } else if (!isHovering.current || timeSinceInteraction > resumeDelay) {
+      // Resume auto-scroll when not hovering or after delay
+      userVelocity.current = 0;
+      if (!isHovering.current) {
+        baseX.set(baseX.get() + baseSpeed);
+      }
     }
     
-    // Loop seamlessly
+    // Seamless loop
     const currentX = baseX.get();
-    if (currentX < -1600) {
-      baseX.set(currentX + 1600);
+    if (currentX < -itemSetWidth) {
+      baseX.set(currentX + itemSetWidth);
     } else if (currentX > 0) {
-      baseX.set(currentX - 1600);
+      baseX.set(currentX - itemSetWidth);
     }
   });
 
+  // Handle wheel scroll on desktop
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
+    lastInteractionTime.current = Date.now();
+    
+    // Use deltaX for horizontal scroll, deltaY for vertical (convert to horizontal)
+    const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+    
+    // Add to velocity for momentum feel
+    userVelocity.current -= delta * 0.8;
+  }, []);
+
   const handleDragEnd = (event: any, info: { velocity: { x: number } }) => {
-    // Convert velocity to momentum
-    dragVelocity.current = info.velocity.x * 0.05;
-    isPaused.current = false;
+    lastInteractionTime.current = Date.now();
+    // Convert drag velocity to smooth momentum
+    userVelocity.current = info.velocity.x * 0.15;
+  };
+
+  const handleMouseEnter = () => {
+    isHovering.current = true;
+  };
+
+  const handleMouseLeave = () => {
+    isHovering.current = false;
+    // Let momentum continue naturally
   };
 
   return (
     <div 
+      ref={containerRef}
       className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing"
-      onMouseEnter={() => { isPaused.current = true; }}
-      onMouseLeave={() => { isPaused.current = false; }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onWheel={handleWheel}
     >
       <motion.div
         className="flex gap-12 whitespace-nowrap"
@@ -63,7 +102,11 @@ export const MarqueeTicker = () => {
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0}
-        onDragStart={() => { isPaused.current = true; }}
+        dragMomentum={false}
+        onDragStart={() => { 
+          lastInteractionTime.current = Date.now();
+          userVelocity.current = 0; 
+        }}
         onDrag={(event, info) => {
           baseX.set(baseX.get() + info.delta.x);
         }}
