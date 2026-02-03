@@ -1,8 +1,8 @@
 import { useRef, useCallback } from 'react';
 import { motion, useMotionValue, useSpring, useAnimationFrame } from 'framer-motion';
+import { useCurrentDistance } from '@/hooks/useCurrentDistance';
 
-const stats = [
-  '16,000 km',
+const staticStats = [
   '5 countries',
   '350 runners',
   '3 books',
@@ -11,6 +11,8 @@ const stats = [
 ];
 
 export const MarqueeTicker = () => {
+  const { distance } = useCurrentDistance(60000);
+  const formattedDistance = `${distance.toLocaleString('en-US')} km`;
   const containerRef = useRef<HTMLDivElement>(null);
   const baseX = useMotionValue(0);
   // Smoother spring for that Apple feel
@@ -24,6 +26,7 @@ export const MarqueeTicker = () => {
   const userVelocity = useRef(0);
   const lastInteractionTime = useRef(0);
 
+  const stats = [formattedDistance, ...staticStats];
   const items = [...stats, ...stats, ...stats, ...stats];
   const itemSetWidth = 1600;
 

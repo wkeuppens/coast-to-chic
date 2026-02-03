@@ -2,7 +2,10 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { CountUp } from './CountUp';
 import { RouteMap } from './RouteMap';
+import { useCurrentDistance } from '@/hooks/useCurrentDistance';
+
 export const JourneySection = () => {
+  const { distance } = useCurrentDistance(60000);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -17,7 +20,7 @@ export const JourneySection = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-24"
         >
           <StatBlock>
-            <CountUp end={16000} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
+            <CountUp end={distance} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">km completed</p>
           </StatBlock>
           <StatBlock>

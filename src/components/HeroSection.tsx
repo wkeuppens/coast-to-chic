@@ -10,10 +10,8 @@ export const HeroSection = () => {
   // Format distance with thousand separators
   const formattedDistance = distance.toLocaleString('en-US');
   
-  // Show countdown or progress message
-  const distanceText = hasStarted 
-    ? `${formattedDistance} km completed. Counter-clockwise. One stage at a time.`
-    : `16,000 km. Counter-clockwise. One stage at a time.`;
+  // Always show current distance (starts at 16,000 and increments from April 16, 2026)
+  const distanceText = `${formattedDistance} km. Counter-clockwise. One stage at a time.`;
 
   return (
     <section className="relative min-h-screen bg-primary text-primary-foreground flex flex-col justify-end overflow-hidden">
