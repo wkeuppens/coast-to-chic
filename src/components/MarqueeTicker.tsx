@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const stats = [
   '16,000 km',
@@ -10,23 +11,22 @@ const stats = [
 ];
 
 export const MarqueeTicker = () => {
-  const items = [...stats, ...stats, ...stats, ...stats];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
+  
+  // Move left as user scrolls down
+  const x = useTransform(scrollYProgress, [0, 1], ['10%', '-30%']);
+
+  const items = [...stats, ...stats, ...stats];
 
   return (
-    <div className="py-6 bg-foreground text-primary-foreground overflow-hidden">
+    <div ref={containerRef} className="py-6 bg-foreground text-primary-foreground overflow-hidden">
       <motion.div
         className="flex gap-12 whitespace-nowrap"
-        animate={{
-          x: ['0%', '-25%'],
-        }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: 20,
-            ease: 'linear',
-          },
-        }}
+        style={{ x }}
       >
         {items.map((stat, index) => (
           <span
