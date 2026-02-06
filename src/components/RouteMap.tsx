@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { smoothPath } from '@/lib/pathSmoothing';
+import { fetchAndParseSVG } from '@/lib/svgCache';
 
 export const RouteMap = () => {
   const ref = useRef(null);
@@ -9,31 +10,13 @@ export const RouteMap = () => {
   const [viewBox, setViewBox] = useState("0 0 800 600");
 
   useEffect(() => {
-    fetch('/route-map.svg?v=' + Date.now())
-      .then(res => res.text())
-      .then(svgText => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(svgText, 'image/svg+xml');
-        
-        // Get viewBox from the SVG
-        const svg = doc.querySelector('svg');
-        if (svg) {
-          const vb = svg.getAttribute('viewBox');
-          if (vb) setViewBox(vb);
+    fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
+      .then(result => {
+        if (result) {
+          setPathData(result.pathData);
+          setViewBox(result.viewBox);
         }
-        
-        // Get all path elements
-        const paths = doc.querySelectorAll('path');
-        if (paths.length > 0) {
-          const d = paths[0].getAttribute('d');
-          if (d) {
-            // Smooth the path using Catmull-Rom splines
-            const smoothed = smoothPath(d, 3, 1.2, false);
-            setPathData(smoothed);
-          }
-        }
-      })
-      .catch(err => console.error('Failed to load route SVG:', err));
+      });
   }, []);
 
   return (

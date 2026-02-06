@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import wavesLogo from '@/assets/waves-logo.png';
 
@@ -11,9 +11,16 @@ const navItems = [
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
+      {/* Scroll progress bar */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left"
+        style={{ scaleX }}
+      />
       <div className="flex items-center justify-between px-6 md:px-12 py-6">
         <a href="#" className="flex items-center gap-3">
           <img src={wavesLogo} alt="" className="h-8 w-auto" />

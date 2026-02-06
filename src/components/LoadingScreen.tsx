@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { smoothPath } from '@/lib/pathSmoothing';
+import { fetchAndParseSVG } from '@/lib/svgCache';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -12,30 +13,15 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [pathData, setPathData] = useState<string | null>(null);
   const [viewBox, setViewBox] = useState("0 0 800 600");
 
-  // Load the route SVG path
+  // Load the route SVG path (cached, shared with RouteMap)
   useEffect(() => {
-    fetch('/route-map.svg?v=' + Date.now())
-      .then(res => res.text())
-      .then(svgText => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(svgText, 'image/svg+xml');
-        
-        const svg = doc.querySelector('svg');
-        if (svg) {
-          const vb = svg.getAttribute('viewBox');
-          if (vb) setViewBox(vb);
+    fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
+      .then(result => {
+        if (result) {
+          setPathData(result.pathData);
+          setViewBox(result.viewBox);
         }
-        
-        const paths = doc.querySelectorAll('path');
-        if (paths.length > 0) {
-          const d = paths[0].getAttribute('d');
-          if (d) {
-            const smoothed = smoothPath(d, 3, 1.2, false);
-            setPathData(smoothed);
-          }
-        }
-      })
-      .catch(err => console.error('Failed to load route SVG:', err));
+      });
   }, []);
 
   useEffect(() => {

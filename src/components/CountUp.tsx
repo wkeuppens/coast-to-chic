@@ -41,7 +41,8 @@ export const CountUp = ({
     }, stepDuration);
 
     return () => clearInterval(timer);
-  }, [isInView, end, duration]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInView]);
 
   return (
     <motion.span
