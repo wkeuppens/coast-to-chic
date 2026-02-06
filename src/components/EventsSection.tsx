@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import coastalPath from '@/assets/coastal-path.jpg';
-import italianBridge from '@/assets/italian-bridge.jpg';
+import utmbTrail from '@/assets/utmb-trail.png';
 
 const events = [
   {
@@ -20,7 +20,7 @@ const events = [
     date: 'Summer 2026',
     distance: '170km',
     duration: 'Multi-day',
-    image: italianBridge,
+    image: utmbTrail,
   },
 ];
 

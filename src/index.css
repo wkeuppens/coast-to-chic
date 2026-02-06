@@ -26,14 +26,14 @@
   :root {
     /* Off-white / bone background */
     --background: 40 27% 95%;
-    /* Charcoal foreground */
-    --foreground: 210 7% 18%;
+    /* Deep blue foreground (replacing charcoal) */
+    --foreground: 203 92% 15%;
 
     --card: 40 27% 95%;
-    --card-foreground: 210 7% 18%;
+    --card-foreground: 203 92% 15%;
 
     --popover: 40 27% 95%;
-    --popover-foreground: 210 7% 18%;
+    --popover-foreground: 203 92% 15%;
 
     /* Deep blue as primary */
     --primary: 203 92% 15%;
@@ -41,7 +41,7 @@
 
     /* Warm beige as secondary */
     --secondary: 36 31% 83%;
-    --secondary-foreground: 210 7% 18%;
+    --secondary-foreground: 203 92% 15%;
 
     /* Warm grey for muted */
     --muted: 36 6% 70%;
