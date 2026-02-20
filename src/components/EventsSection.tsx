@@ -24,7 +24,7 @@ const events = [
     distance: '35 or 75km',
     duration: '1 day',
     image: coastalPath,
-    href: '#',
+    href: '/follow-the-kust',
   },
   {
     id: 'tmb',
@@ -34,7 +34,7 @@ const events = [
     distance: '170km',
     duration: 'Multi-day',
     image: utmbTrail,
-    href: '#',
+    href: '/tour-du-mont-blanc',
   },
 ];
 
