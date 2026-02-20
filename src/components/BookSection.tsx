@@ -42,6 +42,7 @@ export const BookSection = () => {
               <img 
                 src={bookMockup}
                 alt="Follow the Coast book"
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>

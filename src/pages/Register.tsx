@@ -90,6 +90,7 @@ const Register = () => {
         <img
           src={beachRunners}
           alt="Runners on the coast"
+          loading="eager"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
