@@ -68,7 +68,7 @@ export const Footer = () => {
             className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
           >
             <p className="text-sm text-white/40">
-              © 2025 Follow the Coast
+              © 2025 FOLLOW THE COAST
             </p>
             <div className="flex gap-6 text-sm text-white/40">
               <a href="#" className="hover:text-white transition-colors">
