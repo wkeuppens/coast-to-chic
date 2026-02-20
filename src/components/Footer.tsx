@@ -15,8 +15,8 @@ const footerLinks = {
   ],
   sideRoutes: [
     { label: 'Home Run', href: '/homerun' },
-    { label: 'Follow The Kust', href: '#' },
-    { label: 'Tour du Mont Blanc', href: '#' },
+    { label: 'Follow The Kust', href: '/follow-the-kust' },
+    { label: 'Tour du Mont Blanc', href: '/tour-du-mont-blanc' },
   ],
   contact: [
     { label: 'Instagram', href: 'https://instagram.com/followthecoast' },
