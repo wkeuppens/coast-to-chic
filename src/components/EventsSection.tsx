@@ -29,7 +29,7 @@ export const EventsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="events" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-background">
+    <section id="events" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-foreground text-primary-foreground">
       <div ref={ref} className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -37,10 +37,10 @@ export const EventsSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-16"
         >
-          <p className="text-sm text-muted-foreground tracking-wide mb-4">
+          <p className="text-sm text-white/50 tracking-wide mb-4">
             Side routes
           </p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
+          <h2 className="font-display text-3xl md:text-4xl font-medium">
             Other runs we organise.
           </h2>
         </motion.div>
@@ -64,12 +64,12 @@ export const EventsSection = () => {
               </div>
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-display text-xl font-medium text-foreground mb-2 group-hover:text-accent transition-colors">
+                  <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors">
                     {event.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{event.location}</p>
+                  <p className="text-sm text-white/50">{event.location}</p>
                 </div>
-                <div className="text-right text-sm text-muted-foreground">
+                <div className="text-right text-sm text-white/50">
                   <p>{event.date}</p>
                   <p>{event.distance}</p>
                 </div>

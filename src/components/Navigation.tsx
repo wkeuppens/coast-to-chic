@@ -61,7 +61,7 @@ export const Navigation = () => {
           ))}
           <a
             href="#stages"
-            className={`text-sm font-medium transition-all duration-300 border px-4 py-2 ${textColor} ${borderColor} ${hoverBg}`}
+            className={`text-sm font-medium transition-all duration-300 border px-5 py-2 rounded-full ${textColor} ${borderColor} ${hoverBg}`}
           >
             Register
           </a>
