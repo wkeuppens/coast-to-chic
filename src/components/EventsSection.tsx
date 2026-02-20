@@ -1,9 +1,21 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import coastalPath from '@/assets/coastal-path.jpg';
 import utmbTrail from '@/assets/utmb-trail.png';
+import harborBoats from '@/assets/harbor-boats.jpg';
 
 const events = [
+  {
+    id: 'homerun',
+    title: 'Home Run Venice',
+    location: 'Venice, Italy',
+    date: '20 Apr 2026',
+    distance: '100km',
+    duration: '1 day',
+    image: harborBoats,
+    href: '/homerun',
+  },
   {
     id: 'ftk',
     title: 'Follow The Kust',
@@ -12,6 +24,7 @@ const events = [
     distance: '35 or 75km',
     duration: '1 day',
     image: coastalPath,
+    href: '#',
   },
   {
     id: 'tmb',
@@ -21,6 +34,7 @@ const events = [
     distance: '170km',
     duration: 'Multi-day',
     image: utmbTrail,
+    href: '#',
   },
 ];
 
@@ -45,37 +59,44 @@ export const EventsSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {events.map((event, index) => (
-            <motion.a
-              key={event.id}
-              href="#"
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="group block"
-            >
-              <div className="aspect-[16/10] bg-muted mb-6 overflow-hidden">
-                <img 
-                  src={event.image} 
-                  alt={event.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors">
-                    {event.title}
-                  </h3>
-                  <p className="text-sm text-white/50">{event.location}</p>
+        <div className="grid md:grid-cols-3 gap-8">
+          {events.map((event, index) => {
+            const inner = (
+              <motion.div
+                key={event.id}
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="group block"
+              >
+                <div className="aspect-[16/10] bg-muted mb-6 overflow-hidden rounded-xl">
+                  <img 
+                    src={event.image} 
+                    alt={event.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-                <div className="text-right text-sm text-white/50">
-                  <p>{event.date}</p>
-                  <p>{event.distance}</p>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors">
+                      {event.title}
+                    </h3>
+                    <p className="text-sm text-white/50">{event.location}</p>
+                  </div>
+                  <div className="text-right text-sm text-white/50">
+                    <p>{event.date}</p>
+                    <p>{event.distance}</p>
+                  </div>
                 </div>
-              </div>
-            </motion.a>
-          ))}
+              </motion.div>
+            );
+
+            return event.href.startsWith('/') ? (
+              <Link key={event.id} to={event.href}>{inner}</Link>
+            ) : (
+              <a key={event.id} href={event.href}>{inner}</a>
+            );
+          })}
         </div>
       </div>
     </section>
