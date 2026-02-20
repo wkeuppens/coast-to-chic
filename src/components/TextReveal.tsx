@@ -18,7 +18,7 @@ export const TextReveal = ({
   return (
     <span className={className}>
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block overflow-hidden mr-[0.25em]">
+        <span key={wordIndex} className="inline-block overflow-hidden mr-[0.25em] pb-[0.05em] pr-[0.05em]">
           <motion.span
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
