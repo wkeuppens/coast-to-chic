@@ -31,11 +31,11 @@ export const NewsletterSection = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
-              className="flex-1 bg-transparent border border-white/20 px-5 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
+              className="flex-1 bg-transparent border border-white/20 px-5 py-4 rounded-full text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
             />
             <button
               type="submit"
-              className="bg-accent text-accent-foreground px-8 py-4 font-display font-medium hover:opacity-90 transition-opacity"
+              className="bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
             >
               Subscribe
             </button>

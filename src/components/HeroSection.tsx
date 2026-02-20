@@ -51,14 +51,14 @@ export const HeroSection = () => {
           >
             <MagneticButton
               href="#stages"
-              className="inline-flex items-center justify-center gap-3 bg-accent text-accent-foreground px-8 py-5 hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-3 bg-accent text-accent-foreground px-8 py-5 rounded-full hover:opacity-90 transition-opacity"
               strength={0.2}
             >
               <span className="font-display font-medium">Register</span>
             </MagneticButton>
             <MagneticButton
               href="#newsletter"
-              className="inline-flex items-center justify-center gap-3 border border-white/30 text-white px-8 py-5 hover:bg-white hover:text-black transition-all"
+              className="inline-flex items-center justify-center gap-3 border border-white/30 text-white px-8 py-5 rounded-full hover:bg-white hover:text-black transition-all"
               strength={0.2}
             >
               <span className="font-display font-medium">Stay informed</span>
