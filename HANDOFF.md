@@ -41,7 +41,7 @@
 │   │   ├── StagesSection.tsx     # Registration CTAs
 │   │   ├── BookSection.tsx       # Book listings
 │   │   ├── EventsSection.tsx     # Side route cards
-│   │   ├── PhotoGallery.tsx      # Horizontal parallax gallery
+│   │   ├── PhotoGallery.tsx      # Horizontal parallax gallery (links to /gallery)
 │   │   ├── NewsletterSection.tsx # Email capture form
 │   │   ├── PartnersSection.tsx   # Partner logos
 │   │   ├── Footer.tsx            # Site footer with navigation
@@ -64,6 +64,7 @@
 │   │   └── utils.ts              # cn() classname merger
 │   └── pages/
 │       ├── Index.tsx             # Homepage (composition of sections)
+│       ├── Gallery.tsx          # Masonry photo grid + lightbox (godly-style)
 │       ├── HomeRun.tsx           # Home Run Venice event page
 │       ├── FollowTheKust.tsx     # Belgian coast run page
 │       ├── TourDuMontBlanc.tsx   # TMB expedition page
@@ -85,6 +86,7 @@
 |-------|----------|-------|
 | Loading screen phase | `Index.tsx` | Page-level |
 | Mobile menu open | `Navigation.tsx` | Component |
+| Gallery lightbox state | `Gallery.tsx` | Page-level |
 | Nav theme (light/dark) | `useNavTheme.ts` | Hook (DOM sampling) |
 | Live distance counter | `useCurrentDistance.ts` | Hook (timer-based) |
 | Newsletter email | `NewsletterSection.tsx` | Component |
@@ -110,6 +112,7 @@
 | Event details (dates, prices) | `HomeRun.tsx`, `FollowTheKust.tsx`, `TourDuMontBlanc.tsx` | `GET /api/events/:slug` |
 | Partner list | `PartnersSection.tsx` line 4 | `GET /api/partners` |
 | Distance progress | `distanceCalculator.ts` | `GET /api/progress` (or keep client-side) |
+| Gallery photos by stage | `Gallery.tsx` lines 24-100 | `GET /api/stages/:id/photos` |
 | Newsletter subscription | `NewsletterSection.tsx` (no submit handler) | `POST /api/newsletter` |
 | Book ordering | `OrderBooks.tsx` (button only, no handler) | `POST /api/orders` (Stripe integration) |
 | Registration submission | `Register.tsx` (WhatsApp link only) | `POST /api/registrations` |
