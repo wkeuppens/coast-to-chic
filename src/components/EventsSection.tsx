@@ -12,7 +12,6 @@ const events = [
     location: 'Venice, Italy',
     date: '20 Apr 2026',
     distance: '100km',
-    duration: '1 day',
     image: harborBoats,
     href: '/homerun',
   },
@@ -22,7 +21,6 @@ const events = [
     location: 'Belgium',
     date: '7 Feb 2026',
     distance: '35 or 75km',
-    duration: '1 day',
     image: coastalPath,
     href: '/follow-the-kust',
   },
@@ -32,7 +30,6 @@ const events = [
     location: 'France, Italy, Switzerland',
     date: 'Summer 2026',
     distance: '170km',
-    duration: 'Multi-day',
     image: utmbTrail,
     href: '/tour-du-mont-blanc',
   },
@@ -60,10 +57,9 @@ export const EventsSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {events.map((event, index) => {
-            const inner = (
+          {events.map((event, index) => (
+            <Link key={event.id} to={event.href}>
               <motion.div
-                key={event.id}
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -73,6 +69,7 @@ export const EventsSection = () => {
                   <img 
                     src={event.image} 
                     alt={event.title}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
@@ -81,22 +78,16 @@ export const EventsSection = () => {
                     <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors">
                       {event.title}
                     </h3>
-                    <p className="text-sm text-foreground/50">{event.location}</p>
+                    <p className="text-sm text-muted-foreground">{event.location}</p>
                   </div>
-                  <div className="text-right text-sm text-foreground/50">
+                  <div className="text-right text-sm text-muted-foreground">
                     <p>{event.date}</p>
                     <p>{event.distance}</p>
                   </div>
                 </div>
               </motion.div>
-            );
-
-            return event.href.startsWith('/') ? (
-              <Link key={event.id} to={event.href}>{inner}</Link>
-            ) : (
-              <a key={event.id} href={event.href}>{inner}</a>
-            );
-          })}
+            </Link>
+          ))}
         </div>
       </div>
     </section>

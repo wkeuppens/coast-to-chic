@@ -37,8 +37,7 @@ export function fetchAndParseSVG(
       
       return { pathData, viewBox };
     })
-    .catch(err => {
-      console.error('Failed to load SVG:', err);
+    .catch(() => {
       cache.delete(cacheKey);
       return null;
     });

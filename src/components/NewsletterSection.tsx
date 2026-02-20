@@ -25,12 +25,15 @@ export const NewsletterSection = () => {
             A few emails per year. When there's something to say.
           </p>
 
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" aria-label="Newsletter signup">
+            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
             <input
+              id="newsletter-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
+              required
               className="flex-1 bg-transparent border border-white/20 px-5 py-4 rounded-full text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
             />
             <button
