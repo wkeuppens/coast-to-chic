@@ -21,7 +21,7 @@ const stageTypes = [
   {
     id: 'homerun',
     title: 'Home Run',
-    description: 'Knokke to Bruges. One day. All in.',
+    description: 'Venice. 100km. Shared stage. €199.',
     status: 'Open',
     href: '/homerun',
   },
