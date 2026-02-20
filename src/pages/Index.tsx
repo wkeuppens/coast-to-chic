@@ -32,7 +32,7 @@ const Index = () => {
         <StagesSection />
         <PhotoGallery />
         <BookSection />
-        <PullQuote text="Salty breeze. The sound of your own footsteps." variant="dark" />
+        <PullQuote text="Salty breeze. The sound of your own footsteps." variant="light" />
         <EventsSection />
         <PartnersSection />
         <NewsletterSection />
