@@ -117,7 +117,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <motion.h1 
-              className="text-3xl md:text-5xl font-display font-bold tracking-tighter"
+              className="text-3xl md:text-5xl font-display font-bold tracking-tighter uppercase"
               animate={phase === 'revealing' ? { y: -20, opacity: 0 } : {}}
               transition={{ duration: 0.4 }}
             >
@@ -127,7 +127,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                Follow
+                FOLLOW
               </motion.span>
               <motion.span
                 className="inline-block ml-3 text-muted-foreground"
@@ -135,7 +135,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
-                the
+                THE
               </motion.span>
               <motion.span
                 className="inline-block ml-3"
@@ -143,7 +143,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
-                Coast
+                COAST
               </motion.span>
             </motion.h1>
           </motion.div>
