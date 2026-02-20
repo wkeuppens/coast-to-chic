@@ -11,6 +11,8 @@ import EUStages from "./pages/EUStages";
 import USStages from "./pages/USStages";
 import AllStages from "./pages/AllStages";
 import HomeRun from "./pages/HomeRun";
+import FollowTheKust from "./pages/FollowTheKust";
+import TourDuMontBlanc from "./pages/TourDuMontBlanc";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/us-stages" element={<USStages />} />
           <Route path="/all-stages" element={<AllStages />} />
           <Route path="/homerun" element={<HomeRun />} />
+          <Route path="/follow-the-kust" element={<FollowTheKust />} />
+          <Route path="/tour-du-mont-blanc" element={<TourDuMontBlanc />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
