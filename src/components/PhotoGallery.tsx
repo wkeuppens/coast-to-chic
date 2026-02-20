@@ -1,5 +1,7 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import cliffBay from '@/assets/cliff-bay.jpg';
 import beachRunners from '@/assets/beach-runners.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
@@ -25,11 +27,20 @@ export const PhotoGallery = () => {
 
   return (
     <section ref={containerRef} className="py-24 md:py-32 overflow-hidden bg-background">
-      <div className="px-6 md:px-12 lg:px-24 mb-8">
-        <p className="text-sm text-muted-foreground tracking-wide mb-4">Gallery</p>
-        <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
-          Along the way.
-        </h2>
+      <div className="px-6 md:px-12 lg:px-24 mb-8 flex items-end justify-between">
+        <div>
+          <p className="text-sm text-muted-foreground tracking-wide mb-4">Gallery</p>
+          <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
+            Along the way.
+          </h2>
+        </div>
+        <Link
+          to="/gallery"
+          className="hidden md:flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display group"
+        >
+          View all
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+        </Link>
       </div>
       
       <motion.div
@@ -52,6 +63,17 @@ export const PhotoGallery = () => {
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Mobile link */}
+      <div className="md:hidden px-6 mt-8">
+        <Link
+          to="/gallery"
+          className="flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display"
+        >
+          View all photos
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
     </section>
   );
 };

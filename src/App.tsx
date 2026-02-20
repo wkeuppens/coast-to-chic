@@ -16,6 +16,7 @@ const AllStages = lazy(() => import("./pages/AllStages"));
 const HomeRun = lazy(() => import("./pages/HomeRun"));
 const FollowTheKust = lazy(() => import("./pages/FollowTheKust"));
 const TourDuMontBlanc = lazy(() => import("./pages/TourDuMontBlanc"));
+const Gallery = lazy(() => import("./pages/Gallery"));
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/homerun" element={<HomeRun />} />
             <Route path="/follow-the-kust" element={<FollowTheKust />} />
             <Route path="/tour-du-mont-blanc" element={<TourDuMontBlanc />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
