@@ -63,8 +63,8 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
         fill="hsl(var(--foreground))"
         fontSize="14"
         fontFamily="var(--font-display)"
-        fontWeight="600"
-        letterSpacing="0.08em"
+        fontWeight="400"
+        letterSpacing="0.06em"
         initial={{ opacity: 0, y: 5 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
         transition={{ duration: 0.4, delay: 0.2 }}
