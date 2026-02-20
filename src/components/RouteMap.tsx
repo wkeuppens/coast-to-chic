@@ -12,9 +12,11 @@ interface MapPinProps {
   pathProgress: number;
   triggerAt: number;
   pathRef: SVGPathElement | null;
+  offsetY?: number;
+  showConnector?: boolean;
 }
 
-const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
+const MapPin = ({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showConnector = false }: MapPinProps) => {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
   const isVisible = pathProgress >= triggerAt;
 
@@ -26,6 +28,8 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
   }, [pathRef, triggerAt]);
 
   if (!position) return null;
+
+  const labelY = position.y + offsetY;
 
   return (
     <g>
@@ -55,10 +59,37 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
           transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
         />
       )}
+      {/* Connector line */}
+      {showConnector && (
+        <motion.line
+          x1={position.x}
+          y1={position.y - 13}
+          x2={position.x}
+          y2={labelY + 6}
+          stroke="hsl(var(--accent))"
+          strokeWidth="1.5"
+          initial={{ opacity: 0 }}
+          animate={isVisible ? { opacity: 0.6 } : { opacity: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        />
+      )}
+      {/* Label background for readability */}
+      <motion.rect
+        x={position.x - 55}
+        y={labelY - 12}
+        width="110"
+        height="18"
+        rx="3"
+        fill="hsl(var(--background))"
+        fillOpacity="0.85"
+        initial={{ opacity: 0 }}
+        animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.3, delay: 0.15 }}
+      />
       {/* Label */}
       <motion.text
         x={position.x}
-        y={position.y - 20}
+        y={labelY}
         textAnchor="middle"
         fill="hsl(var(--foreground))"
         fontSize="14"
@@ -154,6 +185,8 @@ export const RouteMap = () => {
               pathProgress={pathProgress}
               triggerAt={VENICE_POSITION}
               pathRef={pathRef}
+              offsetY={-45}
+              showConnector
             />
           </>
         )}
