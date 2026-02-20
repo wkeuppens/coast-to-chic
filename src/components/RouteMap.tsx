@@ -33,10 +33,10 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
       <motion.circle
         cx={position.x}
         cy={position.y}
-        r="6"
+        r="10"
         fill="hsl(var(--accent))"
         stroke="hsl(var(--background))"
-        strokeWidth="2"
+        strokeWidth="3"
         initial={{ scale: 0, opacity: 0 }}
         animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
         transition={{ duration: 0.4, ease: "backOut" }}
@@ -46,10 +46,10 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
         <motion.circle
           cx={position.x}
           cy={position.y}
-          r="6"
+          r="10"
           fill="none"
           stroke="hsl(var(--accent))"
-          strokeWidth="1.5"
+          strokeWidth="2"
           initial={{ scale: 1, opacity: 0.6 }}
           animate={{ scale: 2.5, opacity: 0 }}
           transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
@@ -58,13 +58,13 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef }: MapPinProps) => {
       {/* Label */}
       <motion.text
         x={position.x}
-        y={position.y - 14}
+        y={position.y - 20}
         textAnchor="middle"
         fill="hsl(var(--foreground))"
-        fontSize="8"
+        fontSize="14"
         fontFamily="var(--font-display)"
-        fontWeight="500"
-        letterSpacing="0.05em"
+        fontWeight="600"
+        letterSpacing="0.08em"
         initial={{ opacity: 0, y: 5 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
         transition={{ duration: 0.4, delay: 0.2 }}
