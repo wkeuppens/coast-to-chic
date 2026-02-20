@@ -40,9 +40,9 @@ export const Footer = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <a href="#" className="font-display text-xl font-medium">
+              <a href="#" className="font-display text-xl font-bold uppercase">
                 <span className="block">Follow</span>
-                <span className="block">the Coast</span>
+                <span className="block">The Coast</span>
               </a>
             </motion.div>
 

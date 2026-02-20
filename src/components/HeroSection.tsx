@@ -37,10 +37,10 @@ export const HeroSection = () => {
             {distanceText}
           </motion.p>
           
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-[-0.03em] uppercase mb-12">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-[7rem] font-black leading-[0.95] tracking-[-0.03em] uppercase mb-12">
             <TextReveal delay={0.4}>Follow</TextReveal>
             <br />
-            <TextReveal delay={0.6}>the Coast</TextReveal>
+            <TextReveal delay={0.6}>The Coast</TextReveal>
           </h1>
 
           <motion.div

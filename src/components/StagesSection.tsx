@@ -9,7 +9,7 @@ const stageTypes = [
     title: 'EU Stages',
     description: 'Italy to Greece. The main line.',
     status: '2026 open',
-    href: '/eu-stages',
+    href: '/register',
   },
   {
     id: 'us',
