@@ -1,25 +1,26 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const footerLinks = {
   stages: [
-    { label: 'EU Stages', href: '#' },
-    { label: 'US Stages', href: '#' },
-    { label: 'Shared Stages', href: '#' },
-    { label: 'About Stages', href: '#' },
+    { label: 'EU Stages', href: '/eu-stages' },
+    { label: 'US Stages', href: '/us-stages' },
+    { label: 'Home Run', href: '/homerun' },
+    { label: 'All Stages', href: '/all-stages' },
   ],
   books: [
-    { label: 'Volume I', href: '#' },
-    { label: 'Volume II', href: '#' },
-    { label: 'About the Books', href: '#' },
+    { label: 'Order Books', href: '/order-books' },
+    { label: 'About the Books', href: '/#book' },
   ],
   sideRoutes: [
+    { label: 'Home Run', href: '/homerun' },
     { label: 'Follow The Kust', href: '#' },
     { label: 'Tour du Mont Blanc', href: '#' },
   ],
   contact: [
-    { label: 'Instagram', href: '#' },
-    { label: 'Contact', href: '#' },
+    { label: 'Instagram', href: 'https://instagram.com/followthecoast' },
+    { label: 'Contact', href: 'mailto:hello@followthecoast.com' },
   ],
 };
 
@@ -40,10 +41,10 @@ export const Footer = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <a href="#" className="font-display text-xl font-bold uppercase">
+              <Link to="/" className="font-display text-xl font-bold uppercase">
                 <span className="block">Follow</span>
                 <span className="block">The Coast</span>
-              </a>
+              </Link>
             </motion.div>
 
             {/* Links */}
@@ -118,16 +119,30 @@ const FooterColumn = ({
   >
     <p className="text-sm text-white/40 mb-4">{title}</p>
     <ul className="space-y-3">
-      {links.map((link) => (
-        <li key={link.label}>
-          <a 
-            href={link.href}
-            className="text-sm text-white/70 hover:text-white transition-colors"
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
+      {links.map((link) => {
+        const isExternal = link.href.startsWith('http') || link.href.startsWith('mailto:');
+        return (
+          <li key={link.label}>
+            {isExternal ? (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-white/70 hover:text-white transition-colors"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                to={link.href}
+                className="text-sm text-white/70 hover:text-white transition-colors"
+              >
+                {link.label}
+              </Link>
+            )}
+          </li>
+        );
+      })}
     </ul>
   </motion.div>
 );
