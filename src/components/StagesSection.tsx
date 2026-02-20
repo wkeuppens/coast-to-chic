@@ -19,11 +19,11 @@ const stageTypes = [
     href: '/us-stages',
   },
   {
-    id: 'shared',
-    title: 'Shared Stages',
-    description: 'Same day. Multiple teams.',
+    id: 'homerun',
+    title: 'Home Run',
+    description: 'Knokke to Bruges. One day. All in.',
     status: 'Open',
-    href: '#stages',
+    href: '/homerun',
   },
 ];
 
