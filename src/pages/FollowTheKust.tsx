@@ -161,7 +161,7 @@ const FollowTheKust = () => {
                 ))}
               </ul>
               <Link
-                to="/register"
+                to="/checkout?product=Follow%20The%20Kust&variant=Half%20Coast%20%E2%80%93%2035km&price=%E2%82%AC39&return=/follow-the-kust"
                 className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:brightness-110 transition-all text-sm"
               >
                 Register — €39
@@ -191,7 +191,7 @@ const FollowTheKust = () => {
                 ))}
               </ul>
               <Link
-                to="/register"
+                to="/checkout?product=Follow%20The%20Kust&variant=Full%20Coast%20%E2%80%93%2075km&price=%E2%82%AC59&return=/follow-the-kust"
                 className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:brightness-110 transition-all text-sm"
               >
                 Register — €59
@@ -245,7 +245,7 @@ const FollowTheKust = () => {
               </p>
             </div>
             <Link
-              to="/register"
+              to="/checkout?product=Follow%20The%20Kust&return=/follow-the-kust"
               className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:brightness-110 transition-all"
             >
               Register for Follow The Kust

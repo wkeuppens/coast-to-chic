@@ -170,7 +170,7 @@ const TourDuMontBlanc = () => {
                 ))}
               </ul>
               <Link
-                to="/register"
+                to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=7%20days&price=%E2%82%AC1%2C499&return=/tour-du-mont-blanc"
                 className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:brightness-110 transition-all text-sm"
               >
                 Register — €1,499
@@ -200,7 +200,7 @@ const TourDuMontBlanc = () => {
                 ))}
               </ul>
               <Link
-                to="/register"
+                to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=4%20days&price=%E2%82%AC999&return=/tour-du-mont-blanc"
                 className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:brightness-110 transition-all text-sm"
               >
                 Register — €999
@@ -232,7 +232,7 @@ const TourDuMontBlanc = () => {
               Three countries. 4–7 days on the trail.
             </p>
             <Link
-              to="/register"
+              to="/checkout?product=Tour%20du%20Mont%20Blanc&return=/tour-du-mont-blanc"
               className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:brightness-110 transition-all"
             >
               Run with us
