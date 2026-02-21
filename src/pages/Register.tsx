@@ -33,10 +33,10 @@ const pricingTiers = [
   },
 ];
 
-const included = [
+const included: (string | React.ReactNode)[] = [
   'Run 100 km along the coast',
   '24h logistical & emotional support',
-  'Professional photographer, full time',
+  <span key="photographer">Professional <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photographer</Link>, full time</span>,
   'Tailored story on socials for friends & family',
   'Plenty of delicious food during the run',
   'HD pictures of the day, digital format',
@@ -170,7 +170,7 @@ const Register = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {included.map((item, i) => (
                 <motion.div
-                  key={item}
+                  key={typeof item === 'string' ? item : String(i)}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.4 + i * 0.05 }}

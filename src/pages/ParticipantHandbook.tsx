@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
 const sections = [
   {
@@ -134,9 +135,9 @@ const sections = [
     number: '10',
     title: 'Photography & Documentation',
     content: [
-      'A professional photographer documents your stage.',
+      <span key="ph-doc">A professional <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photographer</Link> documents your stage.</span>,
       'The images become part of:',
-    ],
+    ] as ReactNode[],
     list: [
       'the Follow the Coast archive',
       'future publications',
@@ -144,9 +145,9 @@ const sections = [
     ],
     after: [
       'After your stage, you receive access to a curated image selection.',
-      'Some photographs will later be released as limited edition prints chosen by the photographer.',
+      <span key="ph-prints">Some photographs will later be released as limited edition prints chosen by the <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photographer</Link>.</span>,
       'If a selected image was made during your stage, you will receive the opportunity to purchase it before public release.',
-    ],
+    ] as ReactNode[],
   },
   {
     number: '11',

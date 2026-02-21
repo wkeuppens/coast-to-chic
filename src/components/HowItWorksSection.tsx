@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const steps = [
   {
@@ -15,7 +16,7 @@ const steps = [
   {
     number: '03',
     title: 'Run it',
-    description: '7am. A van. A photographer. 24 hours.',
+    description: <>7am. A van. A <Link to="/photographers" className="underline underline-offset-2 hover:text-white transition-colors">photographer</Link>. 24 hours.</>,
   },
 ];
 
@@ -36,7 +37,7 @@ export const HowItWorksSection = () => {
             How it works
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium">
-            A van. A photographer. You.
+            A van. A <Link to="/photographers" className="underline underline-offset-4 hover:text-white transition-colors">photographer</Link>. You.
           </h2>
         </motion.div>
 
@@ -78,7 +79,7 @@ export const HowItWorksSection = () => {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-accent">—</span>
-                <span>Photographer. All day.</span>
+                <span><Link to="/photographers" className="underline underline-offset-2 hover:text-white transition-colors">Photographer</Link>. All day.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-accent">—</span>
@@ -100,7 +101,7 @@ export const HowItWorksSection = () => {
               <p>€1299 for 3 or more</p>
             </div>
             <p className="text-sm text-white/50 mt-6">
-              Covers crew, fuel, lodging, photographer, food.
+              Covers crew, fuel, lodging, <Link to="/photographers" className="underline underline-offset-2 hover:text-white transition-colors">photographer</Link>, food.
             </p>
           </div>
         </motion.div>
