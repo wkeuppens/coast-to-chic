@@ -14,17 +14,17 @@ const fadeUp = {
 };
 
 const halfCoast = [
-  'GPX route uploaded to your device',
-  'Ravito (food & drinks) along the route',
-  'Bag transport to the finish line',
-  'Finish-line drinks with the group',
+  'GPX route prepared for your device',
+  'Food & drink checkpoints along the route',
+  'Bag transport to the finish',
+  'Finish gathering in Knokke',
 ];
 
 const fullCoast = [
-  'GPX route uploaded to your device',
-  'Ravito (food & drinks) along the route',
-  'Bag transport to the finish line',
-  'Finish-line drinks with the group',
+  'GPX route prepared for your device',
+  'Food & drink checkpoints along the route',
+  'Bag transport to the finish',
+  'Finish gathering in Knokke',
 ];
 
 const FollowTheKust = () => {
@@ -68,7 +68,7 @@ const FollowTheKust = () => {
             transition={{ delay: 0.6 }}
             className="text-white/70 text-lg mt-4 max-w-xl"
           >
-            Run the Belgian coast. One day. All levels.
+            The Belgian coast.{'\n'}One day on foot.
           </motion.p>
         </div>
       </section>
@@ -77,13 +77,13 @@ const FollowTheKust = () => {
       <section className="bg-foreground text-primary-foreground">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
           {[
-            { icon: Calendar, label: 'Date', value: 'Sat, 6 Feb 2027' },
+            { icon: Calendar, label: 'Date', value: 'Saturday 6 February 2027' },
             { icon: MapPin, label: 'Route', value: 'De Panne → Knokke' },
-            { icon: Clock, label: 'Distances', value: '35km or 75km' },
-            { icon: Users, label: 'Levels', value: 'All levels' },
+            { icon: Clock, label: 'Distances', value: '35 km or 75 km' },
+            { icon: Users, label: 'Levels', value: 'Open to all' },
           ].map((fact) => (
             <div key={fact.label} className="px-6 py-8 text-center">
-              <fact.icon className="w-5 h-5 mx-auto mb-2 text-accent" />
+              <fact.icon className="w-5 h-5 mx-auto mb-2" style={{ color: '#5E7687' }} />
               <p className="text-xs text-white/40 uppercase tracking-wider mb-1">{fact.label}</p>
               <p className="font-display text-lg font-medium">{fact.value}</p>
             </div>
@@ -97,17 +97,31 @@ const FollowTheKust = () => {
           <motion.div {...fadeUp}>
             <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">The concept</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">
-              The Belgian coast, on foot.
+              The Belgian coastline, shared.
             </h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>
-                Follow The Kust is a one-day coastal run along the Belgian shoreline. Choose 
-                between 35km (half coast: Ostend to Knokke) or 75km (full coast: De Panne to 
-                Knokke). Both distances finish in Knokke.
+                Follow The Kust is a one-day run along the Belgian shoreline.
               </p>
               <p>
-                It's simple: pick your distance, show up, and run. We handle the GPX route, 
-                food stops along the way, bag transport, and finish-line drinks. You just move.
+                Two distances follow the same direction toward Knokke:
+              </p>
+              <ul className="space-y-1 pl-1">
+                <li>35 km — Ostend to Knokke</li>
+                <li>75 km — De Panne to Knokke</li>
+              </ul>
+              <p>
+                You choose your distance.<br />
+                You arrive at the start.<br />
+                You move along the coast together.
+              </p>
+              <p>
+                We prepare the route, organise checkpoints with ravito, transport bags, and welcome everyone at the finish.
+              </p>
+              <p>
+                No timing.<br />
+                No rankings.<br />
+                Just a day following the coast.
               </p>
             </div>
           </motion.div>
@@ -120,7 +134,7 @@ const FollowTheKust = () => {
           <motion.div {...fadeUp}>
             <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">Two distances</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-16">
-              Pick your coast.
+              Choose your section of coastline.
             </h2>
           </motion.div>
 
@@ -136,12 +150,12 @@ const FollowTheKust = () => {
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Half coast</p>
               <h3 className="font-display text-2xl font-medium mb-1">35 km</h3>
               <p className="text-muted-foreground text-sm mb-2">Ostend → Knokke</p>
-              <p className="text-xs text-muted-foreground mb-6">First steps, routinier & expert</p>
+              <p className="text-xs text-muted-foreground mb-6">Suitable for first long distances and experienced runners alike.</p>
               <p className="font-display text-4xl font-bold text-accent mb-8">€39</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {halfCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-foreground">
-                    <CheckCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#5E7687' }} />
                     {item}
                   </li>
                 ))}
@@ -166,12 +180,12 @@ const FollowTheKust = () => {
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Full coast</p>
               <h3 className="font-display text-2xl font-medium mb-1">75 km</h3>
               <p className="text-muted-foreground text-sm mb-2">De Panne → Knokke</p>
-              <p className="text-xs text-muted-foreground mb-6">Routinier & expert</p>
+              <p className="text-xs text-muted-foreground mb-6">For runners comfortable spending a full day moving along the coast.</p>
               <p className="font-display text-4xl font-bold text-accent mb-8">€59</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {fullCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-foreground">
-                    <CheckCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#5E7687' }} />
                     {item}
                   </li>
                 ))}
@@ -190,7 +204,7 @@ const FollowTheKust = () => {
             {...fadeUp}
             className="text-sm text-muted-foreground mt-8 text-center"
           >
-            Optional: all-in dinner at €55 extra. Add it during registration.
+            Optional: community dinner after the run — €55. Add it during registration.
           </motion.p>
         </div>
       </section>
@@ -213,9 +227,23 @@ const FollowTheKust = () => {
               </span>{' '}
               with us.
             </h2>
-            <p className="text-muted-foreground mb-10 max-w-md mx-auto">
-              February 6, 2027. The Belgian shoreline. Pick your distance and go.
-            </p>
+            <div className="text-muted-foreground mb-10 max-w-md mx-auto space-y-4">
+              <p>
+                Follow The Kust is an open moment within Follow the Coast.
+              </p>
+              <p>
+                A chance to experience the coastline together, without committing to a full stage.
+              </p>
+              <p>
+                One direction.<br />
+                One shoreline.<br />
+                Many rhythms.
+              </p>
+              <p className="font-medium text-foreground">
+                6 February 2027<br />
+                The Belgian coast awaits.
+              </p>
+            </div>
             <Link
               to="/register"
               className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:brightness-110 transition-all"
