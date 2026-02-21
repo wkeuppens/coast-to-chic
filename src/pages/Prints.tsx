@@ -36,24 +36,105 @@ const Prints = () => {
       <Navigation />
 
       {/* Hero */}
-      <section className="pt-32 pb-16 px-6 md:px-12 max-w-6xl mx-auto">
+      <section className="pt-32 pb-16 px-6 md:px-12 max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-display">
-            Limited Edition
+          <span className="text-xs uppercase tracking-[0.2em] text-accent font-display">
+            Limited Editions
           </span>
-          <h1 className="font-display text-4xl md:text-6xl font-medium mt-4 mb-6">
-            Prints
+          <h1 className="font-display text-4xl md:text-6xl font-medium mt-4 mb-8">
+            From the archive
           </h1>
-          <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
-            Nine photographs by nine contributing photographers.
-            Museum-quality paper. Limited edition of 11 per print.
-            Each comes with a signed certificate of authenticity.
-          </p>
+          <div className="space-y-4 max-w-xl">
+            <p className="text-muted-foreground leading-relaxed">
+              Each stage along the coastline is documented by photographers who travel with the runners.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              From that growing archive, a small number of images are selected and printed as limited editions.
+            </p>
+            <p className="text-foreground leading-relaxed">
+              These are not souvenirs.<br />
+              They are fragments of a long-term record.
+            </p>
+          </div>
         </motion.div>
+      </section>
+
+      {/* The Editions */}
+      <section className="pb-16 px-6 md:px-12 max-w-4xl mx-auto">
+        <h2 className="font-display text-sm uppercase tracking-wider text-accent mb-6">The Editions</h2>
+        <p className="text-muted-foreground leading-relaxed max-w-xl mb-4">
+          Each photograph is:
+        </p>
+        <ul className="space-y-1.5 max-w-xl mb-6">
+          <li className="text-muted-foreground leading-relaxed"><span className="text-accent">•</span> selected by the photographer</li>
+          <li className="text-muted-foreground leading-relaxed"><span className="text-accent">•</span> printed in a strictly limited run</li>
+          <li className="text-muted-foreground leading-relaxed"><span className="text-accent">•</span> signed and numbered</li>
+          <li className="text-muted-foreground leading-relaxed"><span className="text-accent">•</span> produced on museum-grade paper</li>
+        </ul>
+        <p className="text-foreground/70 leading-relaxed max-w-xl">
+          When an edition sells out, it will not be reprinted.
+        </p>
+      </section>
+
+      {/* Why Prints Exist */}
+      <section className="pb-16 px-6 md:px-12 max-w-4xl mx-auto">
+        <h2 className="font-display text-sm uppercase tracking-wider text-accent mb-6">Why Prints Exist</h2>
+        <div className="space-y-4 max-w-xl">
+          <p className="text-muted-foreground leading-relaxed">
+            The archive only continues if the work behind it continues.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Each print contributes directly to the photographers documenting the journey along Europe's coastline.
+          </p>
+          <p className="text-foreground leading-relaxed">
+            Buying a print is not simply acquiring an image.<br />
+            It helps sustain the documentation itself.
+          </p>
+        </div>
+      </section>
+
+      {/* Right of First Refusal */}
+      <section className="pb-16 px-6 md:px-12 max-w-4xl mx-auto">
+        <h2 className="font-display text-sm uppercase tracking-wider text-accent mb-6">Right of First Refusal</h2>
+        <div className="space-y-4 max-w-xl">
+          <p className="text-muted-foreground leading-relaxed">
+            If a limited edition photograph was taken during your stage, you will be given the opportunity to acquire it before it becomes publicly available.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            After that, remaining prints are released to the wider community.
+          </p>
+        </div>
+      </section>
+
+      {/* Format & Shipping */}
+      <section className="pb-16 px-6 md:px-12 max-w-4xl mx-auto">
+        <h2 className="font-display text-sm uppercase tracking-wider text-accent mb-6">Format & Shipping</h2>
+        <div className="space-y-4 max-w-xl">
+          <p className="text-muted-foreground leading-relaxed">
+            Printed and packed individually.<br />
+            Shipped carefully from Europe.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Shipping is calculated transparently at checkout.
+          </p>
+        </div>
+      </section>
+
+      {/* Acquire a Print */}
+      <section className="pb-8 px-6 md:px-12 max-w-4xl mx-auto">
+        <h2 className="font-display text-2xl md:text-3xl mb-4">Acquire a print</h2>
+        <div className="space-y-4 max-w-xl">
+          <p className="text-muted-foreground leading-relaxed">
+            Explore the current available editions below.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Each marks a real place, a real day, a real passage along the coast.
+          </p>
+        </div>
       </section>
 
       {/* Grid */}
@@ -88,30 +169,6 @@ const Prints = () => {
               </p>
             </motion.button>
           ))}
-        </div>
-      </section>
-
-      {/* Info band */}
-      <section className="border-t border-border py-16 px-6 md:px-12">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div>
-            <h3 className="font-display text-sm uppercase tracking-wider mb-3">Museum Quality</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Printed on Hahnemühle Photo Rag 308gsm archival paper with pigment-based inks rated for 200+ years.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-display text-sm uppercase tracking-wider mb-3">Limited Edition</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Each photograph is limited to 11 prints worldwide. Once sold out, the edition closes permanently.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-display text-sm uppercase tracking-wider mb-3">Certificate</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Every print ships with a signed certificate of authenticity noting the edition number and photographer.
-            </p>
-          </div>
         </div>
       </section>
 
