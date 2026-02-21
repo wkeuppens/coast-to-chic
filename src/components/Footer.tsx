@@ -7,11 +7,11 @@ const footerLinks = {
     { label: 'EU Stages', href: '/eu-stages' },
     
     { label: 'Home Run', href: '/homerun' },
-    { label: 'All Stages', href: '/all-stages' },
+    { label: 'Stage Gallery', href: '/gallery' },
   ],
   books: [
     { label: 'Order Books', href: '/order-books' },
-    { label: 'About the Books', href: '/#book' },
+    
     { label: 'Prints', href: '/prints' },
   ],
   sideRoutes: [
