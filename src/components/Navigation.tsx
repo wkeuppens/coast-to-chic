@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import wavesLogo from '@/assets/waves-logo.png';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
@@ -17,6 +18,28 @@ export const Navigation = () => {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const navTheme = useNavTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleHashLink = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+    const [path, hash] = href.split('#');
+    const targetPath = path || '/';
+
+    if (location.pathname === targetPath) {
+      // Already on the page, just scroll
+      const el = document.getElementById(hash);
+      el?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate first, then scroll after render
+      navigate(targetPath);
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        el?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }, [location.pathname, navigate]);
 
   // Dynamic colors based on background
   const isLight = navTheme === 'light'; // light text on dark bg
@@ -68,6 +91,7 @@ export const Navigation = () => {
             <a
               key={item.label}
               href={item.href}
+              onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : undefined}
               className={`relative text-sm transition-colors duration-300 ${textMuted} hover:${isLight ? 'text-[#F4F2EE]' : 'text-foreground'} after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 ${underlineColor} after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100`}
             >
               {item.label}
@@ -76,6 +100,7 @@ export const Navigation = () => {
           ))}
           <a
             href="/#stages"
+            onClick={(e) => handleHashLink(e, '/#stages')}
             className={`text-sm font-medium transition-all duration-300 border px-5 py-2 rounded-full ${textColor} ${borderColor} ${hoverBg}`}
           >
             Register
@@ -121,7 +146,7 @@ export const Navigation = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  onClick={() => setIsOpen(false)}
+                  onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : () => setIsOpen(false)}
                   className="text-3xl font-display text-white"
                 >
                   {item.label}
@@ -133,7 +158,7 @@ export const Navigation = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => handleHashLink(e, '/#stages')}
                 className="text-3xl font-display text-accent"
               >
                 Register →
