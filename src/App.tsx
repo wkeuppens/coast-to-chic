@@ -22,6 +22,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Prints = lazy(() => import("./pages/Prints"));
 const Photographers = lazy(() => import("./pages/Photographers"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+const SupportTheProject = lazy(() => import("./pages/SupportTheProject"));
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/prints" element={<Prints />} />
               <Route path="/photographers" element={<Photographers />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/support" element={<SupportTheProject />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
