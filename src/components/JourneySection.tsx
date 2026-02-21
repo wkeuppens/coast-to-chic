@@ -5,7 +5,7 @@ import { RouteMap } from './RouteMap';
 import { useCurrentDistance } from '@/hooks/useCurrentDistance';
 
 export const JourneySection = () => {
-  const { distance } = useCurrentDistance(60000);
+  const { distance, countries, runners, books } = useCurrentDistance(60000);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -24,15 +24,15 @@ export const JourneySection = () => {
             <p className="text-sm text-muted-foreground mt-2">km completed</p>
           </StatBlock>
           <StatBlock>
-            <span className="font-display text-4xl md:text-5xl font-medium text-foreground">5</span>
+            <CountUp end={countries} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">countries</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={350} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
+            <CountUp end={runners} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">runners</p>
           </StatBlock>
           <StatBlock>
-            <span className="font-display text-4xl md:text-5xl font-medium text-foreground">3</span>
+            <CountUp end={books} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">books</p>
           </StatBlock>
         </motion.div>
