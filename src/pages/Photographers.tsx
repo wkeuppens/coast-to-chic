@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Instagram, Globe, ArrowLeft } from 'lucide-react';
@@ -17,6 +18,8 @@ export const photographers = [
 ];
 
 const Photographers = () => {
+  const shuffled = useMemo(() => [...photographers].sort(() => Math.random() - 0.5), []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -42,7 +45,7 @@ const Photographers = () => {
 
       <section className="px-6 md:px-12 pb-24 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {photographers.map((p, i) => (
+          {shuffled.map((p, i) => (
             <motion.div
               key={p.id}
               initial={{ opacity: 0, y: 30 }}
