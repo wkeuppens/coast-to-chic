@@ -7,6 +7,7 @@ import { useNavTheme } from '@/hooks/useNavTheme';
 const navItems = [
   { label: 'Stages', href: '/#stages' },
   { label: 'Books', href: '/#books' },
+  { label: 'Prints', href: '/prints' },
   { label: 'Side routes', href: '/#events' },
 ];
 
