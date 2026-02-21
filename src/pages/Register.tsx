@@ -11,40 +11,40 @@ const pricingTiers = [
     id: 'solo',
     icon: User,
     label: 'Solo',
-    people: '1 person',
+    people: '1 runner',
     price: 699,
-    description: 'Run your own stage, at your own pace.',
+    description: 'Run your own stage.\nYour rhythm, your day along the coast.',
   },
   {
     id: 'duo',
     icon: Users,
     label: 'Duo',
-    people: '2 people',
+    people: '2 runners',
     price: 999,
-    description: 'Share the experience with a partner.',
+    description: 'Share the distance.\nSupport each other through the day.',
     popular: true,
   },
   {
     id: 'team',
     icon: UsersRound,
     label: 'Team',
-    people: '3+ people',
+    people: '3+ runners',
     price: 1299,
-    description: 'Bring the crew. More fun, more sustainable.',
+    description: 'Bring friends.\nDivide the effort.\nCarry the stage together.',
   },
 ];
 
 const included: (string | React.ReactNode)[] = [
-  'Run 100 km along the coast',
-  '24h logistical & emotional support',
-  <span key="photographer">Professional <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photographer</Link>, full time</span>,
-  'Tailored story on socials for friends & family',
-  'Plenty of delicious food during the run',
-  'HD pictures of the day, digital format',
-  'Help during your preparation',
+  'Run a ~100 km stage along Europe\'s coastline',
+  'Dedicated crew supporting you throughout the day',
+  'Food and drinks during the run',
+  <span key="photographer">Professional <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photography</Link> documenting your stage</span>,
+  'Personal story shared within the project archive',
+  'Guidance during preparation',
   'Access to the FTC runner community',
+  'Digital photo selection after your stage',
+  'One Follow the Coast book per registered participant',
   'A Duvel at the finish line',
-  'One book per registered participant',
 ];
 
 const sampleStages = [
@@ -106,9 +106,9 @@ const Register = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-sm text-white/60 tracking-wide mb-3">Register</p>
+            <p className="text-sm text-white/60 tracking-wide mb-3">REGISTER</p>
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05]">
-              Run your stage.
+              Run a stage
             </h1>
           </motion.div>
         </div>
@@ -124,12 +124,18 @@ const Register = () => {
             className="mb-16 max-w-2xl"
           >
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">How it works</h2>
-            <p className="text-muted-foreground leading-relaxed">
-              To keep running around Europe, we need to recover on average €850 per stage — covering crew, fuel, lodging, maintenance, and all the food to fuel you during your effort. We want to enable everyone to join, so we created flexible pricing that rewards teams.
-            </p>
+            <div className="text-muted-foreground leading-relaxed space-y-4">
+              <p>Follow the Coast moves forward one stage at a time.</p>
+              <p>Each stage covers roughly 100 km of European coastline, carried by a different runner or team. When you register, you take responsibility for one link in that chain.</p>
+              <p>To keep the project moving, every stage contributes to the shared logistics behind it: crew, travel, food, documentation, and the long-term archive we are building together.</p>
+              <p>Most runners arrive unsure if they can do 100 km. Almost all leave surprised that they did.</p>
+              <p className="font-medium text-foreground">Registering is not simply booking an event.<br />It means becoming the person responsible for moving the project forward on that day.</p>
+              <p>We keep pricing flexible so people can join in different ways.</p>
+            </div>
           </motion.div>
 
           {/* Pricing cards */}
+          <h3 className="font-display text-2xl md:text-3xl font-bold mb-8">Choose how you run</h3>
           <div className="grid md:grid-cols-3 gap-6 mb-20">
             {pricingTiers.map((tier, i) => {
               const Icon = tier.icon;
@@ -153,9 +159,9 @@ const Register = () => {
                     </span>
                   )}
                   <Icon size={24} className="text-accent mb-4" />
-                  <h3 className="font-display text-xl font-bold mb-1">{tier.label}</h3>
+                  <h3 className="font-display text-2xl font-bold mb-1">{tier.label}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{tier.people}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-6 whitespace-pre-line">
                     {tier.description}
                   </p>
                   <div className="font-display text-3xl font-bold">
@@ -172,7 +178,7 @@ const Register = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-8">What you get</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-8">What's included</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {included.map((item, i) => (
                 <motion.div
@@ -203,11 +209,12 @@ const Register = () => {
           >
             <p className="text-sm text-white/50 tracking-wide mb-4">Select a stage</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Pick your date.
+              Pick your date
             </h2>
-            <p className="text-white/60 max-w-lg">
-              Each stage is ~100 km along the European coast. Choose an open stage below and we'll take care of the rest.
-            </p>
+            <div className="text-white/60 max-w-lg space-y-4">
+              <p>Each open stage represents a stretch of coastline still waiting to be carried forward.</p>
+              <p>Choose your stage and submit your registration.<br />We'll confirm details together and guide you through preparation toward your start line.</p>
+            </div>
           </motion.div>
 
           {/* Stage list */}
@@ -264,8 +271,13 @@ const Register = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mt-16 flex flex-col sm:flex-row items-center gap-6"
+            className="mt-16"
           >
+            <h3 className="font-display text-2xl font-bold text-white mb-4">Questions?</h3>
+            <div className="text-white/60 space-y-2 mb-8">
+              <p>Not sure which stage fits you?</p>
+              <p>Join the WhatsApp group or reach out directly.<br />We'll help you find your place along the coast.</p>
+            </div>
             <a
               href="https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV?mode=gi_t"
               target="_blank"
@@ -274,9 +286,6 @@ const Register = () => {
             >
               Join WhatsApp group
             </a>
-            <p className="text-sm text-white/50">
-              Questions? Reach out and we'll help you pick the right stage.
-            </p>
           </motion.div>
         </div>
       </section>
@@ -290,7 +299,7 @@ const Register = () => {
             viewport={{ once: true }}
             className="font-display text-2xl md:text-3xl font-bold leading-relaxed"
           >
-            Come as you are. We are looking forward to joining you on an unforgettable journey.
+            Come as you are.<br />We're looking forward to meeting you on the coastline.
           </motion.p>
           <Link
             to="/"
