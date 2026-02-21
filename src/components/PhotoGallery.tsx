@@ -1,20 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import cliffBay from '@/assets/cliff-bay.jpg';
-import beachRunners from '@/assets/beach-runners.jpg';
-import harborBoats from '@/assets/harbor-boats.jpg';
-import coastalFortress from '@/assets/coastal-fortress.jpg';
-import sailboatSea from '@/assets/sailboat-sea.jpg';
+import { STAGES } from '@/data/stages';
 
-const photos = [
-  { src: cliffBay, alt: 'Cliff bay with boats' },
-  { src: beachRunners, alt: 'Runners on beach' },
-  { src: harborBoats, alt: 'Harbor with fishing boats' },
-  { src: coastalFortress, alt: 'Coastal fortress' },
-  { src: sailboatSea, alt: 'Sailboat on calm sea' },
-];
+/** Pick n unique random items from an array */
+function pickRandom<T>(arr: T[], n: number): T[] {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
+}
 
 export const PhotoGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -24,6 +18,9 @@ export const PhotoGallery = () => {
   });
 
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
+
+  // Pick 3 random stages on mount
+  const randomStages = useMemo(() => pickRandom(STAGES, 3), []);
 
   return (
     <section ref={containerRef} className="py-24 md:py-32 overflow-hidden bg-background">
@@ -47,20 +44,30 @@ export const PhotoGallery = () => {
         style={{ x }}
         className="flex gap-6 pl-6 md:pl-12 lg:pl-24"
       >
-        {photos.map((photo, index) => (
-          <motion.div
-            key={index}
-            className="relative flex-shrink-0 w-[300px] md:w-[400px] lg:w-[500px] aspect-[4/3] overflow-hidden group"
-            whileHover={{ scale: 0.98 }}
-            transition={{ duration: 0.3 }}
+        {randomStages.map((stage) => (
+          <Link
+            key={stage.id}
+            to={stage.link}
+            className="relative flex-shrink-0 w-[300px] md:w-[400px] lg:w-[500px] aspect-[3/2] overflow-hidden group block"
           >
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-          </motion.div>
+            <motion.div
+              className="w-full h-full"
+              whileHover={{ scale: 0.98 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Deterministic placeholder colour per stage */}
+              <div
+                className="w-full h-full flex items-end p-4"
+                style={{
+                  backgroundColor: `hsl(${(parseInt(stage.id.replace('stage-', ''), 10) * 37) % 360}, 35%, 55%)`,
+                }}
+              >
+                <span className="font-display text-sm text-white/90 tracking-wide">
+                  {stage.title} — {stage.location}
+                </span>
+              </div>
+            </motion.div>
+          </Link>
         ))}
       </motion.div>
 
