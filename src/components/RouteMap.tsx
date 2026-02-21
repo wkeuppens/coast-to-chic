@@ -5,7 +5,7 @@ import { fetchAndParseSVG } from '@/lib/svgCache';
 
 // Approximate positions along the path (0 = start, 1 = end)
 const KNOKKE_POSITION = 0.0; // Very start of the path
-const VENICE_POSITION = 0.82; // Roughly where Venice sits on the coastline
+const VENICE_POSITION = 0.88; // Roughly where Venice sits on the coastline
 
 interface MapPinProps {
   label: string;
