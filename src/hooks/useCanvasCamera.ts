@@ -11,26 +11,74 @@ interface Velocity {
   y: number;
 }
 
-const ZOOM_MIN = 0.4;
-const ZOOM_MAX = 1.6;
+interface Bounds {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
+const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 1.4;
 const ZOOM_STEP = 0.08;
 const FRICTION = 0.92;
 const VELOCITY_THRESHOLD = 0.3;
 
 /**
- * Hook that manages a 2D camera for an infinite canvas.
- * Supports click-drag, touch, scroll-wheel panning, trackpad pinch zoom,
- * keyboard arrows, and momentum/inertia.
+ * Clamp camera so the content edges align with viewport edges.
+ * Camera x/y is the translation of the world layer (positive = world moves right/down).
  */
-export function useCanvasCamera(containerRef: React.RefObject<HTMLElement | null>) {
+function clampCamera(x: number, y: number, zoom: number, vw: number, vh: number, bounds: Bounds | null): { x: number; y: number } {
+  if (!bounds) return { x, y };
+  
+  const contentW = (bounds.right - bounds.left) * zoom;
+  const contentH = (bounds.bottom - bounds.top) * zoom;
+
+  // If content smaller than viewport, center it
+  if (contentW <= vw) {
+    x = -(bounds.left + bounds.right) / 2 * zoom;
+  } else {
+    const minX = -(bounds.right * zoom - vw / 2);
+    const maxX = -(bounds.left * zoom + vw / 2);
+    // Note: minX < maxX when content > viewport (since bounds.left is negative)
+    x = Math.max(minX, Math.min(maxX, x));
+  }
+
+  if (contentH <= vh) {
+    y = -(bounds.top + bounds.bottom) / 2 * zoom;
+  } else {
+    const minY = -(bounds.bottom * zoom - vh / 2);
+    const maxY = -(bounds.top * zoom + vh / 2);
+    y = Math.max(minY, Math.min(maxY, y));
+  }
+
+  return { x, y };
+}
+
+export function useCanvasCamera(
+  containerRef: React.RefObject<HTMLElement | null>,
+  bounds: Bounds | null = null
+) {
   const [camera, setCamera] = useState<CameraState>({ x: 0, y: 0, zoom: 1 });
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0, camX: 0, camY: 0 });
   const velocity = useRef<Velocity>({ x: 0, y: 0 });
   const lastPointer = useRef({ x: 0, y: 0, t: 0 });
   const rafId = useRef<number>(0);
+  const boundsRef = useRef(bounds);
+  boundsRef.current = bounds;
 
-  // ── Momentum loop ──
+  const getViewport = useCallback(() => ({
+    w: window.innerWidth,
+    h: window.innerHeight,
+  }), []);
+
+  const applyClamp = useCallback((x: number, y: number, zoom: number) => {
+    const vp = getViewport();
+    return clampCamera(x, y, zoom, vp.w, vp.h, boundsRef.current);
+  }, [getViewport]);
+
+  // Momentum loop
   const tickMomentum = useCallback(() => {
     const v = velocity.current;
     if (Math.abs(v.x) < VELOCITY_THRESHOLD && Math.abs(v.y) < VELOCITY_THRESHOLD) {
@@ -39,54 +87,44 @@ export function useCanvasCamera(containerRef: React.RefObject<HTMLElement | null
     }
     v.x *= FRICTION;
     v.y *= FRICTION;
-    setCamera((c) => ({ ...c, x: c.x + v.x, y: c.y + v.y }));
+    setCamera((c) => {
+      const clamped = applyClamp(c.x + v.x, c.y + v.y, c.zoom);
+      return { ...c, ...clamped };
+    });
     rafId.current = requestAnimationFrame(tickMomentum);
+  }, [applyClamp]);
+
+  const onPointerDown = useCallback((e: PointerEvent) => {
+    if (e.button !== 0) return;
+    isDragging.current = true;
+    velocity.current = { x: 0, y: 0 };
+    cancelAnimationFrame(rafId.current);
+    dragStart.current = { x: e.clientX, y: e.clientY, camX: 0, camY: 0 };
+    lastPointer.current = { x: e.clientX, y: e.clientY, t: performance.now() };
+    setCamera((c) => {
+      dragStart.current.camX = c.x;
+      dragStart.current.camY = c.y;
+      return c;
+    });
+    (e.currentTarget as HTMLElement)?.setPointerCapture(e.pointerId);
   }, []);
 
-  // ── Pointer handlers ──
-  const onPointerDown = useCallback(
-    (e: PointerEvent) => {
-      if (e.button !== 0) return;
-      isDragging.current = true;
-      velocity.current = { x: 0, y: 0 };
-      cancelAnimationFrame(rafId.current);
-      dragStart.current = {
-        x: e.clientX,
-        y: e.clientY,
-        camX: 0, // filled from state in move
-        camY: 0,
-      };
-      lastPointer.current = { x: e.clientX, y: e.clientY, t: performance.now() };
-      setCamera((c) => {
-        dragStart.current.camX = c.x;
-        dragStart.current.camY = c.y;
-        return c;
-      });
-      (e.currentTarget as HTMLElement)?.setPointerCapture(e.pointerId);
-    },
-    []
-  );
-
-  const onPointerMove = useCallback(
-    (e: PointerEvent) => {
-      if (!isDragging.current) return;
-      const dx = e.clientX - dragStart.current.x;
-      const dy = e.clientY - dragStart.current.y;
-      const now = performance.now();
-      const dt = now - lastPointer.current.t || 1;
-      velocity.current = {
-        x: (e.clientX - lastPointer.current.x) / dt * 16,
-        y: (e.clientY - lastPointer.current.y) / dt * 16,
-      };
-      lastPointer.current = { x: e.clientX, y: e.clientY, t: now };
-      setCamera((c) => ({
-        ...c,
-        x: dragStart.current.camX + dx,
-        y: dragStart.current.camY + dy,
-      }));
-    },
-    []
-  );
+  const onPointerMove = useCallback((e: PointerEvent) => {
+    if (!isDragging.current) return;
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    const now = performance.now();
+    const dt = now - lastPointer.current.t || 1;
+    velocity.current = {
+      x: (e.clientX - lastPointer.current.x) / dt * 16,
+      y: (e.clientY - lastPointer.current.y) / dt * 16,
+    };
+    lastPointer.current = { x: e.clientX, y: e.clientY, t: now };
+    setCamera((c) => {
+      const clamped = applyClamp(dragStart.current.camX + dx, dragStart.current.camY + dy, c.zoom);
+      return { ...c, ...clamped };
+    });
+  }, [applyClamp]);
 
   const onPointerUp = useCallback(() => {
     if (!isDragging.current) return;
@@ -94,41 +132,54 @@ export function useCanvasCamera(containerRef: React.RefObject<HTMLElement | null
     rafId.current = requestAnimationFrame(tickMomentum);
   }, [tickMomentum]);
 
-  // ── Wheel (pan + zoom) ──
   const onWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
-    // Pinch-zoom (ctrlKey is set by trackpad pinch gestures)
     if (e.ctrlKey) {
-      setCamera((c) => ({
-        ...c,
-        zoom: Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, c.zoom - e.deltaY * 0.005)),
-      }));
+      setCamera((c) => {
+        const newZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, c.zoom - e.deltaY * 0.005));
+        const clamped = applyClamp(c.x, c.y, newZoom);
+        return { ...clamped, zoom: newZoom };
+      });
     } else {
-      setCamera((c) => ({
-        ...c,
-        x: c.x - e.deltaX,
-        y: c.y - e.deltaY,
-      }));
+      setCamera((c) => {
+        const clamped = applyClamp(c.x - e.deltaX, c.y - e.deltaY, c.zoom);
+        return { ...c, ...clamped };
+      });
     }
-  }, []);
+  }, [applyClamp]);
 
-  // ── Keyboard ──
   const onKeyDown = useCallback((e: KeyboardEvent) => {
     const step = 80;
+    let dx = 0, dy = 0, dz = 0;
     switch (e.key) {
-      case 'ArrowUp':    setCamera((c) => ({ ...c, y: c.y + step })); break;
-      case 'ArrowDown':  setCamera((c) => ({ ...c, y: c.y - step })); break;
-      case 'ArrowLeft':  setCamera((c) => ({ ...c, x: c.x + step })); break;
-      case 'ArrowRight': setCamera((c) => ({ ...c, x: c.x - step })); break;
-      case '=':
-      case '+': setCamera((c) => ({ ...c, zoom: Math.min(ZOOM_MAX, c.zoom + ZOOM_STEP) })); break;
-      case '-': setCamera((c) => ({ ...c, zoom: Math.max(ZOOM_MIN, c.zoom - ZOOM_STEP) })); break;
+      case 'ArrowUp':    dy = step; break;
+      case 'ArrowDown':  dy = -step; break;
+      case 'ArrowLeft':  dx = step; break;
+      case 'ArrowRight': dx = -step; break;
+      case '=': case '+': dz = ZOOM_STEP; break;
+      case '-': dz = -ZOOM_STEP; break;
       default: return;
     }
     e.preventDefault();
-  }, []);
+    setCamera((c) => {
+      const newZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, c.zoom + dz));
+      const clamped = applyClamp(c.x + dx, c.y + dy, newZoom);
+      return { ...clamped, zoom: newZoom };
+    });
+  }, [applyClamp]);
 
-  // ── Attach listeners ──
+  // Re-clamp on resize
+  useEffect(() => {
+    const onResize = () => {
+      setCamera((c) => {
+        const clamped = applyClamp(c.x, c.y, c.zoom);
+        return { ...c, ...clamped };
+      });
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [applyClamp]);
+
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;

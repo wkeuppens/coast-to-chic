@@ -23,86 +23,42 @@ export interface StageTileData {
   link: string;
 }
 
-/* ── Tile dimension presets ── */
-const TILE_SIZES: [number, number][] = [
-  [380, 280],
-  [420, 310],
-  [360, 440],
-  [460, 340],
-  [340, 420],
-  [400, 300],
-  [440, 320],
-  [370, 390],
-];
+/* ── Uniform 3:2 tile dimensions ── */
+const TILE_W = 420;
+const TILE_H = 280; // 3:2 aspect ratio
 
-/* ── Deterministic pseudo-random using seed ── */
-function seededRandom(seed: number): number {
-  const x = Math.sin(seed * 9301 + 49297) * 49297;
-  return x - Math.floor(x);
-}
+/* ── Structured grid layout (godly.website style) ── */
+const COLS = 6;                 // tiles per row
+const GAP_X = 24;               // horizontal gap between tiles
+const GAP_Y = 24;               // vertical gap between tiles
 
-/* ── Grid-based layout with organic jitter (no overlaps) ── */
-const COLS = 14;                // tiles per row
-const CELL_W = 560;            // horizontal cell pitch
-const CELL_H = 520;            // vertical cell pitch
-const GAP = 60;                // minimum gap between tiles
-const JITTER_X = 60;           // max horizontal offset from grid center
-const JITTER_Y = 50;           // max vertical offset from grid center
-// Stagger: odd rows shift right by half a cell for a masonry feel
-const STAGGER = CELL_W * 0.45;
-
-function generateGridCoordinates(count: number): { x: number; y: number }[] {
-  const coords: { x: number; y: number }[] = [];
-
-  // Center the grid around origin
-  const totalRows = Math.ceil(count / COLS);
-  const offsetX = -(COLS * CELL_W) / 2;
-  const offsetY = -(totalRows * CELL_H) / 2;
-
-  for (let i = 0; i < count; i++) {
-    const col = i % COLS;
-    const row = Math.floor(i / COLS);
-    const seed = i;
-
-    // Base grid position
-    const baseX = offsetX + col * CELL_W;
-    const baseY = offsetY + row * CELL_H;
-
-    // Stagger odd rows
-    const stagger = row % 2 === 1 ? STAGGER : 0;
-
-    // Organic jitter
-    const jx = (seededRandom(seed * 3 + 1) - 0.5) * 2 * JITTER_X;
-    const jy = (seededRandom(seed * 3 + 2) - 0.5) * 2 * JITTER_Y;
-
-    coords.push({
-      x: Math.round(baseX + stagger + jx),
-      y: Math.round(baseY + jy),
-    });
-  }
-
-  return coords;
-}
-
-/* ── Build complete stages array ── */
 function buildStages(count: number): StageTileData[] {
-  const coords = generateGridCoordinates(count);
   const stages: StageTileData[] = [];
+  const totalCols = COLS;
+  const totalRows = Math.ceil(count / totalCols);
+
+  // Total grid dimensions
+  const gridW = totalCols * TILE_W + (totalCols - 1) * GAP_X;
+  const gridH = totalRows * TILE_H + (totalRows - 1) * GAP_Y;
+
+  // Center grid around origin
+  const offsetX = -gridW / 2;
+  const offsetY = -gridH / 2;
 
   for (let i = 0; i < count; i++) {
+    const col = i % totalCols;
+    const row = Math.floor(i / totalCols);
     const num = String(i + 1).padStart(3, '0');
-    const sizeIndex = Math.floor(seededRandom(i * 7 + 5) * TILE_SIZES.length);
-    const [width, height] = TILE_SIZES[sizeIndex];
 
     stages.push({
       id: `stage-${num}`,
       title: `Stage ${num}`,
       location: 'TBD',
       image: `/placeholders/stage-${num}.jpg`,
-      x: coords[i].x,
-      y: coords[i].y,
-      width,
-      height,
+      x: offsetX + col * (TILE_W + GAP_X),
+      y: offsetY + row * (TILE_H + GAP_Y),
+      width: TILE_W,
+      height: TILE_H,
       link: `/stages/stage-${num}`,
     });
   }
@@ -115,6 +71,22 @@ function buildStages(count: number): StageTileData[] {
  * Replace with API response in production.
  */
 export const STAGES: StageTileData[] = buildStages(168);
+
+/** Grid bounds for clamping camera */
+export function getGridBounds() {
+  const totalCols = COLS;
+  const totalRows = Math.ceil(168 / totalCols);
+  const gridW = totalCols * TILE_W + (totalCols - 1) * GAP_X;
+  const gridH = totalRows * TILE_H + (totalRows - 1) * GAP_Y;
+  return {
+    left: -gridW / 2,
+    top: -gridH / 2,
+    right: gridW / 2,
+    bottom: gridH / 2,
+    width: gridW,
+    height: gridH,
+  };
+}
 
 /**
  * Expected API response format:
