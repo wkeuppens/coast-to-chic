@@ -12,6 +12,7 @@ const footerLinks = {
   books: [
     { label: 'Order Books', href: '/order-books' },
     { label: 'About the Books', href: '/#book' },
+    { label: 'Prints', href: '/prints' },
   ],
   sideRoutes: [
     { label: 'Home Run', href: '/homerun' },

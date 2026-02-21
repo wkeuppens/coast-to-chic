@@ -20,6 +20,7 @@ const Gallery = lazy(() => import("./pages/Gallery"));
 const ParticipantHandbook = lazy(() => import("./pages/ParticipantHandbook"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Prints = lazy(() => import("./pages/Prints"));
+const Photographers = lazy(() => import("./pages/Photographers"));
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/participant-handbook" element={<ParticipantHandbook />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/prints" element={<Prints />} />
+            <Route path="/photographers" element={<Photographers />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
