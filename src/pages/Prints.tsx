@@ -4,6 +4,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 
 const prints = [
   { id: 1, photographer: 'Photographer 1', photographerId: 1, title: 'Coastal Dawn', location: 'Portugal', stage: 'Stage TBD', image: '/placeholder.svg' },
@@ -31,6 +32,7 @@ const Prints = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO title="Prints" description="Limited edition prints from nine Follow the Coast photographers. Museum-quality paper. Edition of 11." path="/prints" />
       <Navigation />
 
       {/* Hero */}

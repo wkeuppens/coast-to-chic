@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import wavesLogo from '@/assets/waves-logo.png';
+import { SEO } from '@/components/SEO';
 
 const EUStages = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <SEO title="EU Stages" description="Italy to Greece. The main line. Registration coming soon." path="/eu-stages" />
       {/* Header */}
       <header className="px-6 md:px-12 py-6">
         <Link to="/" className="flex items-center gap-3">

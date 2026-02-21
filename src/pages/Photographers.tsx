@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Instagram, Globe, ArrowLeft } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 
 export const photographers = [
   { id: 1, name: 'Photographer 1', bio: 'Bio coming soon.', photo: '/placeholder.svg', website: '#', instagram: '#' },
@@ -22,6 +23,7 @@ const Photographers = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO title="Photographers" description="Nine photographers documenting Follow the Coast. Every kilometre, every stage." path="/photographers" />
       <Navigation />
 
       <section className="pt-32 pb-16 px-6 md:px-12 max-w-6xl mx-auto">

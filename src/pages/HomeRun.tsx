@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { MapPin, Calendar, Clock, Users, CheckCircle, ArrowRight } from 'lucide-react';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
@@ -39,6 +40,11 @@ const HomeRun = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="Home Run Venice"
+        description="Shared 100km stage near Venice. €199 including checkpoints, community, and your name in the book. 20 April 2026."
+        path="/homerun"
+      />
       <Navigation />
 
       {/* Hero */}

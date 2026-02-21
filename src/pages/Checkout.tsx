@@ -1,8 +1,9 @@
-import { useEffect, forwardRef } from 'react';
+import { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Package, CreditCard } from 'lucide-react';
 import wavesLogo from '@/assets/waves-logo.png';
+import { SEO } from '@/components/SEO';
 
 const Checkout = () => {
   const [params] = useSearchParams();
@@ -17,6 +18,7 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <SEO title="Checkout" description="Complete your Follow the Coast registration or order." path="/checkout" />
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
