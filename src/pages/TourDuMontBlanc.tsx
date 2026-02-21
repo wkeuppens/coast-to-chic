@@ -99,24 +99,38 @@ const TourDuMontBlanc = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
-            <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">The expedition</p>
+            <p className="text-sm text-muted-foreground tracking-wide uppercase mb-6">The expedition</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">
               Around the Mont Blanc massif.
             </h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>
-                The Tour du Mont Blanc is the most notorious trail in the world — a multi-day trek
-                circling the Mont Blanc massif through France, Italy, and Switzerland. We're taking 
-                a group to experience it together.
+                Each summer, when we let the coastline rest, we spend a few days elsewhere.
+                <br />
+                This year, that route leads to the mountains.
               </p>
               <p>
-                Choose the 7-day full circuit (starting August 1st) or the 4-day expert route 
-                (starting August 4th, with more elevation per day). Both finish on August 9th 
-                in Chamonix.
+                The Tour du Mont Blanc circles the massif through France, Italy, and Switzerland.
+                <br />
+                We'll run it together.
+              </p>
+              <p>Two ways to join:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>7-day full circuit — starting August 1</li>
+                <li>4-day expert route — starting August 4, covering longer distances each day</li>
+              </ul>
+              <p>Both routes arrive in Chamonix on August 9.</p>
+              <p>
+                Guides, luggage transfers, and overnight lodging are arranged for you along the way.
+                <br />
+                You carry what you need for the day.
+                <br />
+                The rest follows.
               </p>
               <p>
-                Everything is taken care of: guide, luggage transport, lodging along the route. 
-                You just show up and walk. With good people, through extraordinary scenery.
+                Several days on the trails in good company.
+                <br />
+                Moving at the pace the mountains allow.
               </p>
             </div>
           </motion.div>
@@ -208,21 +222,27 @@ const TourDuMontBlanc = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-foreground text-primary-foreground">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
+            <p className="text-white/50 text-sm tracking-wide mb-6 italic">
+              When the route pauses, we go to the mountains.
+            </p>
             <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">
-              Walk the massif with us.
+              August 2026 · Chamonix
             </h2>
             <p className="text-white/60 mb-10 max-w-md mx-auto">
-              August 2026. Chamonix. Three countries. The most iconic trail on the planet.
+              Three countries. 4–7 days on the trail.
             </p>
             <Link
               to="/register"
               className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:brightness-110 transition-all"
             >
-              Register for the TMB
+              Run with us
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <p className="text-sm text-white/40 mt-6">
-              Limited spots. Sign up early to secure yours.
+            <p className="text-sm text-white/40 mt-8">
+              Small group. Details via registration.
+            </p>
+            <p className="text-xs text-white/30 mt-2">
+              Registrations close March 15, 2026.
             </p>
           </motion.div>
         </div>
