@@ -75,9 +75,9 @@ export const Footer = () => {
               <a href="#" className="hover:text-white transition-colors">
                 Privacy
               </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Terms
-              </a>
+              <Link to="/participant-handbook" className="hover:text-white transition-colors">
+                Participant Handbook
+              </Link>
             </div>
           </motion.div>
 
