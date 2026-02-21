@@ -78,7 +78,7 @@ const FollowTheKust = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
           {[
             { icon: Calendar, label: 'Date', value: 'Sat, 6 Feb 2027' },
-            { icon: MapPin, label: 'Route', value: 'Ostend → Knokke' },
+            { icon: MapPin, label: 'Route', value: 'De Panne → Knokke' },
             { icon: Clock, label: 'Distances', value: '35km or 75km' },
             { icon: Users, label: 'Levels', value: 'All levels' },
           ].map((fact) => (
