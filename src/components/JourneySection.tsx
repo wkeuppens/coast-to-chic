@@ -20,19 +20,19 @@ export const JourneySection = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-24"
         >
           <StatBlock>
-            <CountUp end={distance} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
+            <CountUp end={distance} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
             <p className="text-sm text-muted-foreground mt-2">km completed</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={countries} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
+            <CountUp end={countries} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
             <p className="text-sm text-muted-foreground mt-2">countries</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={runners} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
+            <CountUp end={runners} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
             <p className="text-sm text-muted-foreground mt-2">runners</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={books} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
+            <CountUp end={books} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
             <p className="text-sm text-muted-foreground mt-2">books</p>
           </StatBlock>
         </motion.div>
@@ -74,7 +74,7 @@ export const JourneySection = () => {
 };
 
 const StatBlock = ({ children }: { children: React.ReactNode }) => (
-  <div className="border-l-2 border-accent/40 pl-6">
+  <div className="border-l-2 border-accent pl-6">
     {children}
   </div>
 );
