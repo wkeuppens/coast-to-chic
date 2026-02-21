@@ -112,6 +112,20 @@ const RouteMapPage = () => {
             preserveAspectRatio="xMidYMid meet"
             fill="none"
           >
+            {/* Glow filter for hovered segments */}
+            <defs>
+              <filter id="segment-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                <feColorMatrix in="blur" type="matrix"
+                  values="1 0 0 0 0  0 0.4 0 0 0  0 0 0.2 0 0  0 0 0 0.6 0"
+                  result="glow" />
+                <feMerge>
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
             {/* Hidden path for measurement */}
             {pathData && (
               <path
@@ -143,6 +157,7 @@ const RouteMapPage = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
+                filter={hoveredIndex === i ? 'url(#segment-glow)' : undefined}
                 style={{
                   cursor: 'pointer',
                   transition: 'stroke 0.2s ease, stroke-width 0.2s ease',
