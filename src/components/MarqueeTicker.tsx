@@ -24,7 +24,7 @@ export const MarqueeTicker = () => {
     `${runners} runners`,
     `${books} books`,
     'Since 2019',
-    'Athens by 2026',
+    'Athens by end of 2026',
   ];
   const items = [...stats, ...stats, ...stats, ...stats];
   const itemSetWidth = 1600;
