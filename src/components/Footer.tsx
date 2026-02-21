@@ -20,7 +20,7 @@ const footerLinks = {
     { label: 'Tour du Mont Blanc', href: '/tour-du-mont-blanc' },
   ],
   contact: [
-    { label: 'Instagram', href: 'https://instagram.com/followthecoast' },
+    { label: 'Instagram', href: 'https://www.instagram.com/followthecoast_' },
     { label: 'Contact', href: 'mailto:hello@followthecoast.com' },
   ],
 };

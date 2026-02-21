@@ -37,7 +37,7 @@ export const HowItWorksSection = () => {
             How it works
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium">
-            A van. A <Link to="/photographers" className="underline underline-offset-4 hover:text-white transition-colors">photographer</Link>. You.
+            A van. A photographer. You.
           </h2>
         </motion.div>
 
@@ -79,7 +79,7 @@ export const HowItWorksSection = () => {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-accent">—</span>
-                <span><Link to="/photographers" className="underline underline-offset-2 hover:text-white transition-colors">Photographer</Link>. All day.</span>
+                <span>Photographer. All day.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-accent">—</span>
