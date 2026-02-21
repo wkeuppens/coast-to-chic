@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const footerLinks = {
   stages: [
     { label: 'EU Stages', href: '/eu-stages' },
-    { label: 'US Stages', href: '/us-stages' },
+    
     { label: 'Home Run', href: '/homerun' },
     { label: 'All Stages', href: '/all-stages' },
   ],

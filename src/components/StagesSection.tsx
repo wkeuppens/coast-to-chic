@@ -12,13 +12,6 @@ const stageTypes = [
     href: '/register',
   },
   {
-    id: 'us',
-    title: 'US Stages',
-    description: 'West coast. Limited.',
-    status: 'Soon',
-    href: '/us-stages',
-  },
-  {
     id: 'homerun',
     title: 'Home Run',
     description: 'Venice. 100km. Shared stage. €199.',
