@@ -72,9 +72,9 @@ export const Footer = () => {
               © 2025 FOLLOW THE COAST
             </p>
             <div className="flex gap-6 text-sm text-white/40">
-              <a href="#" className="hover:text-white transition-colors">
+              <Link to="/privacy" className="hover:text-white transition-colors">
                 Privacy
-              </a>
+              </Link>
               <Link to="/participant-handbook" className="hover:text-white transition-colors">
                 Participant Handbook
               </Link>
