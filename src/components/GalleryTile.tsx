@@ -2,14 +2,8 @@ import { memo, useState, useCallback } from 'react';
 import type { StageTileData } from '@/data/stages';
 
 /**
- * Single tile on the infinite canvas.
- * Positioned absolutely via translate3d for GPU compositing.
- * Uses transform + opacity only — no layout-triggering props.
- *
- * Placeholder handling:
- * - If the image fails to load, a styled placeholder is shown
- * - The placeholder is data-driven (uses title/location from stage data)
- * - No placeholder logic leaks into the data layer
+ * Single tile on the infinite canvas — styled as an archival entry.
+ * Shows enriched metadata on hover: stage number, location, date, status, shoreholder.
  */
 const GalleryTile = memo(
   ({ tile, onClick }: { tile: StageTileData; onClick?: (tile: StageTileData) => void }) => {
@@ -25,7 +19,6 @@ const GalleryTile = memo(
       [onClick, tile]
     );
 
-    // Deterministic hue from stage id for placeholder color
     const placeholderHue = tile.id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
 
     return (
@@ -42,7 +35,7 @@ const GalleryTile = memo(
           transition: 'transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)',
         }}
         draggable={false}
-        aria-label={`${tile.title} — ${tile.location}`}
+        aria-label={`${tile.title} — ${tile.location}, ${tile.country}`}
       >
         {/* Image or Placeholder */}
         {!errored ? (
@@ -62,7 +55,7 @@ const GalleryTile = memo(
           />
         ) : null}
 
-        {/* Placeholder background (shown when image hasn't loaded or errored) */}
+        {/* Placeholder background */}
         {(!loaded || errored) && (
           <div
             className="absolute inset-0 flex items-center justify-center"
@@ -80,13 +73,13 @@ const GalleryTile = memo(
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)',
             opacity: hovered ? 0.95 : 0.7,
             transition: 'opacity 0.35s ease',
           }}
         />
 
-        {/* Label */}
+        {/* Archival metadata label */}
         <div
           className="absolute bottom-0 left-0 right-0 p-5 pointer-events-none"
           style={{
@@ -95,12 +88,46 @@ const GalleryTile = memo(
             transition: 'transform 0.35s ease, opacity 0.35s ease',
           }}
         >
-          <p className="text-[10px] uppercase tracking-[0.2em] text-white/50 mb-1 font-display">
-            {tile.title}
-          </p>
+          {/* Stage number + status */}
+          <div className="flex items-center gap-2 mb-1.5">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-display">
+              {tile.title}
+            </p>
+            <span className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-sm ${
+              tile.status === 'Completed' 
+                ? 'bg-white/10 text-white/50' 
+                : 'border border-white/20 text-white/40'
+            }`}>
+              {tile.status}
+            </span>
+          </div>
+
+          {/* Location */}
           <h3 className="font-display text-base md:text-lg text-white leading-tight">
             {tile.location}
           </h3>
+
+          {/* Expanded metadata on hover */}
+          <div
+            className="overflow-hidden"
+            style={{
+              maxHeight: hovered ? 60 : 0,
+              opacity: hovered ? 1 : 0,
+              transition: 'max-height 0.35s ease, opacity 0.3s ease',
+            }}
+          >
+            <div className="pt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="text-[10px] text-white/40 font-display">{tile.country}</span>
+              <span className="text-[10px] text-white/20">·</span>
+              <span className="text-[10px] text-white/40 font-display">{tile.season} {tile.year}</span>
+              {tile.shoreholder && (
+                <>
+                  <span className="text-[10px] text-white/20">·</span>
+                  <span className="text-[10px] text-white/40 font-display italic">{tile.shoreholder}</span>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Hover border */}

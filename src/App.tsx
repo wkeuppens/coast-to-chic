@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 
@@ -16,13 +16,15 @@ const AllStages = lazy(() => import("./pages/AllStages"));
 const HomeRun = lazy(() => import("./pages/HomeRun"));
 const FollowTheKust = lazy(() => import("./pages/FollowTheKust"));
 const TourDuMontBlanc = lazy(() => import("./pages/TourDuMontBlanc"));
-const Gallery = lazy(() => import("./pages/Gallery"));
+const Archive = lazy(() => import("./pages/Gallery"));
 const ParticipantHandbook = lazy(() => import("./pages/ParticipantHandbook"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Prints = lazy(() => import("./pages/Prints"));
 const Photographers = lazy(() => import("./pages/Photographers"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const SupportTheProject = lazy(() => import("./pages/SupportTheProject"));
+const Shoreholders = lazy(() => import("./pages/Shoreholders"));
+const Timeline = lazy(() => import("./pages/Timeline"));
 
 const queryClient = new QueryClient();
 
@@ -43,7 +45,10 @@ const App = () => (
               <Route path="/homerun" element={<HomeRun />} />
               <Route path="/follow-the-kust" element={<FollowTheKust />} />
               <Route path="/tour-du-mont-blanc" element={<TourDuMontBlanc />} />
-              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/archive" element={<Archive />} />
+              <Route path="/gallery" element={<Navigate to="/archive" replace />} />
+              <Route path="/shoreholders" element={<Shoreholders />} />
+              <Route path="/timeline" element={<Timeline />} />
               <Route path="/participant-handbook" element={<ParticipantHandbook />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/prints" element={<Prints />} />

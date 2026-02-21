@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 const footerLinks = {
   stages: [
     { label: 'EU Stages', href: '/eu-stages' },
-    
     { label: 'Home Run', href: '/homerun' },
-    { label: 'Stage Gallery', href: '/gallery' },
+    { label: 'Archive', href: '/archive' },
+    { label: 'Shoreholders', href: '/shoreholders' },
+    { label: 'Timeline', href: '/timeline' },
   ],
   books: [
     { label: 'Order Books', href: '/order-books' },
