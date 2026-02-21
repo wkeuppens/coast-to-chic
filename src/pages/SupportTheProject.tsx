@@ -116,7 +116,7 @@ const SupportTheProject = () => {
         {/* 2. CURRENT PARTNERS — intro + reuse existing component */}
         <div className="py-16 md:py-24 px-6 md:px-12 lg:px-24 border-t border-border">
           <div className="max-w-4xl mx-auto">
-            <p className="text-sm text-muted-foreground mb-2">Current partners</p>
+            <p className="text-sm text-accent font-display uppercase tracking-wider mb-2">Current partners</p>
             <p className="text-foreground leading-relaxed">
               These organisations already help keep the journey moving.
             </p>
@@ -126,6 +126,7 @@ const SupportTheProject = () => {
 
         {/* 3. WHY PARTNERS JOIN */}
         <SectionWrapper>
+          <p className="text-accent font-display text-sm uppercase tracking-wider mb-4">Values</p>
           <h2 className="font-display text-2xl md:text-3xl mb-12">Why partners join</h2>
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-8">
             <div className="space-y-4">
@@ -149,10 +150,11 @@ const SupportTheProject = () => {
 
         {/* 4. WAYS TO SUPPORT */}
         <SectionWrapper className="bg-secondary">
+          <p className="text-accent font-display text-sm uppercase tracking-wider mb-4">Partnership</p>
           <h2 className="font-display text-2xl md:text-3xl mb-12">Ways to support</h2>
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-12">
             {supportTypes.map((type) => (
-              <div key={type.title}>
+              <div key={type.title} className="border-l-2 border-accent pl-6">
                 <h3 className="font-display text-lg mb-3">{type.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{type.text}</p>
               </div>
@@ -167,11 +169,11 @@ const SupportTheProject = () => {
             Partners often come from different places:
           </p>
           <ul className="space-y-3 text-muted-foreground leading-relaxed">
-            <li>• brands connected to movement or landscape</li>
-            <li>• hospitality projects rooted in place</li>
-            <li>• cultural institutions</li>
-            <li>• small companies supporting long-term work</li>
-            <li>• individuals who simply want the journey to continue</li>
+            <li><span className="text-accent">•</span> brands connected to movement or landscape</li>
+            <li><span className="text-accent">•</span> hospitality projects rooted in place</li>
+            <li><span className="text-accent">•</span> cultural institutions</li>
+            <li><span className="text-accent">•</span> small companies supporting long-term work</li>
+            <li><span className="text-accent">•</span> individuals who simply want the journey to continue</li>
           </ul>
           <p className="text-foreground leading-relaxed mt-8">
             Every collaboration is shaped individually.
