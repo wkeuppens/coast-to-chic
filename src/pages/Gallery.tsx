@@ -1,5 +1,6 @@
 import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '@/components/SEO';
 import { ArrowLeft, Move } from 'lucide-react';
 import { useCanvasCamera } from '@/hooks/useCanvasCamera';
 import GalleryTile from '@/components/GalleryTile';
@@ -192,6 +193,7 @@ const Gallery = () => {
 
   return (
     <main className="fixed inset-0 bg-foreground overflow-hidden touch-none" style={{ cursor: 'grab' }}>
+      <SEO title="Gallery" description="Explore the Follow the Coast stage gallery. 168 stages across the European coastline." path="/gallery" />
       {/* Top bar */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 pointer-events-none">
         <Link

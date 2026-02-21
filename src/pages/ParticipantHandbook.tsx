@@ -3,6 +3,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { useEffect, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '@/components/SEO';
 
 const sections = [
   {
@@ -229,6 +230,7 @@ const ParticipantHandbook = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO title="Participant Handbook" description="Everything you need to know before running your Follow the Coast stage. Rules, spirit, logistics." path="/participant-handbook" />
       <Navigation />
 
       {/* Header */}

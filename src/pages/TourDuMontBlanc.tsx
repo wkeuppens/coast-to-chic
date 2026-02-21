@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { MapPin, Calendar, Mountain, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 import tmbHero from '@/assets/tmb-lake.jpg';
 
@@ -38,6 +39,11 @@ const TourDuMontBlanc = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="Tour du Mont Blanc"
+        description="Run the Tour du Mont Blanc with Follow the Coast. 4 or 7 days through France, Italy, and Switzerland. August 2026."
+        path="/tour-du-mont-blanc"
+      />
       <Navigation />
 
       {/* Hero */}

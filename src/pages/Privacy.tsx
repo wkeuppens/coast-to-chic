@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { useEffect } from 'react';
+import { SEO } from '@/components/SEO';
 
 const introSections = [
   {
@@ -162,6 +163,7 @@ const Privacy = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO title="Privacy Policy" description="Privacy policy for Follow the Coast. How we handle your data." path="/privacy" />
       <Navigation />
 
       {/* Header */}

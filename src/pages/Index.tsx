@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigation } from '@/components/Navigation';
+import { SEO } from '@/components/SEO';
 import { HeroSection } from '@/components/HeroSection';
 import { JourneySection } from '@/components/JourneySection';
 import { HowItWorksSection } from '@/components/HowItWorksSection';
@@ -22,6 +23,7 @@ const Index = () => {
     <>
       <CustomCursor />
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      <SEO path="/" />
       <main className="overflow-x-hidden cursor-none">
         <Navigation />
         <HeroSection />

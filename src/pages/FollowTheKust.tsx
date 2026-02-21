@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { MapPin, Calendar, Users, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 import ftkHero from '@/assets/ftk-hero.jpg';
 
@@ -34,6 +35,11 @@ const FollowTheKust = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="Follow The Kust"
+        description="One-day run along the Belgian coast. 35km or 75km. De Panne to Knokke. 6 February 2027."
+        path="/follow-the-kust"
+      />
       <Navigation />
 
       {/* Hero */}

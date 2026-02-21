@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Check } from 'lucide-react';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
+import { SEO } from '@/components/SEO';
 
 const books = [
   {
@@ -41,6 +42,11 @@ const includes = [
 const OrderBooks = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="Order Books"
+        description="Follow the Coast photo books. 5,000 km per volume. Photos, routes, and field notes. Free shipping across Europe."
+        path="/order-books"
+      />
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown } from 'lucide-react';
 import wavesLogo from '@/assets/waves-logo.png';
 import beachRunners from '@/assets/beach-runners.jpg';
+import { SEO } from '@/components/SEO';
 
 const pricingTiers = [
   {
@@ -66,6 +67,11 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="Register"
+        description="Register for your Follow the Coast stage. Solo, duo, or team. 100km along the European coastline."
+        path="/register"
+      />
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">

@@ -19,7 +19,7 @@ const events = [
     id: 'ftk',
     title: 'Follow The Kust',
     location: 'Belgium',
-    date: '7 Feb 2026',
+    date: '6 Feb 2027',
     distance: '35 or 75km',
     image: coastalPath,
     href: '/follow-the-kust',
