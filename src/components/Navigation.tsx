@@ -7,9 +7,9 @@ import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
   { label: 'Stages', href: '/#stages' },
+  { label: 'Archive', href: '/archive' },
   { label: 'Books', href: '/#books' },
   { label: 'Prints', href: '/prints' },
-  { label: 'Photographers', href: '/photographers', comingSoon: true },
   { label: 'Side routes', href: '/#events' },
 ] as const;
 
@@ -28,11 +28,9 @@ export const Navigation = () => {
     const targetPath = path || '/';
 
     if (location.pathname === targetPath) {
-      // Already on the page, just scroll
       const el = document.getElementById(hash);
       el?.scrollIntoView({ behavior: 'smooth' });
     } else {
-      // Navigate first, then scroll after render
       navigate(targetPath);
       setTimeout(() => {
         const el = document.getElementById(hash);
@@ -41,8 +39,7 @@ export const Navigation = () => {
     }
   }, [location.pathname, navigate]);
 
-  // Dynamic colors based on background
-  const isLight = navTheme === 'light'; // light text on dark bg
+  const isLight = navTheme === 'light';
   const textColor = isLight ? 'text-[#F4F2EE]' : 'text-foreground';
   const textMuted = isLight ? 'text-[#F4F2EE]/80' : 'text-foreground/80';
   const borderColor = isLight ? 'border-[#F4F2EE]/30' : 'border-foreground/30';
@@ -54,7 +51,6 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      {/* Scroll progress bar */}
       <motion.div
         className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left"
         style={{ scaleX }}
@@ -76,18 +72,6 @@ export const Navigation = () => {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            'comingSoon' in item && item.comingSoon ? (
-              <span
-                key={item.label}
-                className={`relative text-sm transition-colors duration-300 ${textMuted} cursor-default group`}
-                title="Coming Soon"
-              >
-                {item.label}
-                <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-wider text-accent opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  Coming soon
-                </span>
-              </span>
-            ) : (
             <a
               key={item.label}
               href={item.href}
@@ -96,7 +80,6 @@ export const Navigation = () => {
             >
               {item.label}
             </a>
-            )
           ))}
           <a
             href="/#stages"
@@ -128,18 +111,6 @@ export const Navigation = () => {
           >
             <div className="flex flex-col gap-6">
               {navItems.map((item, i) => (
-                'comingSoon' in item && item.comingSoon ? (
-                  <motion.span
-                    key={item.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="text-3xl font-display text-white/40"
-                  >
-                    {item.label}
-                    <span className="text-sm text-accent ml-3">Coming soon</span>
-                  </motion.span>
-                ) : (
                 <motion.a
                   key={item.label}
                   href={item.href}
@@ -151,7 +122,6 @@ export const Navigation = () => {
                 >
                   {item.label}
                 </motion.a>
-                )
               ))}
               <motion.a
                 href="/#stages"

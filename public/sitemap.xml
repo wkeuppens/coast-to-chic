@@ -6,7 +6,9 @@
   <url><loc>https://ftc-web.lovable.app/follow-the-kust</loc><priority>0.8</priority></url>
   <url><loc>https://ftc-web.lovable.app/tour-du-mont-blanc</loc><priority>0.8</priority></url>
   <url><loc>https://ftc-web.lovable.app/order-books</loc><priority>0.7</priority></url>
-  <url><loc>https://ftc-web.lovable.app/gallery</loc><priority>0.7</priority></url>
+  <url><loc>https://ftc-web.lovable.app/archive</loc><priority>0.8</priority></url>
+  <url><loc>https://ftc-web.lovable.app/shoreholders</loc><priority>0.5</priority></url>
+  <url><loc>https://ftc-web.lovable.app/timeline</loc><priority>0.5</priority></url>
   <url><loc>https://ftc-web.lovable.app/prints</loc><priority>0.6</priority></url>
   <url><loc>https://ftc-web.lovable.app/photographers</loc><priority>0.6</priority></url>
   <url><loc>https://ftc-web.lovable.app/participant-handbook</loc><priority>0.5</priority></url>

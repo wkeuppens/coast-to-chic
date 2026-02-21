@@ -4,23 +4,19 @@ import { SEO } from '@/components/SEO';
 import { ArrowLeft, Move } from 'lucide-react';
 import { useCanvasCamera } from '@/hooks/useCanvasCamera';
 import GalleryTile from '@/components/GalleryTile';
-import { STAGES, getGridBounds, type StageTileData } from '@/data/stages';
+import { STAGES, ARCHIVE_COUNTRIES, ARCHIVE_YEARS, getGridBounds, type StageTileData } from '@/data/stages';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const BUFFER = 400; // px buffer around viewport for virtualization
+const BUFFER = 400;
 
-/* ── Lightbox (stage photos — will become API-driven) ── */
+/* ── Lightbox ── */
 interface StagePhotos {
   stage: string;
   location: string;
   photos: { src: string; alt: string }[];
 }
 
-/**
- * Generates placeholder lightbox data from a tile.
- * Backend replaces this with: GET /api/stages/:id/photos
- */
 function getStagePhotos(tile: StageTileData): StagePhotos {
   return {
     stage: tile.title,
@@ -37,7 +33,6 @@ const Lightbox = ({
   onClose: () => void;
 }) => {
   const [current, setCurrent] = useState(0);
-
   const next = useCallback(() => setCurrent((c) => (c + 1) % data.photos.length), [data.photos.length]);
   const prev = useCallback(() => setCurrent((c) => (c - 1 + data.photos.length) % data.photos.length), [data.photos.length]);
 
@@ -67,7 +62,7 @@ const Lightbox = ({
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-white/40 tabular-nums">{current + 1} / {data.photos.length}</span>
-          <button onClick={onClose} className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors" aria-label="Close gallery">
+          <button onClick={onClose} className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors" aria-label="Close">
             <X className="w-4 h-4 text-white" />
           </button>
         </div>
@@ -116,9 +111,58 @@ const Lightbox = ({
   );
 };
 
-/* ── Gallery Canvas Page ── */
+/* ── Archive filters ── */
+type StatusFilter = 'All' | 'Completed' | 'Upcoming';
+
+const ArchiveFilters = ({
+  country,
+  year,
+  status,
+  onCountry,
+  onYear,
+  onStatus,
+}: {
+  country: string;
+  year: string;
+  status: StatusFilter;
+  onCountry: (v: string) => void;
+  onYear: (v: string) => void;
+  onStatus: (v: StatusFilter) => void;
+}) => {
+  const btnClass = (active: boolean) =>
+    `text-[11px] font-display uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
+      active ? 'bg-white/15 text-white/90' : 'text-white/40 hover:text-white/60'
+    }`;
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {/* Country */}
+      <button className={btnClass(country === 'All')} onClick={() => onCountry('All')}>All</button>
+      {ARCHIVE_COUNTRIES.map(c => (
+        <button key={c} className={btnClass(country === c)} onClick={() => onCountry(c)}>{c}</button>
+      ))}
+
+      <span className="text-white/15 mx-2">|</span>
+
+      {/* Year */}
+      <button className={btnClass(year === 'All')} onClick={() => onYear('All')}>All years</button>
+      {ARCHIVE_YEARS.map(y => (
+        <button key={y} className={btnClass(year === String(y))} onClick={() => onYear(String(y))}>{y}</button>
+      ))}
+
+      <span className="text-white/15 mx-2">|</span>
+
+      {/* Status */}
+      {(['All', 'Completed', 'Upcoming'] as StatusFilter[]).map(s => (
+        <button key={s} className={btnClass(status === s)} onClick={() => onStatus(s)}>{s}</button>
+      ))}
+    </div>
+  );
+};
+
+/* ── Archive Canvas Page ── */
 const GRID_BOUNDS = getGridBounds();
-const PADDING = 40; // px padding around grid edges
+const PADDING = 40;
 const CLAMPED_BOUNDS = {
   left: GRID_BOUNDS.left - PADDING,
   top: GRID_BOUNDS.top - PADDING,
@@ -126,16 +170,32 @@ const CLAMPED_BOUNDS = {
   bottom: GRID_BOUNDS.bottom + PADDING,
 };
 
-const Gallery = () => {
+const Archive = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { camera } = useCanvasCamera(containerRef, CLAMPED_BOUNDS);
   const [lightbox, setLightbox] = useState<StagePhotos | null>(null);
   const [viewportSize, setViewportSize] = useState({ w: 0, h: 0 });
   const [showHint, setShowHint] = useState(true);
+  const [showIntro, setShowIntro] = useState(true);
   const dragDistance = useRef(0);
   const pointerStart = useRef({ x: 0, y: 0 });
 
-  // Track viewport size
+  // Filters
+  const [filterCountry, setFilterCountry] = useState('All');
+  const [filterYear, setFilterYear] = useState('All');
+  const [filterStatus, setFilterStatus] = useState<StatusFilter>('All');
+
+  const filteredStages = useMemo(() => {
+    return STAGES.filter(s => {
+      if (filterCountry !== 'All' && s.country !== filterCountry) return false;
+      if (filterYear !== 'All' && String(s.year) !== filterYear) return false;
+      if (filterStatus !== 'All' && s.status !== filterStatus) return false;
+      return true;
+    });
+  }, [filterCountry, filterYear, filterStatus]);
+
+  const hasFilters = filterCountry !== 'All' || filterYear !== 'All' || filterStatus !== 'All';
+
   useEffect(() => {
     const update = () => setViewportSize({ w: window.innerWidth, h: window.innerHeight });
     update();
@@ -143,24 +203,24 @@ const Gallery = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Hide hint after first interaction
   useEffect(() => {
-    if (camera.x !== 0 || camera.y !== 0) setShowHint(false);
+    if (camera.x !== 0 || camera.y !== 0) {
+      setShowHint(false);
+      setShowIntro(false);
+    }
   }, [camera.x, camera.y]);
 
-  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  // ── Virtualization: only render tiles within viewport + buffer ──
+  const filteredSet = useMemo(() => new Set(filteredStages.map(s => s.id)), [filteredStages]);
+
   const visibleTiles = useMemo(() => {
     if (!viewportSize.w) return [];
-    // Camera offset with centering applied
     const offsetX = camera.x + viewportSize.w / 2;
     const offsetY = camera.y + viewportSize.h / 2;
-
     const vLeft = -offsetX / camera.zoom - BUFFER;
     const vTop = -offsetY / camera.zoom - BUFFER;
     const vRight = vLeft + viewportSize.w / camera.zoom + BUFFER * 2;
@@ -173,7 +233,6 @@ const Gallery = () => {
     });
   }, [camera.x, camera.y, camera.zoom, viewportSize]);
 
-  // Track drag distance to distinguish click from drag
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     dragDistance.current = 0;
     pointerStart.current = { x: e.clientX, y: e.clientY };
@@ -193,7 +252,12 @@ const Gallery = () => {
 
   return (
     <main className="fixed inset-0 bg-foreground overflow-hidden touch-none" style={{ cursor: 'grab' }}>
-      <SEO title="Gallery" description="Explore the Follow the Coast stage gallery. 168 stages across the European coastline." path="/gallery" />
+      <SEO
+        title="Archive | Follow the Coast"
+        description="A living archive documenting Europe's coastline stage by stage."
+        path="/archive"
+      />
+
       {/* Top bar */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 pointer-events-none">
         <Link
@@ -204,13 +268,85 @@ const Gallery = () => {
           Back
         </Link>
         <span className="text-xs uppercase tracking-widest text-white/30 font-display">
-          Gallery
+          Archive
         </span>
       </header>
 
+      {/* Intro overlay */}
+      <AnimatePresence>
+        {showIntro && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-30 flex items-center justify-center pointer-events-none"
+          >
+            <div className="max-w-xl px-8 text-center">
+              <h1 className="font-display text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
+                Archive
+              </h1>
+              <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4 font-display">
+                Follow the Coast is built stage by stage, over years.
+              </p>
+              <p className="text-sm md:text-base text-white/50 leading-relaxed mb-4">
+                This archive gathers each stretch of coastline as it is carried forward, and the people who carried it.
+              </p>
+              <p className="text-sm text-white/40 leading-relaxed mb-8">
+                Explore freely. Each tile marks a real passage along Europe's shore.
+              </p>
+
+              {/* Map link */}
+              <Link
+                to="/#map"
+                className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider pointer-events-auto"
+              >
+                The full route can be explored on the map →
+              </Link>
+
+              {/* Sub-page links */}
+              <div className="mt-6 flex items-center justify-center gap-6 pointer-events-auto">
+                <Link
+                  to="/shoreholders"
+                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                >
+                  Shoreholders
+                </Link>
+                <span className="text-white/15">·</span>
+                <Link
+                  to="/timeline"
+                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                >
+                  Timeline
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Filters bar */}
+      <div className="fixed top-20 left-0 right-0 z-40 px-6 md:px-12 pointer-events-none">
+        <div className="pointer-events-auto inline-flex">
+          <ArchiveFilters
+            country={filterCountry}
+            year={filterYear}
+            status={filterStatus}
+            onCountry={setFilterCountry}
+            onYear={setFilterYear}
+            onStatus={setFilterStatus}
+          />
+        </div>
+        {hasFilters && (
+          <span className="text-[10px] text-white/30 font-display ml-4 tabular-nums">
+            {filteredStages.length} of {STAGES.length} stages
+          </span>
+        )}
+      </div>
+
       {/* Interaction hint */}
       <AnimatePresence>
-        {showHint && (
+        {showHint && !showIntro && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -249,7 +385,15 @@ const Gallery = () => {
           }}
         >
           {visibleTiles.map((tile) => (
-            <GalleryTile key={tile.id} tile={tile} onClick={handleTileClick} />
+            <div
+              key={tile.id}
+              style={{
+                opacity: hasFilters && !filteredSet.has(tile.id) ? 0.15 : 1,
+                transition: 'opacity 0.4s ease',
+              }}
+            >
+              <GalleryTile tile={tile} onClick={handleTileClick} />
+            </div>
           ))}
         </div>
       </div>
@@ -262,4 +406,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default Archive;
