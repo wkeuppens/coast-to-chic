@@ -2,16 +2,8 @@ import { useRef, useCallback } from 'react';
 import { motion, useMotionValue, useSpring, useAnimationFrame } from 'framer-motion';
 import { useCurrentDistance } from '@/hooks/useCurrentDistance';
 
-const staticStats = [
-  '5 countries',
-  '350 runners',
-  '3 books',
-  'Since 2019',
-  'Athens by 2026',
-];
-
 export const MarqueeTicker = () => {
-  const { distance } = useCurrentDistance(60000);
+  const { distance, countries, runners, books } = useCurrentDistance(60000);
   const formattedDistance = `${distance.toLocaleString('en-US')} km`;
   const containerRef = useRef<HTMLDivElement>(null);
   const baseX = useMotionValue(0);
@@ -26,7 +18,14 @@ export const MarqueeTicker = () => {
   const userVelocity = useRef(0);
   const lastInteractionTime = useRef(0);
 
-  const stats = [formattedDistance, ...staticStats];
+  const stats = [
+    formattedDistance,
+    `${countries} countries`,
+    `${runners} runners`,
+    `${books} books`,
+    'Since 2019',
+    'Athens by 2026',
+  ];
   const items = [...stats, ...stats, ...stats, ...stats];
   const itemSetWidth = 1600;
 
