@@ -33,6 +33,8 @@
 │   ├── App.tsx                   # Router + providers
 │   ├── index.css                 # Design system (CSS variables, @font-face)
 │   ├── assets/                   # Images (imported as ES modules)
+│   ├── data/
+│   │   └── stages.ts             # ★ Single source of truth: 168 stages with coordinates
 │   ├── components/
 │   │   ├── Navigation.tsx        # Fixed nav with scroll progress + theme detection
 │   │   ├── HeroSection.tsx       # Landing hero with text reveal animation
@@ -42,6 +44,7 @@
 │   │   ├── BookSection.tsx       # Book listings
 │   │   ├── EventsSection.tsx     # Side route cards
 │   │   ├── PhotoGallery.tsx      # Horizontal parallax gallery (links to /gallery)
+│   │   ├── GalleryTile.tsx       # ★ Canvas tile: GPU-composited, lazy-loaded, placeholder-aware
 │   │   ├── NewsletterSection.tsx # Email capture form
 │   │   ├── PartnersSection.tsx   # Partner logos
 │   │   ├── Footer.tsx            # Site footer with navigation
@@ -55,8 +58,9 @@
 │   │   ├── PullQuote.tsx         # Kinetic scroll-reveal quote
 │   │   └── ui/                   # shadcn/ui primitives (Radix-based)
 │   ├── hooks/
-│   │   ├── useCurrentDistance.ts  # Live distance counter (date-based)
-│   │   └── useNavTheme.ts        # Detects dark/light nav background
+│   │   ├── useCanvasCamera.ts    # ★ 2D camera: drag, scroll, zoom, momentum, keyboard
+│   │   ├── useCurrentDistance.ts # Live distance counter (date-based)
+│   │   └── useNavTheme.ts       # Detects dark/light nav background
 │   ├── lib/
 │   │   ├── distanceCalculator.ts # Distance logic with pause days & date ranges
 │   │   ├── pathSmoothing.ts      # Ramer-Douglas-Peucker + Catmull-Rom SVG smoothing
@@ -64,7 +68,7 @@
 │   │   └── utils.ts              # cn() classname merger
 │   └── pages/
 │       ├── Index.tsx             # Homepage (composition of sections)
-│       ├── Gallery.tsx          # Masonry photo grid + lightbox (godly-style)
+│       ├── Gallery.tsx           # ★ Infinite canvas: virtualized viewport + lightbox
 │       ├── HomeRun.tsx           # Home Run Venice event page
 │       ├── FollowTheKust.tsx     # Belgian coast run page
 │       ├── TourDuMontBlanc.tsx   # TMB expedition page
@@ -78,7 +82,82 @@
 
 ---
 
-## 3. State Management
+## 3. Gallery Canvas Architecture
+
+### How It Works
+
+The gallery is a **pannable infinite 2D canvas** (not a scrolling page). Users explore a spatial world of stage tiles by dragging, scrolling, or using keyboard arrows.
+
+```
+┌──────────────────────────────────────────────┐
+│  Browser viewport (fixed, overflow:hidden)   │
+│  ┌────────────────────────────────────────┐  │
+│  │  World layer (single div, translate3d) │  │
+│  │                                        │  │
+│  │   ┌─────┐     ┌────┐                  │  │
+│  │   │Tile │     │Tile│    (only visible  │  │
+│  │   │ 026 │     │ 028│     tiles render) │  │
+│  │   └─────┘     └────┘                  │  │
+│  │        ┌──────┐                        │  │
+│  │        │Tile  │                        │  │
+│  │        │ 029  │                        │  │
+│  │        └──────┘                        │  │
+│  └────────────────────────────────────────┘  │
+└──────────────────────────────────────────────┘
+```
+
+### Component Hierarchy
+
+```
+Gallery.tsx (page)
+├── useCanvasCamera() — returns { camera: {x, y, zoom} }
+├── <header> — Back button + tile count
+├── <Hint> — "Drag to explore" tooltip
+├── <div ref={containerRef}> — event capture surface
+│   └── <div style={translate3d}> — world layer (GPU composited)
+│       └── {visibleTiles.map → <GalleryTile />} — virtualized
+└── <Lightbox /> — AnimatePresence overlay
+```
+
+### Data Flow
+
+```
+src/data/stages.ts          → STAGES[] (168 entries)
+                                ↓
+Gallery.tsx                  → visibleTiles = STAGES.filter(inViewport)
+                                ↓
+GalleryTile.tsx              → renders single tile at (x,y) via translate3d
+                                ↓
+                             → onError → shows deterministic color placeholder
+```
+
+### Performance Strategy
+
+| Technique | Implementation |
+|-----------|---------------|
+| **Virtualization** | Only tiles within viewport + 400px buffer are in the DOM |
+| **GPU compositing** | Single `translate3d` on world layer; individual tile positioning via `translate3d` |
+| **Lazy loading** | `loading="lazy" decoding="async"` on all tile images |
+| **Momentum inertia** | `requestAnimationFrame` loop with velocity decay (friction: 0.92) |
+| **No layout reflow** | All positioning via `transform` and `opacity` only |
+| **Memoization** | `GalleryTile` wrapped in `React.memo` |
+| **Placeholder fallback** | Deterministic HSL gradient on image error — no layout shift |
+
+### Interaction Model
+
+| Input | Action |
+|-------|--------|
+| Click + drag | Pan camera |
+| Scroll wheel | Pan (deltaX/deltaY) |
+| Trackpad pinch (ctrl+wheel) | Zoom (0.4x – 1.6x) |
+| Arrow keys | Pan 80px per press |
+| +/- keys | Zoom in/out |
+| Click tile (< 6px drag) | Open lightbox |
+| Touch drag | Pan (mobile) |
+
+---
+
+## 4. State Management
 
 **No global state management.** All state is local React state via `useState` and `useRef`.
 
@@ -86,8 +165,9 @@
 |-------|----------|-------|
 | Loading screen phase | `Index.tsx` | Page-level |
 | Mobile menu open | `Navigation.tsx` | Component |
-| Gallery canvas camera (x, y, zoom) | `useCanvasCamera.ts` | Hook (pointer/wheel) |
+| Canvas camera (x, y, zoom) | `useCanvasCamera.ts` | Hook (pointer/wheel/keyboard) |
 | Gallery lightbox state | `Gallery.tsx` | Page-level |
+| Gallery viewport size | `Gallery.tsx` | Page-level |
 | Nav theme (light/dark) | `useNavTheme.ts` | Hook (DOM sampling) |
 | Live distance counter | `useCurrentDistance.ts` | Hook (timer-based) |
 | Newsletter email | `NewsletterSection.tsx` | Component |
@@ -96,164 +176,162 @@
 | Marquee velocity | `MarqueeTicker.tsx` | Component (refs) |
 
 **Context providers in App.tsx:**
-- `QueryClientProvider` (react-query — configured but unused)
+- `QueryClientProvider` (react-query — configured but unused, ready for API integration)
 - `TooltipProvider` (Radix)
 
 ---
 
-## 4. API Readiness — What Needs Backend
+## 5. API Readiness — What Needs Backend
 
-### Currently Hardcoded (Replace with API)
+### Stage Data (Gallery)
 
-| Data | Current Location | Backend Endpoint Needed |
-|------|-----------------|------------------------|
-| Stage listings | `Register.tsx` lines 49-59 | `GET /api/stages` |
+**Current location:** `src/data/stages.ts`
+
+**Current format (replace with API response):**
+
+```typescript
+interface StageTileData {
+  id: string;       // "stage-001"
+  title: string;    // "Stage 001"
+  location: string; // "Sagres, Portugal" (currently "TBD")
+  image: string;    // URL to cover image
+  x: number;        // world-space X coordinate
+  y: number;        // world-space Y coordinate
+  width: number;    // tile width in px (320–520)
+  height: number;   // tile height in px (320–500)
+  link: string;     // route path "/stages/stage-001"
+}
+```
+
+**Expected API endpoint:** `GET /api/gallery/tiles`
+
+**Expected response:**
+```json
+{
+  "stages": [
+    {
+      "id": "stage-001",
+      "title": "Stage 001",
+      "location": "Sagres, Portugal",
+      "image": "https://cdn.followthecoast.com/stages/001/cover.jpg",
+      "x": -2000,
+      "y": 800,
+      "width": 420,
+      "height": 320,
+      "link": "/stages/stage-001"
+    }
+  ]
+}
+```
+
+**Integration steps:**
+1. Replace `import { STAGES } from '@/data/stages'` with a `useQuery` fetch
+2. The `Gallery.tsx` component already consumes `StageTileData[]` — just swap the source
+3. The virtualization logic works identically with API data
+
+### Stage Photos (Lightbox)
+
+**Current:** `getStagePhotos()` in `Gallery.tsx` returns a single-photo placeholder per tile.
+
+**Expected API endpoint:** `GET /api/stages/:id/photos`
+
+**Expected response:**
+```json
+{
+  "stage": "Stage 001",
+  "location": "Sagres, Portugal",
+  "photos": [
+    { "src": "https://cdn.followthecoast.com/stages/001/photo-1.jpg", "alt": "Cliff bay" },
+    { "src": "https://cdn.followthecoast.com/stages/001/photo-2.jpg", "alt": "Trail view" }
+  ]
+}
+```
+
+### All Hardcoded Data (Replace with API)
+
+| Data | Current Location | Backend Endpoint |
+|------|-----------------|------------------|
+| Stage tile positions + metadata | `src/data/stages.ts` | `GET /api/gallery/tiles` |
+| Stage photos | `Gallery.tsx getStagePhotos()` | `GET /api/stages/:id/photos` |
+| Stage listings | `Register.tsx` | `GET /api/stages` |
 | Stage status (open/taken) | `Register.tsx` | `GET /api/stages/:id/status` |
-| Book catalog + pricing | `OrderBooks.tsx` lines 7-32 | `GET /api/books` |
+| Book catalog + pricing | `OrderBooks.tsx` | `GET /api/books` |
 | Event details (dates, prices) | `HomeRun.tsx`, `FollowTheKust.tsx`, `TourDuMontBlanc.tsx` | `GET /api/events/:slug` |
-| Partner list | `PartnersSection.tsx` line 4 | `GET /api/partners` |
+| Partner list | `PartnersSection.tsx` | `GET /api/partners` |
 | Distance progress | `distanceCalculator.ts` | `GET /api/progress` (or keep client-side) |
-| Gallery tile positions & photos | `Gallery.tsx` `STAGE_TILES` + `STAGE_PHOTOS` | `GET /api/gallery/tiles` (returns id, title, region, image, x, y, width, height, link) and `GET /api/stages/:id/photos` |
-| Newsletter subscription | `NewsletterSection.tsx` (no submit handler) | `POST /api/newsletter` |
-| Book ordering | `OrderBooks.tsx` (button only, no handler) | `POST /api/orders` (Stripe integration) |
-| Registration submission | `Register.tsx` (WhatsApp link only) | `POST /api/registrations` |
-
-### Forms Without Handlers (Need Backend)
-
-1. **Newsletter form** — Has email state but no `onSubmit`. Needs email service integration (Mailchimp, Resend, etc.)
-2. **Book order buttons** — No click handlers. Needs payment integration (Stripe)
-3. **Registration** — Currently links to WhatsApp. Needs proper registration flow if desired
+| Newsletter subscription | `NewsletterSection.tsx` | `POST /api/newsletter` |
+| Book ordering | `OrderBooks.tsx` | `POST /api/orders` (Stripe) |
+| Registration submission | `Register.tsx` | `POST /api/registrations` |
 
 ---
 
-## 5. Environment Requirements
+## 6. Environment Requirements
 
-### Current Environment Variables
+### Current
 None required. The app is entirely client-side with no API keys.
 
-### Future Environment Variables (When Backend Added)
+### Future (When Backend Added)
 ```env
 VITE_API_URL=              # Backend API base URL
-VITE_STRIPE_PUBLIC_KEY=    # Stripe publishable key (for book orders)
-# Server-side only (edge functions):
+VITE_STRIPE_PUBLIC_KEY=    # Stripe publishable key
+# Server-side only:
 STRIPE_SECRET_KEY=         # Stripe secret
 RESEND_API_KEY=            # Email service
 ```
 
-### External Services Used
-- **None currently** — all data is hardcoded
-- **Planned**: Stripe (payments), email service (newsletter), WhatsApp Business API (optional)
-
 ---
 
-## 6. Build & Deployment
+## 7. Build & Deployment
 
-### Commands
 ```bash
-# Install dependencies
-bun install        # or npm install
-
-# Development
-bun run dev        # Starts Vite dev server on port 8080
-
-# Production build
-bun run build      # Outputs to dist/
-
-# Preview production build
-bun run preview
-
-# Run tests
-bun run test       # Vitest
+bun install          # Install dependencies
+bun run dev          # Dev server on port 8080
+bun run build        # Production build → dist/
+bun run preview      # Preview production build
+bun run test         # Vitest
 ```
 
-### Build Output
-- Static files in `dist/`
-- All assets hashed and bundled by Vite
+- Static files in `dist/`, assets hashed by Vite
 - Route-based code splitting via `React.lazy()` (all secondary pages)
-
-### Hosting Assumptions
-- Currently deployed on Lovable hosting (static SPA)
-- Any static host works: Vercel, Netlify, Cloudflare Pages, S3+CloudFront
-- Requires SPA fallback routing (all paths → `index.html`)
-- No server-side rendering needed
-
----
-
-## 7. Backend Integration Notes
-
-### Frontend-Only Components (No Backend Needed)
-- All animations (framer-motion)
-- Custom cursor, marquee ticker, photo gallery
-- Route map SVG rendering + smoothing
-- Navigation theme detection
-- Loading screen
-
-### Where Backend Endpoints Must Plug In
-
-1. **Stage registration flow** (`Register.tsx`)
-   - Replace hardcoded `sampleStages` array with API fetch
-   - Add stage selection → payment → confirmation flow
-   - Currently uses WhatsApp link as CTA
-
-2. **Book ordering** (`OrderBooks.tsx`)
-   - Wire "Order now" and "Order bundle" buttons to Stripe Checkout
-   - Add cart/checkout state management
-
-3. **Newsletter** (`NewsletterSection.tsx`)
-   - Add `onSubmit` handler to POST email to backend
-   - Add success/error toast feedback
-
-4. **Dynamic content** (events, pricing)
-   - Stage prices, dates, and availability should come from CMS/DB
-   - Event pages could be generated from API data instead of separate page files
-
-### Potential Conflicts
-
-1. **Distance calculator** (`distanceCalculator.ts`) — Uses hardcoded dates and pause days. If the project schedule changes, this needs updating. Consider moving to a backend config endpoint.
-
-2. **Three "Coming Soon" pages** (`AllStages.tsx`, `EUStages.tsx`, `USStages.tsx`) — These are placeholder pages. Backend team should plan the stage directory data model before building these out.
-
-3. **react-query** is installed and configured but unused. Ready for API integration — just add query hooks.
+- SPA fallback routing required (all paths → `index.html`)
+- Compatible with: Vercel, Netlify, Cloudflare Pages, S3+CloudFront
 
 ---
 
 ## 8. Design System Reference
 
 ### Fonts
-- **Display**: GT Pressura (via `font-display` class or `--font-display` var)
-- **Body**: Beausite Classic (via `font-body` class or `--font-body` var)
+- **Display**: GT Pressura (`font-display` class / `--font-display` var)
+- **Body**: Beausite Classic (`font-body` class / `--font-body` var)
 
-### Color Tokens (HSL in CSS variables)
-| Token | Role | Light Mode |
-|-------|------|-----------|
-| `--background` | Page bg (bone/linen) | `40 27% 95%` |
-| `--foreground` | Text + dark sections bg (Atlantic blue) | `203 92% 15%` |
-| `--accent` | CTAs, highlights (rust/clay) | `21 54% 50%` |
+### Color Tokens (HSL)
+| Token | Role | Value |
+|-------|------|-------|
+| `--background` | Page bg (bone) | `40 27% 95%` |
+| `--foreground` | Dark sections / text (Atlantic blue) | `203 92% 15%` |
+| `--accent` | CTAs (rust/clay) | `21 54% 50%` |
 | `--muted-foreground` | Secondary text | `206 17% 45%` |
 | `--border` | Dividers | `36 6% 80%` |
 
-### Pattern: Section Background Alternation
-Homepage sections alternate `bg-background` (linen) and `bg-foreground` (deep blue) to create visual rhythm.
-
 ---
 
-## 9. Technical Debt & Risks
+## 9. Technical Debt & Known Limitations
 
 | Item | Severity | Notes |
 |------|----------|-------|
+| All 168 stage locations are "TBD" | High | Backend must populate real location names |
+| All stage images are placeholders | High | Backend must serve real cover images via CDN |
+| Tile coordinates are deterministic but arbitrary | Medium | Backend may want to supply curated positions |
 | No form validation | Medium | Newsletter, registration forms have no validation |
 | No error boundaries | Low | App will white-screen on uncaught errors |
 | No analytics | Low | No tracking of any kind |
 | No sitemap.xml | Low | Needed for SEO |
 | WhatsApp-based registration | Medium | Not scalable, no data capture |
 | Hardcoded event data | Medium | Price/date changes require code deploys |
-| No image optimization pipeline | Low | Images served at original size |
-| `use-mobile.tsx` hook only used by `sidebar.tsx` | Trivial | Both unused by app, kept as shadcn defaults |
-| Dark mode defined but unused | Trivial | CSS variables exist but no toggle |
-| `@tanstack/react-query` configured but unused | Trivial | Ready for API integration |
+| `react-query` configured but unused | Trivial | Ready for API integration |
 
 ---
 
-*Document generated: 2026-02-20*
+*Document generated: 2026-02-21*
 *Project: Follow the Coast (ftc-web)*
 *Published URL: https://ftc-web.lovable.app*
