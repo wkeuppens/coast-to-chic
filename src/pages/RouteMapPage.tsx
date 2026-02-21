@@ -5,7 +5,7 @@ import { SEO } from '@/components/SEO';
 import { smoothPath } from '@/lib/pathSmoothing';
 import { fetchAndParseSVG } from '@/lib/svgCache';
 import { STAGES } from '@/data/stages';
-import wavesLogo from '@/assets/waves-logo.png';
+
 
 /**
  * Interactive segmented route map for the Archive.
@@ -106,20 +106,6 @@ const RouteMapPage = () => {
       {/* Map container */}
       <div className="flex items-center justify-center min-h-screen pt-20 pb-12 px-6 md:px-12">
         <div className="w-full max-w-5xl relative">
-          {/* Waves logos overlaid on sea areas */}
-          <img
-            src={wavesLogo}
-            alt=""
-            className="absolute pointer-events-none w-[18%] left-[1%] top-[50%]"
-            style={{ opacity: 0.12, filter: 'brightness(0) opacity(0.15)' }}
-          />
-          <img
-            src={wavesLogo}
-            alt=""
-            className="absolute pointer-events-none w-[15%] left-[50%] top-[18%]"
-            style={{ opacity: 0.12, filter: 'brightness(0) opacity(0.15)' }}
-          />
-
           <svg
             viewBox={viewBox}
             className="w-full h-auto relative"
