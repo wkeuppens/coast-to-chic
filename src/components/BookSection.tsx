@@ -83,7 +83,7 @@ export const BookSection = () => {
               to="/order-books" 
               className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
             >
-              <span className="border-b border-white/30 pb-1">Order books →</span>
+              <span className="border-b border-accent pb-1 text-accent">Order books →</span>
             </Link>
           </motion.div>
         </div>

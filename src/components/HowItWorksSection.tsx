@@ -49,7 +49,7 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="border-b md:border-b-0 md:border-r border-white/10 last:border-r-0 py-12 md:pr-12"
             >
-              <span className="text-sm text-white/50">{step.number}</span>
+              <span className="text-sm text-accent">{step.number}</span>
               <h3 className="font-display text-xl font-medium mt-4 mb-3">
                 {step.title}
               </h3>
@@ -73,19 +73,19 @@ export const HowItWorksSection = () => {
             </p>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <span className="text-white/40">—</span>
+                <span className="text-accent">—</span>
                 <span>Van with driver. 24 hours.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-white/40">—</span>
+                <span className="text-accent">—</span>
                 <span>Photographer. All day.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-white/40">—</span>
+                <span className="text-accent">—</span>
                 <span>Food. Water. Coffee.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-white/40">—</span>
+                <span className="text-accent">—</span>
                 <span>Photos after. One book per runner.</span>
               </li>
             </ul>

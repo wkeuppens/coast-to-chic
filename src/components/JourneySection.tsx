@@ -74,7 +74,7 @@ export const JourneySection = () => {
 };
 
 const StatBlock = ({ children }: { children: React.ReactNode }) => (
-  <div className="border-l border-border pl-6">
+  <div className="border-l-2 border-accent/40 pl-6">
     {children}
   </div>
 );
