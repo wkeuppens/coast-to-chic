@@ -106,9 +106,23 @@ const RouteMapPage = () => {
       {/* Map container */}
       <div className="flex items-center justify-center min-h-screen pt-20 pb-12 px-6 md:px-12">
         <div className="w-full max-w-5xl relative">
+          {/* Waves logos overlaid on sea areas */}
+          <img
+            src={wavesLogo}
+            alt=""
+            className="absolute pointer-events-none w-[18%] left-[1%] top-[50%]"
+            style={{ opacity: 0.12, filter: 'brightness(0) opacity(0.15)' }}
+          />
+          <img
+            src={wavesLogo}
+            alt=""
+            className="absolute pointer-events-none w-[15%] left-[50%] top-[18%]"
+            style={{ opacity: 0.12, filter: 'brightness(0) opacity(0.15)' }}
+          />
+
           <svg
             viewBox={viewBox}
-            className="w-full h-auto"
+            className="w-full h-auto relative"
             preserveAspectRatio="xMidYMid meet"
             fill="none"
           >
@@ -121,33 +135,6 @@ const RouteMapPage = () => {
                 fill="none"
               />
             )}
-
-            {/* Waves logo on sea areas */}
-            <defs>
-              <pattern id="waves-pattern" patternUnits="objectBoundingBox" width="1" height="1">
-                <image href={wavesLogo} width="100%" height="100%" preserveAspectRatio="xMidYMid meet" opacity="0.06" />
-              </pattern>
-            </defs>
-
-            {/* Waves logo — positioned in two sea areas */}
-            <image
-              href={wavesLogo}
-              x={vbW * 0.02}
-              y={vbH * 0.55}
-              width={vbW * 0.12}
-              height={vbW * 0.12}
-              opacity="0.07"
-              style={{ pointerEvents: 'none' }}
-            />
-            <image
-              href={wavesLogo}
-              x={vbW * 0.55}
-              y={vbH * 0.25}
-              width={vbW * 0.10}
-              height={vbW * 0.10}
-              opacity="0.07"
-              style={{ pointerEvents: 'none' }}
-            />
 
             {/* Base ghost path */}
             {pathData && (
