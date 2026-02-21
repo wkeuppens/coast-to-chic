@@ -22,6 +22,7 @@ const footerLinks = {
   contact: [
     { label: 'Instagram', href: 'https://www.instagram.com/followthecoast_' },
     { label: 'Contact', href: 'mailto:hello@followthecoast.com' },
+    { label: 'Support the Project', href: '/support' },
   ],
 };
 

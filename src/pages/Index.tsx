@@ -15,6 +15,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { MarqueeTicker } from '@/components/MarqueeTicker';
 import { PhotoGallery } from '@/components/PhotoGallery';
 import { PullQuote } from '@/components/PullQuote';
+import { SupportSection } from '@/components/SupportSection';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +37,7 @@ const Index = () => {
         <BookSection />
         <PullQuote text="Salty breeze. The sound of your own footsteps." variant="light" />
         <EventsSection />
+        <SupportSection />
         <PartnersSection />
         <NewsletterSection />
         <Footer />
