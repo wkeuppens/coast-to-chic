@@ -18,6 +18,10 @@ export interface StageTileData {
   season: string;
   status: 'Completed' | 'Upcoming';
   shoreholder?: string;
+  /** Start coordinate [lat, lng] — populated from database/CSV */
+  startCoord?: [number, number];
+  /** End coordinate [lat, lng] — populated from database/CSV */
+  endCoord?: [number, number];
   image: string;
   x: number;
   y: number;
@@ -81,10 +85,14 @@ function getShoreholder(stageNum: number): string {
 }
 
 function getYear(stageNum: number): number {
-  if (stageNum <= 45) return 2024;
-  if (stageNum <= 95) return 2025;
-  if (stageNum <= 140) return 2026;
-  return 2027;
+  if (stageNum <= 30) return 2019;
+  if (stageNum <= 55) return 2020;
+  if (stageNum <= 75) return 2021;
+  if (stageNum <= 95) return 2022;
+  if (stageNum <= 120) return 2023;
+  if (stageNum <= 145) return 2024;
+  if (stageNum <= 168) return 2025;
+  return 2026;
 }
 
 function getSeason(stageNum: number): string {
@@ -95,7 +103,7 @@ function getSeason(stageNum: number): string {
   return 'Winter';
 }
 
-const COMPLETED_THRESHOLD = 95; // first 95 stages are completed
+const COMPLETED_THRESHOLD = 168; // all 168 stages are completed (stage 169 starts April 2026)
 
 function buildStages(count: number): StageTileData[] {
   const stages: StageTileData[] = [];

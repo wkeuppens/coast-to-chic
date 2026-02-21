@@ -284,14 +284,6 @@ const Archive = () => {
                 Explore freely. Each tile marks a real passage along Europe's shore.
               </p>
 
-              {/* Map link */}
-              <Link
-                to="/#map"
-                className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider pointer-events-auto"
-              >
-                The full route can be explored on the map →
-              </Link>
-
               {/* Sub-page links */}
               <div className="mt-6 flex items-center justify-center gap-6 pointer-events-auto">
                 <Link

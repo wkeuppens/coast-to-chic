@@ -17,10 +17,13 @@ const Timeline = () => {
         : '';
 
       const milestones: string[] = [];
-      if (year === 2024) milestones.push('Project begins in Sagres, Portugal');
-      if (year === 2025) milestones.push('Crossing into France');
-      if (year === 2026) milestones.push('Target: reach Athens by end of year');
-      if (year === 2027) milestones.push('Expansion into Eastern Mediterranean');
+      if (year === 2019) milestones.push('The journey begins in Knokke, Belgium');
+      if (year === 2020) milestones.push('Continuing along the Belgian and French coast');
+      if (year === 2021) milestones.push('Advancing through France');
+      if (year === 2022) milestones.push('Reaching the Mediterranean');
+      if (year === 2023) milestones.push('Into Italy');
+      if (year === 2024) milestones.push('Progressing along the Italian coastline');
+      if (year === 2025) milestones.push('Stage 168 completed — arriving in Venice');
 
       return {
         year,
@@ -123,6 +126,29 @@ const Timeline = () => {
                   </div>
                 </motion.div>
               ))}
+
+              {/* Upcoming: 2026 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: yearData.length * 0.1 }}
+                className="relative pl-20 md:pl-24"
+              >
+                <div className="absolute left-0 top-0 flex items-center gap-3">
+                  <span className="font-display text-2xl md:text-3xl text-foreground tabular-nums">
+                    2026
+                  </span>
+                  <div className="w-2 h-2 rounded-full border border-accent bg-transparent" />
+                </div>
+                <div className="pt-1 space-y-3">
+                  <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+                    <span>Stage 169 — Venice, April 21</span>
+                  </div>
+                  <p className="text-sm text-foreground/60 italic">
+                    The journey continues. Target: reach Athens by end of year.
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
