@@ -5,9 +5,9 @@ import wavesLogo from '@/assets/waves-logo.png';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
-  { label: 'Stages', href: '#stages' },
-  { label: 'Books', href: '#books' },
-  { label: 'Side routes', href: '#events' },
+  { label: 'Stages', href: '/#stages' },
+  { label: 'Books', href: '/#books' },
+  { label: 'Side routes', href: '/#events' },
 ];
 
 export const Navigation = () => {
@@ -35,7 +35,7 @@ export const Navigation = () => {
         style={{ scaleX }}
       />
       <div className="flex items-center justify-between px-6 md:px-12 py-6 transition-colors duration-300">
-        <a href="#" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <img
             src={wavesLogo}
             alt=""
@@ -60,7 +60,7 @@ export const Navigation = () => {
             </a>
           ))}
           <a
-            href="#stages"
+            href="/#stages"
             className={`text-sm font-medium transition-all duration-300 border px-5 py-2 rounded-full ${textColor} ${borderColor} ${hoverBg}`}
           >
             Register
@@ -101,7 +101,7 @@ export const Navigation = () => {
                 </motion.a>
               ))}
               <motion.a
-                href="#stages"
+                href="/#stages"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
