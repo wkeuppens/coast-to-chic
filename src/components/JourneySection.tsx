@@ -20,19 +20,19 @@ export const JourneySection = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-24"
         >
           <StatBlock>
-            <CountUp end={distance} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
+            <CountUp end={distance} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">km completed</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={countries} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
+            <CountUp end={countries} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">countries</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={runners} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
+            <CountUp end={runners} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">runners</p>
           </StatBlock>
           <StatBlock>
-            <CountUp end={books} className="font-display text-4xl md:text-5xl font-medium text-coast-blue-grey" />
+            <CountUp end={books} className="font-display text-4xl md:text-5xl font-medium text-foreground" />
             <p className="text-sm text-muted-foreground mt-2">books</p>
           </StatBlock>
         </motion.div>
@@ -55,7 +55,7 @@ export const JourneySection = () => {
             <div className="space-y-4 text-muted-foreground">
               <p>Started July 2019. A beach in Knokke. Salt air, grey sky.</p>
               <p>Belgium. France. Spain. Portugal. Now Italy.</p>
-              <p>Athens by 2026. Rain or shine. Storms don't wait, neither do we.</p>
+              <p>Athens by end of 2026. Rain or shine. Storms don't wait, neither do we.</p>
             </div>
           </motion.div>
 
@@ -74,7 +74,7 @@ export const JourneySection = () => {
 };
 
 const StatBlock = ({ children }: { children: React.ReactNode }) => (
-  <div className="border-l-2 border-accent pl-6">
+  <div className="border-l-2 border-foreground pl-6">
     {children}
   </div>
 );
