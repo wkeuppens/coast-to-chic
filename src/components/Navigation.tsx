@@ -8,8 +8,9 @@ const navItems = [
   { label: 'Stages', href: '/#stages' },
   { label: 'Books', href: '/#books' },
   { label: 'Prints', href: '/prints' },
+  { label: 'Photographers', href: '/photographers', comingSoon: true },
   { label: 'Side routes', href: '/#events' },
-];
+] as const;
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +53,18 @@ export const Navigation = () => {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
+            'comingSoon' in item && item.comingSoon ? (
+              <span
+                key={item.label}
+                className={`relative text-sm transition-colors duration-300 ${textMuted} cursor-default group`}
+                title="Coming Soon"
+              >
+                {item.label}
+                <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-wider text-accent opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Coming soon
+                </span>
+              </span>
+            ) : (
             <a
               key={item.label}
               href={item.href}
@@ -59,6 +72,7 @@ export const Navigation = () => {
             >
               {item.label}
             </a>
+            )
           ))}
           <a
             href="/#stages"
@@ -89,6 +103,18 @@ export const Navigation = () => {
           >
             <div className="flex flex-col gap-6">
               {navItems.map((item, i) => (
+                'comingSoon' in item && item.comingSoon ? (
+                  <motion.span
+                    key={item.label}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="text-3xl font-display text-white/40"
+                  >
+                    {item.label}
+                    <span className="text-sm text-accent ml-3">Coming soon</span>
+                  </motion.span>
+                ) : (
                 <motion.a
                   key={item.label}
                   href={item.href}
@@ -100,6 +126,7 @@ export const Navigation = () => {
                 >
                   {item.label}
                 </motion.a>
+                )
               ))}
               <motion.a
                 href="/#stages"

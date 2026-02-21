@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 
 const prints = [
-  { id: 1, photographer: 'Photographer 1', title: 'Coastal Dawn', location: 'Portugal', image: '/placeholder.svg' },
-  { id: 2, photographer: 'Photographer 2', title: 'Salt & Stone', location: 'Spain', image: '/placeholder.svg' },
-  { id: 3, photographer: 'Photographer 3', title: 'The Long Way', location: 'France', image: '/placeholder.svg' },
-  { id: 4, photographer: 'Photographer 4', title: 'Harbour Light', location: 'Italy', image: '/placeholder.svg' },
-  { id: 5, photographer: 'Photographer 5', title: 'Cliff Edge', location: 'Croatia', image: '/placeholder.svg' },
-  { id: 6, photographer: 'Photographer 6', title: 'Morning Tide', location: 'Greece', image: '/placeholder.svg' },
-  { id: 7, photographer: 'Photographer 7', title: 'Dust Road', location: 'Turkey', image: '/placeholder.svg' },
-  { id: 8, photographer: 'Photographer 8', title: 'Open Water', location: 'Belgium', image: '/placeholder.svg' },
-  { id: 9, photographer: 'Photographer 9', title: 'Last Light', location: 'Netherlands', image: '/placeholder.svg' },
+  { id: 1, photographer: 'Photographer 1', photographerId: 1, title: 'Coastal Dawn', location: 'Portugal', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 2, photographer: 'Photographer 2', photographerId: 2, title: 'Salt & Stone', location: 'Spain', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 3, photographer: 'Photographer 3', photographerId: 3, title: 'The Long Way', location: 'France', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 4, photographer: 'Photographer 4', photographerId: 4, title: 'Harbour Light', location: 'Italy', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 5, photographer: 'Photographer 5', photographerId: 5, title: 'Cliff Edge', location: 'Croatia', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 6, photographer: 'Photographer 6', photographerId: 6, title: 'Morning Tide', location: 'Greece', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 7, photographer: 'Photographer 7', photographerId: 7, title: 'Dust Road', location: 'Turkey', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 8, photographer: 'Photographer 8', photographerId: 8, title: 'Open Water', location: 'Belgium', stage: 'Stage TBD', image: '/placeholder.svg' },
+  { id: 9, photographer: 'Photographer 9', photographerId: 9, title: 'Last Light', location: 'Netherlands', stage: 'Stage TBD', image: '/placeholder.svg' },
 ];
 
 const Prints = () => {
@@ -75,7 +76,10 @@ const Prints = () => {
               </div>
               <h3 className="font-display text-base font-medium">{print.title}</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                {print.photographer} · {print.location}
+                <Link to={`/photographers#photographer-${print.photographerId}`} className="hover:text-foreground transition-colors" onClick={(e) => e.stopPropagation()}>
+                  {print.photographer}
+                </Link>
+                {' · '}{print.location}{' · '}{print.stage}
               </p>
               <p className="text-xs text-accent mt-2 font-display uppercase tracking-wider">
                 Edition of 11
@@ -164,7 +168,12 @@ const Prints = () => {
               <div className="flex items-start justify-between gap-8">
                 <div>
                   <h2 className="font-display text-2xl text-white font-medium">{selected.title}</h2>
-                  <p className="text-white/60 mt-1">{selected.photographer} · {selected.location}</p>
+                  <p className="text-white/60 mt-1">
+                    <Link to={`/photographers#photographer-${selected.photographerId}`} className="hover:text-white transition-colors" onClick={() => setSelectedPrint(null)}>
+                      {selected.photographer}
+                    </Link>
+                    {' · '}{selected.location}{' · '}{selected.stage}
+                  </p>
                   <p className="text-accent text-sm mt-2 font-display uppercase tracking-wider">
                     Limited edition of 11
                   </p>
