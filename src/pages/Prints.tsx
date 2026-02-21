@@ -99,7 +99,7 @@ const Prints = () => {
 
       {/* Right of First Refusal */}
       <section className="pb-16 px-6 md:px-12 max-w-4xl mx-auto">
-        <h2 className="font-display text-sm uppercase tracking-wider text-accent mb-6">Right of First Refusal</h2>
+        <h2 className="font-display text-sm uppercase tracking-wider text-accent mb-6">Priority for Participants</h2>
         <div className="space-y-4 max-w-xl">
           <p className="text-muted-foreground leading-relaxed">
             If a limited edition photograph was taken during your stage, you will be given the opportunity to acquire it before it becomes publicly available.
