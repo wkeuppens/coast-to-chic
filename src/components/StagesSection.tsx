@@ -53,7 +53,7 @@ export const StagesSection = () => {
               className="text-sm font-medium text-foreground"
               strength={0.3}
             >
-              <span className="border-b border-foreground pb-1">
+              <span className="border-b border-accent pb-1 text-accent">
                 View all stages →
               </span>
             </MagneticButton>

@@ -120,7 +120,7 @@ export const MarqueeTicker = () => {
             className="text-sm font-display tracking-wider uppercase flex items-center gap-12 select-none pointer-events-none"
           >
             {stat}
-            <span className="text-white/30">•</span>
+            <span className="text-accent/60">•</span>
           </span>
         ))}
       </motion.div>
