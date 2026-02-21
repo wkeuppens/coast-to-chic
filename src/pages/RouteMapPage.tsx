@@ -1,32 +1,35 @@
-import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { smoothPath } from '@/lib/pathSmoothing';
 import { fetchAndParseSVG } from '@/lib/svgCache';
 import { STAGES } from '@/data/stages';
+import wavesLogo from '@/assets/waves-logo.png';
 
 /**
  * Interactive segmented route map for the Archive.
- * Splits the coastline SVG path into one segment per completed stage.
- * Each segment highlights on hover and links to that stage in the archive.
+ * Splits the coastline SVG path into one segment per completed stage,
+ * ending at Venice (~88% of total path length).
  */
 
 const COMPLETED_STAGES = STAGES.filter(s => s.status === 'Completed');
 
+/** Only use this fraction of the total path for the 168 completed stages */
+const PATH_FRACTION = 0.88;
+
 function splitPathIntoSegments(
   pathEl: SVGPathElement,
-  segmentCount: number
+  segmentCount: number,
+  fraction: number
 ): string[] {
-  const total = pathEl.getTotalLength();
+  const total = pathEl.getTotalLength() * fraction;
   const segLen = total / segmentCount;
   const segments: string[] = [];
 
   for (let i = 0; i < segmentCount; i++) {
     const start = i * segLen;
     const end = (i + 1) * segLen;
-    // Sample points along this segment
     const points: { x: number; y: number }[] = [];
     const steps = Math.max(8, Math.ceil(segLen / 3));
     for (let s = 0; s <= steps; s++) {
@@ -34,7 +37,6 @@ function splitPathIntoSegments(
       const pt = pathEl.getPointAtLength(t);
       points.push({ x: pt.x, y: pt.y });
     }
-    // Build a polyline "M x,y L x,y L ..."
     const d = points
       .map((p, idx) => `${idx === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`)
       .join(' ');
@@ -52,7 +54,6 @@ const RouteMapPage = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const hiddenPathRef = useRef<SVGPathElement | null>(null);
 
-  // Load SVG path data
   useEffect(() => {
     fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
       .then(result => {
@@ -63,19 +64,22 @@ const RouteMapPage = () => {
       });
   }, []);
 
-  // Once the hidden path renders, split it into segments
   useEffect(() => {
     if (!hiddenPathRef.current || !pathData) return;
-    const segs = splitPathIntoSegments(hiddenPathRef.current, COMPLETED_STAGES.length);
+    const segs = splitPathIntoSegments(hiddenPathRef.current, COMPLETED_STAGES.length, PATH_FRACTION);
     setSegments(segs);
   }, [pathData]);
 
   const hoveredStage = hoveredIndex !== null ? COMPLETED_STAGES[hoveredIndex] : null;
 
   const handleClick = useCallback((index: number) => {
-    // Navigate to archive — could deep-link to specific stage in future
     navigate('/archive');
   }, [navigate]);
+
+  // Parse viewBox for logo positioning
+  const vbParts = viewBox.split(' ').map(Number);
+  const vbW = vbParts[2] || 800;
+  const vbH = vbParts[3] || 600;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -102,27 +106,6 @@ const RouteMapPage = () => {
       {/* Map container */}
       <div className="flex items-center justify-center min-h-screen pt-20 pb-12 px-6 md:px-12">
         <div className="w-full max-w-5xl relative">
-          {/* Hover tooltip */}
-          {hoveredStage && (
-            <motion.div
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-card border border-border px-5 py-3 rounded-lg shadow-lg"
-            >
-              <p className="font-display text-sm uppercase tracking-wider text-accent">
-                {hoveredStage.title}
-              </p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {hoveredStage.location}, {hoveredStage.country} · {hoveredStage.year}
-              </p>
-              {hoveredStage.shoreholder && (
-                <p className="text-[11px] text-muted-foreground/60 mt-1">
-                  {hoveredStage.shoreholder}
-                </p>
-              )}
-            </motion.div>
-          )}
-
           <svg
             viewBox={viewBox}
             className="w-full h-auto"
@@ -139,13 +122,40 @@ const RouteMapPage = () => {
               />
             )}
 
+            {/* Waves logo on sea areas */}
+            <defs>
+              <pattern id="waves-pattern" patternUnits="objectBoundingBox" width="1" height="1">
+                <image href={wavesLogo} width="100%" height="100%" preserveAspectRatio="xMidYMid meet" opacity="0.06" />
+              </pattern>
+            </defs>
+
+            {/* Waves logo — positioned in two sea areas */}
+            <image
+              href={wavesLogo}
+              x={vbW * 0.02}
+              y={vbH * 0.55}
+              width={vbW * 0.12}
+              height={vbW * 0.12}
+              opacity="0.07"
+              style={{ pointerEvents: 'none' }}
+            />
+            <image
+              href={wavesLogo}
+              x={vbW * 0.55}
+              y={vbH * 0.25}
+              width={vbW * 0.10}
+              height={vbW * 0.10}
+              opacity="0.07"
+              style={{ pointerEvents: 'none' }}
+            />
+
             {/* Base ghost path */}
             {pathData && (
               <path
                 d={pathData}
                 stroke="hsl(var(--muted-foreground))"
-                strokeWidth="1.5"
-                strokeOpacity="0.15"
+                strokeWidth="1"
+                strokeOpacity="0.1"
                 fill="none"
               />
             )}
@@ -156,14 +166,13 @@ const RouteMapPage = () => {
                 key={i}
                 d={d}
                 stroke={hoveredIndex === i ? 'hsl(var(--accent))' : 'hsl(var(--foreground))'}
-                strokeWidth={hoveredIndex === i ? '5' : '2.5'}
+                strokeWidth={hoveredIndex === i ? '4' : '2'}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
                 style={{
                   cursor: 'pointer',
                   transition: 'stroke 0.2s ease, stroke-width 0.2s ease',
-                  // Widen the hit area with a transparent stroke
                   pointerEvents: 'stroke',
                 }}
                 onMouseEnter={() => setHoveredIndex(i)}
@@ -188,11 +197,28 @@ const RouteMapPage = () => {
             ))}
           </svg>
 
-          {/* Legend */}
-          <div className="mt-8 flex items-center justify-center gap-6 text-[11px] text-muted-foreground/50 font-display uppercase tracking-wider">
-            <span>{COMPLETED_STAGES.length} stages completed</span>
-            <span className="text-muted-foreground/20">·</span>
-            <span>Hover to explore · Click for archive</span>
+          {/* Minimal info line — replaces popup card */}
+          <div className="mt-6 flex items-baseline justify-between text-[11px] font-display uppercase tracking-wider">
+            <div className="text-muted-foreground/40">
+              {COMPLETED_STAGES.length} stages completed
+            </div>
+            <div className="text-right min-h-[1.2em]">
+              {hoveredStage ? (
+                <span className="text-foreground">
+                  <span className="text-accent">{hoveredStage.title}</span>
+                  <span className="text-muted-foreground mx-2">·</span>
+                  <span className="text-muted-foreground">{hoveredStage.location}, {hoveredStage.country}</span>
+                  {hoveredStage.shoreholder && (
+                    <>
+                      <span className="text-muted-foreground mx-2">·</span>
+                      <span className="text-muted-foreground/60">{hoveredStage.shoreholder}</span>
+                    </>
+                  )}
+                </span>
+              ) : (
+                <span className="text-muted-foreground/30">Hover to explore</span>
+              )}
+            </div>
           </div>
         </div>
       </div>
