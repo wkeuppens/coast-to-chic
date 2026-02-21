@@ -255,7 +255,7 @@ const HomeRun = () => {
               Checkpoints, community, and your name in the book.
             </p>
             <Link
-              to="/register"
+              to="/checkout?product=Home%20Run%20%E2%80%93%20Venice&variant=100km&price=%E2%82%AC199&return=/homerun"
               className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:brightness-110 transition-all"
             >
               Register for the Home Run

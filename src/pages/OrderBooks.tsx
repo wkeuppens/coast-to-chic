@@ -125,9 +125,9 @@ const OrderBooks = () => {
                 <div className="flex items-end justify-between">
                   <span className="font-display text-3xl font-bold">{book.price}</span>
                   {book.status === 'available' ? (
-                    <button className="bg-accent text-accent-foreground px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
+                    <Link to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`} className="bg-accent text-accent-foreground px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
                       Order now
-                    </button>
+                    </Link>
                   ) : (
                     <button className="border border-border text-muted-foreground px-6 py-3 rounded-full text-sm font-medium cursor-not-allowed opacity-60">
                       Notify me
@@ -156,9 +156,9 @@ const OrderBooks = () => {
                 <span className="text-sm text-muted-foreground line-through">€90</span>
                 <span className="font-display text-3xl font-bold ml-3">€75</span>
               </div>
-              <button className="bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+              <Link to="/checkout?product=Book%20Bundle&variant=Volume%20I%20%2B%20II&price=%E2%82%AC75&return=/order-books" className="bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
                 Order bundle
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
