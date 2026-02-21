@@ -199,13 +199,19 @@ const FollowTheKust = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
-            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">
-              Run the <span className="relative inline-block">
-                <span className="relative z-10 text-accent/40">coast</span>
-                <span className="absolute left-0 top-1/2 w-full h-[3px] bg-accent -rotate-2" />
-                <span className="absolute left-0 top-[55%] w-full h-[2px] bg-accent rotate-1" />
+            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4 relative">
+              Run the{' '}
+              <span className="relative inline-block">
+                <span className="text-foreground/30">coast</span>
+                <span className="absolute left-0 top-1/2 w-full h-[2px] bg-accent" />
+                <span
+                  className="absolute -top-6 md:-top-8 left-1/2 -translate-x-1/2 text-accent font-display text-2xl md:text-4xl font-bold uppercase"
+                  style={{ transform: 'translateX(-50%) rotate(-6deg)' }}
+                >
+                  kust
+                </span>
               </span>{' '}
-              <span className="text-accent">kust</span> with us.
+              with us.
             </h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">
               February 6, 2027. The Belgian shoreline. Pick your distance and go.
