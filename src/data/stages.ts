@@ -4,13 +4,10 @@
  * Single source of truth for all 168 stages.
  * Backend replaces this with: GET /api/gallery/tiles
  *
- * Coordinates simulate European coastline progression:
- *   Stages 001–040: Atlantic coast (Portugal → France) — westward, moving NE
- *   Stages 041–080: Bay of Biscay → Channel (France → Belgium) — curving N then E
- *   Stages 081–120: North Sea → Mediterranean entry (France south) — sweeping SE
- *   Stages 121–168: Mediterranean (Italy → Greece → Turkey) — eastward
+ * Layout: Loose grid spread across the canvas with organic jitter.
+ * Tiles are placed in columns and rows with guaranteed gaps (no overlap).
+ * Small random offsets create an editorial, non-mechanical feel.
  *
- * TILE SIZES cycle through presets to create visual variety.
  * All coordinates are world-space pixels on the infinite canvas.
  */
 
@@ -28,14 +25,14 @@ export interface StageTileData {
 
 /* ── Tile dimension presets ── */
 const TILE_SIZES: [number, number][] = [
-  [420, 320],
-  [480, 360],
-  [400, 500],
-  [520, 380],
-  [380, 460],
-  [440, 340],
-  [460, 350],
-  [400, 420],
+  [380, 280],
+  [420, 310],
+  [360, 440],
+  [460, 340],
+  [340, 420],
+  [400, 300],
+  [440, 320],
+  [370, 390],
 ];
 
 /* ── Deterministic pseudo-random using seed ── */
@@ -44,47 +41,44 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x);
 }
 
-/* ── Generate coastline-like coordinates ── */
-function generateCoastlineCoordinates(count: number): { x: number; y: number }[] {
+/* ── Grid-based layout with organic jitter (no overlaps) ── */
+const COLS = 14;                // tiles per row
+const CELL_W = 560;            // horizontal cell pitch
+const CELL_H = 520;            // vertical cell pitch
+const GAP = 60;                // minimum gap between tiles
+const JITTER_X = 60;           // max horizontal offset from grid center
+const JITTER_Y = 50;           // max vertical offset from grid center
+// Stagger: odd rows shift right by half a cell for a masonry feel
+const STAGGER = CELL_W * 0.45;
+
+function generateGridCoordinates(count: number): { x: number; y: number }[] {
   const coords: { x: number; y: number }[] = [];
 
-  // Base direction vectors for four coastline segments
-  const segments = [
-    { startX: -2000, startY: 800,   dx: 90,  dy: -30, waveAmp: 120, wavePeriod: 12 }, // Atlantic S→N
-    { startX: 1600,  startY: -400,  dx: 80,  dy: -20, waveAmp: 100, wavePeriod: 10 }, // Biscay → Channel
-    { startX: 4800,  startY: -1200, dx: 70,  dy: 40,  waveAmp: 140, wavePeriod: 14 }, // Turn south
-    { startX: 8000,  startY: 200,   dx: 85,  dy: 10,  waveAmp: 110, wavePeriod: 11 }, // Mediterranean east
-  ];
+  // Center the grid around origin
+  const totalRows = Math.ceil(count / COLS);
+  const offsetX = -(COLS * CELL_W) / 2;
+  const offsetY = -(totalRows * CELL_H) / 2;
 
-  const perSegment = Math.ceil(count / segments.length);
+  for (let i = 0; i < count; i++) {
+    const col = i % COLS;
+    const row = Math.floor(i / COLS);
+    const seed = i;
 
-  for (let s = 0; s < segments.length; s++) {
-    const seg = segments[s];
-    const stageCount = Math.min(perSegment, count - coords.length);
+    // Base grid position
+    const baseX = offsetX + col * CELL_W;
+    const baseY = offsetY + row * CELL_H;
 
-    for (let i = 0; i < stageCount; i++) {
-      const globalIndex = coords.length;
-      const progress = i / perSegment;
-      const seed = globalIndex;
+    // Stagger odd rows
+    const stagger = row % 2 === 1 ? STAGGER : 0;
 
-      // Base position along the coastline direction
-      const baseX = seg.startX + i * seg.dx;
-      const baseY = seg.startY + i * seg.dy;
+    // Organic jitter
+    const jx = (seededRandom(seed * 3 + 1) - 0.5) * 2 * JITTER_X;
+    const jy = (seededRandom(seed * 3 + 2) - 0.5) * 2 * JITTER_Y;
 
-      // Organic wave offset perpendicular to direction
-      const wave = Math.sin((i / seg.wavePeriod) * Math.PI * 2) * seg.waveAmp;
-      const waveX = wave * (seg.dy / Math.max(Math.abs(seg.dx) + Math.abs(seg.dy), 1));
-      const waveY = wave * (seg.dx / Math.max(Math.abs(seg.dx) + Math.abs(seg.dy), 1));
-
-      // Random jitter for organic feel
-      const jitterX = (seededRandom(seed * 3 + 1) - 0.5) * 180;
-      const jitterY = (seededRandom(seed * 3 + 2) - 0.5) * 180;
-
-      coords.push({
-        x: Math.round(baseX + waveX + jitterX),
-        y: Math.round(baseY - waveY + jitterY),
-      });
-    }
+    coords.push({
+      x: Math.round(baseX + stagger + jx),
+      y: Math.round(baseY + jy),
+    });
   }
 
   return coords;
@@ -92,7 +86,7 @@ function generateCoastlineCoordinates(count: number): { x: number; y: number }[]
 
 /* ── Build complete stages array ── */
 function buildStages(count: number): StageTileData[] {
-  const coords = generateCoastlineCoordinates(count);
+  const coords = generateGridCoordinates(count);
   const stages: StageTileData[] = [];
 
   for (let i = 0; i < count; i++) {
