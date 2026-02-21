@@ -25,6 +25,7 @@ const Checkout = lazy(() => import("./pages/Checkout"));
 const SupportTheProject = lazy(() => import("./pages/SupportTheProject"));
 const Shoreholders = lazy(() => import("./pages/Shoreholders"));
 const Timeline = lazy(() => import("./pages/Timeline"));
+const RouteMapPage = lazy(() => import("./pages/RouteMapPage"));
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/archive" element={<Archive />} />
               <Route path="/gallery" element={<Navigate to="/archive" replace />} />
               <Route path="/shoreholders" element={<Shoreholders />} />
+              <Route path="/route-map" element={<RouteMapPage />} />
               <Route path="/timeline" element={<Timeline />} />
               <Route path="/participant-handbook" element={<ParticipantHandbook />} />
               <Route path="/privacy" element={<Privacy />} />
