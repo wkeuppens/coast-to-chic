@@ -11,7 +11,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const OrderBooks = lazy(() => import("./pages/OrderBooks"));
 const Register = lazy(() => import("./pages/Register"));
 const EUStages = lazy(() => import("./pages/EUStages"));
-const USStages = lazy(() => import("./pages/USStages"));
+
 const AllStages = lazy(() => import("./pages/AllStages"));
 const HomeRun = lazy(() => import("./pages/HomeRun"));
 const FollowTheKust = lazy(() => import("./pages/FollowTheKust"));
@@ -36,7 +36,7 @@ const App = () => (
             <Route path="/order-books" element={<OrderBooks />} />
             <Route path="/register" element={<Register />} />
             <Route path="/eu-stages" element={<EUStages />} />
-            <Route path="/us-stages" element={<USStages />} />
+            
             <Route path="/all-stages" element={<AllStages />} />
             <Route path="/homerun" element={<HomeRun />} />
             <Route path="/follow-the-kust" element={<FollowTheKust />} />
