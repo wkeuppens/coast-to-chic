@@ -127,24 +127,26 @@ const SupportTheProject = () => {
         {/* 3. WHY PARTNERS JOIN */}
         <SectionWrapper>
           <p className="text-accent font-display text-sm uppercase tracking-wider mb-4">Values</p>
-          <h2 className="font-display text-2xl md:text-3xl mb-12">Why partners join</h2>
-          <div className="grid md:grid-cols-2 gap-x-16 gap-y-8">
-            <div className="space-y-4">
-              <p className="text-foreground leading-relaxed">
-                Follow the Coast is not a media campaign. It is a long-term story, unfolding slowly along the edge of a continent.
-              </p>
-              <p className="text-foreground leading-relaxed">
-                Partners don't buy visibility. They become part of the journey — their name carried forward through stages, books, and years.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <p className="text-foreground leading-relaxed">
-                This is participation over advertising. Cultural alignment over reach.
-              </p>
-              <p className="text-foreground leading-relaxed">
-                The best partnerships come from shared values: patience, craft, movement, landscape, and an appreciation for things that take time.
-              </p>
-            </div>
+          <h2 className="font-display text-2xl md:text-3xl mb-12">Why partners decide to join</h2>
+          <div className="max-w-2xl space-y-6">
+            <p className="text-foreground leading-relaxed">
+              Many partnerships begin quietly.
+            </p>
+            <p className="text-foreground leading-relaxed">
+              Someone follows the journey for a while.<br />
+              Reads a book.<br />
+              Meets a runner.<br />
+              Sees a stretch of coastline differently.
+            </p>
+            <p className="text-foreground leading-relaxed">
+              At some point the question changes from<br />
+              <span className="italic">What is this project?</span><br />
+              to<br />
+              <span className="italic">How can we help it continue?</span>
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              That is usually where partnerships start.
+            </p>
           </div>
         </SectionWrapper>
 
