@@ -169,30 +169,30 @@ const RouteMapPage = () => {
               />
             ))}
           </svg>
+        </div>
+      </div>
 
-          {/* Minimal info line — replaces popup card */}
-          <div className="mt-6 flex items-baseline justify-between text-[11px] font-display uppercase tracking-wider">
-            <div className="text-muted-foreground/40">
-              {COMPLETED_STAGES.length} stages completed
-            </div>
-            <div className="text-right min-h-[1.2em]">
-              {hoveredStage ? (
-                <span className="text-foreground">
-                  <span className="text-accent">{hoveredStage.title}</span>
+      {/* Fixed info bar at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-baseline justify-between text-[11px] font-display uppercase tracking-wider bg-background/80 backdrop-blur-sm">
+        <div className="text-muted-foreground/40">
+          {COMPLETED_STAGES.length} stages completed
+        </div>
+        <div className="text-right min-h-[1.2em]">
+          {hoveredStage ? (
+            <span className="text-foreground">
+              <span className="text-accent">{hoveredStage.title}</span>
+              <span className="text-muted-foreground mx-2">·</span>
+              <span className="text-muted-foreground">{hoveredStage.location}, {hoveredStage.country}</span>
+              {hoveredStage.shoreholder && (
+                <>
                   <span className="text-muted-foreground mx-2">·</span>
-                  <span className="text-muted-foreground">{hoveredStage.location}, {hoveredStage.country}</span>
-                  {hoveredStage.shoreholder && (
-                    <>
-                      <span className="text-muted-foreground mx-2">·</span>
-                      <span className="text-muted-foreground/60">{hoveredStage.shoreholder}</span>
-                    </>
-                  )}
-                </span>
-              ) : (
-                <span className="text-muted-foreground/30">Hover to explore</span>
+                  <span className="text-muted-foreground/60">{hoveredStage.shoreholder}</span>
+                </>
               )}
-            </div>
-          </div>
+            </span>
+          ) : (
+            <span className="text-muted-foreground/30">Hover to explore</span>
+          )}
         </div>
       </div>
     </main>
