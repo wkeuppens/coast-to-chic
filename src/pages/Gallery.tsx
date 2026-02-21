@@ -112,22 +112,16 @@ const Lightbox = ({
 };
 
 /* ── Archive filters ── */
-type StatusFilter = 'All' | 'Completed' | 'Upcoming';
-
 const ArchiveFilters = ({
   country,
   year,
-  status,
   onCountry,
   onYear,
-  onStatus,
 }: {
   country: string;
   year: string;
-  status: StatusFilter;
   onCountry: (v: string) => void;
   onYear: (v: string) => void;
-  onStatus: (v: StatusFilter) => void;
 }) => {
   const btnClass = (active: boolean) =>
     `text-[11px] font-display uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
@@ -148,13 +142,6 @@ const ArchiveFilters = ({
       <button className={btnClass(year === 'All')} onClick={() => onYear('All')}>All years</button>
       {ARCHIVE_YEARS.map(y => (
         <button key={y} className={btnClass(year === String(y))} onClick={() => onYear(String(y))}>{y}</button>
-      ))}
-
-      <span className="text-white/15 mx-2">|</span>
-
-      {/* Status */}
-      {(['All', 'Completed', 'Upcoming'] as StatusFilter[]).map(s => (
-        <button key={s} className={btnClass(status === s)} onClick={() => onStatus(s)}>{s}</button>
       ))}
     </div>
   );
@@ -183,18 +170,19 @@ const Archive = () => {
   // Filters
   const [filterCountry, setFilterCountry] = useState('All');
   const [filterYear, setFilterYear] = useState('All');
-  const [filterStatus, setFilterStatus] = useState<StatusFilter>('All');
+
+  // Only show completed stages in the archive
+  const completedStages = useMemo(() => STAGES.filter(s => s.status === 'Completed'), []);
 
   const filteredStages = useMemo(() => {
-    return STAGES.filter(s => {
+    return completedStages.filter(s => {
       if (filterCountry !== 'All' && s.country !== filterCountry) return false;
       if (filterYear !== 'All' && String(s.year) !== filterYear) return false;
-      if (filterStatus !== 'All' && s.status !== filterStatus) return false;
       return true;
     });
-  }, [filterCountry, filterYear, filterStatus]);
+  }, [filterCountry, filterYear, completedStages]);
 
-  const hasFilters = filterCountry !== 'All' || filterYear !== 'All' || filterStatus !== 'All';
+  const hasFilters = filterCountry !== 'All' || filterYear !== 'All';
 
   useEffect(() => {
     const update = () => setViewportSize({ w: window.innerWidth, h: window.innerHeight });
@@ -226,12 +214,12 @@ const Archive = () => {
     const vRight = vLeft + viewportSize.w / camera.zoom + BUFFER * 2;
     const vBottom = vTop + viewportSize.h / camera.zoom + BUFFER * 2;
 
-    return STAGES.filter((t) => {
+    return completedStages.filter((t) => {
       const tRight = t.x + t.width;
       const tBottom = t.y + t.height;
       return tRight > vLeft && t.x < vRight && tBottom > vTop && t.y < vBottom;
     });
-  }, [camera.x, camera.y, camera.zoom, viewportSize]);
+  }, [camera.x, camera.y, camera.zoom, viewportSize, completedStages]);
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     dragDistance.current = 0;
@@ -280,7 +268,7 @@ const Archive = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-30 flex items-center justify-center pointer-events-none"
+            className="fixed inset-0 z-30 flex items-center justify-center pointer-events-none bg-black/80 backdrop-blur-sm"
           >
             <div className="max-w-xl px-8 text-center">
               <h1 className="font-display text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
@@ -331,15 +319,13 @@ const Archive = () => {
           <ArchiveFilters
             country={filterCountry}
             year={filterYear}
-            status={filterStatus}
             onCountry={setFilterCountry}
             onYear={setFilterYear}
-            onStatus={setFilterStatus}
           />
         </div>
         {hasFilters && (
           <span className="text-[10px] text-white/30 font-display ml-4 tabular-nums">
-            {filteredStages.length} of {STAGES.length} stages
+            {filteredStages.length} of {completedStages.length} stages
           </span>
         )}
       </div>

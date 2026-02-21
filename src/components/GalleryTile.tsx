@@ -88,19 +88,10 @@ const GalleryTile = memo(
             transition: 'transform 0.35s ease, opacity 0.35s ease',
           }}
         >
-          {/* Stage number + status */}
-          <div className="flex items-center gap-2 mb-1.5">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-display">
-              {tile.title}
-            </p>
-            <span className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-sm ${
-              tile.status === 'Completed' 
-                ? 'bg-white/10 text-white/50' 
-                : 'border border-white/20 text-white/40'
-            }`}>
-              {tile.status}
-            </span>
-          </div>
+          {/* Stage number */}
+          <p className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-display mb-1.5">
+            {tile.title}
+          </p>
 
           {/* Location */}
           <h3 className="font-display text-base md:text-lg text-white leading-tight">
