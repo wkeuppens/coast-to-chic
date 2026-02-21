@@ -267,7 +267,7 @@ const Register = () => {
             className="mt-16 flex flex-col sm:flex-row items-center gap-6"
           >
             <a
-              href="https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV"
+              href="https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV?mode=gi_t"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
