@@ -1,28 +1,21 @@
-import { memo, useRef, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-
-export interface StageTile {
-  id: string;
-  title: string;
-  region: string;
-  image: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  link: string;
-}
+import { memo, useState, useCallback } from 'react';
+import type { StageTileData } from '@/data/stages';
 
 /**
  * Single tile on the infinite canvas.
  * Positioned absolutely via translate3d for GPU compositing.
  * Uses transform + opacity only — no layout-triggering props.
+ *
+ * Placeholder handling:
+ * - If the image fails to load, a styled placeholder is shown
+ * - The placeholder is data-driven (uses title/location from stage data)
+ * - No placeholder logic leaks into the data layer
  */
 const GalleryTile = memo(
-  ({ tile, onClick }: { tile: StageTile; onClick?: (tile: StageTile) => void }) => {
+  ({ tile, onClick }: { tile: StageTileData; onClick?: (tile: StageTileData) => void }) => {
     const [loaded, setLoaded] = useState(false);
+    const [errored, setErrored] = useState(false);
     const [hovered, setHovered] = useState(false);
-    const imgRef = useRef<HTMLImageElement>(null);
 
     const handleClick = useCallback(
       (e: React.MouseEvent) => {
@@ -32,9 +25,12 @@ const GalleryTile = memo(
       [onClick, tile]
     );
 
+    // Deterministic hue from stage id for placeholder color
+    const placeholderHue = tile.id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
+
     return (
-      <Link
-        to={tile.link}
+      <a
+        href={tile.link}
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -46,23 +42,39 @@ const GalleryTile = memo(
           transition: 'transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)',
         }}
         draggable={false}
-        aria-label={`${tile.title} — ${tile.region}`}
+        aria-label={`${tile.title} — ${tile.location}`}
       >
-        {/* Image */}
-        <img
-          ref={imgRef}
-          src={tile.image}
-          alt={tile.region}
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          onLoad={() => setLoaded(true)}
-          className="w-full h-full object-cover"
-          style={{
-            opacity: loaded ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}
-        />
+        {/* Image or Placeholder */}
+        {!errored ? (
+          <img
+            src={tile.image}
+            alt={tile.location}
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            onLoad={() => setLoaded(true)}
+            onError={() => setErrored(true)}
+            className="w-full h-full object-cover"
+            style={{
+              opacity: loaded ? 1 : 0,
+              transition: 'opacity 0.5s ease',
+            }}
+          />
+        ) : null}
+
+        {/* Placeholder background (shown when image hasn't loaded or errored) */}
+        {(!loaded || errored) && (
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{
+              background: `linear-gradient(135deg, hsl(${placeholderHue} 30% 18%) 0%, hsl(${(placeholderHue + 30) % 360} 25% 12%) 100%)`,
+            }}
+          >
+            <span className="font-display text-white/20 text-2xl tracking-wider">
+              {tile.title}
+            </span>
+          </div>
+        )}
 
         {/* Gradient overlay */}
         <div
@@ -87,7 +99,7 @@ const GalleryTile = memo(
             {tile.title}
           </p>
           <h3 className="font-display text-base md:text-lg text-white leading-tight">
-            {tile.region}
+            {tile.location}
           </h3>
         </div>
 
@@ -99,7 +111,7 @@ const GalleryTile = memo(
             transition: 'border-color 0.35s ease',
           }}
         />
-      </Link>
+      </a>
     );
   }
 );

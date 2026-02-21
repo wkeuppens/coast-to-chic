@@ -2,67 +2,32 @@ import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Move } from 'lucide-react';
 import { useCanvasCamera } from '@/hooks/useCanvasCamera';
-import GalleryTile, { type StageTile } from '@/components/GalleryTile';
+import GalleryTile from '@/components/GalleryTile';
+import { STAGES, type StageTileData } from '@/data/stages';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// ── Stage images (will become API-driven) ──
-import cliffBay from '@/assets/cliff-bay.jpg';
-import beachRunners from '@/assets/beach-runners.jpg';
-import harborBoats from '@/assets/harbor-boats.jpg';
-import coastalFortress from '@/assets/coastal-fortress.jpg';
-import sailboatSea from '@/assets/sailboat-sea.jpg';
-import coastalPath from '@/assets/coastal-path.jpg';
-import coastalTown from '@/assets/coastal-town.jpg';
+const BUFFER = 400; // px buffer around viewport for virtualization
 
-/* ──────────────────────────────────────────────
-   TILE DATA — replace with API fetch
-   Coordinates are in world-space pixels.
-   ────────────────────────────────────────────── */
-const STAGE_TILES: StageTile[] = [
-  { id: 'algarve',       title: 'Stage 12', region: 'Algarve, Portugal',      image: cliffBay,         x: 0,    y: 0,     width: 520, height: 380, link: '/gallery' },
-  { id: 'costa-brava',   title: 'Stage 18', region: 'Costa Brava, Spain',     image: coastalFortress,  x: 620,  y: -80,   width: 400, height: 500, link: '/gallery' },
-  { id: 'cote-azur',     title: 'Stage 24', region: "Côte d'Azur, France",    image: harborBoats,      x: 1120, y: 60,    width: 440, height: 340, link: '/gallery' },
-  { id: 'amalfi',        title: 'Stage 31', region: 'Amalfi Coast, Italy',    image: coastalTown,      x: 200,  y: 480,   width: 560, height: 360, link: '/gallery' },
-  { id: 'dalmatia',      title: 'Stage 38', region: 'Dalmatia, Croatia',      image: sailboatSea,      x: 860,  y: 520,   width: 400, height: 420, link: '/gallery' },
-  { id: 'basque',        title: 'Stage 8',  region: 'Basque Country, Spain',  image: beachRunners,     x: -480, y: 240,   width: 420, height: 340, link: '/gallery' },
-  { id: 'sardinia',      title: 'Stage 28', region: 'Sardinia, Italy',        image: coastalPath,      x: 1360, y: 440,   width: 380, height: 460, link: '/gallery' },
-  { id: 'alentejo',      title: 'Stage 10', region: 'Alentejo, Portugal',     image: sailboatSea,      x: -340, y: -200,  width: 360, height: 300, link: '/gallery' },
-  { id: 'cinque-terre',  title: 'Stage 26', region: 'Cinque Terre, Italy',    image: harborBoats,      x: 1600, y: -120,  width: 440, height: 380, link: '/gallery' },
-  { id: 'normandy',      title: 'Stage 3',  region: 'Normandy, France',       image: cliffBay,         x: -600, y: -350,  width: 480, height: 320, link: '/gallery' },
-  { id: 'brittany',      title: 'Stage 5',  region: 'Brittany, France',       image: coastalFortress,  x: -100, y: -420,  width: 400, height: 340, link: '/gallery' },
-  { id: 'cantabria',     title: 'Stage 7',  region: 'Cantabria, Spain',       image: coastalPath,      x: 400,  y: -480,  width: 460, height: 360, link: '/gallery' },
-  { id: 'ligurian',      title: 'Stage 22', region: 'Ligurian Coast, Italy',  image: coastalTown,      x: 1400, y: 880,   width: 420, height: 340, link: '/gallery' },
-  { id: 'peloponnese',   title: 'Stage 42', region: 'Peloponnese, Greece',    image: beachRunners,     x: 800,  y: 960,   width: 500, height: 380, link: '/gallery' },
-];
-
-// ── Stage photos for lightbox (will become API-driven) ──
+/* ── Lightbox (stage photos — will become API-driven) ── */
 interface StagePhotos {
   stage: string;
-  region: string;
+  location: string;
   photos: { src: string; alt: string }[];
 }
 
-const STAGE_PHOTOS: Record<string, StagePhotos> = {
-  algarve:      { stage: 'Stage 12', region: 'Algarve, Portugal',     photos: [{ src: cliffBay, alt: 'Cliff bay' }, { src: coastalPath, alt: 'Coastal path' }, { src: sailboatSea, alt: 'Sailboat' }] },
-  'costa-brava': { stage: 'Stage 18', region: 'Costa Brava, Spain',    photos: [{ src: coastalFortress, alt: 'Fortress' }, { src: coastalTown, alt: 'Town' }] },
-  'cote-azur':  { stage: 'Stage 24', region: "Côte d'Azur, France",   photos: [{ src: harborBoats, alt: 'Harbor' }, { src: sailboatSea, alt: 'Sailboat' }] },
-  amalfi:       { stage: 'Stage 31', region: 'Amalfi Coast, Italy',   photos: [{ src: coastalTown, alt: 'Amalfi town' }, { src: cliffBay, alt: 'Bay' }, { src: harborBoats, alt: 'Boats' }] },
-  dalmatia:     { stage: 'Stage 38', region: 'Dalmatia, Croatia',     photos: [{ src: sailboatSea, alt: 'Adriatic' }, { src: coastalFortress, alt: 'Walls' }] },
-  basque:       { stage: 'Stage 8',  region: 'Basque Country, Spain', photos: [{ src: beachRunners, alt: 'Beach runners' }, { src: coastalPath, alt: 'Trail' }] },
-  sardinia:     { stage: 'Stage 28', region: 'Sardinia, Italy',       photos: [{ src: coastalPath, alt: 'Sardinian trail' }, { src: cliffBay, alt: 'Crystal bay' }] },
-  alentejo:     { stage: 'Stage 10', region: 'Alentejo, Portugal',    photos: [{ src: sailboatSea, alt: 'Sailboat' }] },
-  'cinque-terre': { stage: 'Stage 26', region: 'Cinque Terre, Italy',  photos: [{ src: harborBoats, alt: 'Harbor' }, { src: coastalTown, alt: 'Village' }] },
-  normandy:     { stage: 'Stage 3',  region: 'Normandy, France',      photos: [{ src: cliffBay, alt: 'Cliffs' }] },
-  brittany:     { stage: 'Stage 5',  region: 'Brittany, France',      photos: [{ src: coastalFortress, alt: 'Fortress' }] },
-  cantabria:    { stage: 'Stage 7',  region: 'Cantabria, Spain',      photos: [{ src: coastalPath, alt: 'Coastal path' }] },
-  ligurian:     { stage: 'Stage 22', region: 'Ligurian Coast, Italy', photos: [{ src: coastalTown, alt: 'Coast' }] },
-  peloponnese:  { stage: 'Stage 42', region: 'Peloponnese, Greece',   photos: [{ src: beachRunners, alt: 'Beach' }] },
-};
+/**
+ * Generates placeholder lightbox data from a tile.
+ * Backend replaces this with: GET /api/stages/:id/photos
+ */
+function getStagePhotos(tile: StageTileData): StagePhotos {
+  return {
+    stage: tile.title,
+    location: tile.location,
+    photos: [{ src: tile.image, alt: tile.location }],
+  };
+}
 
-const BUFFER = 300; // px buffer around viewport for virtualization
-
-/* ── Lightbox ── */
 const Lightbox = ({
   data,
   onClose,
@@ -94,11 +59,10 @@ const Lightbox = ({
       className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center"
       onClick={onClose}
     >
-      {/* Header */}
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-6 z-10">
         <div>
           <p className="text-xs uppercase tracking-widest text-white/50 font-display">{data.stage}</p>
-          <p className="text-sm text-white/80 font-display">{data.region}</p>
+          <p className="text-sm text-white/80 font-display">{data.location}</p>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-white/40 tabular-nums">{current + 1} / {data.photos.length}</span>
@@ -108,7 +72,6 @@ const Lightbox = ({
         </div>
       </div>
 
-      {/* Photo */}
       <div className="relative w-full max-w-5xl aspect-[3/2] mx-auto px-4" onClick={(e) => e.stopPropagation()}>
         <AnimatePresence mode="wait">
           <motion.img
@@ -134,24 +97,25 @@ const Lightbox = ({
         )}
       </div>
 
-      {/* Thumbnails */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-        {data.photos.map((photo, i) => (
-          <button
-            key={i}
-            onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
-            className={`w-16 h-10 overflow-hidden rounded transition-all duration-200 ${i === current ? 'ring-2 ring-white/80 opacity-100' : 'opacity-40 hover:opacity-70'}`}
-            aria-label={`View photo ${i + 1}`}
-          >
-            <img src={photo.src} alt="" className="w-full h-full object-cover" />
-          </button>
-        ))}
-      </div>
+      {data.photos.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+          {data.photos.map((photo, i) => (
+            <button
+              key={i}
+              onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
+              className={`w-16 h-10 overflow-hidden rounded transition-all duration-200 ${i === current ? 'ring-2 ring-white/80 opacity-100' : 'opacity-40 hover:opacity-70'}`}
+              aria-label={`View photo ${i + 1}`}
+            >
+              <img src={photo.src} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 };
 
-/* ── Gallery page ── */
+/* ── Gallery Canvas Page ── */
 const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { camera } = useCanvasCamera(containerRef);
@@ -180,20 +144,19 @@ const Gallery = () => {
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  // Lightbox body scroll lock
-  useEffect(() => {
-    if (lightbox) document.body.style.overflow = 'hidden';
-  }, [lightbox]);
-
   // ── Virtualization: only render tiles within viewport + buffer ──
   const visibleTiles = useMemo(() => {
-    if (!viewportSize.w) return STAGE_TILES;
-    const vLeft = -camera.x / camera.zoom - BUFFER;
-    const vTop = -camera.y / camera.zoom - BUFFER;
+    if (!viewportSize.w) return [];
+    // Camera offset with centering applied
+    const offsetX = camera.x + viewportSize.w / 2;
+    const offsetY = camera.y + viewportSize.h / 2;
+
+    const vLeft = -offsetX / camera.zoom - BUFFER;
+    const vTop = -offsetY / camera.zoom - BUFFER;
     const vRight = vLeft + viewportSize.w / camera.zoom + BUFFER * 2;
     const vBottom = vTop + viewportSize.h / camera.zoom + BUFFER * 2;
 
-    return STAGE_TILES.filter((t) => {
+    return STAGES.filter((t) => {
       const tRight = t.x + t.width;
       const tBottom = t.y + t.height;
       return tRight > vLeft && t.x < vRight && tBottom > vTop && t.y < vBottom;
@@ -213,11 +176,9 @@ const Gallery = () => {
     );
   }, []);
 
-  const handleTileClick = useCallback((tile: StageTile) => {
-    // Only open lightbox if the user didn't drag
+  const handleTileClick = useCallback((tile: StageTileData) => {
     if (dragDistance.current > 6) return;
-    const photos = STAGE_PHOTOS[tile.id];
-    if (photos) setLightbox(photos);
+    setLightbox(getStagePhotos(tile));
   }, []);
 
   return (
@@ -231,9 +192,14 @@ const Gallery = () => {
           <ArrowLeft className="w-4 h-4" />
           Back
         </Link>
-        <span className="text-xs uppercase tracking-widest text-white/30 font-display">
-          Gallery
-        </span>
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] text-white/20 font-display tabular-nums">
+            {visibleTiles.length} / {STAGES.length} visible
+          </span>
+          <span className="text-xs uppercase tracking-widest text-white/30 font-display">
+            Gallery
+          </span>
+        </div>
       </header>
 
       {/* Interaction hint */}
@@ -269,7 +235,6 @@ const Gallery = () => {
         onPointerMoveCapture={onPointerMoveCapture}
         style={{ touchAction: 'none' }}
       >
-        {/* World layer — GPU composited */}
         <div
           className="will-change-transform"
           style={{
