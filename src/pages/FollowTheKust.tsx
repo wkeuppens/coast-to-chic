@@ -83,7 +83,7 @@ const FollowTheKust = () => {
             { icon: Users, label: 'Levels', value: 'Open to all' },
           ].map((fact) => (
             <div key={fact.label} className="px-6 py-8 text-center">
-              <fact.icon className="w-5 h-5 mx-auto mb-2" style={{ color: '#5E7687' }} />
+              <fact.icon className="w-5 h-5 mx-auto mb-2 text-accent" />
               <p className="text-xs text-white/40 uppercase tracking-wider mb-1">{fact.label}</p>
               <p className="font-display text-lg font-medium">{fact.value}</p>
             </div>
