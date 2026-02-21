@@ -201,14 +201,9 @@ const Gallery = () => {
           <ArrowLeft className="w-4 h-4" />
           Back
         </Link>
-        <div className="flex items-center gap-4">
-          <span className="text-[10px] text-white/20 font-display tabular-nums">
-            {visibleTiles.length} / {STAGES.length} visible
-          </span>
-          <span className="text-xs uppercase tracking-widest text-white/30 font-display">
-            Gallery
-          </span>
-        </div>
+        <span className="text-xs uppercase tracking-widest text-white/30 font-display">
+          Gallery
+        </span>
       </header>
 
       {/* Interaction hint */}
