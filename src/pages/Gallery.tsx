@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Move } from 'lucide-react';
 import { useCanvasCamera } from '@/hooks/useCanvasCamera';
 import GalleryTile from '@/components/GalleryTile';
-import { STAGES, type StageTileData } from '@/data/stages';
+import { STAGES, getGridBounds, type StageTileData } from '@/data/stages';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -116,9 +116,18 @@ const Lightbox = ({
 };
 
 /* ── Gallery Canvas Page ── */
+const GRID_BOUNDS = getGridBounds();
+const PADDING = 40; // px padding around grid edges
+const CLAMPED_BOUNDS = {
+  left: GRID_BOUNDS.left - PADDING,
+  top: GRID_BOUNDS.top - PADDING,
+  right: GRID_BOUNDS.right + PADDING,
+  bottom: GRID_BOUNDS.bottom + PADDING,
+};
+
 const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { camera } = useCanvasCamera(containerRef);
+  const { camera } = useCanvasCamera(containerRef, CLAMPED_BOUNDS);
   const [lightbox, setLightbox] = useState<StagePhotos | null>(null);
   const [viewportSize, setViewportSize] = useState({ w: 0, h: 0 });
   const [showHint, setShowHint] = useState(true);
