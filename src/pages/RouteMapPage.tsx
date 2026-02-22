@@ -10,22 +10,54 @@ import { STAGES } from '@/data/stages';
 const COMPLETED_STAGES = STAGES.filter(s => s.status === 'Completed');
 const PATH_FRACTION = 0.88;
 
+/**
+ * Piecewise-linear mapping from stage fraction to path fraction.
+ * Reference points: (stageNumber, pathPosition) pairs where
+ * pathPosition = the uniform-index where that stage should appear.
+ */
+const CALIBRATION_POINTS: [number, number][] = [
+  [0, 0],
+  [96, 85],
+  [124, 116],
+  [130, 122],
+  [161, 158],
+];
+
+function stageToPathFraction(stageIndex: number, totalStages: number): number {
+  const stageFrac = stageIndex / totalStages;
+  // Build normalized reference points
+  const pts = CALIBRATION_POINTS.map(([s, p]) => [s / totalStages, p / totalStages] as [number, number]);
+  pts.push([1, 1]); // end point
+
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [s0, p0] = pts[i];
+    const [s1, p1] = pts[i + 1];
+    if (stageFrac >= s0 && stageFrac <= s1) {
+      const t = s1 === s0 ? 0 : (stageFrac - s0) / (s1 - s0);
+      return p0 + t * (p1 - p0);
+    }
+  }
+  return stageFrac; // fallback
+}
+
 function splitPathIntoSegments(
   pathEl: SVGPathElement,
   segmentCount: number,
   fraction: number
 ): string[] {
-  const total = pathEl.getTotalLength() * fraction;
-  const segLen = total / segmentCount;
+  const totalLen = pathEl.getTotalLength() * fraction;
   const segments: string[] = [];
 
   for (let i = 0; i < segmentCount; i++) {
-    const start = i * segLen;
-    const end = (i + 1) * segLen;
+    const startFrac = stageToPathFraction(i, segmentCount);
+    const endFrac = stageToPathFraction(i + 1, segmentCount);
+    const start = startFrac * totalLen;
+    const end = endFrac * totalLen;
+    const segLen = end - start;
     const points: { x: number; y: number }[] = [];
     const steps = Math.max(8, Math.ceil(segLen / 3));
     for (let s = 0; s <= steps; s++) {
-      const t = start + (end - start) * (s / steps);
+      const t = start + segLen * (s / steps);
       const pt = pathEl.getPointAtLength(t);
       points.push({ x: pt.x, y: pt.y });
     }
