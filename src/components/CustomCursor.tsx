@@ -7,7 +7,31 @@ interface TrailPoint {
   id: number;
 }
 
-export const CustomCursor = () => {
+interface CustomCursorProps {
+  variant?: 'default' | 'runner';
+}
+
+/* Inline SVG runner silhouette — small running figure */
+const RunnerIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="text-white"
+  >
+    {/* Head */}
+    <circle cx="14" cy="4" r="2" fill="currentColor" />
+    {/* Body / legs — stylised running pose */}
+    <path
+      d="M11.5 8L9 11.5L6.5 11L5 13L7 14L10 12L11 14.5L8.5 19L10.5 20L13 15.5L15 18L14 22H16.5L17 17L14 13L15 10L18 11.5L19 9.5L14 7.5L11.5 8Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const CustomCursor = ({ variant = 'default' }: CustomCursorProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [cursorText, setCursorText] = useState('');
@@ -146,12 +170,16 @@ export const CustomCursor = () => {
           }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
-          <div 
-            className="w-4 h-4 -ml-2 -mt-2 rounded-full bg-white"
-            style={{ 
-              transform: 'translate(-50%, -50%)',
-            }}
-          />
+          {variant === 'runner' ? (
+            <div className="-ml-3 -mt-3" style={{ transform: 'translate(-50%, -50%)' }}>
+              <RunnerIcon />
+            </div>
+          ) : (
+            <div 
+              className="w-4 h-4 -ml-2 -mt-2 rounded-full bg-white"
+              style={{ transform: 'translate(-50%, -50%)' }}
+            />
+          )}
           {cursorText && (
             <motion.span
               initial={{ opacity: 0, scale: 0.8 }}
