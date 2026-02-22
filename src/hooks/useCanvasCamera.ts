@@ -59,7 +59,8 @@ export function useCanvasCamera(
   containerRef: React.RefObject<HTMLElement | null>,
   bounds: Bounds | null = null
 ) {
-  const [camera, setCamera] = useState<CameraState>({ x: 0, y: 0, zoom: 1 });
+  const initialZoom = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.6 : 1;
+  const [camera, setCamera] = useState<CameraState>({ x: 0, y: 0, zoom: initialZoom });
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0, camX: 0, camY: 0 });
   const velocity = useRef<Velocity>({ x: 0, y: 0 });
