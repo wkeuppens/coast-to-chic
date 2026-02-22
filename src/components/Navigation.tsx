@@ -40,13 +40,13 @@ export const Navigation = () => {
   }, [location.pathname, navigate]);
 
   const isLight = navTheme === 'light';
-  const textColor = isLight ? 'text-[#F4F2EE]' : 'text-foreground';
-  const textMuted = isLight ? 'text-[#F4F2EE]/80' : 'text-foreground/80';
-  const borderColor = isLight ? 'border-[#F4F2EE]/30' : 'border-foreground/30';
+  const textColor = isLight ? 'text-primary-foreground' : 'text-foreground';
+  const textMuted = isLight ? 'text-primary-foreground/80' : 'text-foreground/80';
+  const borderColor = isLight ? 'border-primary-foreground/30' : 'border-foreground/30';
   const hoverBg = isLight
-    ? 'hover:bg-[#F4F2EE] hover:text-[#2B2E31]'
+    ? 'hover:bg-primary-foreground hover:text-foreground'
     : 'hover:bg-foreground hover:text-primary-foreground';
-  const underlineColor = isLight ? 'after:bg-[#F4F2EE]' : 'after:bg-foreground';
+  const underlineColor = isLight ? 'after:bg-primary-foreground' : 'after:bg-foreground';
   const logoFilter = isLight ? '' : 'brightness-0';
 
   return (
@@ -76,7 +76,7 @@ export const Navigation = () => {
               key={item.label}
               href={item.href}
               onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : undefined}
-              className={`relative text-sm transition-colors duration-300 ${textMuted} hover:${isLight ? 'text-[#F4F2EE]' : 'text-foreground'} after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 ${underlineColor} after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100`}
+              className={`relative text-sm transition-colors duration-300 ${textMuted} hover:${isLight ? 'text-primary-foreground' : 'text-foreground'} after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 ${underlineColor} after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100`}
             >
               {item.label}
             </a>

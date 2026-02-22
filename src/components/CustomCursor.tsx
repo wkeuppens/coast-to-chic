@@ -7,35 +7,8 @@ interface TrailPoint {
   id: number;
 }
 
-interface CustomCursorProps {
-  variant?: 'default' | 'runner';
-}
 
-/* Inline SVG — dynamic running silhouette */
-const RunnerIcon = () => (
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* Head */}
-    <circle cx="19.5" cy="5.5" r="2.8" fill="white" />
-    {/* Torso leaning forward, arms and legs in full stride */}
-    <path
-      d="M17.2 9.5L14 12.5L10 11L8 13.5L11.5 15L13.5 13L12 18L8 23.5L10.5 25L14.5 19.5L16.5 22L15.5 28H18.5L19 21L15.5 16L17 12L21 14L23 11L18.5 9L17.2 9.5Z"
-      fill="white"
-    />
-    {/* Back arm */}
-    <path
-      d="M17 11.5L21 9L23.5 10.5L22 12.5L18 11"
-      fill="white"
-    />
-  </svg>
-);
-
-export const CustomCursor = ({ variant = 'default' }: CustomCursorProps) => {
+export const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [cursorText, setCursorText] = useState('');
@@ -174,16 +147,10 @@ export const CustomCursor = ({ variant = 'default' }: CustomCursorProps) => {
           }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
-          {variant === 'runner' ? (
-            <div className="-ml-3 -mt-3" style={{ transform: 'translate(-50%, -50%)' }}>
-              <RunnerIcon />
-            </div>
-          ) : (
-            <div 
-              className="w-4 h-4 -ml-2 -mt-2 rounded-full bg-white"
-              style={{ transform: 'translate(-50%, -50%)' }}
-            />
-          )}
+          <div 
+            className="w-4 h-4 -ml-2 -mt-2 rounded-full bg-white"
+            style={{ transform: 'translate(-50%, -50%)' }}
+          />
           {cursorText && (
             <motion.span
               initial={{ opacity: 0, scale: 0.8 }}
@@ -197,28 +164,26 @@ export const CustomCursor = ({ variant = 'default' }: CustomCursorProps) => {
         </motion.div>
       </motion.div>
 
-      {/* Cursor ring — hidden for runner variant */}
-      {variant !== 'runner' && (
+      {/* Cursor ring */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9998]"
+        style={{
+          x: cursorX,
+          y: cursorY,
+        }}
+      >
         <motion.div
-          className="fixed top-0 left-0 pointer-events-none z-[9998]"
-          style={{
-            x: cursorX,
-            y: cursorY,
+          className="w-10 h-10 -ml-5 -mt-5 rounded-full border border-foreground/30"
+          animate={{
+            scale: isHidden ? 0 : isClicking ? 0.9 : isHovering ? 1.5 : 1,
+            opacity: isHidden ? 0 : isHovering ? 0.5 : 0.3,
           }}
-        >
-          <motion.div
-            className="w-10 h-10 -ml-5 -mt-5 rounded-full border border-foreground/30"
-            animate={{
-              scale: isHidden ? 0 : isClicking ? 0.9 : isHovering ? 1.5 : 1,
-              opacity: isHidden ? 0 : isHovering ? 0.5 : 0.3,
-            }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            style={{ 
-              transform: 'translate(-50%, -50%)',
-            }}
-          />
-        </motion.div>
-      )}
+          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+          style={{ 
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      </motion.div>
     </>
   );
 };
