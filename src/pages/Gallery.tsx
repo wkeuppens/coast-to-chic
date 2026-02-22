@@ -111,7 +111,7 @@ const Lightbox = ({
   );
 };
 
-/* ── Archive filters ── */
+/* ── Archive filters (collapsible dropdown) ── */
 const ArchiveFilters = ({
   country,
   year,
@@ -123,26 +123,64 @@ const ArchiveFilters = ({
   onCountry: (v: string) => void;
   onYear: (v: string) => void;
 }) => {
+  const [open, setOpen] = useState(false);
+  const hasFilters = country !== 'All' || year !== 'All';
+
   const btnClass = (active: boolean) =>
     `text-[11px] font-display uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
       active ? 'bg-white/15 text-white/90' : 'text-white/40 hover:text-white/60'
     }`;
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {/* Country */}
-      <button className={btnClass(country === 'All')} onClick={() => onCountry('All')}>All</button>
-      {ARCHIVE_COUNTRIES.map(c => (
-        <button key={c} className={btnClass(country === c)} onClick={() => onCountry(c)}>{c}</button>
-      ))}
+    <div className="relative">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider px-4 py-2 rounded-full border border-white/15 text-white/60 hover:text-white/80 hover:border-white/25 transition-colors"
+      >
+        Filter
+        {hasFilters && (
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+        )}
+      </button>
 
-      <span className="text-white/15 mx-2">|</span>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 mt-2 p-4 rounded-lg bg-foreground/95 backdrop-blur-md border border-white/10 z-50 min-w-[280px] shadow-xl"
+          >
+            {/* Country */}
+            <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Country</p>
+            <div className="flex flex-wrap gap-1 mb-4">
+              <button className={btnClass(country === 'All')} onClick={() => onCountry('All')}>All</button>
+              {ARCHIVE_COUNTRIES.map(c => (
+                <button key={c} className={btnClass(country === c)} onClick={() => onCountry(c)}>{c}</button>
+              ))}
+            </div>
 
-      {/* Year */}
-      <button className={btnClass(year === 'All')} onClick={() => onYear('All')}>All years</button>
-      {ARCHIVE_YEARS.map(y => (
-        <button key={y} className={btnClass(year === String(y))} onClick={() => onYear(String(y))}>{y}</button>
-      ))}
+            {/* Year */}
+            <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Year</p>
+            <div className="flex flex-wrap gap-1">
+              <button className={btnClass(year === 'All')} onClick={() => onYear('All')}>All</button>
+              {ARCHIVE_YEARS.map(y => (
+                <button key={y} className={btnClass(year === String(y))} onClick={() => onYear(String(y))}>{y}</button>
+              ))}
+            </div>
+
+            {hasFilters && (
+              <button
+                onClick={() => { onCountry('All'); onYear('All'); }}
+                className="mt-3 text-[10px] text-white/30 hover:text-white/50 font-display uppercase tracking-wider transition-colors"
+              >
+                Clear filters
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -349,18 +387,16 @@ const Archive = () => {
       </AnimatePresence>
 
       {/* Filters bar */}
-      <div className="fixed top-20 left-0 right-0 z-40 px-6 md:px-12 pointer-events-none">
-        <div className="pointer-events-auto inline-flex">
-          <ArchiveFilters
-            country={filterCountry}
-            year={filterYear}
-            onCountry={setFilterCountry}
-            onYear={setFilterYear}
-          />
-        </div>
+      <div className="fixed top-20 left-6 md:left-12 z-40 pointer-events-auto flex items-center gap-3">
+        <ArchiveFilters
+          country={filterCountry}
+          year={filterYear}
+          onCountry={setFilterCountry}
+          onYear={setFilterYear}
+        />
         {hasFilters && (
-          <span className="text-[10px] text-white/30 font-display ml-4 tabular-nums">
-            {filteredStages.length} of {completedStages.length} stages
+          <span className="text-[10px] text-white/30 font-display tabular-nums">
+            {filteredStages.length} / {completedStages.length}
           </span>
         )}
       </div>
