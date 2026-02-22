@@ -121,7 +121,7 @@ const RouteMapPage = () => {
           Archive
         </Link>
         <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40 font-display">
-          168 Stages · 16,000 km
+          Route Map
         </span>
       </header>
 
