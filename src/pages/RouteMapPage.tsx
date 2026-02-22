@@ -254,15 +254,15 @@ const RouteMapPage = () => {
               />
             )}
 
-            {/* Invisible hit areas */}
+            {/* Invisible hit areas — wide for magnetic/sticky feel */}
             {segments.map((d, i) => (
               <path
                 key={`hit-${i}`}
                 d={d}
                 stroke="transparent"
-                strokeWidth="18"
+                strokeWidth="40"
                 fill="none"
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'none' }}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => handleClick(i)}
