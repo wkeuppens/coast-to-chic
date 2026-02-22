@@ -11,22 +11,26 @@ interface CustomCursorProps {
   variant?: 'default' | 'runner';
 }
 
-/* Inline SVG runner silhouette — small running figure */
+/* Inline SVG — dynamic running silhouette */
 const RunnerIcon = () => (
   <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    width="28"
+    height="28"
+    viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="text-white"
   >
     {/* Head */}
-    <circle cx="14" cy="4" r="2" fill="currentColor" />
-    {/* Body / legs — stylised running pose */}
+    <circle cx="19.5" cy="5.5" r="2.8" fill="white" />
+    {/* Torso leaning forward, arms and legs in full stride */}
     <path
-      d="M11.5 8L9 11.5L6.5 11L5 13L7 14L10 12L11 14.5L8.5 19L10.5 20L13 15.5L15 18L14 22H16.5L17 17L14 13L15 10L18 11.5L19 9.5L14 7.5L11.5 8Z"
-      fill="currentColor"
+      d="M17.2 9.5L14 12.5L10 11L8 13.5L11.5 15L13.5 13L12 18L8 23.5L10.5 25L14.5 19.5L16.5 22L15.5 28H18.5L19 21L15.5 16L17 12L21 14L23 11L18.5 9L17.2 9.5Z"
+      fill="white"
+    />
+    {/* Back arm */}
+    <path
+      d="M17 11.5L21 9L23.5 10.5L22 12.5L18 11"
+      fill="white"
     />
   </svg>
 );
@@ -193,26 +197,28 @@ export const CustomCursor = ({ variant = 'default' }: CustomCursorProps) => {
         </motion.div>
       </motion.div>
 
-      {/* Cursor ring */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998]"
-        style={{
-          x: cursorX,
-          y: cursorY,
-        }}
-      >
+      {/* Cursor ring — hidden for runner variant */}
+      {variant !== 'runner' && (
         <motion.div
-          className="w-10 h-10 -ml-5 -mt-5 rounded-full border border-foreground/30"
-          animate={{
-            scale: isHidden ? 0 : isClicking ? 0.9 : isHovering ? 1.5 : 1,
-            opacity: isHidden ? 0 : isHovering ? 0.5 : 0.3,
+          className="fixed top-0 left-0 pointer-events-none z-[9998]"
+          style={{
+            x: cursorX,
+            y: cursorY,
           }}
-          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          style={{ 
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
-      </motion.div>
+        >
+          <motion.div
+            className="w-10 h-10 -ml-5 -mt-5 rounded-full border border-foreground/30"
+            animate={{
+              scale: isHidden ? 0 : isClicking ? 0.9 : isHovering ? 1.5 : 1,
+              opacity: isHidden ? 0 : isHovering ? 0.5 : 0.3,
+            }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            style={{ 
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        </motion.div>
+      )}
     </>
   );
 };
