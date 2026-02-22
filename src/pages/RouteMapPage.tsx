@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { SEO } from '@/components/SEO';
 import { smoothPath } from '@/lib/pathSmoothing';
 import { fetchAndParseSVG } from '@/lib/svgCache';
@@ -121,7 +121,7 @@ const RouteMapPage = () => {
           Archive
         </Link>
         <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40 font-display">
-          168 Stages · 12,000 km
+          168 Stages · 16,000 km
         </span>
       </header>
 
@@ -172,24 +172,38 @@ const RouteMapPage = () => {
               />
             )}
 
-            {/* Completed route — base line */}
-            {segments.map((d, i) => (
+            {/* Completed route — single continuous base line */}
+            {segments.length > 0 && (
               <path
-                key={`base-${i}`}
-                d={d}
+                d={segments.join(' ')}
                 stroke="hsl(var(--foreground))"
-                strokeWidth={hoveredIndex === i ? 2.5 : 1.2}
-                strokeOpacity={hoveredIndex === i ? 1 : hoveredIndex !== null ? 0.15 : 0.5}
+                strokeWidth="1.2"
+                strokeOpacity={hoveredIndex !== null ? 0.15 : 0.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
                 vectorEffect="non-scaling-stroke"
-                filter={hoveredIndex === i ? 'url(#seg-glow)' : undefined}
                 style={{
-                  transition: 'stroke-opacity 0.4s ease, stroke-width 0.35s ease',
+                  transition: 'stroke-opacity 0.3s ease',
                 }}
               />
-            ))}
+            )}
+
+            {/* Highlighted segment on hover */}
+            {hoveredIndex !== null && segments[hoveredIndex] && (
+              <path
+                d={segments[hoveredIndex]}
+                stroke="hsl(var(--foreground))"
+                strokeWidth="2.5"
+                strokeOpacity="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+                filter="url(#seg-glow)"
+                style={{ pointerEvents: 'none' }}
+              />
+            )}
 
             {/* Accent overlay on hovered segment */}
             {hoveredIndex !== null && segments[hoveredIndex] && (
@@ -248,58 +262,42 @@ const RouteMapPage = () => {
       {/* Bottom info bar — editorial layout */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/30">
         <div className="bg-background/90 backdrop-blur-md px-8 lg:px-16 py-5">
-          <AnimatePresence mode="wait">
-            {hoveredStage ? (
-              <motion.div
-                key={hoveredStage.stageNumber}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="flex items-baseline justify-between"
-              >
-                <div className="flex items-baseline gap-6">
-                  <span className="text-[32px] font-display text-accent leading-none tracking-tight tabular-nums">
-                    {String(hoveredStage.stageNumber).padStart(3, '0')}
+          {hoveredStage ? (
+            <div className="flex items-baseline justify-between">
+              <div className="flex items-baseline gap-6">
+                <span className="text-[32px] font-display text-accent leading-none tracking-tight tabular-nums">
+                  {String(hoveredStage.stageNumber).padStart(3, '0')}
+                </span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-sm font-display text-foreground tracking-wide">
+                    {hoveredStage.location}
                   </span>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-sm font-display text-foreground tracking-wide">
-                      {hoveredStage.location}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground tracking-wider uppercase">
-                      {hoveredStage.country} · {hoveredStage.year}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-baseline gap-6">
-                  {hoveredStage.shoreholder && (
-                    <span className="text-[11px] text-muted-foreground/60 font-display uppercase tracking-wider">
-                      {hoveredStage.shoreholder}
-                    </span>
-                  )}
-                  <span className="text-[10px] text-muted-foreground/30 font-display uppercase tracking-widest">
-                    Click to view →
+                  <span className="text-[11px] text-muted-foreground tracking-wider uppercase">
+                    {hoveredStage.country} · {hoveredStage.year}
                   </span>
                 </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="idle"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-baseline justify-between"
-              >
-                <span className="text-[11px] text-muted-foreground/30 font-display uppercase tracking-[0.2em]">
-                  Hover a segment to explore
+              </div>
+              <div className="flex items-baseline gap-6">
+                {hoveredStage.shoreholder && (
+                  <span className="text-[11px] text-muted-foreground/60 font-display uppercase tracking-wider">
+                    {hoveredStage.shoreholder}
+                  </span>
+                )}
+                <span className="text-[10px] text-muted-foreground/30 font-display uppercase tracking-widest">
+                  Click to view →
                 </span>
-                <span className="text-[11px] text-muted-foreground/20 font-display uppercase tracking-[0.2em]">
-                  {COMPLETED_STAGES.length} stages · Europe
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-baseline justify-between">
+              <span className="text-[11px] text-muted-foreground/30 font-display uppercase tracking-[0.2em]">
+                Hover a segment to explore
+              </span>
+              <span className="text-[11px] text-muted-foreground/20 font-display uppercase tracking-[0.2em]">
+                {COMPLETED_STAGES.length} stages · Europe
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </main>
