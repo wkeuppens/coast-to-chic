@@ -153,10 +153,11 @@ const RouteMapPage = () => {
                 key={i}
                 d={d}
                 stroke={hoveredIndex === i ? 'hsl(var(--accent))' : 'hsl(var(--foreground))'}
-                strokeWidth={hoveredIndex === i ? '4' : '2'}
+                strokeWidth={hoveredIndex === i ? 3 : 1.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
+                vectorEffect="non-scaling-stroke"
                 filter={hoveredIndex === i ? 'url(#segment-glow)' : undefined}
                 style={{
                   cursor: 'pointer',
