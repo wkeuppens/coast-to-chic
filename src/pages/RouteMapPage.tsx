@@ -53,8 +53,17 @@ const RouteMapPage = () => {
   const [segments, setSegments] = useState<string[]>([]);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const hiddenPathRef = useRef<SVGPathElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return; // skip loading on mobile
     fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
       .then(result => {
         if (result) {
@@ -62,7 +71,7 @@ const RouteMapPage = () => {
           setViewBox(result.viewBox);
         }
       });
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (!hiddenPathRef.current || !pathData) return;
@@ -83,6 +92,24 @@ const RouteMapPage = () => {
   const vbParts = viewBox.split(' ').map(Number);
   const vbW = vbParts[2] || 800;
   const vbH = vbParts[3] || 600;
+
+  if (isMobile) {
+    return (
+      <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-8 text-center">
+        <SEO title="Route Map" description="Explore the full coastline route, stage by stage." path="/route-map" />
+        <p className="font-display text-lg text-foreground mb-2">Route Map</p>
+        <p className="text-sm text-muted-foreground mb-8 max-w-xs">
+          The interactive route map is best experienced on a larger screen.
+        </p>
+        <Link
+          to="/archive"
+          className="text-sm font-display text-accent hover:text-accent/80 transition-colors"
+        >
+          ← Explore the Archive instead
+        </Link>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-background text-foreground">
