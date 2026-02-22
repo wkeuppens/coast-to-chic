@@ -141,8 +141,8 @@ const RouteMapPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-hidden cursor-none">
-      <CustomCursor variant="runner" />
+    <main className="min-h-screen bg-background text-foreground overflow-hidden">
+      <CustomCursor />
       <SEO title="Route Map" description="Explore the full coastline route, stage by stage." path="/route-map" />
 
       {/* Minimal header */}
