@@ -73,7 +73,10 @@ const RouteMapPage = () => {
   const hoveredStage = hoveredIndex !== null ? COMPLETED_STAGES[hoveredIndex] : null;
 
   const handleClick = useCallback((index: number) => {
-    navigate('/archive');
+    const stage = COMPLETED_STAGES[index];
+    if (stage) {
+      navigate(`/archive?stage=${stage.stageNumber}`);
+    }
   }, [navigate]);
 
   // Parse viewBox for logo positioning

@@ -202,5 +202,5 @@ export function useCanvasCamera(
     };
   }, [containerRef, onPointerDown, onPointerMove, onPointerUp, onWheel, onKeyDown]);
 
-  return { camera, isDragging: isDragging.current };
+  return { camera, setCamera, isDragging: isDragging.current };
 }
