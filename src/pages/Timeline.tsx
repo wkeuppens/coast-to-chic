@@ -39,7 +39,7 @@ const Timeline = () => {
   return (
     <>
       <SEO
-        title="Timeline | Follow the Coast"
+        title="Timeline"
         description="Follow the Coast advances slowly. Year by year, the coastline becomes continuous."
         path="/timeline"
       />

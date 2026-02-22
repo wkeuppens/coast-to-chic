@@ -13,7 +13,7 @@ const Shoreholders = () => {
   return (
     <>
       <SEO
-        title="Shoreholders | Follow the Coast"
+        title="Shoreholders"
         description="Every stage is carried by someone. Meet the runners forming the human line around Europe's coastline."
         path="/shoreholders"
       />
