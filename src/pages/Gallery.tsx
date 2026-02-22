@@ -295,9 +295,10 @@ const Archive = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-30 flex items-center justify-center pointer-events-none bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-30 flex items-center justify-center pointer-events-auto bg-black/80 backdrop-blur-sm cursor-pointer"
+            onClick={() => setShowIntro(false)}
           >
-            <div className="max-w-xl px-8 text-center">
+            <div className="max-w-xl px-8 text-center" onClick={(e) => e.stopPropagation()}>
               <h1 className="font-display text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
                 Archive
               </h1>
@@ -311,8 +312,16 @@ const Archive = () => {
                 Explore freely. Each tile marks a real passage along Europe's shore.
               </p>
 
+              {/* Primary CTA */}
+              <button
+                onClick={() => setShowIntro(false)}
+                className="pointer-events-auto mb-8 px-8 py-3 border border-white/20 text-sm text-white/80 hover:text-white hover:border-white/40 transition-colors font-display uppercase tracking-wider"
+              >
+                Explore the Gallery
+              </button>
+
               {/* Sub-page links */}
-              <div className="mt-6 flex items-center justify-center gap-6 pointer-events-auto">
+              <div className="flex items-center justify-center gap-6 pointer-events-auto">
                 <Link
                   to="/route-map"
                   className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
