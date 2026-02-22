@@ -1,5 +1,5 @@
 import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import { ArrowLeft, Move } from 'lucide-react';
 import { useCanvasCamera } from '@/hooks/useCanvasCamera';
@@ -159,13 +159,15 @@ const CLAMPED_BOUNDS = {
 
 const Archive = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { camera } = useCanvasCamera(containerRef, CLAMPED_BOUNDS);
+  const { camera, setCamera } = useCanvasCamera(containerRef, CLAMPED_BOUNDS);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [lightbox, setLightbox] = useState<StagePhotos | null>(null);
   const [viewportSize, setViewportSize] = useState({ w: 0, h: 0 });
   const [showHint, setShowHint] = useState(true);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(!searchParams.get('stage'));
   const dragDistance = useRef(0);
   const pointerStart = useRef({ x: 0, y: 0 });
+  const hasHandledDeepLink = useRef(false);
 
   // Filters
   const [filterCountry, setFilterCountry] = useState('All');
@@ -190,6 +192,31 @@ const Archive = () => {
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
+
+  // Deep-link: center on a specific stage and open its lightbox
+  useEffect(() => {
+    const stageParam = searchParams.get('stage');
+    if (!stageParam || hasHandledDeepLink.current || !viewportSize.w) return;
+    const stageNum = parseInt(stageParam, 10);
+    const tile = completedStages.find(s => s.stageNumber === stageNum);
+    if (!tile) return;
+    hasHandledDeepLink.current = true;
+
+    // Center camera on tile
+    const tileCenterX = tile.x + tile.width / 2;
+    const tileCenterY = tile.y + tile.height / 2;
+    setCamera(c => ({
+      ...c,
+      x: -tileCenterX * c.zoom,
+      y: -tileCenterY * c.zoom,
+    }));
+
+    // Open lightbox & clear param
+    setLightbox(getStagePhotos(tile));
+    setShowIntro(false);
+    setShowHint(false);
+    setSearchParams({}, { replace: true });
+  }, [searchParams, viewportSize.w, completedStages, setCamera, setSearchParams]);
 
   useEffect(() => {
     if (camera.x !== 0 || camera.y !== 0) {
