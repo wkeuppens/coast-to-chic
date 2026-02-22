@@ -3,16 +3,15 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const footerLinks = {
-  stages: [
+  project: [
+    { label: 'Register', href: '/register' },
     { label: 'EU Stages', href: '/eu-stages' },
-    { label: 'Home Run', href: '/homerun' },
     { label: 'Archive', href: '/archive' },
     { label: 'Shoreholders', href: '/shoreholders' },
     { label: 'Timeline', href: '/timeline' },
   ],
   books: [
     { label: 'Order Books', href: '/order-books' },
-    
     { label: 'Prints', href: '/prints' },
   ],
   sideRoutes: [

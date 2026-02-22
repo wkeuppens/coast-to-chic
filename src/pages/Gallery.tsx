@@ -306,7 +306,7 @@ const Archive = () => {
   return (
     <main className="fixed inset-0 bg-foreground overflow-hidden touch-none" style={{ cursor: 'grab' }}>
       <SEO
-        title="Archive | Follow the Coast"
+        title="Archive"
         description="A living archive documenting Europe's coastline stage by stage."
         path="/archive"
       />

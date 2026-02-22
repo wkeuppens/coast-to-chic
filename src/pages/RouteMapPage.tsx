@@ -87,7 +87,7 @@ const RouteMapPage = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO
-        title="Route Map | Follow the Coast"
+        title="Route Map"
         description="Explore the full coastline route, stage by stage."
         path="/route-map"
       />
