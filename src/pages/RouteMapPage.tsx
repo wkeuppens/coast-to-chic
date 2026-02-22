@@ -1,21 +1,13 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SEO } from '@/components/SEO';
 import { smoothPath } from '@/lib/pathSmoothing';
 import { fetchAndParseSVG } from '@/lib/svgCache';
 import { STAGES } from '@/data/stages';
 
-
-/**
- * Interactive segmented route map for the Archive.
- * Splits the coastline SVG path into one segment per completed stage,
- * ending at Venice (~88% of total path length).
- */
-
 const COMPLETED_STAGES = STAGES.filter(s => s.status === 'Completed');
-
-/** Only use this fraction of the total path for the 168 completed stages */
 const PATH_FRACTION = 0.88;
 
 function splitPathIntoSegments(
@@ -46,6 +38,16 @@ function splitPathIntoSegments(
   return segments;
 }
 
+/** Get midpoint of a segment for placing indicator */
+function getSegmentMidpoint(pathD: string): { x: number; y: number } | null {
+  const matches = pathD.match(/[ML]([\d.-]+),([\d.-]+)/g);
+  if (!matches || matches.length === 0) return null;
+  const mid = Math.floor(matches.length / 2);
+  const m = matches[mid].match(/([\d.-]+),([\d.-]+)/);
+  if (!m) return null;
+  return { x: parseFloat(m[1]), y: parseFloat(m[2]) };
+}
+
 const RouteMapPage = () => {
   const navigate = useNavigate();
   const [pathData, setPathData] = useState<string | null>(null);
@@ -63,7 +65,7 @@ const RouteMapPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return; // skip loading on mobile
+    if (isMobile) return;
     fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
       .then(result => {
         if (result) {
@@ -80,18 +82,15 @@ const RouteMapPage = () => {
   }, [pathData]);
 
   const hoveredStage = hoveredIndex !== null ? COMPLETED_STAGES[hoveredIndex] : null;
+  const hoveredMidpoint = useMemo(() => {
+    if (hoveredIndex === null || !segments[hoveredIndex]) return null;
+    return getSegmentMidpoint(segments[hoveredIndex]);
+  }, [hoveredIndex, segments]);
 
   const handleClick = useCallback((index: number) => {
     const stage = COMPLETED_STAGES[index];
-    if (stage) {
-      navigate(`/archive?stage=${stage.stageNumber}`);
-    }
+    if (stage) navigate(`/archive?stage=${stage.stageNumber}`);
   }, [navigate]);
-
-  // Parse viewBox for logo positioning
-  const vbParts = viewBox.split(' ').map(Number);
-  const vbW = vbParts[2] || 800;
-  const vbH = vbParts[3] || 600;
 
   if (isMobile) {
     return (
@@ -101,10 +100,7 @@ const RouteMapPage = () => {
         <p className="text-sm text-muted-foreground mb-8 max-w-xs">
           The interactive route map is best experienced on a larger screen.
         </p>
-        <Link
-          to="/archive"
-          className="text-sm font-display text-accent hover:text-accent/80 transition-colors"
-        >
+        <Link to="/archive" className="text-sm font-display text-accent hover:text-accent/80 transition-colors">
           ← Explore the Archive instead
         </Link>
       </main>
@@ -112,101 +108,111 @@ const RouteMapPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <SEO
-        title="Route Map"
-        description="Explore the full coastline route, stage by stage."
-        path="/route-map"
-      />
+    <main className="min-h-screen bg-background text-foreground overflow-hidden">
+      <SEO title="Route Map" description="Explore the full coastline route, stage by stage." path="/route-map" />
 
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6">
+      {/* Minimal header */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16 py-6">
         <Link
           to="/archive"
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-display"
+          className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors duration-300 font-display"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           Archive
         </Link>
-        <span className="text-xs uppercase tracking-widest text-muted-foreground/50 font-display">
-          Route Map
+        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40 font-display">
+          168 Stages · 12,000 km
         </span>
       </header>
 
-      {/* Map container */}
-      <div className="flex items-center justify-center min-h-screen pt-20 pb-12 px-6 md:px-12">
-        <div className="w-full max-w-5xl relative">
+      {/* Map */}
+      <div className="flex items-center justify-center min-h-screen px-8 lg:px-20">
+        <div className="w-full max-w-6xl relative">
           <svg
             viewBox={viewBox}
-            className="w-full h-auto relative"
+            className="w-full h-auto"
             preserveAspectRatio="xMidYMid meet"
             fill="none"
           >
-            {/* Glow filter for hovered segments */}
             <defs>
-              <filter id="segment-glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
-                <feColorMatrix in="blur" type="matrix"
-                  values="1 0 0 0 0  0 0.4 0 0 0  0 0 0.2 0 0  0 0 0 0.6 0"
-                  result="glow" />
+              {/* Refined glow — warm accent halo */}
+              <filter id="seg-glow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur" />
+                <feFlood floodColor="hsl(var(--accent))" floodOpacity="0.35" result="color" />
+                <feComposite in="color" in2="blur" operator="in" result="glow" />
                 <feMerge>
                   <feMergeNode in="glow" />
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              {/* Dot glow */}
+              <filter id="dot-glow" x="-200%" y="-200%" width="500%" height="500%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
 
-            {/* Hidden path for measurement */}
+            {/* Hidden measurement path */}
+            {pathData && (
+              <path ref={hiddenPathRef} d={pathData} stroke="none" fill="none" />
+            )}
+
+            {/* Ghost path — full coastline */}
             {pathData && (
               <path
-                ref={hiddenPathRef}
                 d={pathData}
-                stroke="none"
+                stroke="hsl(var(--foreground))"
+                strokeWidth="0.5"
+                strokeOpacity="0.06"
                 fill="none"
               />
             )}
 
-            {/* Base ghost path */}
-            {pathData && (
-              <path
-                d={pathData}
-                stroke="hsl(var(--muted-foreground))"
-                strokeWidth="1"
-                strokeOpacity="0.1"
-                fill="none"
-              />
-            )}
-
-            {/* Interactive segments */}
+            {/* Completed route — base line */}
             {segments.map((d, i) => (
               <path
-                key={i}
+                key={`base-${i}`}
                 d={d}
-                stroke={hoveredIndex === i ? 'hsl(var(--accent))' : 'hsl(var(--foreground))'}
-                strokeWidth={hoveredIndex === i ? 3 : 1.5}
+                stroke="hsl(var(--foreground))"
+                strokeWidth={hoveredIndex === i ? 2.5 : 1.2}
+                strokeOpacity={hoveredIndex === i ? 1 : hoveredIndex !== null ? 0.15 : 0.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
                 vectorEffect="non-scaling-stroke"
-                filter={hoveredIndex === i ? 'url(#segment-glow)' : undefined}
+                filter={hoveredIndex === i ? 'url(#seg-glow)' : undefined}
                 style={{
-                  cursor: 'pointer',
-                  transition: 'stroke 0.2s ease, stroke-width 0.2s ease',
-                  pointerEvents: 'stroke',
+                  transition: 'stroke-opacity 0.4s ease, stroke-width 0.35s ease',
                 }}
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                onClick={() => handleClick(i)}
               />
             ))}
 
-            {/* Invisible wider paths for easier hover targeting */}
+            {/* Accent overlay on hovered segment */}
+            {hoveredIndex !== null && segments[hoveredIndex] && (
+              <path
+                d={segments[hoveredIndex]}
+                stroke="hsl(var(--accent))"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+                filter="url(#seg-glow)"
+                style={{ pointerEvents: 'none' }}
+              />
+            )}
+
+            {/* Invisible hit areas */}
             {segments.map((d, i) => (
               <path
                 key={`hit-${i}`}
                 d={d}
                 stroke="transparent"
-                strokeWidth="16"
+                strokeWidth="18"
                 fill="none"
                 style={{ cursor: 'pointer' }}
                 onMouseEnter={() => setHoveredIndex(i)}
@@ -214,31 +220,86 @@ const RouteMapPage = () => {
                 onClick={() => handleClick(i)}
               />
             ))}
+
+            {/* Indicator dot at midpoint of hovered segment */}
+            {hoveredMidpoint && (
+              <>
+                <circle
+                  cx={hoveredMidpoint.x}
+                  cy={hoveredMidpoint.y}
+                  r="5"
+                  fill="hsl(var(--accent))"
+                  filter="url(#dot-glow)"
+                  style={{ pointerEvents: 'none' }}
+                />
+                <circle
+                  cx={hoveredMidpoint.x}
+                  cy={hoveredMidpoint.y}
+                  r="2"
+                  fill="hsl(var(--background))"
+                  style={{ pointerEvents: 'none' }}
+                />
+              </>
+            )}
           </svg>
         </div>
       </div>
 
-      {/* Fixed info bar at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-baseline justify-between text-[11px] font-display uppercase tracking-wider bg-background/80 backdrop-blur-sm">
-        <div className="text-muted-foreground/40">
-          {COMPLETED_STAGES.length} stages completed
-        </div>
-        <div className="text-right min-h-[1.2em]">
-          {hoveredStage ? (
-            <span className="text-foreground">
-              <span className="text-accent">{hoveredStage.title}</span>
-              <span className="text-muted-foreground mx-2">·</span>
-              <span className="text-muted-foreground">{hoveredStage.location}, {hoveredStage.country}</span>
-              {hoveredStage.shoreholder && (
-                <>
-                  <span className="text-muted-foreground mx-2">·</span>
-                  <span className="text-muted-foreground/60">{hoveredStage.shoreholder}</span>
-                </>
-              )}
-            </span>
-          ) : (
-            <span className="text-muted-foreground/30">Hover to explore</span>
-          )}
+      {/* Bottom info bar — editorial layout */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/30">
+        <div className="bg-background/90 backdrop-blur-md px-8 lg:px-16 py-5">
+          <AnimatePresence mode="wait">
+            {hoveredStage ? (
+              <motion.div
+                key={hoveredStage.stageNumber}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="flex items-baseline justify-between"
+              >
+                <div className="flex items-baseline gap-6">
+                  <span className="text-[32px] font-display text-accent leading-none tracking-tight tabular-nums">
+                    {String(hoveredStage.stageNumber).padStart(3, '0')}
+                  </span>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-sm font-display text-foreground tracking-wide">
+                      {hoveredStage.location}
+                    </span>
+                    <span className="text-[11px] text-muted-foreground tracking-wider uppercase">
+                      {hoveredStage.country} · {hoveredStage.year}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-6">
+                  {hoveredStage.shoreholder && (
+                    <span className="text-[11px] text-muted-foreground/60 font-display uppercase tracking-wider">
+                      {hoveredStage.shoreholder}
+                    </span>
+                  )}
+                  <span className="text-[10px] text-muted-foreground/30 font-display uppercase tracking-widest">
+                    Click to view →
+                  </span>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="idle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-baseline justify-between"
+              >
+                <span className="text-[11px] text-muted-foreground/30 font-display uppercase tracking-[0.2em]">
+                  Hover a segment to explore
+                </span>
+                <span className="text-[11px] text-muted-foreground/20 font-display uppercase tracking-[0.2em]">
+                  {COMPLETED_STAGES.length} stages · Europe
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </main>
