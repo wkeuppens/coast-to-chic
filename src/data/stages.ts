@@ -144,8 +144,8 @@ function buildStages(count: number): StageTileData[] {
 
 export const STAGES: StageTileData[] = buildStages(168);
 
-/** Unique countries from data */
-export const ARCHIVE_COUNTRIES = [...new Set(STAGES.map(s => s.country))];
+/** Countries in route order (Belgium → clockwise around Europe) */
+export const ARCHIVE_COUNTRIES = ['Belgium', 'France', 'Spain', 'Portugal', 'Italy', 'Slovenia', 'Croatia', 'Bosnia Herzegovina', 'Montenegro', 'Greece'];
 
 /** Unique years from data */
 export const ARCHIVE_YEARS = [...new Set(STAGES.map(s => s.year))].sort();
