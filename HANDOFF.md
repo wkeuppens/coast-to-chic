@@ -307,12 +307,22 @@ All colours use HSL values defined as CSS custom properties in `src/index.css`:
 |-------|-----------|-------|
 | `--background` | Bone (40 27% 95%) | Page background |
 | `--foreground` | Deep blue (203 92% 15%) | Primary text |
-| `--accent` | Rust/clay (21 54% 50%) | CTAs, highlights |
+| `--accent` | Terracotta (10 54% 46% / #B44C36) | CTAs, highlights, interaction states |
 | `--muted-foreground` | Blue-grey (206 17% 45%) | Secondary text |
 | `--secondary` | Linen (40 20% 91%) | Section backgrounds |
 | `--border` | Warm grey (36 6% 80%) | Borders |
 
-Dark mode is defined but not actively toggled in the UI.
+### Brand Color System
+
+**Primary Accent: #B44C36 — Terracotta**
+
+Usage:
+- Highlights and interaction states
+- Calls to action (buttons, links)
+- Human moments (step markers, list bullets, badges)
+- Map hover states and active indicators
+
+Rule: Accent never used as a dominant background. Keep to ≤10% visual presence.
 
 ---
 

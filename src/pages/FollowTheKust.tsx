@@ -161,7 +161,7 @@ const FollowTheKust = () => {
               <ul className="space-y-3 mb-10 flex-1">
                 {halfCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-foreground">
-                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#5E7687' }} />
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground" />
                     {item}
                   </li>
                 ))}
@@ -191,7 +191,7 @@ const FollowTheKust = () => {
               <ul className="space-y-3 mb-10 flex-1">
                 {fullCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-foreground">
-                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#5E7687' }} />
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground" />
                     {item}
                   </li>
                 ))}
