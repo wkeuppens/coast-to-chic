@@ -293,7 +293,7 @@ const ParticipantHandbook = () => {
                 <ul className="mt-4 space-y-2 pl-1">
                   {section.list.map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm md:text-base text-foreground">
-                      <span className="text-[#5E7687] mt-1.5 text-[6px]">●</span>
+                      <span className="text-muted-foreground mt-1.5 text-[6px]">●</span>
                       {item}
                     </li>
                   ))}

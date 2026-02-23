@@ -149,7 +149,7 @@ const BulletList = ({ items }: { items: string[] }) => (
   <ul className="mt-4 space-y-2 pl-1">
     {items.map((item, i) => (
       <li key={i} className="flex items-start gap-3 text-sm md:text-base text-foreground">
-        <span className="text-[#5E7687] mt-1.5 text-[6px]">●</span>
+        <span className="text-muted-foreground mt-1.5 text-[6px]">●</span>
         {item}
       </li>
     ))}
@@ -299,7 +299,7 @@ const Privacy = () => {
                     href={section.link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm md:text-base text-[#5E7687] hover:underline transition-colors"
+                    className="text-sm md:text-base text-muted-foreground hover:underline transition-colors"
                   >
                     {section.link.label}
                   </a>

@@ -47,8 +47,8 @@
     --muted: 36 6% 70%;
     --muted-foreground: 206 17% 45%;
 
-    /* Rust/clay as accent */
-    --accent: 21 54% 50%;
+    /* Terracotta accent (#B44C36) */
+    --accent: 10 54% 46%;
     --accent-foreground: 40 27% 95%;
 
     --destructive: 0 84% 60%;
@@ -63,7 +63,7 @@
 
     /* Brand color tokens */
     --coast-deep-blue: 203 92% 15%;
-    --coast-rust: 21 54% 50%;
+    --coast-rust: 10 54% 46%;
     --coast-charcoal: 210 7% 18%;
     --coast-warm-grey: 36 6% 70%;
     --coast-bone: 40 27% 95%;
@@ -104,8 +104,8 @@
     --muted: 210 7% 25%;
     --muted-foreground: 36 6% 60%;
 
-    /* Rust/clay accent stays vibrant */
-    --accent: 21 54% 50%;
+    /* Terracotta accent stays vibrant (#B44C36) */
+    --accent: 10 54% 46%;
     --accent-foreground: 40 27% 95%;
 
     --destructive: 0 62% 40%;
