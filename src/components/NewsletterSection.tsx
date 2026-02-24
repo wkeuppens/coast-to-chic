@@ -15,13 +15,13 @@ export const NewsletterSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <p className="text-sm text-white/50 tracking-wide mb-4">
+          <p className="text-sm text-inv-muted tracking-wide mb-4">
             Updates
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium mb-6">
             New stages. Books. Routes.
           </h2>
-          <p className="text-white/60 mb-10">
+          <p className="text-inv-muted mb-10">
             A few emails per year. When there's something to say.
           </p>
 
@@ -34,7 +34,7 @@ export const NewsletterSection = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
               required
-              className="flex-1 bg-transparent border border-white/20 px-5 py-4 rounded-full text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
+              className="flex-1 bg-transparent border border-inv-border px-5 py-4 rounded-full text-inv placeholder:text-inv-subtle focus:outline-none focus:border-inv-muted transition-colors"
             />
             <button
               type="submit"
@@ -44,7 +44,7 @@ export const NewsletterSection = () => {
             </button>
           </form>
 
-          <p className="text-xs text-white/30 mt-6">
+          <p className="text-xs text-inv-faint mt-6">
             By subscribing, you agree to the privacy policy.
           </p>
         </motion.div>

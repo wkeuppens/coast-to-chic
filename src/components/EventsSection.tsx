@@ -48,7 +48,7 @@ export const EventsSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-16"
         >
-          <p className="text-sm text-foreground/50 tracking-wide mb-4">
+          <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Side routes
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium">
@@ -64,18 +64,19 @@ export const EventsSection = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="group block"
+                whileHover={{ y: -4 }}
               >
                 <div className="aspect-[16/10] bg-muted mb-6 overflow-hidden rounded-xl">
                   <img 
                     src={event.image} 
                     alt={event.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors">
+                    <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors duration-300">
                       {event.title}
                     </h3>
                     <p className="text-sm text-muted-foreground">{event.location}</p>

@@ -18,12 +18,18 @@ import { PullQuote } from '@/components/PullQuote';
 import { SupportSection } from '@/components/SupportSection';
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const isFirstVisit = !sessionStorage.getItem('ftc_visited');
+  const [isLoading, setIsLoading] = useState(isFirstVisit);
+
+  const handleLoadingComplete = () => {
+    sessionStorage.setItem('ftc_visited', '1');
+    setIsLoading(false);
+  };
 
   return (
     <>
       <CustomCursor />
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       <SEO path="/" />
       <main className="overflow-x-hidden cursor-none">
         <Navigation />

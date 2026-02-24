@@ -60,6 +60,13 @@ export default {
           beige: "hsl(var(--coast-beige))",
           "blue-grey": "hsl(var(--coast-blue-grey))",
         },
+        inv: {
+          DEFAULT: "hsl(var(--inv-foreground))",
+          muted: "hsl(var(--inv-muted))",
+          subtle: "hsl(var(--inv-subtle))",
+          faint: "hsl(var(--inv-faint))",
+          border: "hsl(var(--inv-border))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

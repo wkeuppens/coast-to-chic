@@ -55,33 +55,33 @@ export const BookSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col justify-center"
           >
-            <p className="text-sm text-white/50 tracking-wide mb-4">The books</p>
+            <p className="text-sm text-inv-muted tracking-wide mb-4">The books</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium leading-tight mb-8">
               5,000 km per volume.
               <br />
               Photos. Routes. Field notes.
             </h2>
             
-            <p className="text-white/70 leading-relaxed mb-8">
+            <p className="text-inv-muted leading-relaxed mb-8">
               Harbours. Cliff paths. Weather that changed plans.
               The stuff that happened.
             </p>
 
             <div className="space-y-4 mb-10">
               {books.map((book) => (
-                <div key={book.id} className="flex justify-between items-baseline border-b border-white/10 pb-3">
+                <div key={book.id} className="flex justify-between items-baseline border-b border-inv-border pb-3">
                   <div>
                     <span className="font-display font-medium">{book.title}</span>
-                    <span className="text-white/50 ml-3 text-sm">{book.subtitle}</span>
+                    <span className="text-inv-muted ml-3 text-sm">{book.subtitle}</span>
                   </div>
-                  <span className="text-xs text-white/50">{book.status}</span>
+                  <span className="text-xs text-inv-muted">{book.status}</span>
                 </div>
               ))}
             </div>
 
             <Link 
               to="/order-books" 
-              className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-inv-muted hover:text-inv transition-colors"
             >
               <span className="border-b border-accent pb-1 text-accent">Order books →</span>
             </Link>
