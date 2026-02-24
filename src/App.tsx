@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 // Lazy-load secondary pages
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -37,6 +38,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Suspense fallback={<div className="min-h-screen bg-background" />}>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/order-books" element={<OrderBooks />} />

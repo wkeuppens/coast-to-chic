@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { useEffect } from 'react';
 import { SEO } from '@/components/SEO';
 
 const introSections = [
@@ -157,9 +156,6 @@ const BulletList = ({ items }: { items: string[] }) => (
 );
 
 const Privacy = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { useEffect, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 
@@ -224,9 +224,6 @@ const sections = [
 ];
 
 const ParticipantHandbook = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

@@ -66,11 +66,18 @@ export const StagesSection = () => {
                   <span className="text-xs text-muted-foreground uppercase tracking-wider">
                     {stage.status}
                   </span>
+                  {/* Hover arrow indicator */}
+                  <motion.span
+                    className="text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={false}
+                  >
+                    →
+                  </motion.span>
                 </div>
-                <h3 className="font-display text-2xl font-medium text-foreground mb-3 group-hover:text-accent transition-colors">
+                <h3 className="font-display text-2xl font-medium text-foreground mb-3 group-hover:text-accent transition-colors duration-300">
                   {stage.title}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors duration-300">
                   {stage.description}
                 </p>
               </motion.div>

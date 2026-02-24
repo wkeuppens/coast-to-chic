@@ -32,7 +32,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-sm text-white/60 tracking-wide mb-6 font-body"
+            className="text-sm text-inv-muted tracking-wide mb-6 font-body"
           >
             {distanceText}
           </motion.p>
@@ -58,7 +58,7 @@ export const HeroSection = () => {
             </MagneticButton>
             <MagneticButton
               href="#newsletter"
-              className="inline-flex items-center justify-center gap-3 border border-white/30 text-white px-8 py-5 rounded-full hover:bg-white hover:text-black transition-all"
+              className="inline-flex items-center justify-center gap-3 border border-inv-border text-inv px-8 py-5 rounded-full hover:bg-inv hover:text-foreground transition-all"
               strength={0.2}
             >
               <span className="font-display font-medium">Stay informed</span>

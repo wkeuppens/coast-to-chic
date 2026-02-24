@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
@@ -29,9 +28,6 @@ const fullCoast = [
 ];
 
 const FollowTheKust = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

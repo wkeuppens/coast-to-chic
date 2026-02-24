@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Package, CreditCard } from 'lucide-react';
@@ -12,9 +11,8 @@ const Checkout = () => {
   const price = params.get('price') || '';
   const returnTo = params.get('return') || '/';
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
+
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
