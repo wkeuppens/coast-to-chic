@@ -60,6 +60,7 @@ export const HowItWorksSection = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.15 + index * 0.15 }}
+              className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
               <span className="text-sm text-accent font-display">{step.number}</span>
               <h3 className="font-display text-xl font-medium mt-4 mb-4">
