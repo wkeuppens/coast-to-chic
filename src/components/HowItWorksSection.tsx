@@ -53,7 +53,7 @@ export const HowItWorksSection = () => {
         </motion.h2>
 
         {/* 3-step grid */}
-        <div className="grid md:grid-cols-3 gap-16">
+        <div className="grid md:grid-cols-3 gap-16 border-t border-border pt-12">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
