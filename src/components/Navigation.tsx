@@ -6,6 +6,7 @@ import wavesLogo from '@/assets/waves-logo.png';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
+  { label: 'Archive', href: '/archive' },
   { label: 'Books', href: '/order-books' },
   { label: 'Prints', href: '/prints' },
   { label: 'Side routes', href: '/#events' },
@@ -126,7 +127,7 @@ export const Navigation = () => {
                 href="/register"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.4 }}
                 onClick={() => setIsOpen(false)}
                 className="text-3xl font-display text-accent"
               >

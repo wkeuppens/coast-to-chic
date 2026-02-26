@@ -61,7 +61,7 @@ export const BookSection = () => {
             to="/order-books"
             className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
           >
-            See the books →
+            Explore the books →
           </Link>
         </motion.div>
       </div>
