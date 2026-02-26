@@ -1,12 +1,14 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { SEO } from '@/components/SEO';
 import { Footer } from '@/components/Footer';
-import { CustomCursor } from '@/components/CustomCursor';
-import { PartnersSection } from '@/components/PartnersSection';
 import coastalPath from '@/assets/coastal-path.jpg';
+import coastalTown from '@/assets/coastal-town.jpg';
+import cliffBay from '@/assets/cliff-bay.jpg';
+import harborBoats from '@/assets/harbor-boats.jpg';
+import sailboatSea from '@/assets/sailboat-sea.jpg';
+import coastalFortress from '@/assets/coastal-fortress.jpg';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -25,12 +27,21 @@ const SectionWrapper = ({ children, className = '' }: { children: React.ReactNod
       transition={{ duration: 0.8 }}
       className={`py-16 md:py-24 px-6 md:px-12 lg:px-24 ${className}`}
     >
-      <div className="max-w-4xl mx-auto">{children}</div>
+      <div className="max-w-5xl mx-auto">{children}</div>
     </motion.section>
   );
 };
 
-const supportTypes = [
+const supportImages = [
+  { src: coastalPath, alt: 'Runner on a coastal path' },
+  { src: coastalTown, alt: 'Coastal town from above' },
+  { src: cliffBay, alt: 'Cliffs overlooking a bay' },
+  { src: harborBoats, alt: 'Boats in a harbour' },
+  { src: sailboatSea, alt: 'Sailboat at sea' },
+  { src: coastalFortress, alt: 'Coastal fortress' },
+];
+
+const partnershipModes = [
   {
     title: 'Project Partner',
     text: 'Support the long-term mission. Your name travels with the project across borders and years.',
@@ -40,30 +51,26 @@ const supportTypes = [
     text: 'Adopt a specific stage. Be connected to a stretch of coastline, a runner, and a story.',
   },
   {
-    title: 'Community Supporter',
-    text: 'Help build the network around the project — events, gatherings, and shared moments along the way.',
-  },
-  {
-    title: 'Equipment & Logistics Partner',
-    text: 'Provide what keeps the crew moving. Vehicles, gear, food, or local infrastructure.',
+    title: 'Equipment & Logistics',
+    text: 'Provide what keeps the crew moving — vehicles, gear, food, or local infrastructure.',
   },
 ];
 
-const SupportTheProject = () => {
+const partners = ['Duvel', 'Victus', 'D\'Ieteren'];
 
+const SupportTheProject = () => {
   return (
     <>
-      <CustomCursor />
       <SEO
         title="Support the Project"
         description="Support the long-term journey around Europe's coastline. Discover how partners help Follow the Coast move forward."
         path="/support"
       />
-      <main className="overflow-x-hidden cursor-none">
+      <main className="overflow-x-hidden">
         <Navigation />
 
         {/* 1. HERO */}
-        <section className="relative min-h-[70vh] flex items-end">
+        <section className="relative min-h-[60vh] flex items-end">
           <div className="absolute inset-0">
             <img
               src={coastalPath}
@@ -78,131 +85,81 @@ const SupportTheProject = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="font-display text-4xl md:text-6xl text-primary-foreground mb-6"
+              className="font-display text-4xl md:text-6xl text-primary-foreground mb-4"
             >
               Carry the coastline with us
             </motion.h1>
-            <motion.div
+            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="space-y-4 mb-8"
+              className="text-primary-foreground/80 text-lg max-w-xl leading-relaxed"
             >
-              <p className="text-primary-foreground/80 text-lg max-w-xl leading-relaxed">
-                Follow the Coast moves forward one stage at a time.
-              </p>
-              <p className="text-primary-foreground/80 text-lg max-w-xl leading-relaxed">
-                What began as a run has become a long-term archive of landscapes, people, and effort along Europe's shoreline.
-              </p>
-              <p className="text-primary-foreground/80 text-lg max-w-xl leading-relaxed">
-                The project continues thanks to partners and supporters who believe in documenting something slowly, over many years.
-              </p>
-            </motion.div>
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="inline-block px-8 py-3 rounded-full bg-primary-foreground text-foreground font-display text-sm uppercase tracking-wider hover:bg-primary-foreground/90 transition-colors"
-            >
-              Start a conversation
-            </motion.a>
+              Follow the Coast continues thanks to partners who believe in documenting something slowly, over many years.
+            </motion.p>
           </div>
         </section>
 
-        {/* 2. CURRENT PARTNERS — intro + reuse existing component */}
-        <div className="py-16 md:py-24 px-6 md:px-12 lg:px-24 border-t border-border">
-          <div className="max-w-4xl mx-auto">
-            <p className="text-sm text-accent font-display uppercase tracking-wider mb-2">Current partners</p>
-            <p className="text-foreground leading-relaxed">
-              These organisations already help keep the journey moving.
-            </p>
-          </div>
-        </div>
-        <PartnersSection />
-
-        {/* 3. WHY PARTNERS JOIN */}
+        {/* 2. IMAGE GRID — show, don't tell */}
         <SectionWrapper>
-          <p className="text-accent font-display text-sm uppercase tracking-wider mb-4">Values</p>
-          <h2 className="font-display text-2xl md:text-3xl mb-12">Why partners decide to join</h2>
-          <div className="max-w-2xl space-y-6">
-            <p className="text-foreground leading-relaxed">
-              Many partnerships begin quietly.
-            </p>
-            <p className="text-foreground leading-relaxed">
-              Someone follows the journey for a while.<br />
-              Reads a book.<br />
-              Meets a runner.<br />
-              Sees a stretch of coastline differently.
-            </p>
-            <p className="text-foreground leading-relaxed">
-              At some point the question changes from<br />
-              <span className="italic">What is this project?</span><br />
-              to<br />
-              <span className="italic">How can we help it continue?</span>
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              That is usually where partnerships start.
-            </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {supportImages.map((img, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="aspect-[4/3] overflow-hidden rounded-sm"
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            ))}
           </div>
         </SectionWrapper>
 
-        {/* 4. WAYS TO SUPPORT */}
+        {/* 3. CURRENT PARTNERS */}
+        <SectionWrapper className="border-t border-border">
+          <p className="text-sm text-accent font-display uppercase tracking-wider mb-6">Current partners</p>
+          <div className="flex flex-wrap gap-12 md:gap-16">
+            {partners.map((partner) => (
+              <span key={partner} className="font-display text-2xl md:text-3xl text-foreground">
+                {partner}
+              </span>
+            ))}
+          </div>
+        </SectionWrapper>
+
+        {/* 4. PARTNERSHIP MODES — cards */}
         <SectionWrapper className="bg-secondary">
-          <p className="text-accent font-display text-sm uppercase tracking-wider mb-4">Partnership</p>
+          <p className="text-sm text-accent font-display uppercase tracking-wider mb-4">Partnership</p>
           <h2 className="font-display text-2xl md:text-3xl mb-12">Ways to support</h2>
-          <div className="grid md:grid-cols-2 gap-x-16 gap-y-12">
-            {supportTypes.map((type) => (
-              <div key={type.title} className="border-l-2 border-accent pl-6">
-                <h3 className="font-display text-lg mb-3">{type.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{type.text}</p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {partnershipModes.map((mode) => (
+              <div key={mode.title} className="bg-background rounded-xl p-8">
+                <h3 className="font-display text-lg font-medium mb-3">{mode.title}</h3>
+                <p className="text-muted-foreground leading-relaxed text-sm">{mode.text}</p>
               </div>
             ))}
           </div>
         </SectionWrapper>
 
-        {/* 5. WHO TYPICALLY BECOMES A PARTNER */}
+        {/* 5. HOW WE WORK — max 4 lines */}
         <SectionWrapper>
-          <h2 className="font-display text-2xl md:text-3xl mb-8">Who usually becomes a partner</h2>
-          <p className="text-foreground leading-relaxed mb-8">
-            Partners often come from different places:
-          </p>
-          <ul className="space-y-3 text-muted-foreground leading-relaxed">
-            <li><span className="text-accent">•</span> brands connected to movement or landscape</li>
-            <li><span className="text-accent">•</span> hospitality projects rooted in place</li>
-            <li><span className="text-accent">•</span> cultural institutions</li>
-            <li><span className="text-accent">•</span> small companies supporting long-term work</li>
-            <li><span className="text-accent">•</span> individuals who simply want the journey to continue</li>
-          </ul>
-          <p className="text-foreground leading-relaxed mt-8">
-            Every collaboration is shaped individually.
+          <h2 className="font-display text-2xl md:text-3xl mb-6">How we work</h2>
+          <p className="text-muted-foreground leading-relaxed max-w-2xl">
+            Every collaboration is shaped individually. No banners, no branded content requirements.
+            Partnership means contributing to something that exists quietly, over a long time.
+            The project speaks for itself.
           </p>
         </SectionWrapper>
 
-        {/* 6. WHAT PARTNERSHIP IS NOT */}
-        <SectionWrapper className="border-t border-border">
-          <h2 className="font-display text-2xl md:text-3xl mb-8">What partnership is not</h2>
-          <p className="text-foreground leading-relaxed max-w-2xl">
-            Follow the Coast does not place logos on runners or fill stages with advertising. There are no banners at finish lines, no branded content requirements, no social media obligations.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mt-4 max-w-2xl">
-            Partnership here means contributing to something that exists quietly, over a long time. The project speaks for itself.
-          </p>
-        </SectionWrapper>
-
-        {/* 7. LONG-TERM PROJECT */}
-        <SectionWrapper className="bg-secondary">
-          <h2 className="font-display text-2xl md:text-3xl mb-8">A project measured in years</h2>
-          <p className="text-foreground leading-relaxed max-w-2xl">
-            Follow the Coast is not built for a season. It moves slowly, deliberately, across years and borders. Each stage adds to an archive that will outlast any single run.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mt-4 max-w-2xl">
-            Supporting this project means believing that slow, continuous work creates something worth preserving.
-          </p>
-        </SectionWrapper>
-
-        {/* 8. CONTACT */}
-        <section id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
+        {/* 6. CONTACT */}
+        <section id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -213,27 +170,22 @@ const SupportTheProject = () => {
             >
               Start the conversation
             </motion.h2>
-            <motion.div
+            <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-4 mb-10"
+              className="text-muted-foreground leading-relaxed mb-10"
             >
-              <p className="text-foreground leading-relaxed">
-                If you feel connected to the project, we would like to hear from you.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Partnership begins with a conversation.
-              </p>
-            </motion.div>
+              Partnership begins with a conversation.
+            </motion.p>
             <motion.a
               href="mailto:hello@followthecoast.com"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-block px-8 py-3 rounded-full bg-foreground text-primary-foreground font-display text-sm uppercase tracking-wider hover:bg-foreground/90 transition-colors"
+              className="inline-block px-8 py-3 rounded-full bg-accent text-accent-foreground font-display text-sm uppercase tracking-wider hover:opacity-90 transition-opacity"
             >
               hello@followthecoast.com
             </motion.a>

@@ -33,7 +33,6 @@ const fadeUp = {
 };
 
 const HomeRun = () => {
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEO
@@ -80,19 +79,19 @@ const HomeRun = () => {
         </div>
       </section>
 
-      {/* Quick facts strip */}
-      <section className="bg-foreground text-primary-foreground">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+      {/* Quick facts strip — compact, not full dark block */}
+      <section className="border-b border-border">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
           {[
             { icon: Calendar, label: 'Date', value: '20 April 2026' },
             { icon: MapPin, label: 'Start', value: 'Venice Bridge' },
             { icon: Clock, label: 'Distance', value: '100 km' },
             { icon: Users, label: 'Price', value: '€199' },
           ].map((fact) => (
-            <div key={fact.label} className="px-6 py-8 text-center">
-              <fact.icon className="w-5 h-5 mx-auto mb-2 text-accent" />
-              <p className="text-xs text-white/40 uppercase tracking-wider mb-1">{fact.label}</p>
-              <p className="font-display text-lg font-medium">{fact.value}</p>
+            <div key={fact.label} className="px-6 py-6 text-center">
+              <fact.icon className="w-4 h-4 mx-auto mb-2 text-accent" />
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{fact.label}</p>
+              <p className="font-display text-base font-medium">{fact.value}</p>
             </div>
           ))}
         </div>
@@ -102,31 +101,19 @@ const HomeRun = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
-            <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">The concept</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">
               What is a Home Run?
             </h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
-              <p>Occasionally, we open a stage differently.</p>
-              <p>
-                A Home Run allows more runners to carry the coastline together for a single day.
-              </p>
-              <p>
-                The distance remains the same.<br />
-                The spirit remains the same.<br />
-                Only the logistics become simpler.
-              </p>
+              <p>A Home Run allows more runners to carry the coastline together for a single day.</p>
               <p>
                 Start and finish are close to Venice.
-                You run alongside others who signed up, each at their own rhythm.
+                You run alongside others, each at their own rhythm.
+                Checkpoints every 15 km provide food, drinks, and support.
               </p>
               <p>
-                Checkpoints every 15 km provide food, drinks, and support along the way.
-              </p>
-              <p>
-                It is a lighter way to enter Follow the Coast.<br />
-                One day on the route.<br />
-                One shared stage.
+                A lighter way to enter Follow the Coast.
+                One day on the route. One shared stage.
               </p>
             </div>
           </motion.div>
@@ -137,9 +124,8 @@ const HomeRun = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp}>
-            <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">What is included</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-4">
-              Everything needed to focus on the run.
+              What's included
             </h2>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-4 mt-12">
@@ -153,61 +139,10 @@ const HomeRun = () => {
                 className="flex items-start gap-4 p-5 bg-background rounded-2xl"
               >
                 <CheckCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                <span className="text-foreground">{item}</span>
+                <span>{item}</span>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* The Route */}
-      <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
-        <div className="max-w-3xl mx-auto">
-          <motion.div {...fadeUp}>
-            <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">The route</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">
-              Venice & the Mainland
-            </h2>
-            <div className="space-y-5 text-muted-foreground leading-relaxed">
-              <p>Start at 07:00 at the bridge leading into Venice.</p>
-              <p>
-                The first kilometres move toward the city before returning to the mainland around the 40 km mark.
-              </p>
-              <p>
-                From there, the route follows flat riverside roads and coastal landscapes, passing near the airport before continuing northeast.
-              </p>
-              <p>
-                Finish near La Vezze di Venezia, where the stage closes and the next section of coastline waits.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Why this exists */}
-      <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-foreground text-primary-foreground">
-        <div className="max-w-3xl mx-auto">
-          <motion.div {...fadeUp}>
-            <p className="text-sm text-white/40 tracking-wide uppercase mb-4">Why this exists</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">
-              Most stages sell out quickly.
-            </h2>
-            <div className="space-y-5 text-white/70 leading-relaxed">
-              <p>
-                That momentum keeps the project moving, but it also means some runners never find their way onto the route.
-              </p>
-              <p>The Home Run opens another path.</p>
-              <p>
-                For those who missed a stage.<br />
-                For those who prefer to run together.<br />
-                For those curious about what it feels like to follow the coast for a day.
-              </p>
-              <p>
-                Same project.<br />
-                Different entry point.
-              </p>
-            </div>
-          </motion.div>
         </div>
       </section>
 
@@ -215,9 +150,8 @@ const HomeRun = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
-            <p className="text-sm text-muted-foreground tracking-wide uppercase mb-4">After registration</p>
             <h2 className="font-display text-3xl md:text-4xl font-medium mb-12">
-              What happens next:
+              After registration
             </h2>
           </motion.div>
           <div className="space-y-0">
@@ -230,42 +164,36 @@ const HomeRun = () => {
                 transition={{ delay: i * 0.08, duration: 0.5 }}
                 className="flex items-start gap-6 py-5 border-b border-border last:border-b-0"
               >
-                <span className="font-display text-2xl font-medium text-accent w-8 shrink-0">
+                <span className="font-display text-xl font-medium text-accent w-8 shrink-0">
                   {item.step}
                 </span>
-                <span className="text-foreground pt-1">{item.text}</span>
+                <span className="pt-0.5">{item.text}</span>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — on light background */}
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
             <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">
               Run Venice with us.
             </h2>
-            <p className="text-muted-foreground mb-2 max-w-md mx-auto">
-              100 km along the coast.<br />
-              Shared effort.<br />
-              One day on the route.
-            </p>
-            <p className="font-display text-2xl font-medium text-foreground mb-2 mt-6">€199</p>
-            <p className="text-muted-foreground mb-10 max-w-md mx-auto text-sm">
+            <p className="font-display text-2xl font-medium mt-6 mb-2">€199</p>
+            <p className="text-muted-foreground mb-10 text-sm">
               Checkpoints, community, and your name in the book.
             </p>
             <Link
               to="/checkout?product=Home%20Run%20%E2%80%93%20Venice&variant=100km&price=%E2%82%AC199&return=/homerun"
-              className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:brightness-110 transition-all"
+              className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity"
             >
               Register for the Home Run
               <ArrowRight className="w-5 h-5" />
             </Link>
             <p className="text-sm text-muted-foreground mt-6">
-              Minimum 7 runners required.<br />
-              If this format works, Athens and Istanbul follow.
+              Minimum 7 runners required.
             </p>
           </motion.div>
         </div>

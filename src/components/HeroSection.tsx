@@ -1,18 +1,9 @@
 import { motion } from 'framer-motion';
 import { TextReveal } from './TextReveal';
 import { MagneticButton } from './MagneticButton';
-import { useCurrentDistance } from '@/hooks/useCurrentDistance';
 import coastalTown from '@/assets/coastal-town.jpg';
 
 export const HeroSection = () => {
-  const { distance, hasStarted } = useCurrentDistance(60000); // Update every minute
-  
-  // Format distance with thousand separators
-  const formattedDistance = distance.toLocaleString('en-US');
-  
-  // Always show current distance (starts at 16,000 and increments from April 16, 2026)
-  const distanceText = `${formattedDistance} km. Counter-clockwise. One stage at a time.`;
-
   return (
     <section className="relative min-h-screen bg-primary text-primary-foreground flex flex-col justify-end overflow-hidden">
       {/* Background image with overlay */}
@@ -25,7 +16,7 @@ export const HeroSection = () => {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* Content - positioned lower, text below image area */}
+      {/* Content */}
       <div className="relative z-10 px-6 md:px-12 lg:px-24 pb-24 md:pb-32">
         <div className="max-w-4xl">
           <motion.p
@@ -34,7 +25,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-sm text-inv-muted tracking-wide mb-6 font-body"
           >
-            {distanceText}
+            All of Europe's coast. Counter-clockwise. One stage at a time.
           </motion.p>
           
           <h1 className="font-display text-5xl md:text-7xl lg:text-[7rem] font-black leading-[0.95] tracking-[-0.03em] uppercase mb-12 pr-2">
@@ -50,11 +41,11 @@ export const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-4"
           >
             <MagneticButton
-              href="#stages"
+              href="/register"
               className="inline-flex items-center justify-center gap-3 bg-accent text-accent-foreground px-8 py-5 rounded-full hover:opacity-90 transition-opacity"
               strength={0.2}
             >
-              <span className="font-display font-medium">Register</span>
+              <span className="font-display font-medium">Register for a stage</span>
             </MagneticButton>
             <MagneticButton
               href="#newsletter"

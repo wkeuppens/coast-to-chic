@@ -26,7 +26,7 @@ Follow the Coast is a long-distance running relay tracing the European coastline
 | State | React local state only (no global store) | — |
 | Data fetching | @tanstack/react-query (configured, ready for API use) | 5.83.x |
 
-**Architecture:** Single-Page Application (SPA) with client-side routing. All pages are client-rendered. No SSR/SSG.
+**Architecture:** Single-Page Application (SPA) with client-side routing. All pages client-rendered. No SSR/SSG.
 
 ---
 
@@ -38,303 +38,186 @@ Follow the Coast is a long-distance running relay tracing the European coastline
 ├── tailwind.config.ts            # Tailwind theme (design tokens, brand colours)
 ├── public/
 │   ├── fonts/                    # Custom fonts (GT Pressura, Beausite Classic)
-│   ├── og-image.jpg              # Default Open Graph image for social previews
-│   ├── sitemap.xml               # XML sitemap for search engines
+│   ├── og-image.jpg              # Default Open Graph image
+│   ├── sitemap.xml               # XML sitemap
 │   ├── robots.txt                # Crawler directives
 │   ├── route-map.svg             # SVG coastline path (fetched at runtime)
 │   └── favicon.ico
 ├── src/
 │   ├── main.tsx                  # React entry point
-│   ├── App.tsx                   # Router + providers (HelmetProvider, QueryClient)
+│   ├── App.tsx                   # Router + providers
 │   ├── index.css                 # Design system (CSS variables, @font-face, tokens)
-│   ├── assets/                   # Images (imported as ES modules via @/assets/...)
+│   ├── assets/                   # Images (imported as ES modules)
 │   ├── data/
-│   │   ├── stages.ts             # ★ Single source of truth: 168 stage records
-│   │   └── shoreholders.ts       # Derived from stages.ts (decoupled for backend swap)
+│   │   ├── stages.ts             # ★ 168 stage records (single source of truth)
+│   │   └── shoreholders.ts       # Derived from stages.ts
 │   ├── components/
-│   │   ├── SEO.tsx               # Per-route <head> metadata (title, OG, Twitter, canonical)
-│   │   ├── Navigation.tsx        # Fixed nav with scroll progress bar + theme detection
-│   │   ├── Footer.tsx            # Site footer with institutional navigation
-│   │   ├── HeroSection.tsx       # Landing hero with animated text reveal
-│   │   ├── LoadingScreen.tsx     # Route map animation + logo reveal + curtain transition
-│   │   ├── MarqueeTicker.tsx     # Auto-scrolling stats ticker with drag physics
-│   │   ├── CustomCursor.tsx      # Custom cursor with trailing effect
-│   │   ├── GalleryTile.tsx       # Memoized tile for infinite canvas gallery
-│   │   ├── RouteMap.tsx          # Animated route map component (loading screen + scroll)
-│   │   ├── PhotoGallery.tsx      # Landing page random-stage photo gallery
-│   │   ├── BookSection.tsx       # Book showcase section
-│   │   ├── EventsSection.tsx     # Side routes / events section
+│   │   ├── Navigation.tsx        # Fixed nav with scroll progress + theme detection
+│   │   ├── Footer.tsx            # Site footer
+│   │   ├── HeroSection.tsx       # Landing hero
+│   │   ├── BookSection.tsx       # 3-book grid with "See the books" CTA
+│   │   ├── EventsSection.tsx     # Side routes + "Download info pack"
+│   │   ├── HowItWorksSection.tsx # 3-step process (on secondary bg, not dark)
+│   │   ├── NewsletterSection.tsx # Email capture (on secondary bg, not dark)
 │   │   ├── StagesSection.tsx     # Stage overview with registration CTA
-│   │   ├── NewsletterSection.tsx  # Email capture form (no backend yet)
-│   │   ├── PartnersSection.tsx   # Partner logos
-│   │   ├── SupportSection.tsx    # Support CTA section
+│   │   ├── SupportSection.tsx    # Support CTA
+│   │   ├── PartnersSection.tsx   # Partner names
+│   │   ├── PhotoGallery.tsx      # Horizontal scroll gallery
 │   │   ├── PullQuote.tsx         # Kinetic pull quotes
-│   │   ├── TextReveal.tsx        # Scroll-driven text animation
-│   │   ├── CountUp.tsx           # Animated number counter
-│   │   ├── MagneticButton.tsx    # Magnetic hover effect button
-│   │   └── ui/                   # shadcn/ui primitives (Radix-based)
+│   │   ├── LoadingScreen.tsx     # First-visit loading animation
+│   │   ├── MarqueeTicker.tsx     # Auto-scrolling stats ticker
+│   │   ├── RouteMap.tsx          # Animated route map
+│   │   ├── MagneticButton.tsx    # Magnetic hover button
+│   │   ├── TextReveal.tsx        # Scroll text animation
+│   │   ├── CountUp.tsx           # Animated counter
+│   │   ├── ScrollToTop.tsx       # Route-change scroll reset
+│   │   ├── SEO.tsx               # Per-route metadata
+│   │   ├── GalleryTile.tsx       # Archive canvas tile
+│   │   └── ui/                   # shadcn/ui primitives
 │   ├── hooks/
-│   │   ├── useCanvasCamera.ts    # 2D gallery camera: drag, scroll, zoom, momentum
-│   │   ├── useCurrentDistance.ts  # Live distance counter (date-based calculation)
-│   │   ├── useNavTheme.ts        # Detects if nav is over dark/light content
-│   │   └── use-mobile.tsx        # Mobile breakpoint detection
+│   │   ├── useCanvasCamera.ts    # 2D gallery camera
+│   │   ├── useCurrentDistance.ts  # Live distance counter
+│   │   ├── useNavTheme.ts        # Nav dark/light detection
+│   │   └── use-mobile.tsx        # Mobile breakpoint
 │   ├── lib/
-│   │   ├── distanceCalculator.ts # Distance logic with pause days
-│   │   ├── counterCalculator.ts  # Countries/runners/books counter logic
-│   │   ├── pathSmoothing.ts      # SVG path Catmull-Rom smoothing
-│   │   ├── svgCache.ts           # SVG fetch + parse cache (prevents duplicate requests)
-│   │   └── utils.ts              # cn() classname merger (tailwind-merge + clsx)
-│   └── pages/                    # All route components (see Routes section)
+│   │   ├── apiClient.ts          # Typed fetch wrapper (ready for backend)
+│   │   ├── endpoints.ts          # API endpoint constants
+│   │   ├── distanceCalculator.ts # Distance logic
+│   │   ├── counterCalculator.ts  # Counter logic
+│   │   ├── pathSmoothing.ts      # SVG Catmull-Rom smoothing
+│   │   ├── svgCache.ts           # SVG fetch cache
+│   │   └── utils.ts              # cn() merger
+│   ├── types/
+│   │   └── api.ts                # API request/response types
+│   └── pages/                    # All route components
 ```
 
 ---
 
 ## 4. Routes
 
-| Route | Page Component | Description |
-|-------|---------------|-------------|
-| `/` | Index | Homepage (hero, journey, stages, books, events, newsletter) |
-| `/register` | Register | Multi-tier registration (Solo/Duo/Team) with stage selection |
-| `/homerun` | HomeRun | Home Run Venice event (100km shared stage, €199) |
-| `/follow-the-kust` | FollowTheKust | Belgian coast run (35/75km, Feb 2027) |
-| `/tour-du-mont-blanc` | TourDuMontBlanc | TMB expedition (4/7 days, Aug 2026) |
-| `/order-books` | OrderBooks | Book ordering (Vol I, II, bundle) |
-| `/archive` | Gallery | Infinite pannable 2D canvas of completed stage tiles |
-| `/gallery` | — | Redirect → `/archive` (legacy URL) |
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | Index | Homepage |
+| `/register` | Register | Registration with participant guide callout |
+| `/homerun` | HomeRun | Home Run Venice (€199) |
+| `/follow-the-kust` | FollowTheKust | Belgian coast run (€39/€59) |
+| `/tour-du-mont-blanc` | TourDuMontBlanc | TMB expedition (€999/€1,499) |
+| `/order-books` | OrderBooks | Book ordering (€55/book, €95 bundle) |
+| `/archive` | Gallery | Infinite 2D canvas of stage tiles |
 | `/route-map` | RouteMapPage | Interactive segmented coastline map |
-| `/shoreholders` | Shoreholders | List of all stage runners |
-| `/timeline` | Timeline | Chronological project milestones by year |
-| `/prints` | Prints | Limited edition photography prints (edition of 11) |
-| `/photographers` | Photographers | Photographer profiles (placeholder data) |
-| `/support` | SupportTheProject | Partnership information + contact |
+| `/shoreholders` | Shoreholders | All stage runners |
+| `/timeline` | Timeline | Chronological milestones |
+| `/prints` | Prints | Limited edition prints (edition of 11) |
+| `/photographers` | Photographers | Photographer profiles |
+| `/support` | SupportTheProject | Partnership info (image grid + cards) |
 | `/participant-handbook` | ParticipantHandbook | Runner guide (16 sections) |
-| `/privacy` | Privacy | Privacy policy (Cercatrova BV, GDPR) |
-| `/checkout` | Checkout | Order summary (payment integration pending) |
-| `/eu-stages` | EUStages | Coming soon placeholder |
-| `/all-stages` | AllStages | Coming soon placeholder |
-| `*` | NotFound | 404 page |
+| `/privacy` | Privacy | Privacy policy |
+| `/checkout` | Checkout | Order summary (payment pending) |
+| `/eu-stages` | EUStages | Coming soon |
+| `/all-stages` | AllStages | Coming soon |
+| `*` | NotFound | 404 |
 
 ---
 
-## 5. Where Content Is Edited
+## 5. Where Content Is Managed
 
 | Content | Location |
 |---------|----------|
-| Page copy | Inline in each page component under `src/pages/` |
-| Event data (dates, prices) | `HomeRun.tsx`, `FollowTheKust.tsx`, `TourDuMontBlanc.tsx` |
-| Book data | `OrderBooks.tsx` and `BookSection.tsx` |
-| Registration tiers + stages | `Register.tsx` |
-| Navigation links | `Navigation.tsx` (header), `Footer.tsx` (footer) |
-| Images | `src/assets/` (imported as ES modules via `@/assets/...`) |
-| Static assets | `public/` (fonts, favicon, OG image, sitemap, route map SVG) |
-| Design tokens | `src/index.css` (CSS variables) and `tailwind.config.ts` |
+| Page copy | Inline in `src/pages/` components |
+| Book prices | `OrderBooks.tsx` (€55/book), `BookSection.tsx` |
+| Event prices | `HomeRun.tsx` (€199), `FollowTheKust.tsx` (€39/€59), `TourDuMontBlanc.tsx` (€999/€1,499) |
+| Registration tiers | `Register.tsx` (€699/€999/€1,299) |
+| Navigation | `Navigation.tsx` (header), `Footer.tsx` (footer) |
+| Images | `src/assets/` (imported as ES modules) |
+| Static assets | `public/` (fonts, favicon, OG image, sitemap, SVG) |
+| Design tokens | `src/index.css` + `tailwind.config.ts` |
 
 ---
 
-## 6. How Archive Data Works
-
-The **Archive** (`/archive`) is a 2D spatial canvas showing all 168 completed stages as tiles.
-
-**Data source:** `src/data/stages.ts`
-
-- Exports `STAGES: StageTileData[]` — an array of 168 entries
-- Each entry contains: `id`, `title`, `stageNumber`, `location`, `country`, `year`, `season`, `status`, `shoreholder`, `startCoord?`, `endCoord?`, `image`, `x`, `y`, `width`, `height`, `link`
-- Currently generated by `buildStages()` with deterministic placeholder data
-- **To replace with real data:** swap `buildStages()` with a database query or static import returning the same `StageTileData[]` shape. The `x`/`y` coordinates define tile positions on the canvas grid.
-
-**Tile rendering:** `GalleryTile.tsx` — memoized component with viewport culling (only visible tiles render).
-
-**Camera:** `useCanvasCamera.ts` — handles drag, scroll, pinch-zoom, momentum physics, and boundary clamping.
-
-**Deep linking:** `/archive?stage=42` centers the camera on stage 42 and opens its lightbox.
-
----
-
-## 7. How Shoreholder Data Works
-
-**Data source:** `src/data/shoreholders.ts`
-
-- Derives data from `STAGES` (filters completed stages with a shoreholder name)
-- Exports `SHOREHOLDERS: ShoreholderEntry[]` with: `stageNumber`, `name`, `location`, `country`, `year`
-- **To replace with real data:** either populate the `shoreholder` field in `stages.ts`, or replace the export with a direct database query / CSV import matching the `ShoreholderEntry` interface.
-
-The decoupled file exists specifically so the backend team can swap the data source without touching the presentation layer.
-
----
-
-## 8. How Route Map Works
-
-**Page:** `src/pages/RouteMapPage.tsx`
-
-1. Fetches `public/route-map.svg` via cached SVG loader (`svgCache.ts`)
-2. Applies Catmull-Rom path smoothing (`pathSmoothing.ts`)
-3. Splits the path into 168 equal-length segments (88% of total path = completed stages)
-4. Each segment is interactive: hover shows stage metadata in a fixed bottom bar, click navigates to `/archive?stage=N`
-5. Hover effect includes an SVG glow filter matching the landing page pin style
-
-**Note:** The SVG path has no geographic coordinates. Segments are split by equal path length, not by actual stage distances. When real `startCoord`/`endCoord` data is available, segments could be mapped to geographic positions for greater accuracy.
-
----
-
-## 9. How to Run Locally
-
-```bash
-# Install dependencies
-bun install          # or: npm install
-
-# Start dev server (port 8080)
-bun run dev          # or: npm run dev
-
-# Run tests
-bun run test         # or: npm test
-
-# Production build
-bun run build        # or: npm run build
-
-# Preview production build
-bun run preview      # or: npm run preview
-```
-
----
-
-## 10. Build Instructions
-
-```bash
-bun run build
-```
-
-Output: `dist/` directory with hashed assets and `index.html`.
-
-The build uses Vite with SWC for fast compilation. Route-based code splitting via `React.lazy` produces separate chunks for each page.
-
----
-
-## 11. Deployment Instructions
-
-Deploy the contents of `dist/` to any static hosting provider.
-
-**Important:** This is an SPA — all routes must fall back to `index.html`.
-
----
-
-## 12. Required Hosting Rewrites
-
-| Platform | Configuration |
-|----------|--------------|
-| **Vercel** | `vercel.json`: `{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }` |
-| **Netlify** | `public/_redirects`: `/* /index.html 200` |
-| **Cloudflare Pages** | Enable SPA mode in dashboard |
-| **Nginx** | `try_files $uri $uri/ /index.html;` |
-| **S3 + CloudFront** | Set error page to `index.html` with 200 status |
-| **Apache** | `.htaccess`: `FallbackResource /index.html` |
-
----
-
-## 13. Environment Variables
-
-No environment variables are currently required. The project runs entirely client-side.
-
-When backend integrations are added (payment, newsletter, database), environment variables should be configured for:
-- API endpoints
-- Payment provider keys (Stripe, etc.)
-- Database connection strings
-
----
-
-## 14. Known Limitations
-
-### SPA — No Server-Side Rendering
-
-- **SEO:** Search engines can render JS but may index slower than SSR. Social crawlers (Facebook, Twitter) read only static `<meta>` tags from `index.html` — per-route tags via `react-helmet-async` require JS execution. A prerender service (Prerender.io, Rendertron) is recommended for accurate social previews.
-- **Initial load:** All route content loads after JS execution. Mitigated by code splitting.
-
-### Placeholder Content
-
-- Gallery stage images use deterministic placeholder colours (no real photos yet)
-- Photographer profiles are placeholder data
-- Print images use `placeholder.svg`
-- Stage locations/shoreholder names are generated, not real
-
-### No Backend Integration
-
-- Newsletter form has no submit handler
-- Registration CTA links to WhatsApp group (no form submission)
-- Checkout page is a placeholder (no payment integration)
-- All data is static (no database)
-- `@tanstack/react-query` is installed but unused — ready for API integration
-
-### Other
-
-- No error boundaries (uncaught errors white-screen the app)
-- No analytics tracking
-- Custom cursor is desktop-only (hidden on touch devices via CSS)
-
----
-
-## 15. Recommended Future Upgrades
-
-1. **Connect payment:** Integrate Stripe for checkout (books, events, registrations)
-2. **Add form backends:** Newsletter subscription, registration form, contact form
-3. **Populate real content:** Stage photos, photographer bios, print images, real shoreholder data
-4. **Database integration:** Replace static `stages.ts` with a database (Supabase, Postgres) for dynamic content management
-5. **Add error boundaries:** Wrap route components to prevent white-screen crashes
-6. **Social preview prerendering:** Add a prerender service for accurate per-route OG tags
-7. **Analytics:** Add tracking (Plausible, Fathom, or GA4)
-8. **Image optimization:** Convert large JPGs to WebP; add `srcset` for responsive images
-9. **Mobile route map:** Add tap-to-reveal interaction for touchscreen segment exploration
-10. **Search/filter on Shoreholders:** Add search capability as the list grows to thousands
-11. **PWA support:** Add service worker + manifest for offline access
-12. **i18n:** Consider multi-language support as the project spans multiple countries
-
----
-
-## Design System
+## 6. Design System
 
 ### Fonts
 
-| Font | Usage | File | CSS Class |
-|------|-------|------|-----------|
-| GT Pressura | Display / headings | `public/fonts/GT_Pressura_Regular.ttf` | `font-display` |
-| Beausite Classic | Body text | `public/fonts/Beausite_Classic_Regular.ttf` | `font-body` |
+| Font | Usage | CSS Class |
+|------|-------|-----------|
+| GT Pressura | Display / headings | `font-display` |
+| Beausite Classic | Body text | `font-body` |
 
-Loaded via `@font-face` in `src/index.css` with `font-display: swap`. Preloaded in `index.html`.
+### Brand Colors
 
-### Colour Tokens
-
-All colours use HSL values defined as CSS custom properties in `src/index.css`:
-
-| Token | Light Mode | Usage |
-|-------|-----------|-------|
+| Token | Value | Usage |
+|-------|-------|-------|
 | `--background` | Bone (40 27% 95%) | Page background |
-| `--foreground` | Deep blue (203 92% 15%) | Primary text |
-| `--accent` | Terracotta (10 54% 46% / #B44C36) | CTAs, highlights, interaction states |
-| `--muted-foreground` | Blue-grey (206 17% 45%) | Secondary text |
+| `--foreground` | Deep blue (203 92% 15%) | Primary text, footer bg |
+| `--accent` | Terracotta (#B44C36 / 10 54% 46%) | CTAs, highlights ≤10% |
 | `--secondary` | Linen (40 20% 91%) | Section backgrounds |
+| `--muted-foreground` | Blue-grey (206 17% 45%) | Secondary text |
 | `--border` | Warm grey (36 6% 80%) | Borders |
 
-### Brand Color System
+**Rule:** Terracotta accent is never used as a dominant background. Deep blue is reserved for the footer and hero overlays — not for large mid-page blocks with CTAs.
 
-**Primary Accent: #B44C36 — Terracotta**
+### Dark Section Tokens (Footer, Hero)
 
-Usage:
-- Highlights and interaction states
-- Calls to action (buttons, links)
-- Human moments (step markers, list bullets, badges)
-- Map hover states and active indicators
+Inverted tokens (`inv-*`) are used in dark sections to avoid hardcoded `text-white/XX`:
 
-Rule: Accent never used as a dominant background. Keep to ≤10% visual presence.
+- `--inv-muted`, `--inv-subtle`, `--inv-faint`, `--inv-border`
 
 ---
 
-## Forms
+## 7. Backend Integration Points
 
-| Form | Location | Status |
-|------|----------|--------|
-| Newsletter signup | `NewsletterSection.tsx` | No backend — needs `POST /api/newsletter` |
-| Registration | `Register.tsx` | No backend — CTA links to WhatsApp group |
-| Checkout | `Checkout.tsx` | Placeholder — needs payment integration |
+See `BACKEND_INTEGRATION.md` for full details. Key integration points:
+
+| Feature | Status | File |
+|---------|--------|------|
+| Newsletter | No backend | `NewsletterSection.tsx` |
+| Checkout/Payment | Placeholder | `Checkout.tsx` |
+| Stage data | Static `stages.ts` | `src/data/stages.ts` |
+| Registration form | Links to WhatsApp | `Register.tsx` |
+| Info pack download | Links to email | `EventsSection.tsx` |
 
 ---
 
-*Document updated: 2026-02-22*  
+## 8. Notes for Backend Developer
+
+### SPA Limitations
+- No SSR — social crawlers read only static `<meta>` from `index.html`
+- Per-route meta via `react-helmet-async` requires JS execution
+- Recommend prerender service (Prerender.io, Rendertron) for social previews
+
+### SEO Files
+- `public/sitemap.xml` — static, needs manual update when routes change
+- `public/robots.txt` — standard allow-all
+- OG image: `public/og-image.jpg`
+
+### Hosting
+Deploy `dist/` to any static host. All routes must fall back to `index.html` (SPA rewrite).
+
+### Environment Variables
+See `.env.example`. No env vars required currently — project is fully client-side.
+
+---
+
+## 9. Placeholder Content (Needs Real Assets)
+
+- Gallery stage images: deterministic placeholder colours
+- Photographer profiles: placeholder data
+- Print images: `placeholder.svg`
+- Book covers: single mockup reused across all 3 volumes
+- Stage locations/shoreholder names: generated, not real
+
+---
+
+## 10. Remaining Technical Debt
+
+1. No error boundaries (uncaught errors white-screen the app)
+2. No analytics tracking
+3. No payment integration
+4. `@tanstack/react-query` installed but unused — ready for API integration
+5. Info pack download currently links to email (needs real PDF asset)
+
+---
+
+*Document updated: 2026-02-26*  
 *Project: Follow the Coast (ftc-web)*

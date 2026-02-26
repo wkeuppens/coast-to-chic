@@ -4,24 +4,9 @@ import { Link } from 'react-router-dom';
 import bookMockup from '@/assets/book-mockup.jpg';
 
 const books = [
-  {
-    id: 1,
-    title: 'Volume I',
-    subtitle: 'Knokke to San Sebastián',
-    status: 'Available',
-  },
-  {
-    id: 2,
-    title: 'Volume II',
-    subtitle: 'San Sebastián to Gibraltar',
-    status: 'Available',
-  },
-  {
-    id: 3,
-    title: 'Volume III',
-    subtitle: 'Gibraltar to Monaco',
-    status: 'Coming 2026',
-  },
+  { id: 1, title: 'Volume I', subtitle: 'Knokke — San Sebastián', price: '€55' },
+  { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55' },
+  { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: 'Coming 2026' },
 ];
 
 export const BookSection = () => {
@@ -29,64 +14,56 @@ export const BookSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="books" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-foreground text-primary-foreground">
+    <section id="books" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-background">
       <div ref={ref} className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-24">
-          {/* Left: Book image */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="aspect-[4/5] overflow-hidden">
-              <img 
-                src={bookMockup}
-                alt="Follow the Coast book"
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="mb-12"
+        >
+          <p className="text-sm text-muted-foreground tracking-wide mb-4">The books</p>
+          <h2 className="font-display text-3xl md:text-4xl font-medium">
+            5,000 km per volume.
+          </h2>
+        </motion.div>
 
-          {/* Right: Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col justify-center"
-          >
-            <p className="text-sm text-inv-muted tracking-wide mb-4">The books</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium leading-tight mb-8">
-              5,000 km per volume.
-              <br />
-              Photos. Routes. Field notes.
-            </h2>
-            
-            <p className="text-inv-muted leading-relaxed mb-8">
-              Harbours. Cliff paths. Weather that changed plans.
-              The stuff that happened.
-            </p>
-
-            <div className="space-y-4 mb-10">
-              {books.map((book) => (
-                <div key={book.id} className="flex justify-between items-baseline border-b border-inv-border pb-3">
-                  <div>
-                    <span className="font-display font-medium">{book.title}</span>
-                    <span className="text-inv-muted ml-3 text-sm">{book.subtitle}</span>
-                  </div>
-                  <span className="text-xs text-inv-muted">{book.status}</span>
-                </div>
-              ))}
-            </div>
-
-            <Link 
-              to="/order-books" 
-              className="inline-flex items-center gap-2 text-sm text-inv-muted hover:text-inv transition-colors"
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {books.map((book, i) => (
+            <motion.div
+              key={book.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="group"
             >
-              <span className="border-b border-accent pb-1 text-accent">Order books →</span>
-            </Link>
-          </motion.div>
+              <div className="aspect-[4/5] overflow-hidden rounded-sm mb-4 bg-secondary">
+                <img
+                  src={bookMockup}
+                  alt={`Follow the Coast ${book.title}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-display text-lg font-medium">{book.title}</h3>
+              <p className="text-sm text-muted-foreground">{book.subtitle}</p>
+              <p className="font-display text-lg font-medium mt-1">{book.price}</p>
+            </motion.div>
+          ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <Link
+            to="/order-books"
+            className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
+          >
+            See the books →
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
