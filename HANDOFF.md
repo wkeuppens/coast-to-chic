@@ -52,12 +52,12 @@ Follow the Coast is a long-distance running relay tracing the European coastline
 │   │   ├── stages.ts             # ★ 168 stage records (single source of truth)
 │   │   └── shoreholders.ts       # Derived from stages.ts
 │   ├── components/
-│   │   ├── Navigation.tsx        # Fixed nav with scroll progress + theme detection
+│   │   ├── Navigation.tsx        # Fixed nav: Archive, Books, Prints, Side routes, Support, Register
 │   │   ├── Footer.tsx            # Site footer
 │   │   ├── HeroSection.tsx       # Landing hero
-│   │   ├── BookSection.tsx       # 3-book grid with "See the books" CTA
+│   │   ├── BookSection.tsx       # 3-book grid with "Explore the books" CTA
 │   │   ├── EventsSection.tsx     # Side routes + "Download info pack"
-│   │   ├── HowItWorksSection.tsx # 3-step process (on secondary bg, not dark)
+│   │   ├── HowItWorksSection.tsx # 3-step process with orientation intro (secondary bg)
 │   │   ├── NewsletterSection.tsx # Email capture (on secondary bg, not dark)
 │   │   ├── StagesSection.tsx     # Stage overview with registration CTA
 │   │   ├── SupportSection.tsx    # Support CTA
@@ -128,7 +128,7 @@ Follow the Coast is a long-distance running relay tracing the European coastline
 | Book prices | `OrderBooks.tsx` (€55/book), `BookSection.tsx` |
 | Event prices | `HomeRun.tsx` (€199), `FollowTheKust.tsx` (€39/€59), `TourDuMontBlanc.tsx` (€999/€1,499) |
 | Registration tiers | `Register.tsx` (€699/€999/€1,299) |
-| Navigation | `Navigation.tsx` (header), `Footer.tsx` (footer) |
+| Navigation | `Navigation.tsx` (Archive, Books, Prints, Side routes, Support, Register), `Footer.tsx` |
 | Images | `src/assets/` (imported as ES modules) |
 | Static assets | `public/` (fonts, favicon, OG image, sitemap, SVG) |
 | Design tokens | `src/index.css` + `tailwind.config.ts` |
