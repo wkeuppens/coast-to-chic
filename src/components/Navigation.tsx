@@ -6,11 +6,10 @@ import wavesLogo from '@/assets/waves-logo.png';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
-  { label: 'Stages', href: '/#stages' },
-  { label: 'Archive', href: '/archive' },
-  { label: 'Books', href: '/#books' },
+  { label: 'Books', href: '/order-books' },
   { label: 'Prints', href: '/prints' },
   { label: 'Side routes', href: '/#events' },
+  { label: 'Support', href: '/support' },
 ] as const;
 
 export const Navigation = () => {
@@ -82,8 +81,7 @@ export const Navigation = () => {
             </a>
           ))}
           <a
-            href="/#stages"
-            onClick={(e) => handleHashLink(e, '/#stages')}
+            href="/register"
             className={`text-sm font-medium transition-all duration-300 border px-5 py-2 rounded-full ${textColor} ${borderColor} ${hoverBg}`}
           >
             Register
@@ -95,6 +93,7 @@ export const Navigation = () => {
           onClick={() => setIsOpen(!isOpen)}
           className={`md:hidden transition-colors duration-300 ${textColor}`}
           aria-label="Toggle menu"
+          type="button"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -124,11 +123,11 @@ export const Navigation = () => {
                 </motion.a>
               ))}
               <motion.a
-                href="/#stages"
+                href="/register"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                onClick={(e) => handleHashLink(e, '/#stages')}
+                onClick={() => setIsOpen(false)}
                 className="text-3xl font-display text-accent"
               >
                 Register →

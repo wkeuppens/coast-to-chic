@@ -7,14 +7,13 @@ const footerColumns = [
     title: 'Project',
     links: [
       { label: 'Register', href: '/register' },
-      { label: 'EU Stages', href: '/eu-stages' },
       { label: 'Archive', href: '/archive' },
       { label: 'Shoreholders', href: '/shoreholders' },
       { label: 'Timeline', href: '/timeline' },
     ],
   },
   {
-    title: 'Books',
+    title: 'Books & Prints',
     links: [
       { label: 'Order Books', href: '/order-books' },
       { label: 'Prints', href: '/prints' },

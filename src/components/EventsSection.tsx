@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
 import coastalPath from '@/assets/coastal-path.jpg';
 import utmbTrail from '@/assets/utmb-trail.png';
 import harborBoats from '@/assets/harbor-boats.jpg';
@@ -40,20 +41,30 @@ export const EventsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="events" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-background text-foreground">
+    <section id="events" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-background text-foreground">
       <div ref={ref} className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-16"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16"
         >
-          <p className="text-sm text-muted-foreground tracking-wide mb-4">
-            Side routes
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium">
-            Other runs we organise.
-          </h2>
+          <div>
+            <p className="text-sm text-muted-foreground tracking-wide mb-4">
+              Side routes
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-medium">
+              Other runs we organise.
+            </h2>
+          </div>
+          {/* TODO: Replace href with actual info pack PDF when available */}
+          <a
+            href="mailto:hello@followthecoast.com?subject=Info%20pack%20request"
+            className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display"
+          >
+            <Download className="w-4 h-4" />
+            Download info pack
+          </a>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">

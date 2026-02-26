@@ -10,7 +10,6 @@ import { EventsSection } from '@/components/EventsSection';
 import { PartnersSection } from '@/components/PartnersSection';
 import { NewsletterSection } from '@/components/NewsletterSection';
 import { Footer } from '@/components/Footer';
-import { CustomCursor } from '@/components/CustomCursor';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { MarqueeTicker } from '@/components/MarqueeTicker';
 import { PhotoGallery } from '@/components/PhotoGallery';
@@ -28,10 +27,9 @@ const Index = () => {
 
   return (
     <>
-      <CustomCursor />
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       <SEO path="/" />
-      <main className="overflow-x-hidden cursor-none">
+      <main className="overflow-x-hidden">
         <Navigation />
         <HeroSection />
         <MarqueeTicker />
