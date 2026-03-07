@@ -4,6 +4,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { EditorialArrow } from '@/components/EditorialArrow';
+import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Calendar, Mountain, Clock, CheckCircle } from 'lucide-react';
 import tmbHero from '@/assets/tmb-lake.jpg';
 
@@ -112,9 +113,11 @@ const TourDuMontBlanc = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=7%20days&price=%E2%82%AC1%2C499&return=/tour-du-mont-blanc" className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm">
-                <EditorialArrow size={14} className="invert" />
-                Register — €1,499
+              <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=7%20days&price=%E2%82%AC1%2C499&return=/tour-du-mont-blanc">
+                <MagneticButton className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm" strength={0.2}>
+                  <EditorialArrow size={14} className="invert" />
+                  Register — €1,499
+                </MagneticButton>
               </Link>
             </motion.div>
 
@@ -131,9 +134,11 @@ const TourDuMontBlanc = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=4%20days&price=%E2%82%AC999&return=/tour-du-mont-blanc" className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm">
-                <EditorialArrow size={14} className="invert" />
-                Register — €999
+              <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=4%20days&price=%E2%82%AC999&return=/tour-du-mont-blanc">
+                <MagneticButton className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm" strength={0.2}>
+                  <EditorialArrow size={14} className="invert" />
+                  Register — €999
+                </MagneticButton>
               </Link>
             </motion.div>
           </div>
@@ -146,9 +151,11 @@ const TourDuMontBlanc = () => {
           <motion.div {...fadeUp}>
             <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">August 2026 · Chamonix</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">Three countries. 4–7 days on the trail.</p>
-            <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&return=/tour-du-mont-blanc" className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity">
-              <EditorialArrow size={18} className="invert" />
-              Run with us
+            <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&return=/tour-du-mont-blanc">
+              <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>
+                <EditorialArrow size={18} className="invert" />
+                Run with us
+              </MagneticButton>
             </Link>
             <p className="text-caption text-muted-foreground mt-6">Registrations close March 15, 2026.</p>
           </motion.div>

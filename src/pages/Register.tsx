@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown, BookOpen } from 'lucide-react';
 import { EditorialArrow } from '@/components/EditorialArrow';
+import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import beachRunners from '@/assets/beach-runners.jpg';
 import { SEO } from '@/components/SEO';
@@ -127,12 +128,14 @@ const Register = () => {
               <p className="text-sm text-muted-foreground mb-3">
                 It covers how stages work, what to expect, and what we ask from every runner.
               </p>
-              <Link
-                to="/participant-handbook"
-                className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
-              >
-                <EditorialArrow size={14} className="invert" />
-                Read the guide
+              <Link to="/participant-handbook">
+                <MagneticButton
+                  className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                  strength={0.2}
+                >
+                  <EditorialArrow size={14} className="invert" />
+                  Read the guide
+                </MagneticButton>
               </Link>
             </div>
           </div>
@@ -306,10 +309,14 @@ const Register = () => {
               href="https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV?mode=gi_t"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
             >
-              <EditorialArrow size={14} className="invert" />
-              Join WhatsApp group
+              <MagneticButton
+                className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                strength={0.2}
+              >
+                <EditorialArrow size={14} className="invert" />
+                Join WhatsApp group
+              </MagneticButton>
             </a>
           </motion.div>
         </div>
