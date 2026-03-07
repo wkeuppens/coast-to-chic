@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { EditorialArrow } from './EditorialArrow';
 import { MagneticButton } from './MagneticButton';
 
 const stageTypes = [
@@ -34,7 +35,7 @@ export const StagesSection = () => {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
         >
           <div>
-            <p className="text-sm text-muted-foreground tracking-wide mb-4">
+            <p className="text-caption text-muted-foreground mb-4">
               Stages
             </p>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
@@ -46,8 +47,9 @@ export const StagesSection = () => {
               className="text-sm font-medium text-foreground"
               strength={0.3}
             >
-              <span className="border-b border-accent pb-1 text-accent">
-                View all stages →
+              <span className="inline-flex items-center gap-2 border-b border-accent pb-1 text-accent">
+                View all stages
+                <EditorialArrow size={14} className="opacity-70" />
               </span>
             </MagneticButton>
           </Link>
@@ -63,15 +65,14 @@ export const StagesSection = () => {
                 className="border-b md:border-b-0 md:border-r border-border last:border-r-0 py-12 md:pr-12 group cursor-pointer"
               >
                 <div className="flex items-start justify-between mb-6">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                  <span className="text-caption text-muted-foreground">
                     {stage.status}
                   </span>
-                  {/* Hover arrow indicator */}
                   <motion.span
-                    className="text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     initial={false}
                   >
-                    →
+                    <EditorialArrow size={16} className="text-accent" />
                   </motion.span>
                 </div>
                 <h3 className="font-display text-2xl font-medium text-foreground mb-3 group-hover:text-accent transition-colors duration-300">
@@ -85,12 +86,11 @@ export const StagesSection = () => {
           ))}
         </div>
 
-        {/* Note about selling out */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-12 text-sm text-muted-foreground"
+          className="mt-12 text-label"
         >
           Stages fill fast. Minutes, usually.
         </motion.p>

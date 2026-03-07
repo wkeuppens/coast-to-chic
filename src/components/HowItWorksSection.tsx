@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { EditorialArrow } from './EditorialArrow';
 
 const steps = [
   {
@@ -34,10 +35,10 @@ export const HowItWorksSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-6"
         >
-          <p className="text-sm text-muted-foreground tracking-wide mb-3">
+          <p className="text-caption text-muted-foreground mb-3">
             How it works
           </p>
-          <p className="text-muted-foreground text-base">
+          <p className="text-label">
             Run one stage of Europe's coastline.
           </p>
         </motion.div>
@@ -62,8 +63,13 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: 0.15 + index * 0.15 }}
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
-              <span className="text-5xl md:text-6xl font-display font-black text-foreground/10 leading-none">{step.number}</span>
-              <h3 className="font-display text-xl md:text-2xl font-medium mt-6 mb-4">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-5xl md:text-6xl font-display font-black text-foreground/10 leading-none">{step.number}</span>
+                {index < steps.length - 1 && (
+                  <EditorialArrow size={20} className="opacity-20 hidden md:block" />
+                )}
+              </div>
+              <h3 className="font-display text-xl md:text-2xl font-medium mb-4">
                 {step.title}
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
@@ -78,33 +84,33 @@ export const HowItWorksSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-24 grid md:grid-cols-2 gap-16"
+          className="mt-32 grid md:grid-cols-2 gap-16 border-t border-border pt-12"
         >
           <div>
-            <p className="text-sm text-muted-foreground tracking-wide mb-5">
+            <p className="text-caption text-muted-foreground mb-6">
               Support included
             </p>
-            <ul className="space-y-3 text-foreground">
+            <ul className="space-y-4 text-foreground">
               <li className="flex items-start gap-3">
-                <span className="text-accent">—</span>
+                <span className="text-accent mt-0.5">—</span>
                 <span>Van with driver. 24 hours.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-accent">—</span>
+                <span className="text-accent mt-0.5">—</span>
                 <span>Photographer. All day.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-accent">—</span>
+                <span className="text-accent mt-0.5">—</span>
                 <span>Food. Water. Coffee.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-accent">—</span>
+                <span className="text-accent mt-0.5">—</span>
                 <span>Photos after. One book per runner.</span>
               </li>
             </ul>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground tracking-wide mb-5">
+            <p className="text-caption text-muted-foreground mb-6">
               Participation fee
             </p>
             <div className="space-y-3 text-foreground">

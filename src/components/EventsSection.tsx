@@ -50,24 +50,23 @@ export const EventsSection = () => {
           className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16"
         >
           <div>
-            <p className="text-sm text-muted-foreground tracking-wide mb-4">
+            <p className="text-caption text-muted-foreground mb-4">
               Side routes
             </p>
             <h2 className="font-display text-4xl md:text-5xl font-bold">
               Other runs we organise.
             </h2>
           </div>
-          {/* TODO: Replace href with actual info pack PDF when available */}
           <a
             href="mailto:hello@followthecoast.com?subject=Info%20pack%20request"
-            className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display"
+            className="inline-flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors"
           >
             <Download className="w-4 h-4" />
             Download info pack
           </a>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-10">
           {events.map((event, index) => (
             <Link key={event.id} to={event.href}>
               <motion.div
@@ -77,7 +76,8 @@ export const EventsSection = () => {
                 className="group block"
                 whileHover={{ y: -4 }}
               >
-                <div className="aspect-[16/10] bg-muted mb-6 overflow-hidden rounded-xl">
+                {/* Sharp edges — no rounded corners, like the book */}
+                <div className="aspect-[16/10] bg-muted mb-5 overflow-hidden">
                   <img 
                     src={event.image} 
                     alt={event.title}
@@ -89,7 +89,7 @@ export const EventsSection = () => {
                   <h3 className="font-display text-lg font-medium mb-1 group-hover:text-accent transition-colors duration-300">
                     {event.title}
                   </h3>
-                  <p className="text-xs text-muted-foreground font-body tracking-wide">
+                  <p className="text-caption text-muted-foreground">
                     {event.location} — {event.date} — {event.distance}
                   </p>
                 </div>

@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { EditorialArrow } from './EditorialArrow';
 import bookMockup from '@/assets/book-mockup.jpg';
 
 const books = [
@@ -20,15 +21,15 @@ export const BookSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-12"
+          className="mb-16"
         >
-          <p className="text-sm text-muted-foreground tracking-wide mb-4">The books</p>
+          <p className="text-caption text-muted-foreground mb-4">The books</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold">
             5,000 km per volume.
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
           {books.map((book, i) => (
             <motion.div
               key={book.id}
@@ -37,7 +38,7 @@ export const BookSection = () => {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className="group"
             >
-              <div className="aspect-[4/5] overflow-hidden rounded-sm mb-4 bg-secondary">
+              <div className="aspect-[4/5] overflow-hidden mb-5 bg-secondary">
                 <img
                   src={bookMockup}
                   alt={`Follow the Coast ${book.title}`}
@@ -46,8 +47,8 @@ export const BookSection = () => {
                 />
               </div>
               <h3 className="font-display text-lg font-medium">{book.title}</h3>
-              <p className="text-sm text-muted-foreground">{book.subtitle}</p>
-              <p className="font-display text-lg font-medium mt-1">{book.price}</p>
+              <p className="text-caption text-muted-foreground mt-1">{book.subtitle}</p>
+              <p className="font-display text-lg font-medium mt-2">{book.price}</p>
             </motion.div>
           ))}
         </div>
@@ -59,9 +60,10 @@ export const BookSection = () => {
         >
           <Link
             to="/order-books"
-            className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-3 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
           >
-            Explore the books →
+            Explore the books
+            <EditorialArrow size={18} className="invert" />
           </Link>
         </motion.div>
       </div>
