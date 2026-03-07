@@ -48,8 +48,8 @@ export const StagesSection = () => {
               strength={0.3}
             >
               <span className="inline-flex items-center gap-2 border-b border-accent pb-1 text-accent">
-                View all stages
                 <EditorialArrow size={14} className="opacity-70" />
+                View all stages
               </span>
             </MagneticButton>
           </Link>
@@ -68,16 +68,15 @@ export const StagesSection = () => {
                   <span className="text-caption text-muted-foreground">
                     {stage.status}
                   </span>
-                  <motion.span
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={false}
-                  >
-                    <EditorialArrow size={16} className="text-accent" />
-                  </motion.span>
                 </div>
-                <h3 className="font-display text-2xl font-medium text-foreground mb-3 group-hover:text-accent transition-colors duration-300">
-                  {stage.title}
-                </h3>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex-shrink-0">
+                    <EditorialArrow size={16} />
+                  </div>
+                  <h3 className="font-display text-2xl font-medium text-foreground group-hover:text-accent transition-colors duration-300">
+                    {stage.title}
+                  </h3>
+                </div>
                 <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors duration-300">
                   {stage.description}
                 </p>

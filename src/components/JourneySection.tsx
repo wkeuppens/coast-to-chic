@@ -58,7 +58,7 @@ export const JourneySection = () => {
               <p>Belgium. France. Spain. Portugal. Now Italy.</p>
               <p className="flex items-start gap-2">
                 <EditorialArrow size={16} className="mt-1 opacity-40 flex-shrink-0" />
-                <span>Athens by end of 2026. Rain or shine. Storms don't wait, neither do we.</span>
+                <span>Athens by end of 2026.</span>
               </p>
             </div>
           </motion.div>

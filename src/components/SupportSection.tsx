@@ -43,8 +43,8 @@ export const SupportSection = () => {
             to="/support"
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-primary-foreground font-display text-sm uppercase tracking-wider hover:bg-foreground/90 transition-colors"
           >
-            Support the Project
             <EditorialArrow size={14} className="invert" />
+            Support the Project
           </Link>
         </motion.div>
       </div>
