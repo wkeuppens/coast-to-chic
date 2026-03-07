@@ -82,7 +82,7 @@ export const EventsSection = () => {
                     src={event.image} 
                     alt={event.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
                 <div className="flex justify-between items-start">
