@@ -23,7 +23,7 @@ const events = [
     location: 'Belgium',
     date: '6 Feb 2027',
     distance: '35 or 75km',
-    image: coastalPath,
+    image: ftkHero,
     href: '/follow-the-kust',
   },
   {
