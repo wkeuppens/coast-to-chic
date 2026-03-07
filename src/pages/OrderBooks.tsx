@@ -118,7 +118,7 @@ const OrderBooks = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-16">
             {books.map((book, i) => (
               <motion.div
                 key={book.id}
@@ -127,28 +127,33 @@ const OrderBooks = () => {
                 transition={{ duration: 0.6, delay: 0.1 * i }}
                 className="group"
               >
-                <div className="aspect-[4/5] overflow-hidden mb-5 bg-secondary">
-                  <img
-                    src={bookMockup}
-                    alt={`Follow the Coast ${book.title}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="font-display text-xl font-medium mb-1">{book.title}</h3>
-                <p className="text-caption text-muted-foreground mb-3">{book.subtitle}</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-display text-2xl font-bold">{book.price}</span>
-                  {book.status === 'available' ? (
-                    <Link to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`}>
-                      <MagneticButton className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity" strength={0.2}>
-                        <EditorialArrow size={14} className="invert" />
-                        Order
-                      </MagneticButton>
-                    </Link>
-                  ) : (
-                    <span className="text-caption text-muted-foreground">Coming 2026</span>
-                  )}
+                {book.status === 'available' ? (
+                  <Link to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`} className="block">
+                    <div className="aspect-[4/5] overflow-hidden bg-secondary">
+                      <img
+                        src={bookMockup}
+                        alt={`Follow the Coast ${book.title}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="aspect-[4/5] overflow-hidden bg-secondary">
+                    <img
+                      src={bookMockup}
+                      alt={`Follow the Coast ${book.title}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div className="pt-5 text-center">
+                  <p className="text-caption text-muted-foreground mb-2">
+                    {book.status === 'available' ? book.subtitle : 'Coming 2026'}
+                  </p>
+                  <h3 className="font-display text-base font-semibold mb-1">{book.title}</h3>
+                  <p className="font-display text-base">{book.price}</p>
                 </div>
               </motion.div>
             ))}
