@@ -64,10 +64,8 @@ export const HowItWorksSection = () => {
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
               <div className="flex items-center gap-3 mb-6">
+                <EditorialArrow size={18} className="opacity-20" />
                 <span className="text-5xl md:text-6xl font-display font-black text-foreground/10 leading-none">{step.number}</span>
-                {index < steps.length - 1 && (
-                  <EditorialArrow size={20} className="opacity-20 hidden md:block" />
-                )}
               </div>
               <h3 className="font-display text-xl md:text-2xl font-medium mb-4">
                 {step.title}
