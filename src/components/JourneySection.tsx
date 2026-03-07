@@ -10,14 +10,14 @@ export const JourneySection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="journey" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-background">
+    <section id="journey" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-background">
       <div ref={ref} className="max-w-7xl mx-auto">
         {/* Stats grid - factual, no embellishment */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-24"
+          className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16 mb-32"
         >
           <StatBlock>
             <CountUp end={distance} className="font-display text-5xl md:text-6xl font-black text-foreground tracking-tight" />

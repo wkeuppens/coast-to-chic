@@ -7,7 +7,7 @@ export const SupportSection = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section className="py-16 md:py-24 px-6 md:px-12 lg:px-24 border-t border-border">
+    <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 border-t border-border">
       <div ref={ref} className="max-w-4xl mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

@@ -7,7 +7,7 @@ export const NewsletterSection = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <section id="newsletter" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
+    <section id="newsletter" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-secondary">
       <div ref={ref} className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
