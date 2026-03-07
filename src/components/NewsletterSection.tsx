@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { EditorialArrow } from './EditorialArrow';
+import { MagneticButton } from './MagneticButton';
 
 export const NewsletterSection = () => {
   const ref = useRef(null);
@@ -37,13 +38,14 @@ export const NewsletterSection = () => {
               required
               className="flex-1 bg-background border border-border px-5 py-4 rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
             />
-            <button
-              type="submit"
+            <MagneticButton
+              onClick={() => {}}
               className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
+              strength={0.2}
             >
               <EditorialArrow size={14} className="invert" />
               Subscribe
-            </button>
+            </MagneticButton>
           </form>
 
           <p className="text-xs text-muted-foreground mt-8">

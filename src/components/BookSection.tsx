@@ -2,6 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { EditorialArrow } from './EditorialArrow';
+import { MagneticButton } from './MagneticButton';
 import bookMockup from '@/assets/book-mockup.jpg';
 
 const books = [
@@ -58,12 +59,14 @@ export const BookSection = () => {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Link
-            to="/order-books"
-            className="inline-flex items-center gap-3 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
-          >
-            <EditorialArrow size={18} className="invert" />
-            Explore the books
+          <Link to="/order-books">
+            <MagneticButton
+              className="inline-flex items-center gap-3 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
+              strength={0.2}
+            >
+              <EditorialArrow size={18} className="invert" />
+              Explore the books
+            </MagneticButton>
           </Link>
         </motion.div>
       </div>
