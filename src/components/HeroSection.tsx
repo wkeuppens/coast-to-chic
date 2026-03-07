@@ -19,7 +19,7 @@ export const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 px-6 md:px-12 lg:px-24 pb-24 md:pb-32">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl ml-auto text-right">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
