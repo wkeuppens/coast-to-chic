@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
-import { MapPin, Calendar, Users, Clock, CheckCircle } from 'lucide-react';
+import { MapPin, Calendar, Users, Clock } from 'lucide-react';
 import ftkHero from '@/assets/ftk-hero.jpg';
 
 const fadeUp = {
@@ -102,7 +102,7 @@ const FollowTheKust = () => {
               <ul className="space-y-3 mb-10 flex-1">
                 {halfCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground" />
+                    <span className="text-muted-foreground shrink-0 mt-px">—</span>
                     {item}
                   </li>
                 ))}
@@ -122,7 +122,7 @@ const FollowTheKust = () => {
               <ul className="space-y-3 mb-10 flex-1">
                 {fullCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground" />
+                    <span className="text-muted-foreground shrink-0 mt-px">—</span>
                     {item}
                   </li>
                 ))}

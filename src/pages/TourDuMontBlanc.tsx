@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
-import { MapPin, Calendar, Mountain, Clock, CheckCircle } from 'lucide-react';
+import { MapPin, Calendar, Mountain, Clock } from 'lucide-react';
 import tmbHero from '@/assets/tmb-lake.jpg';
 
 const fadeUp = {
@@ -108,7 +108,7 @@ const TourDuMontBlanc = () => {
               <ul className="space-y-3 mb-10 flex-1">
                 {sevenDayPerks.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <CheckCircle className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground shrink-0 mt-px">—</span>
                     {item}
                   </li>
                 ))}
@@ -129,7 +129,7 @@ const TourDuMontBlanc = () => {
               <ul className="space-y-3 mb-10 flex-1">
                 {fourDayPerks.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <CheckCircle className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground shrink-0 mt-px">—</span>
                     {item}
                   </li>
                 ))}
