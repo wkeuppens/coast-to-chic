@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown, BookOpen } from 'lucide-react';
+import { EditorialArrow } from '@/components/EditorialArrow';
 import wavesLogo from '@/assets/waves-logo.png';
 import beachRunners from '@/assets/beach-runners.jpg';
 import { SEO } from '@/components/SEO';
@@ -106,7 +107,7 @@ const Register = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-sm text-white/60 tracking-wide mb-3">REGISTER</p>
+            <p className="text-caption text-white/60 mb-3">Register</p>
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05]">
               Run a stage
             </h1>
@@ -117,7 +118,7 @@ const Register = () => {
       {/* Participant Guide Callout */}
       <section className="px-6 md:px-12 lg:px-24 py-8">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-start gap-4 p-6 rounded-xl bg-accent/8 border border-accent/20">
+          <div className="flex items-start gap-4 p-6 bg-accent/8 border border-accent/20">
             <BookOpen size={24} className="text-accent shrink-0 mt-0.5" />
             <div>
               <p className="font-display font-medium text-foreground mb-1">
@@ -130,7 +131,8 @@ const Register = () => {
                 to="/participant-handbook"
                 className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
               >
-                Read the guide →
+                <EditorialArrow size={14} className="invert" />
+                Read the guide
               </Link>
             </div>
           </div>
@@ -146,7 +148,8 @@ const Register = () => {
             transition={{ duration: 0.6 }}
             className="mb-16 max-w-2xl"
           >
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">How it works</h2>
+            <p className="text-caption text-muted-foreground mb-4">How it works</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">The process</h2>
             <div className="text-muted-foreground leading-relaxed space-y-4">
               <p>Each stage covers roughly 100 km of European coastline, carried by a different runner or team. When you register, you take responsibility for one link in that chain.</p>
               <p>Every stage contributes to the shared logistics: crew, travel, food, documentation, and the long-term archive.</p>
@@ -154,6 +157,7 @@ const Register = () => {
           </motion.div>
 
           {/* Pricing cards */}
+          <p className="text-caption text-muted-foreground mb-4">Pricing</p>
           <h3 className="font-display text-2xl font-bold mb-8">Choose how you run</h3>
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             {pricingTiers.map((tier, i) => {
@@ -167,7 +171,7 @@ const Register = () => {
                   transition={{ duration: 0.5, delay: 0.1 * i }}
                   onClick={() => setSelectedTier(tier.id)}
                   type="button"
-                  className={`relative text-left rounded-2xl p-8 border-2 transition-all duration-300 ${
+                  className={`relative text-left p-8 border-2 transition-all duration-300 ${
                     isSelected
                       ? 'border-accent bg-accent/5'
                       : 'border-border hover:border-accent/40'
@@ -180,7 +184,7 @@ const Register = () => {
                   )}
                   <Icon size={24} className="text-accent mb-4" />
                   <h3 className="font-display text-2xl font-bold mb-1">{tier.label}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{tier.people}</p>
+                  <p className="text-caption text-muted-foreground mb-4">{tier.people}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 whitespace-pre-line">
                     {tier.description}
                   </p>
@@ -198,6 +202,7 @@ const Register = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
+            <p className="text-caption text-muted-foreground mb-4">Included</p>
             <h2 className="font-display text-2xl font-bold mb-8">What's included</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {included.map((item, i) => (
@@ -217,7 +222,7 @@ const Register = () => {
         </div>
       </section>
 
-      {/* Stage selection — on light background */}
+      {/* Stage selection */}
       <section className="bg-secondary px-6 md:px-12 lg:px-24 py-20 md:py-32">
         <div className="max-w-5xl mx-auto">
           <motion.div
@@ -227,7 +232,7 @@ const Register = () => {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <p className="text-sm text-muted-foreground tracking-wide mb-4">Select a stage</p>
+            <p className="text-caption text-muted-foreground mb-4">Select a stage</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
               Pick your date
             </h2>
@@ -238,7 +243,7 @@ const Register = () => {
 
           {/* Stage list */}
           <div className="space-y-0">
-            <div className="grid grid-cols-[60px_1fr_1fr_100px] md:grid-cols-[80px_120px_1fr_1fr_120px] gap-4 text-xs text-muted-foreground uppercase tracking-wider pb-4 border-b border-border">
+            <div className="grid grid-cols-[60px_1fr_1fr_100px] md:grid-cols-[80px_120px_1fr_1fr_120px] gap-4 text-caption text-muted-foreground pb-4 border-b border-border">
               <span>Stage</span>
               <span className="hidden md:block">Date</span>
               <span>From</span>
@@ -301,8 +306,9 @@ const Register = () => {
               href="https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV?mode=gi_t"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
             >
+              <EditorialArrow size={14} className="invert" />
               Join WhatsApp group
             </a>
           </motion.div>
