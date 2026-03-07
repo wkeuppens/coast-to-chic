@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
+import coastalPath from '@/assets/coastal-path.jpg';
+import cliffBay from '@/assets/cliff-bay.jpg';
+import sailboatSea from '@/assets/sailboat-sea.jpg';
+import coastalFortress from '@/assets/coastal-fortress.jpg';
+import beachRunners from '@/assets/beach-runners.jpg';
+import ftkHero from '@/assets/ftk-hero.jpg';
 import { SEO } from '@/components/SEO';
 
 const books = [
