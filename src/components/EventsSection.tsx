@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Download } from 'lucide-react';
 import coastalPath from '@/assets/coastal-path.jpg';
-import tmbSummit from '@/assets/tmb-summit.jpg';
+import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
 const events = [
@@ -31,7 +31,7 @@ const events = [
     location: 'France, Italy, Switzerland',
     date: 'Summer 2026',
     distance: '170km',
-    image: tmbSummit,
+    image: tmbLakePanorama,
     href: '/tour-du-mont-blanc',
   },
 ];
@@ -82,7 +82,7 @@ export const EventsSection = () => {
                     src={event.image} 
                     alt={event.title}
                     loading="lazy"
-                    className="w-full h-full object-cover object-[center_30%] transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
                 <div className="flex justify-between items-start">
