@@ -31,7 +31,7 @@ const events = [
     location: 'France, Italy, Switzerland',
     date: 'Summer 2026',
     distance: '170km',
-    image: utmbTrail,
+    image: tmbSummit,
     href: '/tour-du-mont-blanc',
   },
 ];
