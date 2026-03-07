@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
+import coastalPath from '@/assets/coastal-path.jpg';
+import cliffBay from '@/assets/cliff-bay.jpg';
+import sailboatSea from '@/assets/sailboat-sea.jpg';
+import coastalFortress from '@/assets/coastal-fortress.jpg';
+import beachRunners from '@/assets/beach-runners.jpg';
+import ftkHero from '@/assets/ftk-hero.jpg';
 import { SEO } from '@/components/SEO';
 
 const books = [
@@ -12,6 +19,68 @@ const books = [
   { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55', status: 'available' as const },
   { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: '€55', status: 'coming' as const },
 ];
+
+const spreads = [
+  { src: coastalPath, alt: 'Coastal path spread' },
+  { src: cliffBay, alt: 'Cliff bay spread' },
+  { src: ftkHero, alt: 'Beach aerial spread' },
+  { src: sailboatSea, alt: 'Sailboat spread' },
+  { src: coastalFortress, alt: 'Coastal fortress spread' },
+  { src: beachRunners, alt: 'Beach runners spread' },
+];
+
+const BookSpreads = () => {
+  const [current, setCurrent] = useState(0);
+  const canPrev = current > 0;
+  const canNext = current < spreads.length - 1;
+
+  return (
+    <div className="relative">
+      <div className="aspect-[16/9] md:aspect-[2.4/1] overflow-hidden bg-secondary relative">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={current}
+            src={spreads[current].src}
+            alt={spreads[current].alt}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full h-full object-cover"
+          />
+        </AnimatePresence>
+
+        <div className="absolute inset-0 flex items-center justify-between px-4 md:px-6">
+          <button
+            onClick={() => canPrev && setCurrent(c => c - 1)}
+            className={`w-10 h-10 flex items-center justify-center bg-background/80 backdrop-blur-sm transition-opacity ${canPrev ? 'opacity-100 hover:bg-background' : 'opacity-0 pointer-events-none'}`}
+            aria-label="Previous spread"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => canNext && setCurrent(c => c + 1)}
+            className={`w-10 h-10 flex items-center justify-center bg-background/80 backdrop-blur-sm transition-opacity ${canNext ? 'opacity-100 hover:bg-background' : 'opacity-0 pointer-events-none'}`}
+            aria-label="Next spread"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-2 mt-4">
+        {spreads.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`w-1.5 h-1.5 transition-colors ${i === current ? 'bg-foreground' : 'bg-border'}`}
+            aria-label={`View spread ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const OrderBooks = () => {
   return (
@@ -84,6 +153,17 @@ const OrderBooks = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Look Inside */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-24"
+          >
+            <p className="text-caption text-muted-foreground mb-8">Look inside</p>
+            <BookSpreads />
+          </motion.div>
 
           {/* Bundle */}
           <motion.div
