@@ -46,8 +46,8 @@ export const HeroSection = () => {
               className="inline-flex items-center justify-center gap-3 bg-accent text-accent-foreground px-8 py-5 rounded-full hover:opacity-90 transition-opacity"
               strength={0.2}
             >
-              <span className="font-display font-medium">Register for a stage</span>
               <EditorialArrow size={18} className="invert" />
+              <span className="font-display font-medium">Register for a stage</span>
             </MagneticButton>
             <MagneticButton
               href="#newsletter"

@@ -40,8 +40,8 @@ export const PhotoGallery = () => {
           to="/archive"
           className="hidden md:flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors group"
         >
-          View all
           <EditorialArrow size={14} className="transition-transform group-hover:translate-x-1" />
+          View all
         </Link>
       </div>
       
@@ -71,9 +71,12 @@ export const PhotoGallery = () => {
                 <p className="text-caption text-white/60 mb-1">
                   {image.title}
                 </p>
-                <span className="font-display text-sm text-white tracking-wide">
-                  {image.location}
-                </span>
+                <div className="flex items-center gap-2">
+                  <EditorialArrow size={14} className="invert opacity-60" />
+                  <span className="font-display text-sm text-white tracking-wide">
+                    {image.location}
+                  </span>
+                </div>
               </div>
             </motion.div>
           </Link>
@@ -86,8 +89,8 @@ export const PhotoGallery = () => {
           to="/archive"
           className="flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors"
         >
-          View all photos
           <EditorialArrow size={14} />
+          View all photos
         </Link>
       </div>
     </section>

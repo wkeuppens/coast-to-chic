@@ -1,4 +1,5 @@
 import { memo, useState, useCallback } from 'react';
+import { EditorialArrow } from './EditorialArrow';
 import type { StageTileData } from '@/data/stages';
 
 /**
@@ -89,14 +90,27 @@ const GalleryTile = memo(
           }}
         >
           {/* Stage number */}
-          <p className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-display mb-1.5">
+          <p className="text-caption text-white/50 mb-1.5">
             {tile.title}
           </p>
 
-          {/* Location */}
-          <h3 className="font-display text-base md:text-lg text-white leading-tight">
-            {tile.location}
-          </h3>
+          {/* Location with arrow on hover */}
+          <div className="flex items-center gap-2">
+            <div
+              style={{
+                width: hovered ? 16 : 0,
+                opacity: hovered ? 0.6 : 0,
+                transition: 'width 0.3s ease, opacity 0.3s ease',
+                overflow: 'hidden',
+                flexShrink: 0,
+              }}
+            >
+              <EditorialArrow size={16} className="invert" />
+            </div>
+            <h3 className="font-display text-base md:text-lg text-white leading-tight">
+              {tile.location}
+            </h3>
+          </div>
 
           {/* Expanded metadata on hover */}
           <div

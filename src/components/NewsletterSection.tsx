@@ -41,8 +41,8 @@ export const NewsletterSection = () => {
               type="submit"
               className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
             >
-              Subscribe
               <EditorialArrow size={14} className="invert" />
+              Subscribe
             </button>
           </form>
 
