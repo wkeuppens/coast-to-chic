@@ -42,14 +42,14 @@ export const StagesSection = () => {
               Available registrations
             </h2>
           </div>
-          <Link to="/all-stages">
+          <Link to="/all-stages" className="group">
             <MagneticButton
-              className="text-sm font-medium text-foreground"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               strength={0.3}
             >
-              <span className="inline-flex items-center gap-2 border-b border-accent pb-1 text-accent">
-                <EditorialArrow size={14} className="opacity-70" />
+              <span className="relative inline-block">
                 View all stages
+                <span className="absolute left-0 bottom-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-500" />
               </span>
             </MagneticButton>
           </Link>
