@@ -9,7 +9,7 @@ export const HeroSection = () => {
     <section className="relative min-h-screen bg-primary text-primary-foreground flex flex-col justify-end overflow-hidden">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-no-repeat bg-[30%_center] md:bg-center"
         style={{
           backgroundImage: `url(${coastalTown})`,
         }}
