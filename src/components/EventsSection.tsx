@@ -85,17 +85,13 @@ export const EventsSection = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-display text-xl font-medium mb-2 group-hover:text-accent transition-colors duration-300">
-                      {event.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">{event.location}</p>
-                  </div>
-                  <div className="text-right text-sm text-muted-foreground">
-                    <p>{event.date}</p>
-                    <p>{event.distance}</p>
-                  </div>
+                <div>
+                  <h3 className="font-display text-lg font-medium mb-1 group-hover:text-accent transition-colors duration-300">
+                    {event.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground font-body tracking-wide">
+                    {event.location} — {event.date} — {event.distance}
+                  </p>
                 </div>
               </motion.div>
             </Link>
