@@ -168,4 +168,32 @@
   .mask-fade-bottom {
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
   }
+
+  /* Editorial caption style — tracked-out uppercase small text */
+  .text-caption {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Editorial label — section orientation markers */
+  .text-label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Thin editorial rule */
+  .rule {
+    border: 0;
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  /* Inverted thin rule */
+  .rule-inv {
+    border: 0;
+    border-top: 1px solid hsl(var(--inv-border));
+  }
 }

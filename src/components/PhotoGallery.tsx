@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { EditorialArrow } from './EditorialArrow';
 import coastalTown from '@/assets/coastal-town.jpg';
 import coastalPath from '@/assets/coastal-path.jpg';
 import cliffBay from '@/assets/cliff-bay.jpg';
@@ -29,19 +29,19 @@ export const PhotoGallery = () => {
 
   return (
     <section ref={containerRef} className="py-32 md:py-48 overflow-hidden bg-background">
-      <div className="px-6 md:px-12 lg:px-24 mb-8 flex items-end justify-between">
+      <div className="px-6 md:px-12 lg:px-24 mb-10 flex items-end justify-between">
         <div>
-          <p className="text-sm text-muted-foreground tracking-wide mb-4">Gallery</p>
+          <p className="text-caption text-muted-foreground mb-4">Gallery</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
             Along the way.
           </h2>
         </div>
         <Link
           to="/archive"
-          className="hidden md:flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display group"
+          className="hidden md:flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors group"
         >
           View all
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <EditorialArrow size={14} className="transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
       
@@ -53,7 +53,7 @@ export const PhotoGallery = () => {
           <Link
             key={index}
             to={image.href}
-            className="relative flex-shrink-0 w-[300px] md:w-[400px] lg:w-[500px] aspect-[3/2] overflow-hidden group block rounded-sm"
+            className="relative flex-shrink-0 w-[300px] md:w-[400px] lg:w-[500px] aspect-[3/2] overflow-hidden group block"
           >
             <motion.div
               className="w-full h-full"
@@ -68,7 +68,7 @@ export const PhotoGallery = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-display mb-1">
+                <p className="text-caption text-white/60 mb-1">
                   {image.title}
                 </p>
                 <span className="font-display text-sm text-white tracking-wide">
@@ -84,10 +84,10 @@ export const PhotoGallery = () => {
       <div className="md:hidden px-6 mt-8">
         <Link
           to="/archive"
-          className="flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display"
+          className="flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors"
         >
           View all photos
-          <ArrowRight className="w-4 h-4" />
+          <EditorialArrow size={14} />
         </Link>
       </div>
     </section>

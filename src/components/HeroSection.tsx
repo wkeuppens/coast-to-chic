@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { TextReveal } from './TextReveal';
 import { MagneticButton } from './MagneticButton';
+import { EditorialArrow } from './EditorialArrow';
 import coastalTown from '@/assets/coastal-town.jpg';
 
 export const HeroSection = () => {
@@ -23,7 +24,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-sm text-inv-muted tracking-wide mb-6 font-body"
+            className="text-caption text-inv-muted mb-6"
           >
             All of Europe's coast. Counter-clockwise. One stage at a time.
           </motion.p>
@@ -46,6 +47,7 @@ export const HeroSection = () => {
               strength={0.2}
             >
               <span className="font-display font-medium">Register for a stage</span>
+              <EditorialArrow size={18} className="invert" />
             </MagneticButton>
             <MagneticButton
               href="#newsletter"

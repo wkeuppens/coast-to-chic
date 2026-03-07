@@ -43,10 +43,10 @@ export const Footer = () => {
 
   return (
     <footer ref={ref} className="bg-foreground text-primary-foreground">
-      <div className="py-16 md:py-24 px-6 md:px-12 lg:px-24">
+      <div className="py-20 md:py-28 px-6 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           {/* Top section */}
-          <div className="grid md:grid-cols-5 gap-12 md:gap-8 mb-16">
+          <div className="grid md:grid-cols-5 gap-12 md:gap-8 mb-20">
             {/* Brand */}
             <motion.div 
               className="md:col-span-1"
@@ -54,7 +54,7 @@ export const Footer = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <Link to="/" className="font-display text-xl font-bold uppercase">
+              <Link to="/" className="font-display text-xl font-bold uppercase tracking-wide">
                 <span className="block">Follow</span>
                 <span className="block">The Coast</span>
               </Link>
@@ -81,7 +81,7 @@ export const Footer = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="border-t border-inv-border pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
           >
-            <p className="text-sm text-inv-subtle">
+            <p className="text-caption text-inv-subtle">
               © 2026 FOLLOW THE COAST
             </p>
             <div className="flex gap-6 text-sm text-inv-subtle">
@@ -130,7 +130,7 @@ const FooterColumn = ({
     animate={isInView ? { opacity: 1, y: 0 } : {}}
     transition={{ duration: 0.6, delay }}
   >
-    <p className="text-sm text-inv-subtle mb-4">{title}</p>
+    <p className="text-caption text-inv-subtle mb-5">{title}</p>
     <ul className="space-y-3">
       {links.map((link) => {
         const isExternal = link.href.startsWith('http') || link.href.startsWith('mailto:');
