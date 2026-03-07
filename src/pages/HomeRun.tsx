@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
-import { MapPin, Calendar, Clock, Users, CheckCircle } from 'lucide-react';
+import { MapPin, Calendar, Clock, Users } from 'lucide-react';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
 const inclusions = [
@@ -100,7 +100,7 @@ const HomeRun = () => {
           <div className="grid md:grid-cols-2 gap-4 mt-12">
             {inclusions.map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }} className="flex items-start gap-4 p-5 bg-background">
-                <CheckCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <span className="text-accent shrink-0 mt-px">—</span>
                 <span>{item}</span>
               </motion.div>
             ))}
