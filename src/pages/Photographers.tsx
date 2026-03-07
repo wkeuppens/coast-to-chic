@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { Instagram, Globe } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -27,20 +26,11 @@ const Photographers = () => {
       <Navigation />
 
       <section className="pt-32 pb-16 px-6 md:px-12 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-display">
-            The Team
-          </span>
-          <h1 className="font-display text-4xl md:text-6xl font-medium mt-4 mb-6">
-            Photographers
-          </h1>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+          <p className="text-caption text-muted-foreground mb-4">The Team</p>
+          <h1 className="font-display text-4xl md:text-6xl font-medium mt-2 mb-6">Photographers</h1>
           <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
-            Nine photographers documenting every kilometre of Follow The Coast.
-            Each contributing a unique perspective to the project.
+            Nine photographers documenting every kilometre of Follow The Coast. Each contributing a unique perspective to the project.
           </p>
         </motion.div>
       </section>
@@ -48,42 +38,17 @@ const Photographers = () => {
       <section className="px-6 md:px-12 pb-24 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
           {shuffled.map((p, i) => (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              id={`photographer-${p.id}`}
-            >
-              <div className="aspect-[3/4] overflow-hidden bg-secondary rounded-sm mb-5">
-                <img
-                  src={p.photo}
-                  alt={p.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+            <motion.div key={p.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.08 }} id={`photographer-${p.id}`}>
+              <div className="aspect-[3/4] overflow-hidden bg-secondary mb-5">
+                <img src={p.photo} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
               </div>
               <h3 className="font-display text-lg font-medium">{p.name}</h3>
-              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                {p.bio}
-              </p>
+              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{p.bio}</p>
               <div className="flex items-center gap-4 mt-4">
-                <a
-                  href={p.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label={`${p.name} website`}
-                >
+                <a href={p.website} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`${p.name} website`}>
                   <Globe size={16} />
                 </a>
-                <a
-                  href={p.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label={`${p.name} Instagram`}
-                >
+                <a href={p.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`${p.name} Instagram`}>
                   <Instagram size={16} />
                 </a>
               </div>
