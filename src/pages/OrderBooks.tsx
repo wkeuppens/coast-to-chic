@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { EditorialArrow } from '@/components/EditorialArrow';
+import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
 import { SEO } from '@/components/SEO';
@@ -70,12 +71,11 @@ const OrderBooks = () => {
                 <div className="flex items-center justify-between">
                   <span className="font-display text-2xl font-bold">{book.price}</span>
                   {book.status === 'available' ? (
-                    <Link
-                      to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`}
-                      className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
-                    >
-                      <EditorialArrow size={14} className="invert" />
-                      Order
+                    <Link to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`}>
+                      <MagneticButton className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity" strength={0.2}>
+                        <EditorialArrow size={14} className="invert" />
+                        Order
+                      </MagneticButton>
                     </Link>
                   ) : (
                     <span className="text-caption text-muted-foreground">Coming 2026</span>
@@ -101,12 +101,11 @@ const OrderBooks = () => {
                 <span className="text-sm text-muted-foreground line-through">€110</span>
                 <span className="font-display text-3xl font-bold ml-3">€95</span>
               </div>
-              <Link
-                to="/checkout?product=Book%20Bundle&variant=Volume%20I%20%2B%20II&price=%E2%82%AC95&return=/order-books"
-                className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
-              >
-                <EditorialArrow size={14} className="invert" />
-                Order bundle
+              <Link to="/checkout?product=Book%20Bundle&variant=Volume%20I%20%2B%20II&price=%E2%82%AC95&return=/order-books">
+                <MagneticButton className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap" strength={0.2}>
+                  <EditorialArrow size={14} className="invert" />
+                  Order bundle
+                </MagneticButton>
               </Link>
             </div>
           </motion.div>

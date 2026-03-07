@@ -2,6 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { EditorialArrow } from './EditorialArrow';
+import { MagneticButton } from './MagneticButton';
 
 export const SupportSection = () => {
   const ref = useRef(null);
@@ -39,12 +40,14 @@ export const SupportSection = () => {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Link
-            to="/support"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-primary-foreground font-display text-sm uppercase tracking-wider hover:bg-foreground/90 transition-colors"
-          >
-            <EditorialArrow size={14} className="invert" />
-            Support the Project
+          <Link to="/support">
+            <MagneticButton
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-primary-foreground font-display text-sm uppercase tracking-wider hover:bg-foreground/90 transition-colors"
+              strength={0.2}
+            >
+              <EditorialArrow size={14} className="invert" />
+              Support the Project
+            </MagneticButton>
           </Link>
         </motion.div>
       </div>

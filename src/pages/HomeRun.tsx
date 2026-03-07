@@ -4,6 +4,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { EditorialArrow } from '@/components/EditorialArrow';
+import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Calendar, Clock, Users, CheckCircle } from 'lucide-react';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
@@ -132,12 +133,14 @@ const HomeRun = () => {
             <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">Run Venice with us.</h2>
             <p className="font-display text-2xl font-medium mt-6 mb-2">€199</p>
             <p className="text-muted-foreground mb-10 text-sm">Checkpoints, community, and your name in the book.</p>
-            <Link
-              to="/checkout?product=Home%20Run%20%E2%80%93%20Venice&variant=100km&price=%E2%82%AC199&return=/homerun"
-              className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity"
-            >
-              <EditorialArrow size={18} className="invert" />
-              Register for the Home Run
+            <Link to="/checkout?product=Home%20Run%20%E2%80%93%20Venice&variant=100km&price=%E2%82%AC199&return=/homerun">
+              <MagneticButton
+                className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity"
+                strength={0.2}
+              >
+                <EditorialArrow size={18} className="invert" />
+                Register for the Home Run
+              </MagneticButton>
             </Link>
             <p className="text-caption text-muted-foreground mt-6">Minimum 7 runners required.</p>
           </motion.div>

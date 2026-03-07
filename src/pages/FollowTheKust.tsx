@@ -4,6 +4,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { EditorialArrow } from '@/components/EditorialArrow';
+import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Calendar, Users, Clock, CheckCircle } from 'lucide-react';
 import ftkHero from '@/assets/ftk-hero.jpg';
 
@@ -106,9 +107,11 @@ const FollowTheKust = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/checkout?product=Follow%20The%20Kust&variant=Half%20Coast%20%E2%80%93%2035km&price=%E2%82%AC39&return=/follow-the-kust" className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm">
-                <EditorialArrow size={14} className="invert" />
-                Register — €39
+              <Link to="/checkout?product=Follow%20The%20Kust&variant=Half%20Coast%20%E2%80%93%2035km&price=%E2%82%AC39&return=/follow-the-kust">
+                <MagneticButton className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm" strength={0.2}>
+                  <EditorialArrow size={14} className="invert" />
+                  Register — €39
+                </MagneticButton>
               </Link>
             </motion.div>
 
@@ -124,9 +127,11 @@ const FollowTheKust = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/checkout?product=Follow%20The%20Kust&variant=Full%20Coast%20%E2%80%93%2075km&price=%E2%82%AC59&return=/follow-the-kust" className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm">
-                <EditorialArrow size={14} className="invert" />
-                Register — €59
+              <Link to="/checkout?product=Follow%20The%20Kust&variant=Full%20Coast%20%E2%80%93%2075km&price=%E2%82%AC59&return=/follow-the-kust">
+                <MagneticButton className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm" strength={0.2}>
+                  <EditorialArrow size={14} className="invert" />
+                  Register — €59
+                </MagneticButton>
               </Link>
             </motion.div>
           </div>
@@ -143,9 +148,11 @@ const FollowTheKust = () => {
           <motion.div {...fadeUp}>
             <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-6">Run the kust with us.</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">6 February 2027. The Belgian coast awaits.</p>
-            <Link to="/checkout?product=Follow%20The%20Kust&return=/follow-the-kust" className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity">
-              <EditorialArrow size={18} className="invert" />
-              Register for Follow The Kust
+            <Link to="/checkout?product=Follow%20The%20Kust&return=/follow-the-kust">
+              <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>
+                <EditorialArrow size={18} className="invert" />
+                Register for Follow The Kust
+              </MagneticButton>
             </Link>
           </motion.div>
         </div>
