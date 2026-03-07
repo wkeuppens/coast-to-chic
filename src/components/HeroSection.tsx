@@ -19,7 +19,7 @@ export const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 px-6 md:px-12 lg:px-24 pb-24 md:pb-32">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl ml-auto text-right">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -39,7 +39,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0 }}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-4 justify-end"
           >
             <MagneticButton
               href="/register"
