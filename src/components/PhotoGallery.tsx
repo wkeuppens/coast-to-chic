@@ -28,11 +28,11 @@ export const PhotoGallery = () => {
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
 
   return (
-    <section ref={containerRef} className="py-24 md:py-32 overflow-hidden bg-background">
+    <section ref={containerRef} className="py-32 md:py-48 overflow-hidden bg-background">
       <div className="px-6 md:px-12 lg:px-24 mb-8 flex items-end justify-between">
         <div>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">Gallery</p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
             Along the way.
           </h2>
         </div>

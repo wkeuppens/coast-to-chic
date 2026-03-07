@@ -41,7 +41,7 @@ export const EventsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="events" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-background text-foreground">
+    <section id="events" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-background text-foreground">
       <div ref={ref} className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -53,7 +53,7 @@ export const EventsSection = () => {
             <p className="text-sm text-muted-foreground tracking-wide mb-4">
               Side routes
             </p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium">
+            <h2 className="font-display text-4xl md:text-5xl font-bold">
               Other runs we organise.
             </h2>
           </div>

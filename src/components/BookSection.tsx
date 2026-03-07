@@ -14,7 +14,7 @@ export const BookSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="books" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-background">
+    <section id="books" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-background">
       <div ref={ref} className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -23,7 +23,7 @@ export const BookSection = () => {
           className="mb-12"
         >
           <p className="text-sm text-muted-foreground tracking-wide mb-4">The books</p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium">
+          <h2 className="font-display text-4xl md:text-5xl font-bold">
             5,000 km per volume.
           </h2>
         </motion.div>
