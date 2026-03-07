@@ -92,6 +92,17 @@ const OrderBooks = () => {
             ))}
           </div>
 
+          {/* Look Inside */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-24"
+          >
+            <p className="text-caption text-muted-foreground mb-8">Look inside</p>
+            <BookSpreads />
+          </motion.div>
+
           {/* Bundle */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
