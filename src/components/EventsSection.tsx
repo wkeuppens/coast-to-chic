@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Download } from 'lucide-react';
 import { EditorialArrow } from './EditorialArrow';
-import coastalPath from '@/assets/coastal-path.jpg';
+import ftkHero from '@/assets/ftk-hero.jpg';
 import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
@@ -23,7 +23,7 @@ const events = [
     location: 'Belgium',
     date: '6 Feb 2027',
     distance: '35 or 75km',
-    image: coastalPath,
+    image: ftkHero,
     href: '/follow-the-kust',
   },
   {
