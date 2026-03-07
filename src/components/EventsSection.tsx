@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Download } from 'lucide-react';
 import coastalPath from '@/assets/coastal-path.jpg';
-import utmbTrail from '@/assets/utmb-trail.png';
+import tmbSummit from '@/assets/tmb-summit.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
 const events = [
@@ -31,7 +31,7 @@ const events = [
     location: 'France, Italy, Switzerland',
     date: 'Summer 2026',
     distance: '170km',
-    image: utmbTrail,
+    image: tmbSummit,
     href: '/tour-du-mont-blanc',
   },
 ];
