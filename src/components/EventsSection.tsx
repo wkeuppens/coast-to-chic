@@ -2,6 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Download } from 'lucide-react';
+import { EditorialArrow } from './EditorialArrow';
 import coastalPath from '@/assets/coastal-path.jpg';
 import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
@@ -76,7 +77,6 @@ export const EventsSection = () => {
                 className="group block"
                 whileHover={{ y: -4 }}
               >
-                {/* Sharp edges — no rounded corners, like the book */}
                 <div className="aspect-[16/10] bg-muted mb-5 overflow-hidden">
                   <img 
                     src={event.image} 
@@ -86,9 +86,14 @@ export const EventsSection = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-medium mb-1 group-hover:text-accent transition-colors duration-300">
-                    {event.title}
-                  </h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex-shrink-0">
+                      <EditorialArrow size={16} />
+                    </div>
+                    <h3 className="font-display text-lg font-medium group-hover:text-accent transition-colors duration-300">
+                      {event.title}
+                    </h3>
+                  </div>
                   <p className="text-caption text-muted-foreground">
                     {event.location} — {event.date} — {event.distance}
                   </p>
