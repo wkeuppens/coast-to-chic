@@ -47,7 +47,7 @@ export const HowItWorksSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display text-3xl md:text-4xl font-medium mb-20"
+          className="font-display text-4xl md:text-5xl font-bold mb-24"
         >
           A van. A photographer. You.
         </motion.h2>
@@ -62,8 +62,8 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: 0.15 + index * 0.15 }}
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
-              <span className="text-sm text-accent font-display">{step.number}</span>
-              <h3 className="font-display text-xl font-medium mt-4 mb-4">
+              <span className="text-5xl md:text-6xl font-display font-black text-foreground/10 leading-none">{step.number}</span>
+              <h3 className="font-display text-xl md:text-2xl font-medium mt-6 mb-4">
                 {step.title}
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed">

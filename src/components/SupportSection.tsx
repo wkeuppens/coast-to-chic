@@ -13,7 +13,7 @@ export const SupportSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="font-display text-2xl md:text-3xl mb-4"
+          className="font-display text-3xl md:text-4xl font-bold mb-6"
         >
           This journey moves with support
         </motion.h2>

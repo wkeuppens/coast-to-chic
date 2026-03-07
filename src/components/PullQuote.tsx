@@ -23,7 +23,7 @@ export const PullQuote = ({ text, variant = 'light' }: PullQuoteProps) => {
       }`}
     >
       <div className="max-w-5xl mx-auto">
-        <p className="font-display text-3xl md:text-5xl lg:text-6xl font-medium leading-tight tracking-tight">
+        <p className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
           {words.map((word, index) => {
             const start = index / words.length;
             const end = start + 1 / words.length;

@@ -37,7 +37,7 @@ export const StagesSection = () => {
             <p className="text-sm text-muted-foreground tracking-wide mb-4">
               Stages
             </p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
               Available registrations
             </h2>
           </div>

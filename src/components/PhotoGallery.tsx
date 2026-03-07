@@ -32,7 +32,7 @@ export const PhotoGallery = () => {
       <div className="px-6 md:px-12 lg:px-24 mb-8 flex items-end justify-between">
         <div>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">Gallery</p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
             Along the way.
           </h2>
         </div>

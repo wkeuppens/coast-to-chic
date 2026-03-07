@@ -18,7 +18,7 @@ export const NewsletterSection = () => {
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Updates
           </p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium mb-6">
+          <h2 className="font-display text-4xl md:text-5xl font-bold mb-8">
             New stages. Books. Routes.
           </h2>
           <p className="text-muted-foreground mb-10">

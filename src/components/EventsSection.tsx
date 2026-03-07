@@ -53,7 +53,7 @@ export const EventsSection = () => {
             <p className="text-sm text-muted-foreground tracking-wide mb-4">
               Side routes
             </p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium">
+            <h2 className="font-display text-4xl md:text-5xl font-bold">
               Other runs we organise.
             </h2>
           </div>
