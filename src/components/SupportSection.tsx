@@ -42,7 +42,7 @@ export const SupportSection = () => {
         >
           <Link to="/support">
             <MagneticButton
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-foreground text-primary-foreground font-display text-sm uppercase tracking-wider hover:bg-foreground/90 transition-colors"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-display text-sm uppercase tracking-wider hover:bg-primary/90 transition-colors"
               strength={0.2}
             >
               <EditorialArrow size={14} className="invert" />

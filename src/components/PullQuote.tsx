@@ -19,7 +19,7 @@ export const PullQuote = ({ text, variant = 'light' }: PullQuoteProps) => {
     <section
       ref={ref}
       className={`py-32 md:py-48 px-6 md:px-12 lg:px-24 ${
-        variant === 'dark' ? 'bg-foreground text-primary-foreground' : 'bg-background text-foreground'
+        variant === 'dark' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground'
       }`}
     >
       <div className="max-w-5xl mx-auto">
