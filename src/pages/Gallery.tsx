@@ -339,7 +339,7 @@ const Archive = () => {
           >
             <div className="max-w-xl px-8 text-center" onClick={(e) => e.stopPropagation()}>
               <h1 className="font-display text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
-                Archive
+                Coastal Archive
               </h1>
               <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4 font-display">
                 Follow the Coast is built stage by stage, over years.
