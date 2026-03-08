@@ -116,9 +116,9 @@ const SupportTheProject = () => {
           <p className="text-caption text-muted-foreground mb-4">Approach</p>
           <h2 className="font-display text-2xl md:text-3xl mb-6">How we work</h2>
           <p className="text-muted-foreground leading-relaxed max-w-2xl">
-             Every collaboration is shaped individually.
-             Partnership means contributing to something that exists quietly, over a long time.
-             The project speaks for itself.
+              Every collaboration finds its own form.
+              Partners support a project connecting coastlines, people and stories.
+              The project speaks for itself.
           </p>
         </SectionWrapper>
 
