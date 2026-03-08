@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Download } from 'lucide-react';
+
 import { EditorialArrow } from './EditorialArrow';
 import ftkHero from '@/assets/ftk-hero.jpg';
 import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
@@ -58,13 +58,6 @@ export const EventsSection = () => {
               Other runs we organise.
             </h2>
           </div>
-          <a
-            href="mailto:hello@followthecoast.com?subject=Info%20pack%20request"
-            className="inline-flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors"
-          >
-            <Download className="w-4 h-4" />
-            Download info pack
-          </a>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-10">
