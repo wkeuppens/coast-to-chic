@@ -322,7 +322,7 @@ const Archive = () => {
           Back
         </button>
         <span className="text-xs uppercase tracking-widest text-white/30 font-display">
-          Archive
+          Coastal Archive
         </span>
       </header>
 
