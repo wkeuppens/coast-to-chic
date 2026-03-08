@@ -150,7 +150,7 @@ const OrderBooks = () => {
                 ) : (
                   <div className="aspect-[4/5] overflow-hidden bg-secondary">
                     <img
-                      src={bookMockup}
+                      src={book.image}
                       alt={`Follow the Coast ${book.title}`}
                       className="w-full h-full object-cover"
                       loading="lazy"
