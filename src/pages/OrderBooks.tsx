@@ -6,6 +6,7 @@ import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
+import bookVol2Cover from '@/assets/book-vol2-cover.jpg';
 import spreadCover from '@/assets/book-spread-cover.jpg';
 import spreadFrontback from '@/assets/book-spread-frontback.jpg';
 import spreadHighlights from '@/assets/book-spread-highlights.jpg';
@@ -19,9 +20,9 @@ import spreadBasque from '@/assets/book-spread-basque.jpg';
 import { SEO } from '@/components/SEO';
 
 const books = [
-  { id: 1, title: 'Volume I', subtitle: 'Knokke — San Sebastián', price: '€55', status: 'available' as const },
-  { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55', status: 'available' as const },
-  { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: '€55', status: 'coming' as const },
+  { id: 1, title: 'Volume I', subtitle: 'Knokke — San Sebastián', price: '€55', status: 'available' as const, image: bookMockup },
+  { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55', status: 'available' as const, image: bookVol2Cover },
+  { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: '€55', status: 'coming' as const, image: bookMockup },
 ];
 
 const spreads = [
@@ -139,7 +140,7 @@ const OrderBooks = () => {
                   <Link to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`} className="block">
                     <div className="aspect-[4/5] overflow-hidden bg-secondary">
                       <img
-                        src={bookMockup}
+                        src={book.image}
                         alt={`Follow the Coast ${book.title}`}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
@@ -149,7 +150,7 @@ const OrderBooks = () => {
                 ) : (
                   <div className="aspect-[4/5] overflow-hidden bg-secondary">
                     <img
-                      src={bookMockup}
+                      src={book.image}
                       alt={`Follow the Coast ${book.title}`}
                       className="w-full h-full object-cover"
                       loading="lazy"
