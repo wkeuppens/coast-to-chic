@@ -63,7 +63,7 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: 0.15 + index * 0.15 }}
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
-              <div className="mb-6 flex flex-col h-full relative overflow-hidden">
+              <div className="mb-6 flex flex-col h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <EditorialArrow size={18} className="opacity-20" />
                   <h3 className="font-display text-xl md:text-2xl font-medium">
