@@ -6,12 +6,16 @@ import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
-import coastalPath from '@/assets/coastal-path.jpg';
-import cliffBay from '@/assets/cliff-bay.jpg';
-import sailboatSea from '@/assets/sailboat-sea.jpg';
-import coastalFortress from '@/assets/coastal-fortress.jpg';
-import beachRunners from '@/assets/beach-runners.jpg';
-import ftkHero from '@/assets/ftk-hero.jpg';
+import spreadCover from '@/assets/book-spread-cover.jpg';
+import spreadFrontback from '@/assets/book-spread-frontback.jpg';
+import spreadHighlights from '@/assets/book-spread-highlights.jpg';
+import spreadStage65 from '@/assets/book-spread-stage65.jpg';
+import spreadGallery from '@/assets/book-spread-gallery.jpg';
+import spreadAerial from '@/assets/book-spread-aerial.jpg';
+import spreadStage54 from '@/assets/book-spread-stage54.jpg';
+import spreadRegion7 from '@/assets/book-spread-region7.jpg';
+import spreadRegion3 from '@/assets/book-spread-region3.jpg';
+import spreadBasque from '@/assets/book-spread-basque.jpg';
 import { SEO } from '@/components/SEO';
 
 const books = [
@@ -21,12 +25,16 @@ const books = [
 ];
 
 const spreads = [
-  { src: coastalPath, alt: 'Coastal path spread' },
-  { src: cliffBay, alt: 'Cliff bay spread' },
-  { src: ftkHero, alt: 'Beach aerial spread' },
-  { src: sailboatSea, alt: 'Sailboat spread' },
-  { src: coastalFortress, alt: 'Coastal fortress spread' },
-  { src: beachRunners, alt: 'Beach runners spread' },
+  { src: spreadFrontback, alt: 'Front and back cover' },
+  { src: spreadStage54, alt: 'Stage 54 spread' },
+  { src: spreadCover, alt: 'Book cover mockup' },
+  { src: spreadGallery, alt: 'Photo gallery spread' },
+  { src: spreadRegion7, alt: 'Region 7 — Lisbon spread' },
+  { src: spreadBasque, alt: 'Basque Country highlights' },
+  { src: spreadAerial, alt: 'Aerial coastal spread' },
+  { src: spreadHighlights, alt: 'Stage highlights spread' },
+  { src: spreadRegion3, alt: 'Region 3 — Asturias spread' },
+  { src: spreadStage65, alt: 'Stage 65 lighthouse spread' },
 ];
 
 const BookSpreads = () => {
