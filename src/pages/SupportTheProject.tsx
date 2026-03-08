@@ -5,13 +5,11 @@ import { SEO } from '@/components/SEO';
 import { Footer } from '@/components/Footer';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import coastalPath from '@/assets/coastal-path.jpg';
-import coastalTown from '@/assets/coastal-town.jpg';
-import cliffBay from '@/assets/cliff-bay.jpg';
-import harborBoats from '@/assets/harbor-boats.jpg';
-import sailboatSea from '@/assets/sailboat-sea.jpg';
-import coastalFortress from '@/assets/coastal-fortress.jpg';
 import supportVictus from '@/assets/support-victus.jpg';
 import supportSunsetBeer from '@/assets/support-sunset-beer.jpg';
+import supportCoastalVan from '@/assets/support-coastal-van.jpg';
+import supportDuvelFlag from '@/assets/support-duvel-flag.jpg';
+import supportVictusPack from '@/assets/support-victus-pack.jpg';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
