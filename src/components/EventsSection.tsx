@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Download } from 'lucide-react';
+
 import { EditorialArrow } from './EditorialArrow';
 import ftkHero from '@/assets/ftk-hero.jpg';
 import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
