@@ -44,7 +44,7 @@ const BookSpreads = () => {
 
   return (
     <div className="relative">
-      <div className="aspect-[16/9] md:aspect-[2.4/1] overflow-hidden bg-secondary relative">
+      <div className="aspect-[4/3] md:aspect-[16/9] overflow-hidden bg-secondary relative">
         <AnimatePresence mode="wait">
           <motion.img
             key={current}
