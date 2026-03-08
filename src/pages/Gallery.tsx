@@ -150,7 +150,7 @@ const ArchiveFilters = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 p-4 rounded-lg bg-foreground/95 backdrop-blur-md border border-white/10 z-50 min-w-[280px] shadow-xl"
+            className="absolute top-full left-0 mt-2 p-4 rounded-lg bg-primary/95 backdrop-blur-md border border-white/10 z-50 min-w-[280px] shadow-xl"
           >
             {/* Country */}
             <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Country</p>
@@ -305,7 +305,7 @@ const Archive = () => {
   }, []);
 
   return (
-    <main className="fixed inset-0 bg-foreground overflow-hidden touch-none" style={{ cursor: 'grab' }}>
+    <main className="fixed inset-0 bg-primary overflow-hidden touch-none" style={{ cursor: 'grab' }}>
       <SEO
         title="Archive"
         description="A living archive documenting Europe's coastline stage by stage."

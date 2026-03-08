@@ -93,7 +93,7 @@ export const MarqueeTicker = () => {
   return (
     <div 
       ref={containerRef}
-      className="py-6 bg-foreground text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing"
+      className="py-6 bg-primary text-primary-foreground overflow-hidden cursor-grab active:cursor-grabbing"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onWheel={handleWheel}
