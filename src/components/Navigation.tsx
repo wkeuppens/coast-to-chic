@@ -6,7 +6,7 @@ import wavesLogo from '@/assets/waves-logo.png';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
-  { label: 'Archive', href: '/archive' },
+  { label: 'Coastal Archive', href: '/archive' },
   { label: 'Books', href: '/order-books' },
   { label: 'Prints', href: '/prints' },
   { label: 'Side routes', href: '/#events' },

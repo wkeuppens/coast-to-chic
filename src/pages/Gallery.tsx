@@ -307,7 +307,7 @@ const Archive = () => {
   return (
     <main className="fixed inset-0 bg-primary overflow-hidden touch-none" style={{ cursor: 'grab' }}>
       <SEO
-        title="Archive"
+        title="Coastal Archive"
         description="A living archive documenting Europe's coastline stage by stage."
         path="/archive"
       />
@@ -322,7 +322,7 @@ const Archive = () => {
           Back
         </button>
         <span className="text-xs uppercase tracking-widest text-white/30 font-display">
-          Archive
+          Coastal Archive
         </span>
       </header>
 
@@ -339,7 +339,7 @@ const Archive = () => {
           >
             <div className="max-w-xl px-8 text-center" onClick={(e) => e.stopPropagation()}>
               <h1 className="font-display text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
-                Archive
+                Coastal Archive
               </h1>
               <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4 font-display">
                 Follow the Coast is built stage by stage, over years.
