@@ -34,7 +34,7 @@ const Index = () => {
         <HeroSection />
         <MarqueeTicker />
         <JourneySection />
-        <PullQuote text="Sea on the right. Always south. One stage at a time until Athens." />
+        <PullQuote text="Sea on the right. Always south. 100 km at a time." />
         <HowItWorksSection />
         <StagesSection />
         <PhotoGallery />
