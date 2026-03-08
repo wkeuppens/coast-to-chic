@@ -34,12 +34,11 @@ const SectionWrapper = ({ children, className = '' }: { children: React.ReactNod
 };
 
 const supportImages = [
-  { src: coastalPath, alt: 'Runner on a coastal path' },
-  { src: coastalTown, alt: 'Coastal town from above' },
-  { src: cliffBay, alt: 'Cliffs overlooking a bay' },
+  { src: supportCoastalVan, alt: 'Van on a coastal cliff path' },
+  { src: supportDuvelFlag, alt: 'Duvel flag at sunset' },
+  { src: supportVictusPack, alt: 'Runner with Victus nutrition pack' },
   { src: supportVictus, alt: 'Runner fueling with Victus nutrition' },
   { src: supportSunsetBeer, alt: 'Sunset celebration after a stage' },
-  { src: coastalFortress, alt: 'Coastal fortress' },
 ];
 
 const partnershipModes = [
