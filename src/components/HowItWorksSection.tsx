@@ -73,7 +73,7 @@ export const HowItWorksSection = () => {
                 <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
                   {step.description}
                 </p>
-                <span className="block font-body font-black text-[10rem] md:text-[12rem] lg:text-[14rem] text-foreground/[0.04] leading-none select-none text-right mt-auto -mr-4 -mb-6 md:-mr-2 md:-mb-4">{step.number}</span>
+                <span className="block font-body font-black text-[10rem] md:text-[12rem] lg:text-[14rem] text-foreground/[0.03] leading-none select-none text-right mt-auto">{step.number}</span>
               </div>
             </motion.div>
           ))}
