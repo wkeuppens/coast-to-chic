@@ -10,6 +10,7 @@ import supportSunsetBeer from '@/assets/support-sunset-beer.jpg';
 import supportCoastalVan from '@/assets/support-coastal-van.jpg';
 import supportDuvelFlag from '@/assets/support-duvel-flag.jpg';
 import supportVictusPack from '@/assets/support-victus-pack.jpg';
+import supportNightBeers from '@/assets/support-night-beers.jpg';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -39,6 +40,7 @@ const supportImages = [
   { src: supportVictusPack, alt: 'Runner with Victus nutrition pack' },
   { src: supportVictus, alt: 'Runner fueling with Victus nutrition' },
   { src: supportSunsetBeer, alt: 'Sunset celebration after a stage' },
+  { src: supportNightBeers, alt: 'Runner celebrating with beers at night' },
 ];
 
 const partnershipModes = [
