@@ -140,7 +140,7 @@ const OrderBooks = () => {
                   <Link to={`/checkout?product=Book%20%E2%80%93%20${encodeURIComponent(book.title)}&variant=${encodeURIComponent(book.subtitle)}&price=${encodeURIComponent(book.price)}&return=/order-books`} className="block">
                     <div className="aspect-[4/5] overflow-hidden bg-secondary">
                       <img
-                        src={bookMockup}
+                        src={book.image}
                         alt={`Follow the Coast ${book.title}`}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
