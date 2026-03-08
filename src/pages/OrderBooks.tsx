@@ -6,6 +6,7 @@ import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import bookMockup from '@/assets/book-mockup.jpg';
+import bookVol2Cover from '@/assets/book-vol2-cover.jpg';
 import spreadCover from '@/assets/book-spread-cover.jpg';
 import spreadFrontback from '@/assets/book-spread-frontback.jpg';
 import spreadHighlights from '@/assets/book-spread-highlights.jpg';
