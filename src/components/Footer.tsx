@@ -42,7 +42,7 @@ export const Footer = () => {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <footer ref={ref} className="bg-foreground text-primary-foreground">
+    <footer ref={ref} className="bg-primary text-primary-foreground">
       <div className="py-20 md:py-28 px-6 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           {/* Top section */}
