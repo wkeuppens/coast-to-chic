@@ -40,6 +40,7 @@ const supportImages = [
   { src: supportVictusPack, alt: 'Runner with Victus nutrition pack' },
   { src: supportVictus, alt: 'Runner fueling with Victus nutrition' },
   { src: supportSunsetBeer, alt: 'Sunset celebration after a stage' },
+  { src: supportNightBeers, alt: 'Runner celebrating with beers at night' },
 ];
 
 const partnershipModes = [
