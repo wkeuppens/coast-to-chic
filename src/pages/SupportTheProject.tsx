@@ -39,8 +39,8 @@ const supportImages = [
   { src: coastalPath, alt: 'Runner on a coastal path' },
   { src: coastalTown, alt: 'Coastal town from above' },
   { src: cliffBay, alt: 'Cliffs overlooking a bay' },
-  { src: harborBoats, alt: 'Boats in a harbour' },
-  { src: sailboatSea, alt: 'Sailboat at sea' },
+  { src: supportVictus, alt: 'Runner fueling with Victus nutrition' },
+  { src: supportSunsetBeer, alt: 'Sunset celebration after a stage' },
   { src: coastalFortress, alt: 'Coastal fortress' },
 ];
 
