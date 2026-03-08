@@ -64,16 +64,16 @@ export const HowItWorksSection = () => {
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
               <div className="mb-6">
-                <span className="block font-body font-black text-[7rem] md:text-[9rem] text-foreground/[0.06] leading-[0.8] select-none mb-2">{step.number}</span>
                 <div className="flex items-center gap-3 mb-4">
                   <EditorialArrow size={18} className="opacity-20" />
                   <h3 className="font-display text-xl md:text-2xl font-medium">
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                   {step.description}
                 </p>
+                <span className="block font-body font-black text-[5rem] md:text-[7rem] text-foreground/[0.06] leading-[0.75] select-none">{step.number}</span>
               </div>
             </motion.div>
           ))}
