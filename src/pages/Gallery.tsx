@@ -305,7 +305,7 @@ const Archive = () => {
   }, []);
 
   return (
-    <main className="fixed inset-0 bg-foreground overflow-hidden touch-none" style={{ cursor: 'grab' }}>
+    <main className="fixed inset-0 bg-primary overflow-hidden touch-none" style={{ cursor: 'grab' }}>
       <SEO
         title="Archive"
         description="A living archive documenting Europe's coastline stage by stage."
