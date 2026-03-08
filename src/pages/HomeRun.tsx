@@ -142,7 +142,7 @@ const HomeRun = () => {
                 Register for the Home Run
               </MagneticButton>
             </Link>
-            <p className="text-caption text-muted-foreground mt-6">Minimum 7 runners required.</p>
+            
           </motion.div>
         </div>
       </section>
