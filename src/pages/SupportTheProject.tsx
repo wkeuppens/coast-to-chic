@@ -10,6 +10,8 @@ import cliffBay from '@/assets/cliff-bay.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
 import sailboatSea from '@/assets/sailboat-sea.jpg';
 import coastalFortress from '@/assets/coastal-fortress.jpg';
+import supportVictus from '@/assets/support-victus.jpg';
+import supportSunsetBeer from '@/assets/support-sunset-beer.jpg';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -37,8 +39,8 @@ const supportImages = [
   { src: coastalPath, alt: 'Runner on a coastal path' },
   { src: coastalTown, alt: 'Coastal town from above' },
   { src: cliffBay, alt: 'Cliffs overlooking a bay' },
-  { src: harborBoats, alt: 'Boats in a harbour' },
-  { src: sailboatSea, alt: 'Sailboat at sea' },
+  { src: supportVictus, alt: 'Runner fueling with Victus nutrition' },
+  { src: supportSunsetBeer, alt: 'Sunset celebration after a stage' },
   { src: coastalFortress, alt: 'Coastal fortress' },
 ];
 
