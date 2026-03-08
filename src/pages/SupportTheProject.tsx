@@ -5,13 +5,11 @@ import { SEO } from '@/components/SEO';
 import { Footer } from '@/components/Footer';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import coastalPath from '@/assets/coastal-path.jpg';
-import coastalTown from '@/assets/coastal-town.jpg';
-import cliffBay from '@/assets/cliff-bay.jpg';
-import harborBoats from '@/assets/harbor-boats.jpg';
-import sailboatSea from '@/assets/sailboat-sea.jpg';
-import coastalFortress from '@/assets/coastal-fortress.jpg';
 import supportVictus from '@/assets/support-victus.jpg';
 import supportSunsetBeer from '@/assets/support-sunset-beer.jpg';
+import supportCoastalVan from '@/assets/support-coastal-van.jpg';
+import supportDuvelFlag from '@/assets/support-duvel-flag.jpg';
+import supportVictusPack from '@/assets/support-victus-pack.jpg';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -36,12 +34,11 @@ const SectionWrapper = ({ children, className = '' }: { children: React.ReactNod
 };
 
 const supportImages = [
-  { src: coastalPath, alt: 'Runner on a coastal path' },
-  { src: coastalTown, alt: 'Coastal town from above' },
-  { src: cliffBay, alt: 'Cliffs overlooking a bay' },
+  { src: supportCoastalVan, alt: 'Van on a coastal cliff path' },
+  { src: supportDuvelFlag, alt: 'Duvel flag at sunset' },
+  { src: supportVictusPack, alt: 'Runner with Victus nutrition pack' },
   { src: supportVictus, alt: 'Runner fueling with Victus nutrition' },
   { src: supportSunsetBeer, alt: 'Sunset celebration after a stage' },
-  { src: coastalFortress, alt: 'Coastal fortress' },
 ];
 
 const partnershipModes = [
