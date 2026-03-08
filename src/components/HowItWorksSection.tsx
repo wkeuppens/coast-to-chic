@@ -105,7 +105,7 @@ export const HowItWorksSection = () => {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-accent mt-0.5">—</span>
-                <span>Photos after. One book per runner.</span>
+                <span>Photos after. Your name in the book.</span>
               </li>
             </ul>
           </div>
