@@ -63,16 +63,20 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: 0.15 + index * 0.15 }}
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <EditorialArrow size={18} className="opacity-20" />
-                <span className="text-5xl md:text-6xl font-display font-black text-foreground/10 leading-none">{step.number}</span>
+              <div className="relative mb-6">
+                <span className="absolute -left-2 -top-8 text-[8rem] md:text-[10rem] font-display font-black text-foreground/[0.04] leading-none select-none pointer-events-none">{step.number}</span>
+                <div className="relative pt-12">
+                  <div className="flex items-center gap-3 mb-4">
+                    <EditorialArrow size={18} className="opacity-20" />
+                    <h3 className="font-display text-xl md:text-2xl font-medium">
+                      {step.title}
+                    </h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
               </div>
-              <h3 className="font-display text-xl md:text-2xl font-medium mb-4">
-                {step.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {step.description}
-              </p>
             </motion.div>
           ))}
         </div>

@@ -58,13 +58,6 @@ export const EventsSection = () => {
               Other runs we organise.
             </h2>
           </div>
-          <a
-            href="mailto:hello@followthecoast.com?subject=Info%20pack%20request"
-            className="inline-flex items-center gap-2 text-caption text-accent hover:text-accent/80 transition-colors"
-          >
-            <Download className="w-4 h-4" />
-            Download info pack
-          </a>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-10">
