@@ -63,17 +63,17 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: 0.15 + index * 0.15 }}
               className={index > 0 ? 'md:border-l md:border-border md:pl-16' : ''}
             >
-              <div className="mb-6">
+              <div className="mb-6 flex flex-col h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <EditorialArrow size={18} className="opacity-20" />
                   <h3 className="font-display text-xl md:text-2xl font-medium">
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
                   {step.description}
                 </p>
-                <span className="block font-body font-black text-[5rem] md:text-[7rem] text-foreground/[0.06] leading-none select-none text-right">{step.number}</span>
+                <span className="block font-body font-black text-[5rem] md:text-[7rem] text-foreground/[0.06] leading-none select-none text-right mt-auto">{step.number}</span>
               </div>
             </motion.div>
           ))}
