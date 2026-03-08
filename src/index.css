@@ -26,8 +26,8 @@
   :root {
     /* Off-white / bone background */
     --background: 40 27% 95%;
-    /* Deep blue foreground (replacing charcoal) */
-    --foreground: 203 92% 15%;
+    /* Charcoal foreground */
+    --foreground: 210 7% 18%;
 
     --card: 40 27% 95%;
     --card-foreground: 203 92% 15%;
