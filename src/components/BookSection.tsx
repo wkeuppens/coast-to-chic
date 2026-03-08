@@ -5,12 +5,6 @@ import { EditorialArrow } from './EditorialArrow';
 import { MagneticButton } from './MagneticButton';
 import bookMockup from '@/assets/book-mockup.jpg';
 
-const books = [
-  { id: 1, title: 'Volume I', subtitle: 'Knokke — San Sebastián', price: '€55' },
-  { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55' },
-  { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: 'Coming 2026' },
-];
-
 export const BookSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -30,29 +24,21 @@ export const BookSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {books.map((book, i) => (
-            <motion.div
-              key={book.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group"
-            >
-              <div className="aspect-[4/5] overflow-hidden mb-5 bg-secondary">
-                <img
-                  src={bookMockup}
-                  alt={`Follow the Coast ${book.title}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-display text-lg font-medium">{book.title}</h3>
-              <p className="text-caption text-muted-foreground mt-1">{book.subtitle}</p>
-              <p className="font-display text-lg font-medium mt-2">{book.price}</p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-16"
+        >
+          <div className="aspect-[16/9] overflow-hidden bg-secondary">
+            <img
+              src={bookMockup}
+              alt="Follow the Coast — Volume I and Volume II"
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
