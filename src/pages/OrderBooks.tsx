@@ -20,9 +20,9 @@ import spreadBasque from '@/assets/book-spread-basque.jpg';
 import { SEO } from '@/components/SEO';
 
 const books = [
-  { id: 1, title: 'Volume I', subtitle: 'Knokke — San Sebastián', price: '€55', status: 'available' as const },
-  { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55', status: 'available' as const },
-  { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: '€55', status: 'coming' as const },
+  { id: 1, title: 'Volume I', subtitle: 'Knokke — San Sebastián', price: '€55', status: 'available' as const, image: bookMockup },
+  { id: 2, title: 'Volume II', subtitle: 'San Sebastián — Gibraltar', price: '€55', status: 'available' as const, image: bookVol2Cover },
+  { id: 3, title: 'Volume III', subtitle: 'Gibraltar — Monaco', price: '€55', status: 'coming' as const, image: bookMockup },
 ];
 
 const spreads = [
