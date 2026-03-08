@@ -17,7 +17,7 @@ const steps = [
   {
     number: '03',
     title: 'Run it',
-    description: <>7am start. A van. A <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photographer</Link>. 24 hours moving.</>,
+    description: <>7am start. A van. A <Link to="/photographers" className="underline underline-offset-2 hover:text-foreground transition-colors">photographer</Link>. The beach.</>,
   },
 ];
 
