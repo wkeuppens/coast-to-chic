@@ -42,55 +42,47 @@ export const EventsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="events" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-background text-foreground">
-      <div ref={ref} className="max-w-7xl mx-auto">
+    <section id="events" className="py-32 md:py-48 px-6 md:px-12 lg:px-16">
+      <div ref={ref} className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16"
+          className="mb-16"
         >
-          <div>
-            <p className="text-caption text-muted-foreground mb-4">
-              Side routes
-            </p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold">
-              Other runs we organise.
-            </h2>
-          </div>
+          <p className="text-caption text-muted-foreground mb-4">
+            <EditorialArrow size={12} className="mr-2 opacity-40" />
+            Side routes
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold">
+            Other runs we organise.
+          </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-10">
+        {/* Event cards — editorial grid, no hover lift, book-style */}
+        <div className="grid md:grid-cols-3 gap-8">
           {events.map((event, index) => (
             <Link key={event.id} to={event.href}>
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="group block"
-                whileHover={{ y: -4 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group"
               >
-                <div className="aspect-[16/10] bg-muted mb-5 overflow-hidden">
-                  <img 
-                    src={event.image} 
+                <div className="aspect-[4/3] overflow-hidden mb-4">
+                  <img
+                    src={event.image}
                     alt={event.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex-shrink-0">
-                      <EditorialArrow size={16} />
-                    </div>
-                    <h3 className="font-display text-lg font-medium group-hover:text-accent transition-colors duration-300">
-                      {event.title}
-                    </h3>
-                  </div>
-                  <p className="text-caption text-muted-foreground">
-                    {event.location} — {event.date} — {event.distance}
-                  </p>
-                </div>
+                <h3 className="font-display text-lg font-medium mb-1 group-hover:opacity-60 transition-opacity">
+                  {event.title}
+                </h3>
+                <p className="text-caption text-muted-foreground">
+                  {event.location} — {event.date} — {event.distance}
+                </p>
               </motion.div>
             </Link>
           ))}

@@ -18,12 +18,12 @@ export const PullQuote = ({ text, variant = 'light' }: PullQuoteProps) => {
   return (
     <section
       ref={ref}
-      className={`py-32 md:py-48 px-6 md:px-12 lg:px-24 ${
-        variant === 'dark' ? 'bg-primary text-primary-foreground' : 'bg-background text-foreground'
+      className={`py-32 md:py-48 px-6 md:px-12 lg:px-16 ${
+        variant === 'dark' ? 'bg-foreground text-background' : 'bg-background text-foreground'
       }`}
     >
       <div className="max-w-5xl mx-auto">
-        <p className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
+        <p className="font-display text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
           {words.map((word, index) => {
             const start = index / words.length;
             const end = start + 1 / words.length;
@@ -47,13 +47,12 @@ interface WordProps {
 }
 
 const Word = ({ children, progress, range }: WordProps) => {
-  const opacity = useTransform(progress, range, [0.2, 1]);
-  const y = useTransform(progress, range, [20, 0]);
+  const opacity = useTransform(progress, range, [0.15, 1]);
 
   return (
     <motion.span
-      style={{ opacity, y }}
-      className="inline-block mr-[0.25em] transition-colors"
+      style={{ opacity }}
+      className="inline-block mr-[0.25em]"
     >
       {children}
     </motion.span>
