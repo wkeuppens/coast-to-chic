@@ -2,7 +2,6 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { EditorialArrow } from './EditorialArrow';
-import { MagneticButton } from './MagneticButton';
 
 const stageTypes = [
   {
@@ -26,70 +25,61 @@ export const StagesSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="stages" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-background">
-      <div ref={ref} className="max-w-7xl mx-auto">
+    <section id="stages" className="py-32 md:py-48 px-6 md:px-12 lg:px-16">
+      <div ref={ref} className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12"
         >
           <div>
             <p className="text-caption text-muted-foreground mb-4">
+              <EditorialArrow size={12} className="mr-2 opacity-40" />
               Stages
             </p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+            <h2 className="font-display text-3xl md:text-4xl font-bold">
               Available registrations
             </h2>
           </div>
-          <Link to="/all-stages" className="group">
-            <MagneticButton
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              strength={0.3}
-            >
-              <span className="relative inline-block">
-                View all stages
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-500" />
-              </span>
-            </MagneticButton>
+          <Link to="/all-stages" className="text-caption text-muted-foreground hover:text-foreground transition-colors">
+            View all stages →
           </Link>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-0 border-t border-border">
-          {stageTypes.map((stage, index) => (
-            <Link key={stage.id} to={stage.href}>
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="border-b md:border-b-0 md:border-r border-border last:border-r-0 py-12 md:pr-12 group cursor-pointer"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <span className="text-caption text-muted-foreground">
-                    {stage.status}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex-shrink-0">
-                    <EditorialArrow size={16} />
-                  </div>
-                  <h3 className="font-display text-2xl font-medium text-foreground group-hover:text-accent transition-colors duration-300">
-                    {stage.title}
-                  </h3>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors duration-300">
+        <hr className="rule mb-0" />
+
+        {stageTypes.map((stage, index) => (
+          <Link key={stage.id} to={stage.href}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="border-b border-foreground py-8 group flex items-center justify-between"
+            >
+              <div>
+                <h3 className="font-display text-xl font-medium text-foreground group-hover:opacity-60 transition-opacity mb-1">
+                  {stage.title}
+                </h3>
+                <p className="text-sm text-muted-foreground">
                   {stage.description}
                 </p>
-              </motion.div>
-            </Link>
-          ))}
-        </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-caption text-muted-foreground hidden sm:block">
+                  {stage.status}
+                </span>
+                <EditorialArrow size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            </motion.div>
+          </Link>
+        ))}
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-12 text-label"
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-8 text-xs text-muted-foreground"
         >
           Stages fill fast. Minutes, usually.
         </motion.p>

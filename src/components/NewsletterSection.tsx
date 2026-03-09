@@ -1,7 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { EditorialArrow } from './EditorialArrow';
-import { MagneticButton } from './MagneticButton';
 
 export const NewsletterSection = () => {
   const ref = useRef(null);
@@ -9,25 +8,26 @@ export const NewsletterSection = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <section id="newsletter" className="py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-secondary">
-      <div ref={ref} className="max-w-2xl mx-auto">
+    <section id="newsletter" className="py-32 md:py-48 px-6 md:px-12 lg:px-16">
+      <div ref={ref} className="max-w-xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center"
         >
+          <hr className="rule mb-12" />
           <p className="text-caption text-muted-foreground mb-4">
+            <EditorialArrow size={12} className="mr-2 opacity-40" />
             Updates
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-8">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
             New stages. Books. Routes.
           </h2>
-          <p className="text-muted-foreground mb-12 leading-relaxed">
+          <p className="text-sm text-muted-foreground mb-10 leading-relaxed">
             A few emails per year. When there's something to say.
           </p>
 
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" aria-label="Newsletter signup">
+          <form className="flex flex-col sm:flex-row gap-3" aria-label="Newsletter signup">
             <label htmlFor="newsletter-email" className="sr-only">Email address</label>
             <input
               id="newsletter-email"
@@ -36,19 +36,18 @@ export const NewsletterSection = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
               required
-              className="flex-1 bg-background border border-border px-5 py-4 rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+              className="flex-1 bg-background border border-foreground px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition-colors"
             />
-            <MagneticButton
-              onClick={() => {}}
-              className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-display font-medium hover:opacity-90 transition-opacity"
-              strength={0.2}
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3 font-display text-xs uppercase tracking-wider hover:opacity-80 transition-opacity"
             >
-              <EditorialArrow size={14} className="invert" />
+              <EditorialArrow size={12} className="invert" />
               Subscribe
-            </MagneticButton>
+            </button>
           </form>
 
-          <p className="text-xs text-muted-foreground mt-8">
+          <p className="text-[10px] text-muted-foreground mt-6 tracking-wide">
             By subscribing, you agree to the privacy policy.
           </p>
         </motion.div>

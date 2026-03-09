@@ -42,19 +42,19 @@ export const Footer = () => {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <footer ref={ref} className="bg-primary text-primary-foreground">
-      <div className="py-20 md:py-28 px-6 md:px-12 lg:px-24">
-        <div className="max-w-7xl mx-auto">
+    <footer ref={ref} className="bg-foreground text-background">
+      <div className="py-20 md:py-28 px-6 md:px-12 lg:px-16">
+        <div className="max-w-6xl mx-auto">
           {/* Top section */}
           <div className="grid md:grid-cols-5 gap-12 md:gap-8 mb-20">
             {/* Brand */}
-            <motion.div 
+            <motion.div
               className="md:col-span-1"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <Link to="/" className="font-display text-xl font-bold uppercase tracking-wide">
+              <Link to="/" className="font-display text-lg font-bold uppercase tracking-wide">
                 <span className="block">Follow</span>
                 <span className="block">The Coast</span>
               </Link>
@@ -63,19 +63,46 @@ export const Footer = () => {
             {/* Links */}
             <div className="md:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-8">
               {footerColumns.map((column, columnIndex) => (
-                <FooterColumn 
-                  key={column.title} 
-                  title={column.title} 
-                  links={column.links}
-                  delay={0.1 * (columnIndex + 1)}
-                  isInView={isInView}
-                />
+                <motion.div
+                  key={column.title}
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 1 } : {}}
+                  transition={{ duration: 0.6, delay: 0.1 * (columnIndex + 1) }}
+                >
+                  <p className="text-caption text-inv-subtle mb-5">{column.title}</p>
+                  <ul className="space-y-3">
+                    {column.links.map((link) => {
+                      const isExternal = link.href.startsWith('http') || link.href.startsWith('mailto:');
+                      return (
+                        <li key={link.label}>
+                          {isExternal ? (
+                            <a
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-inv-muted hover:text-inv transition-colors"
+                            >
+                              {link.label}
+                            </a>
+                          ) : (
+                            <Link
+                              to={link.href}
+                              className="text-sm text-inv-muted hover:text-inv transition-colors"
+                            >
+                              {link.label}
+                            </Link>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </motion.div>
               ))}
             </div>
           </div>
 
           {/* Bottom section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.5 }}
@@ -93,69 +120,8 @@ export const Footer = () => {
               </Link>
             </div>
           </motion.div>
-
-          {/* Contact email */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-8"
-          >
-            <a 
-              href="mailto:hello@followthecoast.com" 
-              className="text-sm text-inv-subtle hover:text-inv transition-colors"
-            >
-              hello@followthecoast.com
-            </a>
-          </motion.div>
         </div>
       </div>
     </footer>
   );
 };
-
-const FooterColumn = ({ 
-  title, 
-  links,
-  delay,
-  isInView
-}: { 
-  title: string; 
-  links: { label: string; href: string }[];
-  delay: number;
-  isInView: boolean;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.6, delay }}
-  >
-    <p className="text-caption text-inv-subtle mb-5">{title}</p>
-    <ul className="space-y-3">
-      {links.map((link) => {
-        const isExternal = link.href.startsWith('http') || link.href.startsWith('mailto:');
-        return (
-          <li key={link.label}>
-            {isExternal ? (
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-inv-muted hover:text-inv transition-colors"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                to={link.href}
-                className="text-sm text-inv-muted hover:text-inv transition-colors"
-              >
-                {link.label}
-              </Link>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  </motion.div>
-);

@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Follow the Coast Design System
+/* Follow the Coast — Editorial Design System
+   Inspired by the book: pure white, black type, photography-first.
    Fonts: Pressura GT (display) + Beausite Classic (body)
 */
 
@@ -24,112 +25,110 @@
 
 @layer base {
   :root {
-    /* Off-white / bone background */
-    --background: 40 27% 95%;
-    /* Charcoal foreground */
-    --foreground: 210 7% 18%;
+    /* Pure white background — like book paper */
+    --background: 0 0% 100%;
+    /* Near-black foreground — #0E0E0E from the book */
+    --foreground: 0 0% 5%;
 
-    --card: 40 27% 95%;
-    --card-foreground: 210 7% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
 
-    --popover: 40 27% 95%;
-    --popover-foreground: 210 7% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
 
-    /* Deep blue as primary */
-    --primary: 203 92% 15%;
-    --primary-foreground: 40 27% 95%;
+    /* Black as primary */
+    --primary: 0 0% 5%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Light linen as secondary */
-    --secondary: 40 20% 91%;
-    --secondary-foreground: 210 7% 18%;
+    /* Very light grey for secondary surfaces */
+    --secondary: 0 0% 97%;
+    --secondary-foreground: 0 0% 5%;
 
-    /* Warm grey for muted */
-    --muted: 36 6% 70%;
-    --muted-foreground: 206 17% 45%;
+    /* Grey for muted elements */
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 45%;
 
-    /* Terracotta accent (#B44C36) */
+    /* Terracotta accent — used sparingly, only for route maps like the book */
     --accent: 10 54% 46%;
-    --accent-foreground: 40 27% 95%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 40 27% 95%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Warm grey border */
-    --border: 36 6% 80%;
-    --input: 36 6% 80%;
-    --ring: 203 92% 15%;
+    /* Light grey border — thin editorial rules */
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 5%;
 
-    --radius: 0.5rem;
+    /* No border radius — sharp editorial rectangles */
+    --radius: 0px;
 
     /* Brand color tokens */
     --coast-deep-blue: 203 92% 15%;
     --coast-rust: 10 54% 46%;
-    --coast-charcoal: 210 7% 18%;
-    --coast-warm-grey: 36 6% 70%;
-    --coast-bone: 40 27% 95%;
-    --coast-beige: 40 20% 91%;
-    --coast-blue-grey: 206 17% 45%;
+    --coast-charcoal: 0 0% 5%;
+    --coast-warm-grey: 0 0% 70%;
+    --coast-bone: 0 0% 100%;
+    --coast-beige: 0 0% 97%;
+    --coast-blue-grey: 0 0% 45%;
 
     /* Inverted section tokens (dark bg, light text) */
-    --inv-foreground: 40 27% 95%;
-    --inv-muted: 40 27% 95% / 0.5;
-    --inv-subtle: 40 27% 95% / 0.4;
-    --inv-faint: 40 27% 95% / 0.3;
-    --inv-border: 40 27% 95% / 0.1;
+    --inv-foreground: 0 0% 100%;
+    --inv-muted: 0 0% 100% / 0.6;
+    --inv-subtle: 0 0% 100% / 0.4;
+    --inv-faint: 0 0% 100% / 0.25;
+    --inv-border: 0 0% 100% / 0.12;
 
     --font-display: 'Pressura GT', 'Space Grotesk', sans-serif;
     --font-body: 'Beausite Classic', 'Georgia', serif;
 
-    --sidebar-background: 40 27% 95%;
-    --sidebar-foreground: 210 7% 18%;
-    --sidebar-primary: 203 92% 15%;
-    --sidebar-primary-foreground: 40 27% 95%;
-    --sidebar-accent: 36 31% 83%;
-    --sidebar-accent-foreground: 210 7% 18%;
-    --sidebar-border: 36 6% 80%;
-    --sidebar-ring: 203 92% 15%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 5%;
+    --sidebar-primary: 0 0% 5%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 95%;
+    --sidebar-accent-foreground: 0 0% 5%;
+    --sidebar-border: 0 0% 88%;
+    --sidebar-ring: 0 0% 5%;
   }
 
   .dark {
-    /* Charcoal background for dark mode */
-    --background: 210 7% 10%;
-    --foreground: 40 27% 95%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 95%;
 
-    --card: 210 7% 14%;
-    --card-foreground: 40 27% 95%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 210 7% 14%;
-    --popover-foreground: 40 27% 95%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 95%;
 
-    /* Bone as primary in dark mode */
-    --primary: 40 27% 95%;
-    --primary-foreground: 210 7% 10%;
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 210 7% 20%;
-    --secondary-foreground: 40 27% 95%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 210 7% 25%;
-    --muted-foreground: 36 6% 60%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 55%;
 
-    /* Terracotta accent stays vibrant (#B44C36) */
     --accent: 10 54% 46%;
-    --accent-foreground: 40 27% 95%;
+    --accent-foreground: 0 0% 95%;
 
     --destructive: 0 62% 40%;
-    --destructive-foreground: 40 27% 95%;
+    --destructive-foreground: 0 0% 95%;
 
-    --border: 210 7% 22%;
-    --input: 210 7% 22%;
-    --ring: 40 27% 95%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 0 0% 95%;
 
-    --sidebar-background: 210 7% 10%;
-    --sidebar-foreground: 40 27% 95%;
-    --sidebar-primary: 40 27% 95%;
-    --sidebar-primary-foreground: 210 7% 10%;
-    --sidebar-accent: 210 7% 20%;
-    --sidebar-accent-foreground: 40 27% 95%;
-    --sidebar-border: 210 7% 22%;
-    --sidebar-ring: 21 54% 50%;
+    --sidebar-background: 0 0% 4%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 0% 95%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 16%;
+    --sidebar-ring: 0 0% 95%;
   }
 }
 
@@ -169,7 +168,7 @@
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
   }
 
-  /* Editorial caption style — tracked-out uppercase small text */
+  /* Editorial caption style — tracked-out uppercase small text (like book) */
   .text-caption {
     font-family: var(--font-display);
     font-size: 0.6875rem;
@@ -180,13 +179,19 @@
   /* Editorial label — section orientation markers */
   .text-label {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
-    letter-spacing: 0.04em;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
     color: hsl(var(--muted-foreground));
   }
 
-  /* Thin editorial rule */
+  /* Thin editorial rule — like the book's section dividers */
   .rule {
+    border: 0;
+    border-top: 1px solid hsl(var(--foreground));
+  }
+
+  /* Light rule for softer dividers */
+  .rule-light {
     border: 0;
     border-top: 1px solid hsl(var(--border));
   }
@@ -195,5 +200,18 @@
   .rule-inv {
     border: 0;
     border-top: 1px solid hsl(var(--inv-border));
+  }
+
+  /* Book-style page spread — 50/50 split */
+  .spread {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  @media (max-width: 768px) {
+    .spread {
+      grid-template-columns: 1fr;
+    }
   }
 }
