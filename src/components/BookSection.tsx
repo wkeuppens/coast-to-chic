@@ -47,10 +47,6 @@ export const BookSection = () => {
               </h2>
             </div>
             <div className="flex flex-col justify-end">
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-text">
-                Each book documents 50 stages of coastline through photography, 
-                maps, and runner stories. Art directed by Marcus Brown. Published by Lannoo.
-              </p>
               <MagneticButton
                 href="/order-books"
                 className="inline-flex items-center justify-center bg-foreground text-primary-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-80 transition-opacity"
