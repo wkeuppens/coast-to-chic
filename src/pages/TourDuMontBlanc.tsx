@@ -125,7 +125,7 @@ const TourDuMontBlanc = () => {
               <h3 className="text-2xl font-medium mb-1">4 days</h3>
               <p className="text-caption text-muted-foreground mb-2">4 – 9 August 2026</p>
               <p className="text-xs text-muted-foreground mb-6">25km + 2500hm per day</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€999</p>
+              <p className="text-4xl font-bold text-accent mb-8">€999</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {fourDayPerks.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
