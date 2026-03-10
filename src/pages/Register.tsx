@@ -130,7 +130,7 @@ const Register = () => {
               </p>
               <Link to="/participant-handbook">
                 <MagneticButton
-                  className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
                   strength={0.2}
                 >
                   <EditorialArrow size={14} className="invert" />
