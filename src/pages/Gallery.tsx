@@ -162,7 +162,7 @@ const ArchiveFilters = ({
             </div>
 
             {/* Year */}
-            <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Year</p>
+            <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Year</p>
             <div className="flex flex-wrap gap-1">
               <button className={btnClass(year === 'All')} onClick={() => onYear('All')}>All</button>
               {ARCHIVE_YEARS.map(y => (
