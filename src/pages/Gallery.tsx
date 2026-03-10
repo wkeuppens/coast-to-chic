@@ -354,7 +354,7 @@ const Archive = () => {
               {/* Primary CTA */}
               <button
                 onClick={() => setShowIntro(false)}
-                className="pointer-events-auto mb-8 px-8 py-3 border border-white/20 text-sm text-white/80 hover:text-white hover:border-white/40 transition-colors font-display uppercase tracking-wider"
+                className="pointer-events-auto mb-8 px-8 py-3 border border-white/20 text-sm text-white/80 hover:text-white hover:border-white/40 transition-colors uppercase tracking-wider"
               >
                 Explore the Gallery
               </button>
