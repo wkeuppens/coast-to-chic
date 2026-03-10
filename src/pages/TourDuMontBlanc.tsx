@@ -96,7 +96,7 @@ const TourDuMontBlanc = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">Pricing</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-16">Pick your pace.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-16">Pick your pace.</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
