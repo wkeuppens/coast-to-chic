@@ -215,7 +215,7 @@ const Privacy = () => {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-display text-xl md:text-2xl font-bold uppercase tracking-wide">
+            <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wide">
               Privacy Policy
             </h2>
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed mt-4">
