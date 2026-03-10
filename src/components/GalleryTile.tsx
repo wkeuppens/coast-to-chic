@@ -128,7 +128,7 @@ const GalleryTile = memo(
               {tile.shoreholder && (
                 <>
                   <span className="text-[10px] text-white/20">·</span>
-                  <span className="text-[10px] text-white/40 font-display italic">{tile.shoreholder}</span>
+                  <span className="text-[10px] text-white/40 italic">{tile.shoreholder}</span>
                 </>
               )}
             </div>
