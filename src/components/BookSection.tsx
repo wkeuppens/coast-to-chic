@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { MagneticButton } from './MagneticButton';
 import bookMockup from '@/assets/book-mockup.jpg';
 
 /**
