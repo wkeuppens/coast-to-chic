@@ -64,7 +64,7 @@ const GalleryTile = memo(
               background: `linear-gradient(135deg, hsl(${placeholderHue} 30% 18%) 0%, hsl(${(placeholderHue + 30) % 360} 25% 12%) 100%)`,
             }}
           >
-            <span className="font-display text-white/20 text-2xl tracking-wider">
+            <span className="text-white/20 text-2xl tracking-wider">
               {tile.title}
             </span>
           </div>
