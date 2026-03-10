@@ -312,11 +312,11 @@ const RouteMapPage = () => {
               </div>
               <div className="flex items-baseline gap-6">
                 {hoveredStage.shoreholder && (
-                  <span className="text-[11px] text-muted-foreground/60 font-display uppercase tracking-wider">
+                  <span className="text-[11px] text-muted-foreground/60 uppercase tracking-wider">
                     {hoveredStage.shoreholder}
                   </span>
                 )}
-                <span className="text-[10px] text-muted-foreground/30 font-display uppercase tracking-widest">
+                <span className="text-[10px] text-muted-foreground/30 uppercase tracking-widest">
                   Click to view →
                 </span>
               </div>
