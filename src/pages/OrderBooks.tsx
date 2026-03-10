@@ -119,7 +119,7 @@ const OrderBooks = () => {
             className="mb-16"
           >
             <p className="text-caption text-muted-foreground mb-4">The books</p>
-            <h1 className="font-display text-4xl md:text-5xl font-bold leading-[1.05] mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold leading-[1.05] mb-4">
               5,000 km per volume.
             </h1>
             <p className="text-muted-foreground max-w-md">
