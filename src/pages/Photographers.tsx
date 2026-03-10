@@ -42,7 +42,7 @@ const Photographers = () => {
               <div className="aspect-[3/4] overflow-hidden bg-secondary mb-5">
                 <img src={p.photo} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
               </div>
-              <h3 className="font-display text-lg font-medium">{p.name}</h3>
+              <h3 className="text-lg font-medium">{p.name}</h3>
               <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{p.bio}</p>
               <div className="flex items-center gap-4 mt-4">
                 <a href={p.website} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`${p.name} website`}>

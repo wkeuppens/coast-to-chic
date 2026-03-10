@@ -66,7 +66,7 @@ const Checkout = () => {
           {/* Payment placeholder */}
           <div className="border border-dashed border-border rounded-2xl p-8 text-center">
             <CreditCard className="w-8 h-8 mx-auto mb-4 text-muted-foreground/40" />
-            <h2 className="font-display text-lg font-medium mb-2">Payment coming soon</h2>
+            <h2 className="text-lg font-medium mb-2">Payment coming soon</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Online payment will be available here shortly. In the meantime, reach out to{' '}
               <a

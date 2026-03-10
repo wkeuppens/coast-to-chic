@@ -156,7 +156,7 @@ const Prints = () => {
                 </div>
                 <Link
                   to={`/checkout?product=Print%20%E2%80%93%20${encodeURIComponent(selected.title)}&variant=${encodeURIComponent(selected.photographer)}&price=TBD&return=/prints`}
-                  className="shrink-0 text-sm font-display uppercase tracking-wider border border-white/30 text-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition-all"
+                  className="shrink-0 text-sm uppercase tracking-wider border border-white/30 text-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition-all"
                 >
                   Order Print
                 </Link>
