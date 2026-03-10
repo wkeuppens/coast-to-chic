@@ -124,7 +124,7 @@ const SupportTheProject = () => {
         {/* Contact */}
         <section id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="font-display text-2xl md:text-4xl mb-6">
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-2xl md:text-4xl mb-6">
               Start the conversation
             </motion.h2>
             <motion.a
