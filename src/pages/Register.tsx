@@ -191,7 +191,7 @@ const Register = () => {
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 whitespace-pre-line">
                     {tier.description}
                   </p>
-                  <div className="text-3xl font-bold">
+                  <div className="text-3xl text-accent">
                     €{tier.price}
                   </div>
                 </motion.button>
