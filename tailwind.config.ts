@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Pressura GT', 'Space Grotesk', 'sans-serif'],
+        display: ['Pressura GT', 'Helvetica Neue', 'sans-serif'],
         body: ['Beausite Classic', 'Georgia', 'serif'],
       },
       colors: {
@@ -52,13 +52,10 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         coast: {
-          "deep-blue": "hsl(var(--coast-deep-blue))",
-          rust: "hsl(var(--coast-rust))",
           charcoal: "hsl(var(--coast-charcoal))",
           "warm-grey": "hsl(var(--coast-warm-grey))",
-          bone: "hsl(var(--coast-bone))",
-          beige: "hsl(var(--coast-beige))",
-          "blue-grey": "hsl(var(--coast-blue-grey))",
+          paper: "hsl(var(--coast-paper))",
+          rust: "hsl(var(--coast-rust))",
         },
         inv: {
           DEFAULT: "hsl(var(--inv-foreground))",
@@ -85,12 +82,12 @@ export default {
       },
       keyframes: {
         "fade-in": {
-          from: { opacity: "0", transform: "translateY(12px)" },
+          from: { opacity: "0", transform: "translateY(8px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
-        "fade-in": "fade-in 0.8s ease-out forwards",
+        "fade-in": "fade-in 0.6s ease-out forwards",
       },
     },
   },
