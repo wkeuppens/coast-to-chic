@@ -396,7 +396,7 @@ const Archive = () => {
           onYear={setFilterYear}
         />
         {hasFilters && (
-          <span className="text-[10px] text-white/30 font-display tabular-nums">
+          <span className="text-[10px] text-white/30 tabular-nums">
             {filteredStages.length} / {completedStages.length}
           </span>
         )}
