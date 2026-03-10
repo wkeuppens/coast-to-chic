@@ -363,7 +363,7 @@ const Archive = () => {
               <div className="flex items-center justify-center gap-6 pointer-events-auto">
                 <Link
                   to="/route-map"
-                  className="hidden md:inline text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                  className="hidden md:inline text-[11px] text-white/30 hover:text-white/50 transition-colors uppercase tracking-wider"
                 >
                   Route Map
                 </Link>
