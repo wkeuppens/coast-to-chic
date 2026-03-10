@@ -301,7 +301,7 @@ const Register = () => {
             transition={{ duration: 0.6 }}
             className="mt-16"
           >
-            <h3 className="text-2xl font-bold mb-4">Questions?</h3>
+            <h3 className="text-2xl mb-4">Questions?</h3>
             <p className="text-muted-foreground mb-8">
               Not sure which stage fits you? Join the WhatsApp group or reach out directly.
             </p>
