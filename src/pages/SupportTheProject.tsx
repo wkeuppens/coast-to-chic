@@ -91,7 +91,7 @@ const SupportTheProject = () => {
           <p className="text-caption text-accent mb-6">Current partners</p>
           <div className="flex flex-wrap gap-12 md:gap-16">
             {partners.map((partner) => (
-              <span key={partner} className="font-display text-2xl md:text-3xl text-foreground">{partner}</span>
+              <span key={partner} className="text-2xl md:text-3xl text-foreground">{partner}</span>
             ))}
           </div>
         </SectionWrapper>
