@@ -46,7 +46,7 @@ export const EventsSection = () => {
           className="mb-block"
         >
           <p className="text-label mb-element">Side routes</p>
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight">
+          <h2 className="text-2xl md:text-3xl tracking-tight">
             Other runs we organise
           </h2>
         </motion.div>
