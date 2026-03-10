@@ -58,7 +58,7 @@ const Checkout = () => {
             {price && (
               <div className="border-t border-border pt-4 flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Total</span>
-                <span className="text-2xl font-bold">{price}</span>
+                <span className="text-2xl text-accent">{price}</span>
               </div>
             )}
           </div>
