@@ -39,7 +39,7 @@ const Prints = () => {
       <section className="pt-32 pb-16 px-6 md:px-12 max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <p className="text-caption text-accent mb-4">Limited Editions</p>
-          <h1 className="font-display text-4xl md:text-6xl font-medium mt-2 mb-8">From the archive</h1>
+          <h1 className="text-4xl md:text-6xl font-medium mt-2 mb-8">From the archive</h1>
           <div className="space-y-4 max-w-xl">
             <p className="text-muted-foreground leading-relaxed">Each stage along the coastline is documented by photographers who travel with the runners.</p>
             <p className="text-muted-foreground leading-relaxed">From that growing archive, a small number of images are selected and printed as limited editions.</p>
