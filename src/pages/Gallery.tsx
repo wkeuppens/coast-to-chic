@@ -57,8 +57,8 @@ const Lightbox = ({
     >
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-6 z-10">
         <div>
-          <p className="text-xs uppercase tracking-widest text-white/50 font-display">{data.stage}</p>
-          <p className="text-sm text-white/80 font-display">{data.location}</p>
+          <p className="text-xs uppercase tracking-widest text-white/50">{data.stage}</p>
+          <p className="text-sm text-white/80">{data.location}</p>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-white/40 tabular-nums">{current + 1} / {data.photos.length}</span>
