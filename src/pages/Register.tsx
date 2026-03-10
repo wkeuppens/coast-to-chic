@@ -161,7 +161,7 @@ const Register = () => {
 
           {/* Pricing cards */}
           <p className="text-caption text-muted-foreground mb-4">Pricing</p>
-          <h3 className="text-2xl font-bold mb-8">Choose how you run</h3>
+          <h3 className="text-2xl mb-8">Choose how you run</h3>
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             {pricingTiers.map((tier, i) => {
               const Icon = tier.icon;
