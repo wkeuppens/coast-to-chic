@@ -19,6 +19,8 @@ export const Navigation = () => {
   const navTheme = useNavTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const { scrollYProgress } = useScroll();
+  const scrollProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   const handleHashLink = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
