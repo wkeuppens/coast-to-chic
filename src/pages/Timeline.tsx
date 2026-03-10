@@ -48,11 +48,9 @@ const Timeline = () => {
           <div className="space-y-14">
             {yearData.map((entry, i) => (
               <motion.div key={entry.year} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.1 }}>
-                <div className="flex items-baseline gap-3 mb-3">
-                  <span className="text-2xl md:text-3xl text-foreground tabular-nums">{entry.year}</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent relative top-[-1px]" />
-                </div>
-                <div className="border-l border-border/40 pl-6 ml-1 space-y-3">
+                <p className="text-2xl md:text-3xl text-foreground tabular-nums mb-3">{entry.year}</p>
+                <div className="relative border-l border-border/40 pl-6 ml-1 space-y-3">
+                  <div className="absolute -left-[3.5px] top-[7px] w-[7px] h-[7px] rounded-full bg-accent" />
                   <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
                     <span><span className="text-foreground">{entry.completedStages}</span> of {entry.totalStages} stages completed</span>
                     <span>Stages {entry.stageRange}</span>
