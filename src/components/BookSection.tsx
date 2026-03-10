@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { MagneticButton } from './MagneticButton';
 import bookMockup from '@/assets/book-mockup.jpg';
 
 /**
@@ -50,12 +51,12 @@ export const BookSection = () => {
                 Each book documents 50 stages of coastline through photography, 
                 maps, and runner stories. Art directed by Marcus Brown. Published by Lannoo.
               </p>
-              <Link
-                to="/order-books"
-                className="text-caption text-foreground hover:text-muted-foreground transition-colors self-start"
+              <MagneticButton
+                href="/order-books"
+                className="inline-flex items-center justify-center bg-foreground text-primary-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-80 transition-opacity"
               >
-                Explore the books →
-              </Link>
+                Explore the books
+              </MagneticButton>
             </div>
           </div>
         </motion.div>
