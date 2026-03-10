@@ -51,7 +51,7 @@ const Checkout = () => {
                 <Package className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <h1 className="font-display text-xl font-bold">{product}</h1>
+                <h1 className="text-xl font-bold">{product}</h1>
                 {variant && <p className="text-sm text-muted-foreground mt-1">{variant}</p>}
               </div>
             </div>
