@@ -103,7 +103,7 @@ const SupportTheProject = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {partnershipModes.map((mode) => (
               <div key={mode.title} className="bg-background p-8">
-                <h3 className="font-display text-lg font-medium mb-3">{mode.title}</h3>
+                <h3 className="text-lg font-medium mb-3">{mode.title}</h3>
                 <p className="text-muted-foreground leading-relaxed text-sm">{mode.text}</p>
               </div>
             ))}
