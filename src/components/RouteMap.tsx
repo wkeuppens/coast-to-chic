@@ -1,5 +1,5 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, forwardRef } from 'react';
 import { smoothPath } from '@/lib/pathSmoothing';
 import { fetchAndParseSVG } from '@/lib/svgCache';
 
