@@ -298,11 +298,11 @@ const RouteMapPage = () => {
           {hoveredStage ? (
             <div className="flex items-baseline justify-between">
               <div className="flex items-baseline gap-6">
-                <span className="text-[32px] font-display text-accent leading-none tracking-tight tabular-nums">
+                <span className="text-[32px] text-accent leading-none tracking-tight tabular-nums">
                   {String(hoveredStage.stageNumber).padStart(3, '0')}
                 </span>
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-display text-foreground tracking-wide">
+                  <span className="text-sm text-foreground tracking-wide">
                     {hoveredStage.location}
                   </span>
                   <span className="text-[11px] text-muted-foreground tracking-wider uppercase">
