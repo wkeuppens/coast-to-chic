@@ -316,7 +316,7 @@ const Archive = () => {
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 pointer-events-none">
         <button
           onClick={() => navigate(-1)}
-          className="pointer-events-auto flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors font-display"
+          className="pointer-events-auto flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
