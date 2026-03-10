@@ -377,7 +377,7 @@ const Archive = () => {
                 <span className="text-white/15">·</span>
                 <Link
                   to="/timeline"
-                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors uppercase tracking-wider"
                 >
                   Timeline
                 </Link>
