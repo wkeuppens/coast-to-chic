@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { MagneticButton } from './MagneticButton';
 
 /**
  * Support section — quiet, editorial. No loud CTA.
