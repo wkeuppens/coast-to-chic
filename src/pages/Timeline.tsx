@@ -56,7 +56,7 @@ const Timeline = () => {
                   </div>
                   <div className="pt-1 space-y-3">
                     <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                      <span><span className="text-foreground font-display">{entry.completedStages}</span> of {entry.totalStages} stages completed</span>
+                      <span><span className="text-foreground">{entry.completedStages}</span> of {entry.totalStages} stages completed</span>
                       <span>Stages {entry.stageRange}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
