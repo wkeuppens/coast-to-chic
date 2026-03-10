@@ -127,7 +127,7 @@ const ArchiveFilters = ({
   const hasFilters = country !== 'All' || year !== 'All';
 
   const btnClass = (active: boolean) =>
-    `text-[11px] font-display uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
+    `text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
       active ? 'bg-white/15 text-white/90' : 'text-white/40 hover:text-white/60'
     }`;
 
