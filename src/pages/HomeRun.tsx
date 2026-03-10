@@ -69,7 +69,7 @@ const HomeRun = () => {
             <div key={fact.label} className="px-6 py-6 text-center">
               <fact.icon className="w-4 h-4 mx-auto mb-2 text-accent" />
               <p className="text-caption text-muted-foreground mb-1">{fact.label}</p>
-              <p className="font-display text-base font-medium">{fact.value}</p>
+              <p className="text-base font-medium">{fact.value}</p>
             </div>
           ))}
         </div>
