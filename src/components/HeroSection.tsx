@@ -10,8 +10,8 @@ export const HeroSection = () => {
     <section className="relative h-screen w-full overflow-hidden">
       {/* Full-bleed photograph */}
       <motion.img
-        src={beachRunners}
-        alt="Runners along the European coastline"
+        src={coastalTown}
+        alt="Coastal town along the route"
         className="absolute inset-0 w-full h-full object-cover"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1 }}
