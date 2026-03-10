@@ -37,8 +37,8 @@ const Shoreholders = () => {
                 transition={{ duration: 0.4, delay: Math.min(i * 0.02, 1) }}
                 className="grid grid-cols-[60px_1fr_1fr_80px] md:grid-cols-[80px_1fr_1fr_100px] items-baseline py-3 border-b border-border/40"
               >
-                <span className="text-xs text-muted-foreground font-display tabular-nums">{String(entry.stageNumber).padStart(3, '0')}</span>
-                <span className="text-sm text-foreground font-display">{entry.name}</span>
+                <span className="text-xs text-muted-foreground tabular-nums">{String(entry.stageNumber).padStart(3, '0')}</span>
+                <span className="text-sm text-foreground">{entry.name}</span>
                 <span className="text-sm text-muted-foreground">{entry.location}, {entry.country}</span>
                 <span className="text-xs text-muted-foreground/60 text-right tabular-nums">{entry.year}</span>
               </motion.div>

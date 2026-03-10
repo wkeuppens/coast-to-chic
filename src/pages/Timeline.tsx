@@ -78,7 +78,7 @@ const Timeline = () => {
               {/* 2026 */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: yearData.length * 0.1 }} className="relative pl-20 md:pl-24">
                 <div className="absolute left-0 top-0 flex items-center gap-3">
-                  <span className="font-display text-2xl md:text-3xl text-foreground tabular-nums">2026</span>
+                  <span className="text-2xl md:text-3xl text-foreground tabular-nums">2026</span>
                   <div className="w-2 h-2 rounded-full border border-accent bg-transparent" />
                 </div>
                 <div className="pt-1 space-y-3">
