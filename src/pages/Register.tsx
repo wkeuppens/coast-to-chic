@@ -109,7 +109,7 @@ const Register = () => {
             transition={{ duration: 0.7 }}
           >
             <p className="text-caption text-white/60 mb-3">Register</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05]">
               Run a stage
             </h1>
           </motion.div>
