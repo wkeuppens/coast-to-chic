@@ -173,7 +173,7 @@ const ArchiveFilters = ({
             {hasFilters && (
               <button
                 onClick={() => { onCountry('All'); onYear('All'); }}
-                className="mt-3 text-[10px] text-white/30 hover:text-white/50 font-display uppercase tracking-wider transition-colors"
+                className="mt-3 text-[10px] text-white/30 hover:text-white/50 uppercase tracking-wider transition-colors"
               >
                 Clear filters
               </button>
