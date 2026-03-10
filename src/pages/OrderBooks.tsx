@@ -193,7 +193,7 @@ const OrderBooks = () => {
             <div className="flex items-center gap-6">
               <div className="text-right">
                 <span className="text-sm text-muted-foreground line-through">€110</span>
-                <span className="font-display text-3xl font-bold ml-3">€95</span>
+                <span className="text-3xl font-bold ml-3">€95</span>
               </div>
               <Link to="/checkout?product=Book%20Bundle&variant=Volume%20I%20%2B%20II&price=%E2%82%AC95&return=/order-books">
                 <MagneticButton className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap" strength={0.2}>

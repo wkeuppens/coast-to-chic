@@ -329,7 +329,7 @@ const Register = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="font-display text-2xl md:text-3xl font-bold leading-relaxed"
+            className="text-2xl md:text-3xl font-bold leading-relaxed"
           >
             Come as you are.<br />We're looking forward to meeting you on the coastline.
           </motion.p>
