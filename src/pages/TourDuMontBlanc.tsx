@@ -122,7 +122,7 @@ const TourDuMontBlanc = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-background p-8 md:p-10 flex flex-col">
-              <h3 className="font-display text-2xl font-medium mb-1">4 days</h3>
+              <h3 className="text-2xl font-medium mb-1">4 days</h3>
               <p className="text-caption text-muted-foreground mb-2">4 – 9 August 2026</p>
               <p className="text-xs text-muted-foreground mb-6">25km + 2500hm per day</p>
               <p className="font-display text-4xl font-bold text-accent mb-8">€999</p>
