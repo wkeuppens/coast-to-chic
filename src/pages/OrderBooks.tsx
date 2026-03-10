@@ -161,8 +161,8 @@ const OrderBooks = () => {
                   <p className="text-caption text-muted-foreground mb-2">
                     {book.status === 'available' ? book.subtitle : 'Coming 2026'}
                   </p>
-                  <h3 className="font-display text-base font-semibold mb-1">{book.title}</h3>
-                  <p className="font-display text-base">{book.price}</p>
+                  <h3 className="text-base font-semibold mb-1">{book.title}</h3>
+                  <p className="text-base">{book.price}</p>
                 </div>
               </motion.div>
             ))}
