@@ -128,11 +128,11 @@ const RouteMapPage = () => {
     return (
       <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-8 text-center">
         <SEO title="Route Map" description="Explore the full coastline route, stage by stage." path="/route-map" />
-        <p className="font-display text-lg text-foreground mb-2">Route Map</p>
+        <p className="text-lg text-foreground mb-2">Route Map</p>
         <p className="text-sm text-muted-foreground mb-8 max-w-xs">
           The interactive route map is best experienced on a larger screen.
         </p>
-        <Link to="/archive" className="text-sm font-display text-accent hover:text-accent/80 transition-colors">
+        <Link to="/archive" className="text-sm text-accent hover:text-accent/80 transition-colors">
           ← Explore the Archive instead
         </Link>
       </main>
