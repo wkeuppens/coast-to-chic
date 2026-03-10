@@ -122,7 +122,7 @@ const Register = () => {
           <div className="flex items-start gap-4 p-6 bg-accent/8 border border-accent/20">
             <BookOpen size={24} className="text-accent shrink-0 mt-0.5" />
             <div>
-              <p className="font-medium text-foreground mb-1">
+              <p className="text-foreground mb-1">
                 Read the participant guide before registering
               </p>
               <p className="text-sm text-muted-foreground mb-3">
