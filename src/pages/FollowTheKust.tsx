@@ -72,7 +72,7 @@ const FollowTheKust = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">The concept</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">The Belgian coastline, shared.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-8">The Belgian coastline, shared.</h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>Follow The Kust is a one-day run along the Belgian shoreline.</p>
               <p>Two distances toward Knokke:</p>
