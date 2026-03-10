@@ -51,7 +51,7 @@ const Timeline = () => {
               {yearData.map((entry, i) => (
                 <motion.div key={entry.year} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.1 }} className="relative pl-20 md:pl-24">
                   <div className="absolute left-0 top-0 flex items-center gap-3">
-                    <span className="font-display text-2xl md:text-3xl text-foreground tabular-nums">{entry.year}</span>
+                    <span className="text-2xl md:text-3xl text-foreground tabular-nums">{entry.year}</span>
                     <div className="w-2 h-2 rounded-full bg-accent" />
                   </div>
                   <div className="pt-1 space-y-3">
