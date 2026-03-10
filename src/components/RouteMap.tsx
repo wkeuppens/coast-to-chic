@@ -16,7 +16,7 @@ interface MapPinProps {
   showConnector?: boolean;
 }
 
-const MapPin = ({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showConnector = false }: MapPinProps) => {
+const RoutePin = forwardRef<SVGGElement, MapPinProps>(function RoutePin({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showConnector = false }, ref) {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
   const isVisible = pathProgress >= triggerAt;
 
