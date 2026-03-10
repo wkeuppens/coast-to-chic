@@ -135,7 +135,7 @@ const ArchiveFilters = ({
     <div className="relative">
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider px-4 py-2 rounded-full border border-white/15 text-white/60 hover:text-white/80 hover:border-white/25 transition-colors"
+        className="flex items-center gap-2 text-[11px] uppercase tracking-wider px-4 py-2 rounded-full border border-white/15 text-white/60 hover:text-white/80 hover:border-white/25 transition-colors"
       >
         Filter
         {hasFilters && (
