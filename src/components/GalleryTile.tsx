@@ -107,7 +107,7 @@ const GalleryTile = memo(
             >
               <EditorialArrow size={16} className="invert" />
             </div>
-            <h3 className="font-display text-base md:text-lg text-white leading-tight">
+            <h3 className="text-base md:text-lg text-white leading-tight">
               {tile.location}
             </h3>
           </div>
