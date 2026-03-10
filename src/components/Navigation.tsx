@@ -43,7 +43,7 @@ export const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-normal">
       <div className="flex items-center justify-between px-page py-5">
         {/* Wordmark */}
-        <a href="/" className={`font-display text-[0.6rem] uppercase tracking-[0.18em] leading-tight transition-colors duration-500 ${textBase}`}>
+        <a href="/" className={`text-[0.6rem] uppercase tracking-[0.18em] leading-tight transition-colors duration-500 ${textBase}`}>
           <span className="block">Follow</span>
           <span className="block">The Coast</span>
         </a>
@@ -55,14 +55,14 @@ export const Navigation = () => {
               key={item.label}
               href={item.href}
               onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : undefined}
-              className={`text-[0.625rem] font-display uppercase tracking-[0.1em] transition-colors duration-500 ${textMuted} hover:${textBase}`}
+              className={`text-[0.625rem] uppercase tracking-[0.1em] transition-colors duration-500 ${textMuted} hover:${textBase}`}
             >
               {item.label}
             </a>
           ))}
           <a
             href="/register"
-            className={`text-[0.625rem] font-display uppercase tracking-[0.1em] transition-colors duration-500 ${textBase} border-b border-current pb-px`}
+            className={`text-[0.625rem] uppercase tracking-[0.1em] transition-colors duration-500 ${textBase} border-b border-current pb-px`}
           >
             Register
           </a>
@@ -112,7 +112,7 @@ export const Navigation = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 + 0.1 }}
                   onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : () => setIsOpen(false)}
-                  className="font-display text-2xl text-primary-foreground uppercase tracking-wider"
+                  className="text-2xl text-primary-foreground uppercase tracking-wider"
                 >
                   {item.label}
                 </motion.a>
@@ -123,7 +123,7 @@ export const Navigation = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35 }}
                 onClick={() => setIsOpen(false)}
-                className="font-display text-2xl text-primary-foreground uppercase tracking-wider"
+                className="text-2xl text-primary-foreground uppercase tracking-wider"
               >
                 Register
               </motion.a>

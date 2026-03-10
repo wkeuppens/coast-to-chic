@@ -19,7 +19,7 @@ export const SupportSection = () => {
         >
           <hr className="rule mb-8" />
           <p className="text-label mb-element">Support</p>
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-block">
+          <h2 className="text-2xl md:text-3xl tracking-tight mb-block">
             This journey moves with support
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-text">

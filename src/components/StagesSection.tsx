@@ -38,7 +38,7 @@ export const StagesSection = () => {
         >
           <div>
             <p className="text-label mb-element">Stages</p>
-            <h2 className="font-display text-2xl md:text-3xl tracking-tight">
+            <h2 className="text-2xl md:text-3xl tracking-tight">
               Available registrations
             </h2>
           </div>
@@ -58,7 +58,7 @@ export const StagesSection = () => {
               className="group py-6 md:py-8 border-b border-foreground/15 flex items-baseline justify-between gap-4"
             >
               <div>
-                <h3 className="font-display text-lg md:text-xl group-hover:opacity-50 transition-opacity duration-500">
+                <h3 className="text-lg md:text-xl group-hover:opacity-50 transition-opacity duration-500">
                   {stage.title}
                 </h3>
                 <p className="text-sm text-muted-foreground mt-0.5">

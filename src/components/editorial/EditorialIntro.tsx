@@ -26,7 +26,7 @@ export const EditorialIntro = ({ label, heading, body, children }: EditorialIntr
         {label && (
           <p className="text-label mb-element">{label}</p>
         )}
-        <h2 className="font-display text-2xl md:text-3xl lg:text-[2.5rem] tracking-tight text-balance leading-[1.1] mb-block">
+        <h2 className="text-2xl md:text-3xl lg:text-[2.5rem] tracking-tight text-balance leading-[1.1] mb-block">
           {heading}
         </h2>
         {body && (

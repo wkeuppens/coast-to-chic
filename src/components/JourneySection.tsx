@@ -21,7 +21,7 @@ export const JourneySection = () => {
             transition={{ duration: 0.8 }}
           >
             <p className="text-label mb-element">The route</p>
-            <h2 className="font-display text-2xl md:text-3xl lg:text-4xl tracking-tight leading-[1.1] mb-block">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl tracking-tight leading-[1.1] mb-block">
               Sea on the right.
               <br />
               Always south.

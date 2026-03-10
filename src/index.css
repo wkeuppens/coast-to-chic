@@ -157,7 +157,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     line-height: 1.1;
   }
 
@@ -187,7 +187,7 @@
 
   /* ── Editorial caption: tracked uppercase small ── */
   .text-caption {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: 0.625rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -196,7 +196,7 @@
 
   /* ── Section label ── */
   .text-label {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: 0.6875rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;

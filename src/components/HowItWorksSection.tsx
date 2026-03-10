@@ -39,7 +39,7 @@ export const HowItWorksSection = () => {
           className="mb-block"
         >
           <p className="text-label mb-element">How it works</p>
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight">
+          <h2 className="text-2xl md:text-3xl tracking-tight">
             A van. A photographer. You.
           </h2>
         </motion.div>
@@ -55,7 +55,7 @@ export const HowItWorksSection = () => {
               transition={{ duration: 0.6, delay: 0.1 + i * 0.08 }}
             >
               <span className="text-caption text-muted-foreground block mb-3">{step.number}</span>
-              <h3 className="font-display text-lg mb-2">{step.title}</h3>
+              <h3 className="text-lg mb-2">{step.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
             </motion.div>
           ))}

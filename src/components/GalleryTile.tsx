@@ -64,7 +64,7 @@ const GalleryTile = memo(
               background: `linear-gradient(135deg, hsl(${placeholderHue} 30% 18%) 0%, hsl(${(placeholderHue + 30) % 360} 25% 12%) 100%)`,
             }}
           >
-            <span className="font-display text-white/20 text-2xl tracking-wider">
+            <span className="text-white/20 text-2xl tracking-wider">
               {tile.title}
             </span>
           </div>
@@ -107,7 +107,7 @@ const GalleryTile = memo(
             >
               <EditorialArrow size={16} className="invert" />
             </div>
-            <h3 className="font-display text-base md:text-lg text-white leading-tight">
+            <h3 className="text-base md:text-lg text-white leading-tight">
               {tile.location}
             </h3>
           </div>
@@ -122,9 +122,9 @@ const GalleryTile = memo(
             }}
           >
             <div className="pt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-[10px] text-white/40 font-display">{tile.country}</span>
+              <span className="text-[10px] text-white/40">{tile.country}</span>
               <span className="text-[10px] text-white/20">·</span>
-              <span className="text-[10px] text-white/40 font-display">{tile.season} {tile.year}</span>
+              <span className="text-[10px] text-white/40">{tile.season} {tile.year}</span>
               {tile.shoreholder && (
                 <>
                   <span className="text-[10px] text-white/20">·</span>
