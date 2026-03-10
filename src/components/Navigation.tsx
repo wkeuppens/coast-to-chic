@@ -38,8 +38,8 @@ export const Navigation = () => {
   }, [location.pathname, navigate]);
 
   const isLight = navTheme === 'light';
-  const textBase = isLight ? 'text-primary-foreground' : 'text-foreground';
-  const textMuted = isLight ? 'text-primary-foreground/50' : 'text-muted-foreground';
+  const textBase = isLight ? 'text-white' : 'text-foreground';
+  const textMuted = isLight ? 'text-white/70' : 'text-muted-foreground';
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-normal">
