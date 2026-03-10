@@ -130,8 +130,8 @@ const HomeRun = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
-            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">Run Venice with us.</h2>
-            <p className="font-display text-2xl font-medium mt-6 mb-2">€199</p>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase mb-4">Run Venice with us.</h2>
+            <p className="text-2xl font-medium mt-6 mb-2">€199</p>
             <p className="text-muted-foreground mb-10 text-sm">Checkpoints, community, and your name in the book.</p>
             <Link to="/checkout?product=Home%20Run%20%E2%80%93%20Venice&variant=100km&price=%E2%82%AC199&return=/homerun">
               <MagneticButton

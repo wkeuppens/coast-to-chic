@@ -149,7 +149,7 @@ const TourDuMontBlanc = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
-            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">August 2026 · Chamonix</h2>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase mb-4">August 2026 · Chamonix</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">Three countries. 4–7 days on the trail.</p>
             <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&return=/tour-du-mont-blanc">
               <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>

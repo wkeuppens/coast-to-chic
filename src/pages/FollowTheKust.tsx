@@ -146,7 +146,7 @@ const FollowTheKust = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
-            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-6">Run the kust with us.</h2>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase mb-6">Run the kust with us.</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">6 February 2027. The Belgian coast awaits.</p>
             <Link to="/checkout?product=Follow%20The%20Kust&return=/follow-the-kust">
               <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>
