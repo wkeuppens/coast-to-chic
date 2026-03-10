@@ -43,7 +43,7 @@ export const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-normal">
       <div className="flex items-center justify-between px-page py-5">
         {/* Wordmark */}
-        <a href="/" className={`font-display text-[0.6rem] uppercase tracking-[0.18em] leading-tight transition-colors duration-500 ${textBase}`}>
+        <a href="/" className={`text-[0.6rem] uppercase tracking-[0.18em] leading-tight transition-colors duration-500 ${textBase}`}>
           <span className="block">Follow</span>
           <span className="block">The Coast</span>
         </a>
