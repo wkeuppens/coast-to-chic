@@ -98,7 +98,7 @@ const OrderBooks = () => {
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img src={wavesLogo} alt="" className="h-8 w-auto brightness-0" />
-          <span className="font-display text-[10px] font-bold uppercase tracking-wider leading-tight">
+          <span className="text-[10px] font-bold uppercase tracking-wider leading-tight">
             <span className="block">Follow</span>
             <span className="block">The</span>
             <span className="block">Coast</span>
