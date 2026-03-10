@@ -29,6 +29,10 @@
 }
 
 @layer base {
+  html, body {
+    overflow-x: hidden;
+  }
+
   :root {
     /* ── Surface ── */
     --background: 40 20% 97%;        /* warm paper white */
