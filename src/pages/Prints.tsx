@@ -91,7 +91,7 @@ const Prints = () => {
 
       {/* Acquire */}
       <section className="pb-8 px-6 md:px-12 max-w-4xl mx-auto">
-        <h2 className="font-display text-2xl md:text-3xl mb-4">Acquire a print</h2>
+        <h2 className="text-2xl md:text-3xl mb-4">Acquire a print</h2>
         <div className="space-y-4 max-w-xl">
           <p className="text-muted-foreground leading-relaxed">Explore the current available editions below.</p>
           <p className="text-muted-foreground leading-relaxed">Each marks a real place, a real day, a real passage along the coast.</p>
