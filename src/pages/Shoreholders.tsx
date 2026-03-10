@@ -19,7 +19,7 @@ const Shoreholders = () => {
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-20">
             <p className="text-caption text-accent mb-4">Archive</p>
-            <h1 className="font-display text-3xl md:text-4xl mb-6">Shoreholders</h1>
+            <h1 className="text-3xl md:text-4xl mb-6">Shoreholders</h1>
             <p className="text-foreground/70 leading-relaxed max-w-xl mb-2">Every stage is carried by someone.</p>
             <p className="text-muted-foreground leading-relaxed max-w-xl mb-8">Together, these runners form the human line around Europe's coastline.</p>
             <Link to="/archive" className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display">
