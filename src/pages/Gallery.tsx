@@ -321,7 +321,7 @@ const Archive = () => {
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
-        <span className="text-xs uppercase tracking-widest text-white/30 font-display">
+        <span className="text-xs uppercase tracking-widest text-white/30">
           Coastal Archive
         </span>
       </header>
