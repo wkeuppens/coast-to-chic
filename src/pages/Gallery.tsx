@@ -153,7 +153,7 @@ const ArchiveFilters = ({
             className="absolute top-full left-0 mt-2 p-4 rounded-lg bg-primary/95 backdrop-blur-md border border-white/10 z-50 min-w-[280px] shadow-xl"
           >
             {/* Country */}
-            <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Country</p>
+            <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Country</p>
             <div className="flex flex-wrap gap-1 mb-4">
               <button className={btnClass(country === 'All')} onClick={() => onCountry('All')}>All</button>
               {ARCHIVE_COUNTRIES.map(c => (
