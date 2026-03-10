@@ -26,12 +26,12 @@ export const SupportSection = () => {
             Follow the Coast continues thanks to runners, readers, and partners 
             who choose to carry it forward.
           </p>
-          <Link
-            to="/support"
-            className="text-caption text-foreground hover:text-muted-foreground transition-colors"
+          <MagneticButton
+            href="/support"
+            className="inline-flex items-center justify-center bg-foreground text-primary-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-80 transition-opacity"
           >
-            Support the project →
-          </Link>
+            Support the project
+          </MagneticButton>
         </motion.div>
       </div>
     </section>
