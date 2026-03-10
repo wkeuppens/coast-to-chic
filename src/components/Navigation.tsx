@@ -112,7 +112,7 @@ export const Navigation = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 + 0.1 }}
                   onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : () => setIsOpen(false)}
-                  className="font-display text-2xl text-primary-foreground uppercase tracking-wider"
+                  className="text-2xl text-primary-foreground uppercase tracking-wider"
                 >
                   {item.label}
                 </motion.a>
