@@ -370,7 +370,7 @@ const Archive = () => {
                 <span className="text-white/15 hidden md:inline">·</span>
                 <Link
                   to="/shoreholders"
-                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors uppercase tracking-wider"
                 >
                   Shoreholders
                 </Link>
