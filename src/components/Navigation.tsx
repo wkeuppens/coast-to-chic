@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
@@ -19,6 +19,8 @@ export const Navigation = () => {
   const navTheme = useNavTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const { scrollYProgress } = useScroll();
+  const scrollProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   const handleHashLink = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -41,6 +43,12 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-normal">
+      {/* Scroll progress bar */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left"
+        style={{ scaleX: scrollProgress }}
+      />
+
       <div className="flex items-center justify-between px-page py-5">
         {/* Wordmark */}
         <a href="/" className={`text-[0.6rem] uppercase tracking-[0.18em] leading-tight transition-colors duration-500 ${textBase}`}>

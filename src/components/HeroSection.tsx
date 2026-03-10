@@ -13,7 +13,7 @@ export const HeroSection = () => {
       <motion.img
         src={coastalTown}
         alt="Coastal town along the route"
-        className="absolute inset-0 w-full h-full object-cover object-[70%_center] md:object-center"
+        className="absolute inset-0 w-full h-full object-cover object-[75%_center] lg:object-center"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2.5, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -30,7 +30,7 @@ export const HeroSection = () => {
           transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
           className="flex flex-col items-end"
         >
-          <h1 className="font-display text-primary-foreground text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[0.95] mb-4">
+          <h1 className="font-display text-primary-foreground text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.9] mb-4">
             Follow
             <br />
             The Coast
