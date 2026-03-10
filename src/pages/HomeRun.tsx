@@ -95,7 +95,7 @@ const HomeRun = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">Included</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-4">What's included</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-4">What's included</h2>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-4 mt-12">
             {inclusions.map((item, i) => (
