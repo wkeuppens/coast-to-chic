@@ -29,7 +29,7 @@ const EUStages = () => {
           className="text-center max-w-lg"
         >
           <p className="text-sm text-muted-foreground tracking-wide mb-4">EU Stages</p>
-          <h1 className="text-4xl md:text-5xl font-medium mb-6">
+          <h1 className="text-4xl md:text-5xl mb-6">
             Coming Soon
           </h1>
           <p className="text-muted-foreground leading-relaxed mb-8">
