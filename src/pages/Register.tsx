@@ -206,7 +206,7 @@ const Register = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <p className="text-caption text-muted-foreground mb-4">Included</p>
-            <h2 className="text-2xl font-bold mb-8">What's included</h2>
+            <h2 className="text-2xl mb-8">What's included</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {included.map((item, i) => (
                 <motion.div
