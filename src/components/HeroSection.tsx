@@ -13,7 +13,7 @@ export const HeroSection = () => {
       <motion.img
         src={coastalTown}
         alt="Coastal town along the route"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover object-[70%_center] md:object-center"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2.5, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -22,12 +22,13 @@ export const HeroSection = () => {
       {/* Gradient for legibility */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
 
-      {/* Title block — bottom-aligned */}
-      <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 lg:p-16">
+      {/* Title block — bottom-right aligned */}
+      <div className="absolute inset-0 flex flex-col justify-end items-end p-8 md:p-12 lg:p-16 text-right">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
+          className="flex flex-col items-end"
         >
           <h1 className="font-display text-primary-foreground text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[0.95] mb-4">
             Follow
@@ -35,8 +36,8 @@ export const HeroSection = () => {
             The Coast
           </h1>
           <p className="text-caption text-primary-foreground/60 max-w-md mb-8">
-            <span className="inline-block w-3 h-px bg-accent mr-2 align-middle" />
             All of Europe's coastline. Counter-clockwise. 100 km at a time.
+            <span className="inline-block w-3 h-px bg-accent ml-2 align-middle" />
           </p>
 
           {/* CTAs */}
