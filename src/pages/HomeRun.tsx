@@ -80,7 +80,7 @@ const HomeRun = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">The concept</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">What is a Home Run?</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-8">What is a Home Run?</h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>A Home Run allows more runners to carry the coastline together for a single day.</p>
               <p>Start and finish are close to Venice. You run alongside others, each at their own rhythm. Checkpoints every 15 km provide food, drinks, and support.</p>
