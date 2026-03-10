@@ -422,7 +422,7 @@ const Archive = () => {
 
       {/* Zoom indicator */}
       {camera.zoom !== 1 && (
-        <div className="fixed bottom-8 right-8 z-40 text-[10px] text-white/30 font-display tabular-nums">
+        <div className="fixed bottom-8 right-8 z-40 text-[10px] text-white/30 tabular-nums">
           {Math.round(camera.zoom * 100)}%
         </div>
       )}
