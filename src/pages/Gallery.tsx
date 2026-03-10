@@ -413,7 +413,7 @@ const Archive = () => {
             className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/10"
           >
             <Move className="w-4 h-4 text-white/60" />
-            <span className="text-xs text-white/60 font-display tracking-wide">
+            <span className="text-xs text-white/60 tracking-wide">
               Drag to explore · Scroll to pan · Pinch to zoom
             </span>
           </motion.div>
