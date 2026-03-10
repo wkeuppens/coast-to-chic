@@ -186,7 +186,7 @@ const Register = () => {
                     </span>
                   )}
                   <Icon size={24} className="text-accent mb-4" />
-                  <h3 className="font-display text-2xl font-bold mb-1">{tier.label}</h3>
+                  <h3 className="text-2xl font-bold mb-1">{tier.label}</h3>
                   <p className="text-caption text-muted-foreground mb-4">{tier.people}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 whitespace-pre-line">
                     {tier.description}
