@@ -116,9 +116,9 @@ const FollowTheKust = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-background p-8 md:p-10 flex flex-col border-2 border-accent">
-              <h3 className="font-display text-2xl font-medium mb-1">75 km</h3>
+              <h3 className="text-2xl font-medium mb-1">75 km</h3>
               <p className="text-caption text-muted-foreground mb-6">De Panne → Knokke</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€59</p>
+              <p className="text-4xl font-bold text-accent mb-8">€59</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {fullCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
