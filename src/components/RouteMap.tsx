@@ -174,7 +174,7 @@ export const RouteMap = () => {
                 delay: 0.3
               }}
             />
-            <MapPin
+            <RoutePin
               label="KNOKKE"
               pathProgress={pathProgress}
               triggerAt={KNOKKE_POSITION}
