@@ -38,7 +38,7 @@ export const StagesSection = () => {
         >
           <div>
             <p className="text-label mb-element">Stages</p>
-            <h2 className="font-display text-2xl md:text-3xl tracking-tight">
+            <h2 className="text-2xl md:text-3xl tracking-tight">
               Available registrations
             </h2>
           </div>
