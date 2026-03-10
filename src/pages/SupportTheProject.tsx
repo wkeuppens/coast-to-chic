@@ -99,7 +99,7 @@ const SupportTheProject = () => {
         {/* Partnership modes */}
         <SectionWrapper className="bg-secondary">
           <p className="text-caption text-accent mb-4">Partnership</p>
-          <h2 className="font-display text-2xl md:text-3xl mb-12">Ways to support</h2>
+          <h2 className="text-2xl md:text-3xl mb-12">Ways to support</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {partnershipModes.map((mode) => (
               <div key={mode.title} className="bg-background p-8">
