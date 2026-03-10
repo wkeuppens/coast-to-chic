@@ -187,7 +187,7 @@ const OrderBooks = () => {
             className="border border-accent/30 bg-accent/5 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6"
           >
             <div>
-              <h3 className="font-display text-xl font-bold mb-1">Bundle: Volume I + II</h3>
+              <h3 className="text-xl font-bold mb-1">Bundle: Volume I + II</h3>
               <p className="text-caption text-muted-foreground">Save €15 — both volumes together.</p>
             </div>
             <div className="flex items-center gap-6">
