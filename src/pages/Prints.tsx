@@ -110,7 +110,7 @@ const Prints = () => {
                 <div className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex-shrink-0">
                   <EditorialArrow size={14} />
                 </div>
-                <h3 className="font-display text-base font-medium">{print.title}</h3>
+                <h3 className="text-base font-medium">{print.title}</h3>
               </div>
               <p className="text-caption text-muted-foreground mt-1">
                 <Link to={`/photographers#photographer-${print.photographerId}`} className="hover:text-foreground transition-colors" onClick={(e) => e.stopPropagation()}>
