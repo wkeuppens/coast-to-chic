@@ -152,7 +152,7 @@ const Register = () => {
             className="mb-16 max-w-2xl"
           >
             <p className="text-caption text-muted-foreground mb-4">How it works</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">The process</h2>
+            <h2 className="text-3xl md:text-4xl mb-6">The process</h2>
             <div className="text-muted-foreground leading-relaxed space-y-4">
               <p>Each stage covers roughly 100 km of European coastline, carried by a different runner or team. When you register, you take responsibility for one link in that chain.</p>
               <p>Every stage contributes to the shared logistics: crew, travel, food, documentation, and the long-term archive.</p>
