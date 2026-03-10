@@ -323,10 +323,10 @@ const RouteMapPage = () => {
             </div>
           ) : (
             <div className="flex items-baseline justify-between">
-              <span className="text-[11px] text-muted-foreground/30 font-display uppercase tracking-[0.2em]">
+              <span className="text-[11px] text-muted-foreground/30 uppercase tracking-[0.2em]">
                 Hover a segment to explore
               </span>
-              <span className="text-[11px] text-muted-foreground/20 font-display uppercase tracking-[0.2em]">
+              <span className="text-[11px] text-muted-foreground/20 uppercase tracking-[0.2em]">
                 {COMPLETED_STAGES.length} stages · Europe
               </span>
             </div>
