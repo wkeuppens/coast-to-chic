@@ -133,7 +133,7 @@ const SupportTheProject = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-accent-foreground font-display text-sm uppercase tracking-wider hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-accent-foreground text-sm uppercase tracking-wider hover:opacity-90 transition-opacity"
             >
               <EditorialArrow size={14} className="invert" />
               hello@followthecoast.com
