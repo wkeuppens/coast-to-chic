@@ -180,7 +180,7 @@ export const RouteMap = () => {
               triggerAt={KNOKKE_POSITION}
               pathRef={pathRef}
             />
-            <MapPin
+            <RoutePin
               label="WE ARE HERE"
               pathProgress={pathProgress}
               triggerAt={VENICE_POSITION}
