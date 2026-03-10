@@ -39,7 +39,7 @@ export const HowItWorksSection = () => {
           className="mb-block"
         >
           <p className="text-label mb-element">How it works</p>
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight">
+          <h2 className="text-2xl md:text-3xl tracking-tight">
             A van. A photographer. You.
           </h2>
         </motion.div>
