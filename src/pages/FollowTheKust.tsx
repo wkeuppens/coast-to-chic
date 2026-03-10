@@ -96,9 +96,9 @@ const FollowTheKust = () => {
 
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="bg-background p-8 md:p-10 flex flex-col">
-              <h3 className="font-display text-2xl font-medium mb-1">35 km</h3>
+              <h3 className="text-2xl font-medium mb-1">35 km</h3>
               <p className="text-caption text-muted-foreground mb-6">Ostend → Knokke</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€39</p>
+              <p className="text-4xl font-bold text-accent mb-8">€39</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {halfCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
