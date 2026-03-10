@@ -145,7 +145,7 @@ const Prints = () => {
               </div>
               <div className="flex items-start justify-between gap-8">
                 <div>
-                  <h2 className="font-display text-2xl text-white font-medium">{selected.title}</h2>
+                  <h2 className="text-2xl text-white font-medium">{selected.title}</h2>
                   <p className="text-white/60 mt-1">
                     <Link to={`/photographers#photographer-${selected.photographerId}`} className="hover:text-white transition-colors" onClick={() => setSelectedPrint(null)}>
                       {selected.photographer}
