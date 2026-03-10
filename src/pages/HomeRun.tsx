@@ -118,7 +118,7 @@ const HomeRun = () => {
           <div className="space-y-0">
             {timeline.map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }} className="flex items-start gap-6 py-5 border-b border-border last:border-b-0">
-                <span className="font-display text-xl font-medium text-accent w-8 shrink-0">{item.step}</span>
+                <span className="text-xl font-medium text-accent w-8 shrink-0">{item.step}</span>
                 <span className="pt-0.5">{item.text}</span>
               </motion.div>
             ))}
