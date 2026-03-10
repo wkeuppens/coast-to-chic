@@ -62,7 +62,7 @@ export const Navigation = () => {
           ))}
           <a
             href="/register"
-            className={`text-[0.625rem] font-display uppercase tracking-[0.1em] transition-colors duration-500 ${textBase} border-b border-current pb-px`}
+            className={`text-[0.625rem] uppercase tracking-[0.1em] transition-colors duration-500 ${textBase} border-b border-current pb-px`}
           >
             Register
           </a>
