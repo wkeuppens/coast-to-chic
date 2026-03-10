@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Follow the Coast — Editorial Design System
-   Inspired by the book: pure white, black type, photography-first.
-   Fonts: Pressura GT (display) + Beausite Classic (body)
+/* ═══════════════════════════════════════════════════════════════
+   Follow the Coast — Editorial Photobook Design System
+   ═══════════════════════════════════════════════════════════════
+   Visual language: photography-first, editorial restraint,
+   cinematic pacing, structural whitespace.
+   
+   Fonts: Pressura GT (display/labels) + Beausite Classic (body/reading)
+   Palette: Warm paper white + near-black + one muted accent
 */
 
 @font-face {
@@ -25,110 +30,111 @@
 
 @layer base {
   :root {
-    /* Pure white background — like book paper */
-    --background: 0 0% 100%;
-    /* Near-black foreground — #0E0E0E from the book */
-    --foreground: 0 0% 5%;
+    /* ── Surface ── */
+    --background: 40 20% 97%;        /* warm paper white */
+    --foreground: 0 0% 8%;            /* near-black, not pure */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 5%;
+    --card: 40 20% 97%;
+    --card-foreground: 0 0% 8%;
+    --popover: 40 20% 97%;
+    --popover-foreground: 0 0% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
+    /* ── Primary = foreground (editorial: text IS the accent) ── */
+    --primary: 0 0% 8%;
+    --primary-foreground: 40 20% 97%;
 
-    /* Black as primary */
-    --primary: 0 0% 5%;
-    --primary-foreground: 0 0% 100%;
+    /* ── Secondary = slightly tinted warm grey ── */
+    --secondary: 40 10% 93%;
+    --secondary-foreground: 0 0% 8%;
 
-    /* Very light grey for secondary surfaces */
-    --secondary: 0 0% 97%;
-    --secondary-foreground: 0 0% 5%;
+    /* ── Muted ── */
+    --muted: 40 8% 88%;
+    --muted-foreground: 0 0% 42%;
 
-    /* Grey for muted elements */
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 45%;
-
-    /* Terracotta accent — used sparingly, only for route maps like the book */
-    --accent: 10 54% 46%;
-    --accent-foreground: 0 0% 100%;
+    /* ── Accent: terracotta — used only on route map & sparingly ── */
+    --accent: 12 45% 48%;
+    --accent-foreground: 40 20% 97%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 40 20% 97%;
 
-    /* Light grey border — thin editorial rules */
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 0 0% 5%;
+    /* ── Borders: very subtle warm grey ── */
+    --border: 40 8% 85%;
+    --input: 40 8% 85%;
+    --ring: 0 0% 8%;
 
-    /* No border radius — sharp editorial rectangles */
     --radius: 0px;
 
-    /* Brand color tokens */
-    --coast-deep-blue: 203 92% 15%;
-    --coast-rust: 10 54% 46%;
-    --coast-charcoal: 0 0% 5%;
-    --coast-warm-grey: 0 0% 70%;
-    --coast-bone: 0 0% 100%;
-    --coast-beige: 0 0% 97%;
-    --coast-blue-grey: 0 0% 45%;
+    /* ── Brand tokens ── */
+    --coast-charcoal: 0 0% 8%;
+    --coast-warm-grey: 0 0% 62%;
+    --coast-paper: 40 20% 97%;
+    --coast-rust: 12 45% 48%;
 
-    /* Inverted section tokens (dark bg, light text) */
-    --inv-foreground: 0 0% 100%;
-    --inv-muted: 0 0% 100% / 0.6;
-    --inv-subtle: 0 0% 100% / 0.4;
-    --inv-faint: 0 0% 100% / 0.25;
-    --inv-border: 0 0% 100% / 0.12;
+    /* ── Inverted (dark sections) ── */
+    --inv-foreground: 40 20% 97%;
+    --inv-muted: 40 20% 97% / 0.55;
+    --inv-subtle: 40 20% 97% / 0.35;
+    --inv-faint: 40 20% 97% / 0.18;
+    --inv-border: 40 20% 97% / 0.1;
 
-    --font-display: 'Pressura GT', 'Space Grotesk', sans-serif;
+    /* ── Typography ── */
+    --font-display: 'Pressura GT', 'Helvetica Neue', sans-serif;
     --font-body: 'Beausite Classic', 'Georgia', serif;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 0 0% 5%;
-    --sidebar-primary: 0 0% 5%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 95%;
-    --sidebar-accent-foreground: 0 0% 5%;
-    --sidebar-border: 0 0% 88%;
-    --sidebar-ring: 0 0% 5%;
+    /* ── Spacing rhythm (vertical) ── */
+    --space-section: clamp(6rem, 12vw, 10rem);
+    --space-chapter: clamp(8rem, 16vw, 14rem);
+    --space-block: clamp(2rem, 4vw, 3.5rem);
+    --space-element: clamp(1rem, 2vw, 1.5rem);
+
+    /* ── Content widths ── */
+    --width-text: 38rem;           /* ~600px — comfortable reading */
+    --width-content: 64rem;        /* ~1024px — content max */
+    --width-wide: 80rem;           /* ~1280px — wide content */
+
+    /* ── Page margins ── */
+    --margin-page: clamp(1.5rem, 5vw, 6rem);
+
+    /* sidebar tokens (unused but required by shadcn) */
+    --sidebar-background: 40 20% 97%;
+    --sidebar-foreground: 0 0% 8%;
+    --sidebar-primary: 0 0% 8%;
+    --sidebar-primary-foreground: 40 20% 97%;
+    --sidebar-accent: 40 10% 93%;
+    --sidebar-accent-foreground: 0 0% 8%;
+    --sidebar-border: 40 8% 85%;
+    --sidebar-ring: 0 0% 8%;
   }
 
   .dark {
     --background: 0 0% 4%;
-    --foreground: 0 0% 95%;
-
+    --foreground: 40 15% 92%;
     --card: 0 0% 7%;
-    --card-foreground: 0 0% 95%;
-
+    --card-foreground: 40 15% 92%;
     --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 95%;
-
-    --primary: 0 0% 95%;
+    --popover-foreground: 40 15% 92%;
+    --primary: 40 15% 92%;
     --primary-foreground: 0 0% 4%;
-
     --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 95%;
-
+    --secondary-foreground: 40 15% 92%;
     --muted: 0 0% 18%;
     --muted-foreground: 0 0% 55%;
-
-    --accent: 10 54% 46%;
-    --accent-foreground: 0 0% 95%;
-
+    --accent: 12 45% 48%;
+    --accent-foreground: 40 15% 92%;
     --destructive: 0 62% 40%;
-    --destructive-foreground: 0 0% 95%;
-
+    --destructive-foreground: 40 15% 92%;
     --border: 0 0% 16%;
     --input: 0 0% 16%;
-    --ring: 0 0% 95%;
-
+    --ring: 40 15% 92%;
     --sidebar-background: 0 0% 4%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 0 0% 95%;
+    --sidebar-foreground: 40 15% 92%;
+    --sidebar-primary: 40 15% 92%;
     --sidebar-primary-foreground: 0 0% 4%;
     --sidebar-accent: 0 0% 12%;
-    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-accent-foreground: 40 15% 92%;
     --sidebar-border: 0 0% 16%;
-    --sidebar-ring: 0 0% 95%;
+    --sidebar-ring: 40 15% 92%;
   }
 }
 
@@ -139,15 +145,30 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground;
     font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    line-height: 1.1;
+  }
+
+  /* Comfortable reading measure */
+  p {
+    max-width: var(--width-text);
+  }
+
+  ::selection {
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
   }
 }
 
@@ -164,54 +185,80 @@
     text-wrap: balance;
   }
 
-  .mask-fade-bottom {
-    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  }
-
-  /* Editorial caption style — tracked-out uppercase small text (like book) */
+  /* ── Editorial caption: tracked uppercase small ── */
   .text-caption {
     font-family: var(--font-display);
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    line-height: 1.4;
   }
 
-  /* Editorial label — section orientation markers */
+  /* ── Section label ── */
   .text-label {
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    letter-spacing: 0.02em;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: hsl(var(--muted-foreground));
   }
 
-  /* Thin editorial rule — like the book's section dividers */
+  /* ── Thin editorial rules ── */
   .rule {
+    border: 0;
+    border-top: 1px solid hsl(var(--foreground) / 0.15);
+  }
+
+  .rule-dark {
     border: 0;
     border-top: 1px solid hsl(var(--foreground));
   }
 
-  /* Light rule for softer dividers */
-  .rule-light {
-    border: 0;
-    border-top: 1px solid hsl(var(--border));
-  }
-
-  /* Inverted thin rule */
   .rule-inv {
     border: 0;
     border-top: 1px solid hsl(var(--inv-border));
   }
 
-  /* Book-style page spread — 50/50 split */
-  .spread {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+  /* ── Page margin utility ── */
+  .px-page {
+    padding-left: var(--margin-page);
+    padding-right: var(--margin-page);
   }
 
-  @media (max-width: 768px) {
-    .spread {
-      grid-template-columns: 1fr;
-    }
+  /* ── Section spacing ── */
+  .py-section {
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+
+  .py-chapter {
+    padding-top: var(--space-chapter);
+    padding-bottom: var(--space-chapter);
+  }
+
+  .mb-block {
+    margin-bottom: var(--space-block);
+  }
+
+  .mb-element {
+    margin-bottom: var(--space-element);
+  }
+
+  /* ── Content containers ── */
+  .max-w-text {
+    max-width: var(--width-text);
+  }
+
+  .max-w-content {
+    max-width: var(--width-content);
+  }
+
+  .max-w-wide {
+    max-width: var(--width-wide);
+  }
+
+  /* ── Mask utilities ── */
+  .mask-fade-bottom {
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
   }
 }

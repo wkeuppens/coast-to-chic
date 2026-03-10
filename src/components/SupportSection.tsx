@@ -1,37 +1,36 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { EditorialArrow } from './EditorialArrow';
 
+/**
+ * Support section — quiet, editorial. No loud CTA.
+ */
 export const SupportSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section className="py-32 md:py-40 px-6 md:px-12 lg:px-16">
-      <div ref={ref} className="max-w-3xl mx-auto">
-        <hr className="rule mb-12" />
+    <section className="py-section px-page">
+      <div ref={ref} className="max-w-text mx-auto">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-caption text-muted-foreground mb-6">
-            <EditorialArrow size={12} className="mr-2 opacity-40" />
-            Support
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <hr className="rule mb-8" />
+          <p className="text-label mb-element">Support</p>
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-block">
             This journey moves with support
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-10 max-w-xl">
-            Follow the Coast continues thanks to runners, readers, and partners who choose to carry it forward.
+          <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-text">
+            Follow the Coast continues thanks to runners, readers, and partners 
+            who choose to carry it forward.
           </p>
           <Link
             to="/support"
-            className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider hover:opacity-60 transition-opacity"
+            className="text-caption text-foreground hover:text-muted-foreground transition-colors"
           >
-            <EditorialArrow size={14} />
-            Support the Project
+            Support the project →
           </Link>
         </motion.div>
       </div>
