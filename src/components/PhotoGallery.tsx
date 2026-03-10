@@ -42,7 +42,7 @@ export const PhotoGallery = () => {
           className="max-w-content mx-auto flex items-end justify-between"
         >
           <div>
-            <p className="text-label mb-element">Gallery</p>
+            <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Gallery</p>
             <h2 className="text-2xl md:text-3xl tracking-tight">Along the way</h2>
           </div>
           <Link

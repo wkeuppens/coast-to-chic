@@ -18,7 +18,7 @@ export const SupportSection = () => {
           transition={{ duration: 0.8 }}
         >
           <hr className="rule mb-8" />
-          <p className="text-label mb-element">Support</p>
+          <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Support</p>
           <h2 className="text-2xl md:text-3xl tracking-tight mb-block">
             This journey moves with support
           </h2>

@@ -34,6 +34,7 @@ export const HeroSection = () => {
             The Coast
           </h1>
           <p className="text-caption text-primary-foreground/60 max-w-md">
+            <span className="inline-block w-3 h-px bg-accent mr-2 align-middle" />
             All of Europe's coastline. Counter-clockwise. 100 km at a time.
           </p>
         </motion.div>
