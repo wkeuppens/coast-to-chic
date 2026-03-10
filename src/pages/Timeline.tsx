@@ -45,50 +45,47 @@ const Timeline = () => {
             </Link>
           </motion.div>
 
-          <div className="relative">
-            <div className="absolute left-[39px] md:left-[49px] top-0 bottom-0 w-px bg-border/40" />
-            <div className="space-y-16">
-              {yearData.map((entry, i) => (
-                <motion.div key={entry.year} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.1 }} className="relative pl-20 md:pl-24">
-                  <div className="absolute left-0 top-0 flex items-center gap-3">
-                    <span className="text-2xl md:text-3xl text-foreground tabular-nums">{entry.year}</span>
-                    <div className="w-2 h-2 rounded-full bg-accent" />
+          <div className="space-y-14">
+            {yearData.map((entry, i) => (
+              <motion.div key={entry.year} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.1 }}>
+                <div className="flex items-baseline gap-3 mb-3">
+                  <span className="text-2xl md:text-3xl text-foreground tabular-nums">{entry.year}</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent relative top-[-1px]" />
+                </div>
+                <div className="border-l border-border/40 pl-6 ml-1 space-y-3">
+                  <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+                    <span><span className="text-foreground">{entry.completedStages}</span> of {entry.totalStages} stages completed</span>
+                    <span>Stages {entry.stageRange}</span>
                   </div>
-                  <div className="pt-1 space-y-3">
-                    <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                      <span><span className="text-foreground">{entry.completedStages}</span> of {entry.totalStages} stages completed</span>
-                      <span>Stages {entry.stageRange}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {entry.countries.map(c => (
-                        <span key={c} className="text-caption text-muted-foreground/60 px-2 py-1 border border-border/40">{c}</span>
+                  <div className="flex flex-wrap gap-2">
+                    {entry.countries.map(c => (
+                      <span key={c} className="text-caption text-muted-foreground/60 px-2 py-1 border border-border/40">{c}</span>
+                    ))}
+                  </div>
+                  {entry.milestones.length > 0 && (
+                    <div className="pt-1 space-y-1">
+                      {entry.milestones.map((m, j) => (
+                        <p key={j} className="text-sm text-foreground/60 italic">{m}</p>
                       ))}
                     </div>
-                    {entry.milestones.length > 0 && (
-                      <div className="pt-2 space-y-1">
-                        {entry.milestones.map((m, j) => (
-                          <p key={j} className="text-sm text-foreground/60 italic">{m}</p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* 2026 */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: yearData.length * 0.1 }} className="relative pl-20 md:pl-24">
-                <div className="absolute left-0 top-0 flex items-center gap-3">
-                  <span className="text-2xl md:text-3xl text-foreground tabular-nums">2026</span>
-                  <div className="w-2 h-2 rounded-full border border-accent bg-transparent" />
-                </div>
-                <div className="pt-1 space-y-3">
-                  <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                    <span>Stage 169 — Venice, April 21</span>
-                  </div>
-                  <p className="text-sm text-foreground/60 italic">The journey continues. Target: reach Athens by end of year.</p>
+                  )}
                 </div>
               </motion.div>
-            </div>
+            ))}
+
+            {/* 2026 */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: yearData.length * 0.1 }}>
+              <div className="flex items-baseline gap-3 mb-3">
+                <span className="text-2xl md:text-3xl text-foreground tabular-nums">2026</span>
+                <div className="w-1.5 h-1.5 rounded-full border border-accent bg-transparent relative top-[-1px]" />
+              </div>
+              <div className="border-l border-border/40 pl-6 ml-1 space-y-3">
+                <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+                  <span>Stage 169 — Venice, April 21</span>
+                </div>
+                <p className="text-sm text-foreground/60 italic">The journey continues. Target: reach Athens by end of year.</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </main>
