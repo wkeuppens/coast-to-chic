@@ -341,7 +341,7 @@ const Archive = () => {
               <h1 className="text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
                 Coastal Archive
               </h1>
-              <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4 font-display">
+              <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4">
                 Follow the Coast is built stage by stage, over years.
               </p>
               <p className="text-sm md:text-base text-white/50 leading-relaxed mb-4">
