@@ -40,7 +40,7 @@ export const Navigation = () => {
 
   const isLight = navTheme === 'light';
   const textBase = isLight ? 'text-white' : 'text-foreground';
-  const textMuted = isLight ? 'text-white/70' : 'text-muted-foreground';
+  const textMuted = isLight ? 'text-white/70 hover:text-white' : 'text-muted-foreground hover:text-foreground';
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-normal">
