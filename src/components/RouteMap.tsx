@@ -32,7 +32,7 @@ const RoutePin = forwardRef<SVGGElement, MapPinProps>(function RoutePin({ label,
   const labelY = position.y + offsetY;
 
   return (
-    <g>
+    <g ref={ref}>
       {/* Pin dot */}
       <motion.circle
         cx={position.x}
