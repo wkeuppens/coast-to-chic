@@ -76,7 +76,7 @@ const TourDuMontBlanc = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">The concept</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">Around the Mont Blanc massif.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-8">Around the Mont Blanc massif.</h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>Each summer, when we let the coastline rest, we spend a few days elsewhere. This year, that route leads to the mountains.</p>
               <p>Two ways to join:</p>
