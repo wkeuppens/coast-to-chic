@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import beachRunners from '@/assets/beach-runners.jpg';
+import coastalTown from '@/assets/coastal-town.jpg';
 
 /**
  * Hero — full-viewport photograph, nothing else.
