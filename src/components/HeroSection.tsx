@@ -43,7 +43,7 @@ export const HeroSection = () => {
           <div className="flex items-center gap-4">
             <MagneticButton
               href="/register"
-              className="inline-flex items-center justify-center bg-primary-foreground text-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center bg-accent text-accent-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-90 transition-opacity"
             >
               Register
             </MagneticButton>
