@@ -67,7 +67,7 @@ const SupportTheProject = () => {
           <div className="relative z-10 px-6 md:px-12 lg:px-24 pb-16 md:pb-24 max-w-4xl">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-caption text-primary-foreground/60 mb-4">Support</motion.p>
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }} className="text-4xl md:text-6xl text-primary-foreground mb-4">
-              Carry the coastline with us
+              Carry the coastline<br className="hidden md:inline" /> with us
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.6 }} className="text-primary-foreground/80 text-lg max-w-xl leading-relaxed">
               Follow the Coast continues thanks to partners who believe in documenting something slowly, over many years.
