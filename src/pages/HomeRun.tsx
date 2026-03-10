@@ -113,7 +113,7 @@ const HomeRun = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">Process</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-12">After registration</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-12">After registration</h2>
           </motion.div>
           <div className="space-y-0">
             {timeline.map((item, i) => (
