@@ -38,7 +38,7 @@ export const HowItWorksSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-block"
         >
-          <p className="text-label mb-element">How it works</p>
+          <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />How it works</p>
           <h2 className="text-2xl md:text-3xl tracking-tight">
             A van. A photographer. You.
           </h2>

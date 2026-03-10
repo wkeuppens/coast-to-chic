@@ -45,7 +45,7 @@ export const EventsSection = () => {
           transition={{ duration: 0.8 }}
           className="mb-block"
         >
-          <p className="text-label mb-element">Side routes</p>
+          <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Side routes</p>
           <h2 className="text-2xl md:text-3xl tracking-tight">
             Other runs we organise
           </h2>

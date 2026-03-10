@@ -40,7 +40,7 @@ export const BookSection = () => {
           <hr className="rule mb-8" />
           <div className="grid md:grid-cols-2 gap-12 md:gap-24">
             <div>
-              <p className="text-label mb-element">The books</p>
+              <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />The books</p>
               <h2 className="text-2xl md:text-3xl tracking-tight">
                 5,000 km per volume
               </h2>
