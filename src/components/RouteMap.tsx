@@ -93,7 +93,7 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showCo
         textAnchor="middle"
         fill="hsl(var(--foreground))"
         fontSize="14"
-        fontFamily="var(--font-display)"
+        fontFamily="var(--font-body)"
         fontWeight="400"
         letterSpacing="0.06em"
         initial={{ opacity: 0, y: 5 }}

@@ -122,9 +122,9 @@ const GalleryTile = memo(
             }}
           >
             <div className="pt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-[10px] text-white/40 font-display">{tile.country}</span>
+              <span className="text-[10px] text-white/40">{tile.country}</span>
               <span className="text-[10px] text-white/20">·</span>
-              <span className="text-[10px] text-white/40 font-display">{tile.season} {tile.year}</span>
+              <span className="text-[10px] text-white/40">{tile.season} {tile.year}</span>
               {tile.shoreholder && (
                 <>
                   <span className="text-[10px] text-white/20">·</span>

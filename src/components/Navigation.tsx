@@ -123,7 +123,7 @@ export const Navigation = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35 }}
                 onClick={() => setIsOpen(false)}
-                className="font-display text-2xl text-primary-foreground uppercase tracking-wider"
+                className="text-2xl text-primary-foreground uppercase tracking-wider"
               >
                 Register
               </motion.a>
