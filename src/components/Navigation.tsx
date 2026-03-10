@@ -55,7 +55,7 @@ export const Navigation = () => {
               key={item.label}
               href={item.href}
               onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : undefined}
-              className={`text-[0.625rem] font-display uppercase tracking-[0.1em] transition-colors duration-500 ${textMuted} hover:${textBase}`}
+              className={`text-[0.625rem] uppercase tracking-[0.1em] transition-colors duration-500 ${textMuted} hover:${textBase}`}
             >
               {item.label}
             </a>
