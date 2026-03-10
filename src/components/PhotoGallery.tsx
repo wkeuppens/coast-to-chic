@@ -1,88 +1,90 @@
 import { useRef } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { EditorialArrow } from './EditorialArrow';
-import coastalTown from '@/assets/coastal-town.jpg';
 import coastalPath from '@/assets/coastal-path.jpg';
 import cliffBay from '@/assets/cliff-bay.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
 import sailboatSea from '@/assets/sailboat-sea.jpg';
 import coastalFortress from '@/assets/coastal-fortress.jpg';
+import coastalTown from '@/assets/coastal-town.jpg';
 
-const galleryImages = [
-  { src: coastalTown, title: 'Stage 142', location: 'Cinque Terre', href: '/archive' },
-  { src: coastalPath, title: 'Stage 089', location: 'Biarritz', href: '/archive' },
-  { src: cliffBay, title: 'Stage 031', location: 'Sagres', href: '/archive' },
-  { src: harborBoats, title: 'Stage 156', location: 'Venice', href: '/archive' },
-  { src: sailboatSea, title: 'Stage 118', location: 'Amalfi', href: '/archive' },
-  { src: coastalFortress, title: 'Stage 067', location: 'Saint-Malo', href: '/archive' },
+const images = [
+  { src: coastalPath, alt: 'Coastal path, Biarritz', label: 'Stage 089' },
+  { src: cliffBay, alt: 'Cliff bay, Sagres', label: 'Stage 031' },
+  { src: harborBoats, alt: 'Harbor boats, Venice', label: 'Stage 156' },
+  { src: sailboatSea, alt: 'Sailboat at sea, Amalfi', label: 'Stage 118' },
+  { src: coastalFortress, alt: 'Coastal fortress, Saint-Malo', label: 'Stage 067' },
+  { src: coastalTown, alt: 'Coastal town, Cinque Terre', label: 'Stage 142' },
 ];
 
+/**
+ * Horizontal scroll gallery — photographs glide past like turning pages.
+ * Large, cinematic, no thumbnails.
+ */
 export const PhotoGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef(null);
+  const isInView = useInView(headerRef, { once: true, margin: '-60px' });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
   });
-
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-25%']);
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
 
   return (
-    <section ref={containerRef} className="py-32 md:py-48 overflow-hidden">
-      <div className="px-6 md:px-12 lg:px-16 mb-10">
-        <div className="max-w-6xl mx-auto flex items-end justify-between">
+    <section ref={containerRef} className="py-chapter overflow-hidden">
+      {/* Header */}
+      <div ref={headerRef} className="px-page mb-block">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8 }}
+          className="max-w-content mx-auto flex items-end justify-between"
+        >
           <div>
-            <p className="text-caption text-muted-foreground mb-4">
-              <EditorialArrow size={12} className="mr-2 opacity-40" />
-              Gallery
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Along the way.
-            </h2>
+            <p className="text-label mb-element">Gallery</p>
+            <h2 className="font-display text-2xl md:text-3xl tracking-tight">Along the way</h2>
           </div>
           <Link
             to="/archive"
             className="hidden md:block text-caption text-muted-foreground hover:text-foreground transition-colors"
           >
-            View all →
+            Full archive →
           </Link>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Horizontal scroll strip — full-bleed photos like book photo spreads */}
+      {/* Horizontal image strip */}
       <motion.div
         style={{ x }}
-        className="flex gap-4 pl-6 md:pl-12 lg:pl-16"
+        className="flex gap-3 md:gap-4 pl-[var(--margin-page)]"
       >
-        {galleryImages.map((image, index) => (
+        {images.map((img, i) => (
           <Link
-            key={index}
-            to={image.href}
-            className="relative flex-shrink-0 w-[320px] md:w-[440px] lg:w-[540px] aspect-[3/2] overflow-hidden group block"
+            key={i}
+            to="/archive"
+            className="relative flex-shrink-0 w-[75vw] md:w-[45vw] lg:w-[38vw] overflow-hidden group block"
+            style={{ aspectRatio: '3 / 2' }}
           >
             <img
-              src={image.src}
-              alt={`${image.title} — ${image.location}`}
+              src={img.src}
+              alt={img.alt}
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              decoding="async"
+              className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.015]"
             />
-            {/* Caption overlay — book style: small tracked text in corner */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <p className="text-caption text-background/70">
-                {image.title} — {image.location}
-              </p>
+            {/* Caption — appears on hover */}
+            <div className="absolute bottom-0 left-0 right-0 p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <p className="text-caption text-primary-foreground/70">{img.label}</p>
             </div>
           </Link>
         ))}
       </motion.div>
 
       {/* Mobile link */}
-      <div className="md:hidden px-6 mt-8">
-        <Link
-          to="/archive"
-          className="text-caption text-muted-foreground hover:text-foreground transition-colors"
-        >
-          View all photos →
+      <div className="md:hidden px-page mt-6">
+        <Link to="/archive" className="text-caption text-muted-foreground hover:text-foreground transition-colors">
+          Full archive →
         </Link>
       </div>
     </section>

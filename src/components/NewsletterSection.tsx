@@ -1,29 +1,29 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { EditorialArrow } from './EditorialArrow';
 
+/**
+ * Newsletter — editorial. Simple input, no decoration.
+ * Like a subscription card tucked into the back of a book.
+ */
 export const NewsletterSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
   const [email, setEmail] = useState('');
 
   return (
-    <section id="newsletter" className="py-32 md:py-48 px-6 md:px-12 lg:px-16">
-      <div ref={ref} className="max-w-xl mx-auto">
+    <section id="newsletter" className="py-chapter px-page">
+      <div ref={ref} className="max-w-text mx-auto">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          <hr className="rule mb-12" />
-          <p className="text-caption text-muted-foreground mb-4">
-            <EditorialArrow size={12} className="mr-2 opacity-40" />
-            Updates
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <hr className="rule mb-8" />
+          <p className="text-label mb-element">Updates</p>
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-4">
             New stages. Books. Routes.
           </h2>
-          <p className="text-sm text-muted-foreground mb-10 leading-relaxed">
+          <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-text">
             A few emails per year. When there's something to say.
           </p>
 
@@ -36,19 +36,18 @@ export const NewsletterSection = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
               required
-              className="flex-1 bg-background border border-foreground px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition-colors"
+              className="flex-1 bg-transparent border-b border-foreground/20 px-0 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
             />
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3 font-display text-xs uppercase tracking-wider hover:opacity-80 transition-opacity"
+              className="text-caption text-foreground bg-transparent border-b border-foreground px-0 py-3 hover:opacity-50 transition-opacity whitespace-nowrap"
             >
-              <EditorialArrow size={12} className="invert" />
-              Subscribe
+              Subscribe →
             </button>
           </form>
 
-          <p className="text-[10px] text-muted-foreground mt-6 tracking-wide">
-            By subscribing, you agree to the privacy policy.
+          <p className="text-[10px] text-muted-foreground mt-6">
+            By subscribing you agree to our privacy policy.
           </p>
         </motion.div>
       </div>

@@ -1,76 +1,73 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { EditorialArrow } from './EditorialArrow';
 
 const stageTypes = [
   {
     id: 'eu',
     title: 'EU Stages',
     description: 'Italy to Greece. The main line.',
-    status: '2026 open',
+    detail: '2026 — Open for registration',
     href: '/register',
   },
   {
     id: 'homerun',
     title: 'Home Run',
-    description: 'Venice. 100km. Shared stage. €199.',
-    status: 'Open',
+    description: 'Venice. 100 km. Shared stage.',
+    detail: '€199 — Open',
     href: '/homerun',
   },
 ];
 
+/**
+ * Available stages — clean editorial list.
+ * No cards, no boxes, just quiet rows like a table of contents.
+ */
 export const StagesSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="stages" className="py-32 md:py-48 px-6 md:px-12 lg:px-16">
-      <div ref={ref} className="max-w-6xl mx-auto">
+    <section id="stages" className="py-section px-page">
+      <div ref={ref} className="max-w-content mx-auto">
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-block"
         >
           <div>
-            <p className="text-caption text-muted-foreground mb-4">
-              <EditorialArrow size={12} className="mr-2 opacity-40" />
-              Stages
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
+            <p className="text-label mb-element">Stages</p>
+            <h2 className="font-display text-2xl md:text-3xl tracking-tight">
               Available registrations
             </h2>
           </div>
           <Link to="/all-stages" className="text-caption text-muted-foreground hover:text-foreground transition-colors">
-            View all stages →
+            All stages →
           </Link>
         </motion.div>
 
-        <hr className="rule mb-0" />
+        <hr className="rule-dark" />
 
-        {stageTypes.map((stage, index) => (
+        {stageTypes.map((stage, i) => (
           <Link key={stage.id} to={stage.href}>
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="border-b border-foreground py-8 group flex items-center justify-between"
+              transition={{ duration: 0.6, delay: i * 0.08 }}
+              className="group py-6 md:py-8 border-b border-foreground/15 flex items-baseline justify-between gap-4"
             >
               <div>
-                <h3 className="font-display text-xl font-medium text-foreground group-hover:opacity-60 transition-opacity mb-1">
+                <h3 className="font-display text-lg md:text-xl group-hover:opacity-50 transition-opacity duration-500">
                   {stage.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mt-0.5">
                   {stage.description}
                 </p>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-caption text-muted-foreground hidden sm:block">
-                  {stage.status}
-                </span>
-                <EditorialArrow size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
+              <span className="text-caption text-muted-foreground shrink-0 hidden sm:block">
+                {stage.detail}
+              </span>
             </motion.div>
           </Link>
         ))}
@@ -78,8 +75,8 @@ export const StagesSection = () => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-8 text-xs text-muted-foreground"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-6 text-xs text-muted-foreground"
         >
           Stages fill fast. Minutes, usually.
         </motion.p>

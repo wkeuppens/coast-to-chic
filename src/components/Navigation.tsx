@@ -1,17 +1,19 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
-  { label: 'Coastal Archive', href: '/archive' },
+  { label: 'Archive', href: '/archive' },
   { label: 'Books', href: '/order-books' },
-  { label: 'Prints', href: '/prints' },
-  { label: 'Side routes', href: '/#events' },
+  { label: 'Side Routes', href: '/#events' },
   { label: 'Support', href: '/support' },
 ] as const;
 
+/**
+ * Minimal fixed navigation — secondary to content.
+ * Adapts text color based on background luminance.
+ */
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navTheme = useNavTheme();
@@ -23,96 +25,105 @@ export const Navigation = () => {
     setIsOpen(false);
     const [path, hash] = href.split('#');
     const targetPath = path || '/';
-
     if (location.pathname === targetPath) {
-      const el = document.getElementById(hash);
-      el?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
     } else {
       navigate(targetPath);
       setTimeout(() => {
-        const el = document.getElementById(hash);
-        el?.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
       }, 300);
     }
   }, [location.pathname, navigate]);
 
   const isLight = navTheme === 'light';
-  const textColor = isLight ? 'text-primary-foreground' : 'text-foreground';
-  const textMuted = isLight ? 'text-primary-foreground/70' : 'text-muted-foreground';
+  const textBase = isLight ? 'text-primary-foreground' : 'text-foreground';
+  const textMuted = isLight ? 'text-primary-foreground/50' : 'text-muted-foreground';
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="flex items-center justify-between px-6 md:px-12 lg:px-16 py-5 transition-colors duration-300">
-        {/* Logo — clean text mark like the book */}
-        <a href="/" className="flex items-center gap-2">
-          <span className={`font-display text-[10px] font-medium uppercase tracking-[0.15em] leading-tight transition-colors duration-300 ${textColor}`}>
-            <span className="block">Follow</span>
-            <span className="block">The Coast</span>
-          </span>
+    <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-normal">
+      <div className="flex items-center justify-between px-page py-5">
+        {/* Wordmark */}
+        <a href="/" className={`font-display text-[0.6rem] uppercase tracking-[0.18em] leading-tight transition-colors duration-500 ${textBase}`}>
+          <span className="block">Follow</span>
+          <span className="block">The Coast</span>
         </a>
 
-        {/* Desktop nav — minimal text links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop links */}
+        <div className="hidden md:flex items-center gap-10">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : undefined}
-              className={`text-xs font-display uppercase tracking-[0.08em] transition-colors duration-300 ${textMuted} hover:${isLight ? 'text-primary-foreground' : 'text-foreground'}`}
+              className={`text-[0.625rem] font-display uppercase tracking-[0.1em] transition-colors duration-500 ${textMuted} hover:${textBase}`}
             >
               {item.label}
             </a>
           ))}
           <a
             href="/register"
-            className={`text-xs font-display uppercase tracking-[0.08em] transition-colors duration-300 ${textColor} border-b border-current pb-0.5`}
+            className={`text-[0.625rem] font-display uppercase tracking-[0.1em] transition-colors duration-500 ${textBase} border-b border-current pb-px`}
           >
             Register
           </a>
         </div>
 
-        {/* Mobile toggle */}
+        {/* Mobile toggle — minimal hamburger */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`md:hidden transition-colors duration-300 ${textColor}`}
+          className={`md:hidden transition-colors duration-500 ${textBase} flex flex-col gap-1.5`}
           aria-label="Toggle menu"
           type="button"
         >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
+          <motion.span
+            className="block w-5 h-px bg-current origin-center"
+            animate={isOpen ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.span
+            className="block w-5 h-px bg-current"
+            animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          />
+          <motion.span
+            className="block w-5 h-px bg-current origin-center"
+            animate={isOpen ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+          />
         </button>
       </div>
 
-      {/* Mobile menu — full screen, black, editorial */}
+      {/* Mobile fullscreen menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden fixed inset-0 bg-foreground z-40 pt-24 px-8"
+            transition={{ duration: 0.4 }}
+            className="md:hidden fixed inset-0 bg-foreground z-40 flex flex-col justify-center px-page"
           >
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-10">
               {navItems.map((item, i) => (
                 <motion.a
                   key={item.label}
                   href={item.href}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
+                  transition={{ delay: i * 0.05 + 0.1 }}
                   onClick={item.href.includes('#') ? (e) => handleHashLink(e, item.href) : () => setIsOpen(false)}
-                  className="text-2xl font-display text-primary-foreground uppercase tracking-wide"
+                  className="font-display text-2xl text-primary-foreground uppercase tracking-wider"
                 >
                   {item.label}
                 </motion.a>
               ))}
               <motion.a
                 href="/register"
-                initial={{ opacity: 0, x: -12 }}
+                initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35 }}
                 onClick={() => setIsOpen(false)}
-                className="text-2xl font-display text-primary-foreground uppercase tracking-wide border-b border-primary-foreground/30 pb-1 inline-block self-start"
+                className="font-display text-2xl text-primary-foreground uppercase tracking-wider"
               >
                 Register
               </motion.a>

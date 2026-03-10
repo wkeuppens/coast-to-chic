@@ -1,32 +1,46 @@
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { CountUp } from './CountUp';
 import { useCurrentDistance } from '@/hooks/useCurrentDistance';
 
 /**
- * Replaces the old marquee ticker with a simple editorial divider strip
- * showing key stats — like the book's data tables.
+ * Quiet data strip — like the colophon data in the book.
+ * Stats arrive calmly, no fanfare.
  */
 export const MarqueeTicker = () => {
   const { distance, countries, runners, books } = useCurrentDistance(60000);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-40px' });
 
   const stats = [
-    `${distance.toLocaleString('en-US')} km`,
-    `${countries} countries`,
-    `${runners} runners`,
-    `${books} books`,
-    'Since 2019',
+    { value: distance, label: 'km' },
+    { value: countries, label: 'countries' },
+    { value: runners, label: 'runners' },
+    { value: books, label: 'books published' },
   ];
 
   return (
-    <div className="border-t border-b border-foreground py-4 mx-6 md:mx-12 lg:mx-16">
-      <div className="flex flex-wrap justify-between gap-4">
-        {stats.map((stat, i) => (
-          <span
-            key={i}
-            className="text-caption text-muted-foreground"
-          >
-            {stat}
-          </span>
-        ))}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.8 }}
+      className="px-page py-section"
+    >
+      <div className="max-w-content mx-auto">
+        <hr className="rule mb-8" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <CountUp
+                end={stat.value}
+                className="font-display text-3xl md:text-4xl tracking-tight block text-foreground"
+              />
+              <p className="text-caption text-muted-foreground mt-2">{stat.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

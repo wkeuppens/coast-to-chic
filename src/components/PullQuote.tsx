@@ -6,6 +6,10 @@ interface PullQuoteProps {
   variant?: 'light' | 'dark';
 }
 
+/**
+ * Pull quote — large serif text with word-by-word scroll reveal.
+ * Like a chapter epigraph.
+ */
 export const PullQuote = ({ text, variant = 'light' }: PullQuoteProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -14,25 +18,19 @@ export const PullQuote = ({ text, variant = 'light' }: PullQuoteProps) => {
   });
 
   const words = text.split(' ');
+  const isDark = variant === 'dark';
 
   return (
     <section
       ref={ref}
-      className={`py-32 md:py-48 px-6 md:px-12 lg:px-16 ${
-        variant === 'dark' ? 'bg-foreground text-background' : 'bg-background text-foreground'
-      }`}
+      className={`py-chapter px-page ${isDark ? 'bg-foreground text-primary-foreground' : ''}`}
     >
-      <div className="max-w-5xl mx-auto">
-        <p className="font-display text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-          {words.map((word, index) => {
-            const start = index / words.length;
+      <div className="max-w-wide mx-auto">
+        <p className="font-body text-2xl md:text-4xl lg:text-5xl leading-[1.25] tracking-tight">
+          {words.map((word, i) => {
+            const start = i / words.length;
             const end = start + 1 / words.length;
-
-            return (
-              <Word key={index} progress={scrollYProgress} range={[start, end]}>
-                {word}
-              </Word>
-            );
+            return <RevealWord key={i} progress={scrollYProgress} range={[start, end]}>{word}</RevealWord>;
           })}
         </p>
       </div>
@@ -40,20 +38,18 @@ export const PullQuote = ({ text, variant = 'light' }: PullQuoteProps) => {
   );
 };
 
-interface WordProps {
+const RevealWord = ({
+  children,
+  progress,
+  range,
+}: {
   children: string;
   progress: ReturnType<typeof useScroll>['scrollYProgress'];
   range: [number, number];
-}
-
-const Word = ({ children, progress, range }: WordProps) => {
-  const opacity = useTransform(progress, range, [0.15, 1]);
-
+}) => {
+  const opacity = useTransform(progress, range, [0.1, 1]);
   return (
-    <motion.span
-      style={{ opacity }}
-      className="inline-block mr-[0.25em]"
-    >
+    <motion.span style={{ opacity }} className="inline-block mr-[0.28em]">
       {children}
     </motion.span>
   );
