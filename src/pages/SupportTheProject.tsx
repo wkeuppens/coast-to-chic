@@ -55,7 +55,7 @@ const SupportTheProject = () => {
   return (
     <>
       <SEO title="Support the Project" description="Support the long-term journey around Europe's coastline. Discover how partners help Follow the Coast move forward." path="/support" />
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden overflow-y-auto">
         <Navigation />
 
         {/* Hero */}
