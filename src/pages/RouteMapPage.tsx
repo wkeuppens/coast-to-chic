@@ -148,12 +148,12 @@ const RouteMapPage = () => {
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16 py-6">
         <Link
           to="/archive"
-          className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors duration-300 font-display"
+          className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors duration-300"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           Archive
         </Link>
-        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40 font-display">
+        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40">
           Route Map
         </span>
       </header>
