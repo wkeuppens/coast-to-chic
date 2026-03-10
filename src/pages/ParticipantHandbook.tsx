@@ -245,7 +245,7 @@ const ParticipantHandbook = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold uppercase leading-tight"
+            className="text-3xl md:text-5xl uppercase leading-tight"
           >
             Before You Run
           </motion.h1>
@@ -268,7 +268,7 @@ const ParticipantHandbook = () => {
                 <span className="text-xs text-muted-foreground font-mono tabular-nums">
                   {section.number.padStart(2, '0')}
                 </span>
-                <h2 className="text-lg md:text-xl font-bold uppercase tracking-wide">
+                <h2 className="text-lg md:text-xl uppercase tracking-wide">
                   {section.title}
                 </h2>
               </div>

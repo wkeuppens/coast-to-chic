@@ -1,5 +1,5 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, forwardRef } from 'react';
 import { smoothPath } from '@/lib/pathSmoothing';
 import { fetchAndParseSVG } from '@/lib/svgCache';
 
@@ -16,7 +16,7 @@ interface MapPinProps {
   showConnector?: boolean;
 }
 
-const MapPin = ({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showConnector = false }: MapPinProps) => {
+const RoutePin = forwardRef<SVGGElement, MapPinProps>(function RoutePin({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showConnector = false }, ref) {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
   const isVisible = pathProgress >= triggerAt;
 
@@ -32,7 +32,7 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showCo
   const labelY = position.y + offsetY;
 
   return (
-    <g>
+    <g ref={ref}>
       {/* Pin dot */}
       <motion.circle
         cx={position.x}
@@ -104,7 +104,7 @@ const MapPin = ({ label, pathProgress, triggerAt, pathRef, offsetY = -20, showCo
       </motion.text>
     </g>
   );
-};
+});
 
 export const RouteMap = () => {
   const ref = useRef(null);
@@ -174,13 +174,13 @@ export const RouteMap = () => {
                 delay: 0.3
               }}
             />
-            <MapPin
+            <RoutePin
               label="KNOKKE"
               pathProgress={pathProgress}
               triggerAt={KNOKKE_POSITION}
               pathRef={pathRef}
             />
-            <MapPin
+            <RoutePin
               label="WE ARE HERE"
               pathProgress={pathProgress}
               triggerAt={VENICE_POSITION}

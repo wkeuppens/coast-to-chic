@@ -12,7 +12,7 @@ const EUStages = () => {
       <header className="px-6 md:px-12 py-6">
         <Link to="/" className="flex items-center gap-3">
           <img src={wavesLogo} alt="" className="h-8 w-auto" />
-          <span className="text-[10px] font-medium uppercase tracking-wider leading-tight">
+          <span className="text-[10px] uppercase tracking-wider leading-tight">
             <span className="block">Follow</span>
             <span className="block">The</span>
             <span className="block">Coast</span>
@@ -29,7 +29,7 @@ const EUStages = () => {
           className="text-center max-w-lg"
         >
           <p className="text-sm text-muted-foreground tracking-wide mb-4">EU Stages</p>
-          <h1 className="text-4xl md:text-5xl font-medium mb-6">
+          <h1 className="text-4xl md:text-5xl mb-6">
             Coming Soon
           </h1>
           <p className="text-muted-foreground leading-relaxed mb-8">

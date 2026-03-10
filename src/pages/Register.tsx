@@ -78,7 +78,7 @@ const Register = () => {
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img src={wavesLogo} alt="" className="h-8 w-auto brightness-0" />
-          <span className="text-[10px] font-bold uppercase tracking-wider leading-tight">
+          <span className="text-[10px] uppercase tracking-wider leading-tight">
             <span className="block">Follow</span>
             <span className="block">The</span>
             <span className="block">Coast</span>
@@ -109,7 +109,7 @@ const Register = () => {
             transition={{ duration: 0.7 }}
           >
             <p className="text-caption text-white/60 mb-3">Register</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05]">
               Run a stage
             </h1>
           </motion.div>
@@ -122,7 +122,7 @@ const Register = () => {
           <div className="flex items-start gap-4 p-6 bg-accent/8 border border-accent/20">
             <BookOpen size={24} className="text-accent shrink-0 mt-0.5" />
             <div>
-              <p className="font-medium text-foreground mb-1">
+              <p className="text-foreground mb-1">
                 Read the participant guide before registering
               </p>
               <p className="text-sm text-muted-foreground mb-3">
@@ -130,7 +130,7 @@ const Register = () => {
               </p>
               <Link to="/participant-handbook">
                 <MagneticButton
-                  className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
                   strength={0.2}
                 >
                   <EditorialArrow size={14} className="invert" />
@@ -152,7 +152,7 @@ const Register = () => {
             className="mb-16 max-w-2xl"
           >
             <p className="text-caption text-muted-foreground mb-4">How it works</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">The process</h2>
+            <h2 className="text-3xl md:text-4xl mb-6">The process</h2>
             <div className="text-muted-foreground leading-relaxed space-y-4">
               <p>Each stage covers roughly 100 km of European coastline, carried by a different runner or team. When you register, you take responsibility for one link in that chain.</p>
               <p>Every stage contributes to the shared logistics: crew, travel, food, documentation, and the long-term archive.</p>
@@ -161,7 +161,7 @@ const Register = () => {
 
           {/* Pricing cards */}
           <p className="text-caption text-muted-foreground mb-4">Pricing</p>
-          <h3 className="text-2xl font-bold mb-8">Choose how you run</h3>
+          <h3 className="text-2xl mb-8">Choose how you run</h3>
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             {pricingTiers.map((tier, i) => {
               const Icon = tier.icon;
@@ -181,17 +181,17 @@ const Register = () => {
                   }`}
                 >
                   {tier.popular && (
-                    <span className="absolute -top-3 left-6 bg-accent text-accent-foreground text-xs font-medium px-3 py-1 rounded-full">
+                    <span className="absolute -top-3 left-6 bg-accent text-accent-foreground text-xs px-3 py-1 rounded-full">
                       Most popular
                     </span>
                   )}
                   <Icon size={24} className="text-accent mb-4" />
-                  <h3 className="text-2xl font-bold mb-1">{tier.label}</h3>
+                  <h3 className="text-2xl mb-1">{tier.label}</h3>
                   <p className="text-caption text-muted-foreground mb-4">{tier.people}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 whitespace-pre-line">
                     {tier.description}
                   </p>
-                  <div className="text-3xl font-bold">
+                  <div className="text-3xl text-accent">
                     €{tier.price}
                   </div>
                 </motion.button>
@@ -206,7 +206,7 @@ const Register = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <p className="text-caption text-muted-foreground mb-4">Included</p>
-            <h2 className="text-2xl font-bold mb-8">What's included</h2>
+            <h2 className="text-2xl mb-8">What's included</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {included.map((item, i) => (
                 <motion.div
@@ -236,7 +236,7 @@ const Register = () => {
             className="mb-12"
           >
             <p className="text-caption text-muted-foreground mb-4">Select a stage</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl mb-4">
               Pick your date
             </h2>
             <p className="text-muted-foreground max-w-lg">
@@ -264,13 +264,13 @@ const Register = () => {
                     stage.status === 'open' ? 'hover:bg-background cursor-pointer transition-colors' : 'opacity-50'
                   }`}
                 >
-                  <span className="font-bold">#{stage.nr}</span>
+                  <span className="tabular-nums">#{stage.nr}</span>
                   <span className="text-sm text-muted-foreground hidden md:block">{stage.date}</span>
                   <span className="text-sm">{stage.from}</span>
                   <span className="text-sm">{stage.to}</span>
                   <span className="text-right">
                     {stage.status === 'open' ? (
-                      <span className="inline-block bg-accent text-accent-foreground text-xs font-medium px-3 py-1 rounded-full">
+                      <span className="inline-block bg-accent text-accent-foreground text-xs px-3 py-1 rounded-full">
                         Open
                       </span>
                     ) : (
@@ -301,7 +301,7 @@ const Register = () => {
             transition={{ duration: 0.6 }}
             className="mt-16"
           >
-            <h3 className="text-2xl font-bold mb-4">Questions?</h3>
+            <h3 className="text-2xl mb-4">Questions?</h3>
             <p className="text-muted-foreground mb-8">
               Not sure which stage fits you? Join the WhatsApp group or reach out directly.
             </p>
@@ -311,7 +311,7 @@ const Register = () => {
               rel="noopener noreferrer"
             >
               <MagneticButton
-                className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm hover:opacity-90 transition-opacity"
                 strength={0.2}
               >
                 <EditorialArrow size={14} className="invert" />
@@ -329,7 +329,7 @@ const Register = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-2xl md:text-3xl font-bold leading-relaxed"
+            className="text-2xl md:text-3xl leading-relaxed"
           >
             Come as you are.<br />We're looking forward to meeting you on the coastline.
           </motion.p>
