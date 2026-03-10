@@ -30,7 +30,7 @@ export const HeroSection = () => {
           transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
           className="flex flex-col items-end"
         >
-          <h1 className="font-display text-primary-foreground text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[0.95] mb-4">
+          <h1 className="font-display text-primary-foreground text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.9] mb-4">
             Follow
             <br />
             The Coast
