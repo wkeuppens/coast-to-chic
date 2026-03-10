@@ -104,7 +104,7 @@ const RoutePin = forwardRef<SVGGElement, MapPinProps>(function RoutePin({ label,
       </motion.text>
     </g>
   );
-};
+});
 
 export const RouteMap = () => {
   const ref = useRef(null);
