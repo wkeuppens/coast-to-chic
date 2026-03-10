@@ -264,7 +264,7 @@ const Register = () => {
                     stage.status === 'open' ? 'hover:bg-background cursor-pointer transition-colors' : 'opacity-50'
                   }`}
                 >
-                  <span className="font-display font-bold">#{stage.nr}</span>
+                  <span className="font-bold">#{stage.nr}</span>
                   <span className="text-sm text-muted-foreground hidden md:block">{stage.date}</span>
                   <span className="text-sm">{stage.from}</span>
                   <span className="text-sm">{stage.to}</span>
