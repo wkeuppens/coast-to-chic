@@ -36,7 +36,7 @@ const Timeline = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-20">
             <p className="text-caption text-accent mb-4">Archive</p>
-            <h1 className="font-display text-3xl md:text-4xl mb-6">Timeline</h1>
+            <h1 className="text-3xl md:text-4xl mb-6">Timeline</h1>
             <p className="text-foreground/70 leading-relaxed max-w-xl mb-2">Follow the Coast advances slowly.</p>
             <p className="text-muted-foreground leading-relaxed max-w-xl mb-8">Year by year, the coastline becomes continuous.</p>
             <Link to="/archive" className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-display">
