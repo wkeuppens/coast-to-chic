@@ -270,7 +270,7 @@ const Register = () => {
                   <span className="text-sm">{stage.to}</span>
                   <span className="text-right">
                     {stage.status === 'open' ? (
-                      <span className="inline-block bg-accent text-accent-foreground text-xs font-medium px-3 py-1 rounded-full">
+                      <span className="inline-block bg-accent text-accent-foreground text-xs px-3 py-1 rounded-full">
                         Open
                       </span>
                     ) : (
