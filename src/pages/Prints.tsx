@@ -39,7 +39,7 @@ const Prints = () => {
       <section className="pt-32 pb-16 px-6 md:px-12 max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <p className="text-caption text-accent mb-4">Limited Editions</p>
-          <h1 className="font-display text-4xl md:text-6xl font-medium mt-2 mb-8">From the archive</h1>
+          <h1 className="text-4xl md:text-6xl font-medium mt-2 mb-8">From the archive</h1>
           <div className="space-y-4 max-w-xl">
             <p className="text-muted-foreground leading-relaxed">Each stage along the coastline is documented by photographers who travel with the runners.</p>
             <p className="text-muted-foreground leading-relaxed">From that growing archive, a small number of images are selected and printed as limited editions.</p>
@@ -91,7 +91,7 @@ const Prints = () => {
 
       {/* Acquire */}
       <section className="pb-8 px-6 md:px-12 max-w-4xl mx-auto">
-        <h2 className="font-display text-2xl md:text-3xl mb-4">Acquire a print</h2>
+        <h2 className="text-2xl md:text-3xl mb-4">Acquire a print</h2>
         <div className="space-y-4 max-w-xl">
           <p className="text-muted-foreground leading-relaxed">Explore the current available editions below.</p>
           <p className="text-muted-foreground leading-relaxed">Each marks a real place, a real day, a real passage along the coast.</p>
@@ -110,7 +110,7 @@ const Prints = () => {
                 <div className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex-shrink-0">
                   <EditorialArrow size={14} />
                 </div>
-                <h3 className="font-display text-base font-medium">{print.title}</h3>
+                <h3 className="text-base font-medium">{print.title}</h3>
               </div>
               <p className="text-caption text-muted-foreground mt-1">
                 <Link to={`/photographers#photographer-${print.photographerId}`} className="hover:text-foreground transition-colors" onClick={(e) => e.stopPropagation()}>
@@ -145,7 +145,7 @@ const Prints = () => {
               </div>
               <div className="flex items-start justify-between gap-8">
                 <div>
-                  <h2 className="font-display text-2xl text-white font-medium">{selected.title}</h2>
+                  <h2 className="text-2xl text-white font-medium">{selected.title}</h2>
                   <p className="text-white/60 mt-1">
                     <Link to={`/photographers#photographer-${selected.photographerId}`} className="hover:text-white transition-colors" onClick={() => setSelectedPrint(null)}>
                       {selected.photographer}
@@ -156,7 +156,7 @@ const Prints = () => {
                 </div>
                 <Link
                   to={`/checkout?product=Print%20%E2%80%93%20${encodeURIComponent(selected.title)}&variant=${encodeURIComponent(selected.photographer)}&price=TBD&return=/prints`}
-                  className="shrink-0 text-sm font-display uppercase tracking-wider border border-white/30 text-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition-all"
+                  className="shrink-0 text-sm uppercase tracking-wider border border-white/30 text-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition-all"
                 >
                   Order Print
                 </Link>

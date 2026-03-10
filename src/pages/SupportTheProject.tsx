@@ -91,7 +91,7 @@ const SupportTheProject = () => {
           <p className="text-caption text-accent mb-6">Current partners</p>
           <div className="flex flex-wrap gap-12 md:gap-16">
             {partners.map((partner) => (
-              <span key={partner} className="font-display text-2xl md:text-3xl text-foreground">{partner}</span>
+              <span key={partner} className="text-2xl md:text-3xl text-foreground">{partner}</span>
             ))}
           </div>
         </SectionWrapper>
@@ -99,11 +99,11 @@ const SupportTheProject = () => {
         {/* Partnership modes */}
         <SectionWrapper className="bg-secondary">
           <p className="text-caption text-accent mb-4">Partnership</p>
-          <h2 className="font-display text-2xl md:text-3xl mb-12">Ways to support</h2>
+          <h2 className="text-2xl md:text-3xl mb-12">Ways to support</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {partnershipModes.map((mode) => (
               <div key={mode.title} className="bg-background p-8">
-                <h3 className="font-display text-lg font-medium mb-3">{mode.title}</h3>
+                <h3 className="text-lg font-medium mb-3">{mode.title}</h3>
                 <p className="text-muted-foreground leading-relaxed text-sm">{mode.text}</p>
               </div>
             ))}
@@ -113,7 +113,7 @@ const SupportTheProject = () => {
         {/* How we work */}
         <SectionWrapper>
           <p className="text-caption text-muted-foreground mb-4">Approach</p>
-          <h2 className="font-display text-2xl md:text-3xl mb-6">How we work</h2>
+          <h2 className="text-2xl md:text-3xl mb-6">How we work</h2>
           <p className="text-muted-foreground leading-relaxed max-w-2xl">
               Every collaboration finds its own form.
               Partners support a project connecting coastlines, people and stories.
@@ -124,7 +124,7 @@ const SupportTheProject = () => {
         {/* Contact */}
         <section id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="font-display text-2xl md:text-4xl mb-6">
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-2xl md:text-4xl mb-6">
               Start the conversation
             </motion.h2>
             <motion.a
@@ -133,7 +133,7 @@ const SupportTheProject = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-accent-foreground font-display text-sm uppercase tracking-wider hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-accent-foreground text-sm uppercase tracking-wider hover:opacity-90 transition-opacity"
             >
               <EditorialArrow size={14} className="invert" />
               hello@followthecoast.com

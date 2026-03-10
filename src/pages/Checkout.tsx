@@ -21,7 +21,7 @@ const Checkout = () => {
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img src={wavesLogo} alt="" className="h-8 w-auto brightness-0" />
-          <span className="font-display text-[10px] font-bold uppercase tracking-wider leading-tight">
+          <span className="text-[10px] font-bold uppercase tracking-wider leading-tight">
             <span className="block">Follow</span>
             <span className="block">The</span>
             <span className="block">Coast</span>
@@ -51,14 +51,14 @@ const Checkout = () => {
                 <Package className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <h1 className="font-display text-xl font-bold">{product}</h1>
+                <h1 className="text-xl font-bold">{product}</h1>
                 {variant && <p className="text-sm text-muted-foreground mt-1">{variant}</p>}
               </div>
             </div>
             {price && (
               <div className="border-t border-border pt-4 flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Total</span>
-                <span className="font-display text-2xl font-bold">{price}</span>
+                <span className="text-2xl font-bold">{price}</span>
               </div>
             )}
           </div>
@@ -66,7 +66,7 @@ const Checkout = () => {
           {/* Payment placeholder */}
           <div className="border border-dashed border-border rounded-2xl p-8 text-center">
             <CreditCard className="w-8 h-8 mx-auto mb-4 text-muted-foreground/40" />
-            <h2 className="font-display text-lg font-medium mb-2">Payment coming soon</h2>
+            <h2 className="text-lg font-medium mb-2">Payment coming soon</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Online payment will be available here shortly. In the meantime, reach out to{' '}
               <a

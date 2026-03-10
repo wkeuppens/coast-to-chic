@@ -177,7 +177,7 @@ const Privacy = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-3xl md:text-5xl font-bold uppercase leading-tight"
+            className="text-3xl md:text-5xl font-bold uppercase leading-tight"
           >
             Privacy at Follow the Coast
           </motion.h1>
@@ -215,7 +215,7 @@ const Privacy = () => {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-display text-xl md:text-2xl font-bold uppercase tracking-wide">
+            <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wide">
               Privacy Policy
             </h2>
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed mt-4">
@@ -244,7 +244,7 @@ const Privacy = () => {
                 <span className="text-xs text-muted-foreground font-mono tabular-nums">
                   {section.number.padStart(2, '0')}
                 </span>
-                <h2 className="font-display text-lg md:text-xl font-bold uppercase tracking-wide">
+                <h2 className="text-lg md:text-xl font-bold uppercase tracking-wide">
                   {section.title}
                 </h2>
               </div>

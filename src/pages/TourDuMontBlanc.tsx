@@ -65,7 +65,7 @@ const TourDuMontBlanc = () => {
             <div key={fact.label} className="px-6 py-6 text-center">
               <fact.icon className="w-4 h-4 mx-auto mb-2 text-accent" />
               <p className="text-caption text-muted-foreground mb-1">{fact.label}</p>
-              <p className="font-display text-base font-medium">{fact.value}</p>
+              <p className="text-base font-medium">{fact.value}</p>
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ const TourDuMontBlanc = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">The concept</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">Around the Mont Blanc massif.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-8">Around the Mont Blanc massif.</h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>Each summer, when we let the coastline rest, we spend a few days elsewhere. This year, that route leads to the mountains.</p>
               <p>Two ways to join:</p>
@@ -96,15 +96,15 @@ const TourDuMontBlanc = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">Pricing</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-16">Pick your pace.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-16">Pick your pace.</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="bg-background p-8 md:p-10 flex flex-col border-2 border-accent">
-              <h3 className="font-display text-2xl font-medium mb-1">7 days</h3>
+              <h3 className="text-2xl font-medium mb-1">7 days</h3>
               <p className="text-caption text-muted-foreground mb-2">1 – 9 August 2026</p>
               <p className="text-xs text-muted-foreground mb-6">25km + 1500hm per day</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€1,499</p>
+              <p className="text-4xl font-bold text-accent mb-8">€1,499</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {sevenDayPerks.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
@@ -122,10 +122,10 @@ const TourDuMontBlanc = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-background p-8 md:p-10 flex flex-col">
-              <h3 className="font-display text-2xl font-medium mb-1">4 days</h3>
+              <h3 className="text-2xl font-medium mb-1">4 days</h3>
               <p className="text-caption text-muted-foreground mb-2">4 – 9 August 2026</p>
               <p className="text-xs text-muted-foreground mb-6">25km + 2500hm per day</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€999</p>
+              <p className="text-4xl font-bold text-accent mb-8">€999</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {fourDayPerks.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
@@ -149,7 +149,7 @@ const TourDuMontBlanc = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
-            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-4">August 2026 · Chamonix</h2>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase mb-4">August 2026 · Chamonix</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">Three countries. 4–7 days on the trail.</p>
             <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&return=/tour-du-mont-blanc">
               <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>

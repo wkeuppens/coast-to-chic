@@ -57,8 +57,8 @@ const Lightbox = ({
     >
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-6 z-10">
         <div>
-          <p className="text-xs uppercase tracking-widest text-white/50 font-display">{data.stage}</p>
-          <p className="text-sm text-white/80 font-display">{data.location}</p>
+          <p className="text-xs uppercase tracking-widest text-white/50">{data.stage}</p>
+          <p className="text-sm text-white/80">{data.location}</p>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-white/40 tabular-nums">{current + 1} / {data.photos.length}</span>
@@ -127,7 +127,7 @@ const ArchiveFilters = ({
   const hasFilters = country !== 'All' || year !== 'All';
 
   const btnClass = (active: boolean) =>
-    `text-[11px] font-display uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
+    `text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors duration-200 ${
       active ? 'bg-white/15 text-white/90' : 'text-white/40 hover:text-white/60'
     }`;
 
@@ -135,7 +135,7 @@ const ArchiveFilters = ({
     <div className="relative">
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-2 text-[11px] font-display uppercase tracking-wider px-4 py-2 rounded-full border border-white/15 text-white/60 hover:text-white/80 hover:border-white/25 transition-colors"
+        className="flex items-center gap-2 text-[11px] uppercase tracking-wider px-4 py-2 rounded-full border border-white/15 text-white/60 hover:text-white/80 hover:border-white/25 transition-colors"
       >
         Filter
         {hasFilters && (
@@ -153,7 +153,7 @@ const ArchiveFilters = ({
             className="absolute top-full left-0 mt-2 p-4 rounded-lg bg-primary/95 backdrop-blur-md border border-white/10 z-50 min-w-[280px] shadow-xl"
           >
             {/* Country */}
-            <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Country</p>
+            <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Country</p>
             <div className="flex flex-wrap gap-1 mb-4">
               <button className={btnClass(country === 'All')} onClick={() => onCountry('All')}>All</button>
               {ARCHIVE_COUNTRIES.map(c => (
@@ -162,7 +162,7 @@ const ArchiveFilters = ({
             </div>
 
             {/* Year */}
-            <p className="text-[10px] text-white/30 font-display uppercase tracking-wider mb-2">Year</p>
+            <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Year</p>
             <div className="flex flex-wrap gap-1">
               <button className={btnClass(year === 'All')} onClick={() => onYear('All')}>All</button>
               {ARCHIVE_YEARS.map(y => (
@@ -173,7 +173,7 @@ const ArchiveFilters = ({
             {hasFilters && (
               <button
                 onClick={() => { onCountry('All'); onYear('All'); }}
-                className="mt-3 text-[10px] text-white/30 hover:text-white/50 font-display uppercase tracking-wider transition-colors"
+                className="mt-3 text-[10px] text-white/30 hover:text-white/50 uppercase tracking-wider transition-colors"
               >
                 Clear filters
               </button>
@@ -316,12 +316,12 @@ const Archive = () => {
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 pointer-events-none">
         <button
           onClick={() => navigate(-1)}
-          className="pointer-events-auto flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors font-display"
+          className="pointer-events-auto flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
-        <span className="text-xs uppercase tracking-widest text-white/30 font-display">
+        <span className="text-xs uppercase tracking-widest text-white/30">
           Coastal Archive
         </span>
       </header>
@@ -338,10 +338,10 @@ const Archive = () => {
             onClick={() => setShowIntro(false)}
           >
             <div className="max-w-xl px-8 text-center" onClick={(e) => e.stopPropagation()}>
-              <h1 className="font-display text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
+              <h1 className="text-3xl md:text-4xl text-white mb-6 uppercase tracking-wider">
                 Coastal Archive
               </h1>
-              <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4 font-display">
+              <p className="text-sm md:text-base text-white/60 leading-relaxed mb-4">
                 Follow the Coast is built stage by stage, over years.
               </p>
               <p className="text-sm md:text-base text-white/50 leading-relaxed mb-4">
@@ -354,7 +354,7 @@ const Archive = () => {
               {/* Primary CTA */}
               <button
                 onClick={() => setShowIntro(false)}
-                className="pointer-events-auto mb-8 px-8 py-3 border border-white/20 text-sm text-white/80 hover:text-white hover:border-white/40 transition-colors font-display uppercase tracking-wider"
+                className="pointer-events-auto mb-8 px-8 py-3 border border-white/20 text-sm text-white/80 hover:text-white hover:border-white/40 transition-colors uppercase tracking-wider"
               >
                 Explore the Gallery
               </button>
@@ -363,21 +363,21 @@ const Archive = () => {
               <div className="flex items-center justify-center gap-6 pointer-events-auto">
                 <Link
                   to="/route-map"
-                  className="hidden md:inline text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                  className="hidden md:inline text-[11px] text-white/30 hover:text-white/50 transition-colors uppercase tracking-wider"
                 >
                   Route Map
                 </Link>
                 <span className="text-white/15 hidden md:inline">·</span>
                 <Link
                   to="/shoreholders"
-                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors uppercase tracking-wider"
                 >
                   Shoreholders
                 </Link>
                 <span className="text-white/15">·</span>
                 <Link
                   to="/timeline"
-                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors font-display uppercase tracking-wider"
+                  className="text-[11px] text-white/30 hover:text-white/50 transition-colors uppercase tracking-wider"
                 >
                   Timeline
                 </Link>
@@ -396,7 +396,7 @@ const Archive = () => {
           onYear={setFilterYear}
         />
         {hasFilters && (
-          <span className="text-[10px] text-white/30 font-display tabular-nums">
+          <span className="text-[10px] text-white/30 tabular-nums">
             {filteredStages.length} / {completedStages.length}
           </span>
         )}
@@ -413,7 +413,7 @@ const Archive = () => {
             className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/10"
           >
             <Move className="w-4 h-4 text-white/60" />
-            <span className="text-xs text-white/60 font-display tracking-wide">
+            <span className="text-xs text-white/60 tracking-wide">
               Drag to explore · Scroll to pan · Pinch to zoom
             </span>
           </motion.div>
@@ -422,7 +422,7 @@ const Archive = () => {
 
       {/* Zoom indicator */}
       {camera.zoom !== 1 && (
-        <div className="fixed bottom-8 right-8 z-40 text-[10px] text-white/30 font-display tabular-nums">
+        <div className="fixed bottom-8 right-8 z-40 text-[10px] text-white/30 tabular-nums">
           {Math.round(camera.zoom * 100)}%
         </div>
       )}

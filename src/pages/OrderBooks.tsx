@@ -98,7 +98,7 @@ const OrderBooks = () => {
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img src={wavesLogo} alt="" className="h-8 w-auto brightness-0" />
-          <span className="font-display text-[10px] font-bold uppercase tracking-wider leading-tight">
+          <span className="text-[10px] font-bold uppercase tracking-wider leading-tight">
             <span className="block">Follow</span>
             <span className="block">The</span>
             <span className="block">Coast</span>
@@ -119,7 +119,7 @@ const OrderBooks = () => {
             className="mb-16"
           >
             <p className="text-caption text-muted-foreground mb-4">The books</p>
-            <h1 className="font-display text-4xl md:text-5xl font-bold leading-[1.05] mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold leading-[1.05] mb-4">
               5,000 km per volume.
             </h1>
             <p className="text-muted-foreground max-w-md">
@@ -161,8 +161,8 @@ const OrderBooks = () => {
                   <p className="text-caption text-muted-foreground mb-2">
                     {book.status === 'available' ? book.subtitle : 'Coming 2026'}
                   </p>
-                  <h3 className="font-display text-base font-semibold mb-1">{book.title}</h3>
-                  <p className="font-display text-base">{book.price}</p>
+                  <h3 className="text-base font-semibold mb-1">{book.title}</h3>
+                  <p className="text-base">{book.price}</p>
                 </div>
               </motion.div>
             ))}
@@ -187,13 +187,13 @@ const OrderBooks = () => {
             className="border border-accent/30 bg-accent/5 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6"
           >
             <div>
-              <h3 className="font-display text-xl font-bold mb-1">Bundle: Volume I + II</h3>
+              <h3 className="text-xl font-bold mb-1">Bundle: Volume I + II</h3>
               <p className="text-caption text-muted-foreground">Save €15 — both volumes together.</p>
             </div>
             <div className="flex items-center gap-6">
               <div className="text-right">
                 <span className="text-sm text-muted-foreground line-through">€110</span>
-                <span className="font-display text-3xl font-bold ml-3">€95</span>
+                <span className="text-3xl font-bold ml-3">€95</span>
               </div>
               <Link to="/checkout?product=Book%20Bundle&variant=Volume%20I%20%2B%20II&price=%E2%82%AC95&return=/order-books">
                 <MagneticButton className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap" strength={0.2}>

@@ -61,7 +61,7 @@ const FollowTheKust = () => {
             <div key={fact.label} className="px-6 py-6 text-center">
               <fact.icon className="w-4 h-4 mx-auto mb-2 text-accent" />
               <p className="text-caption text-muted-foreground mb-1">{fact.label}</p>
-              <p className="font-display text-base font-medium">{fact.value}</p>
+              <p className="text-base font-medium">{fact.value}</p>
             </div>
           ))}
         </div>
@@ -72,7 +72,7 @@ const FollowTheKust = () => {
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">The concept</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-8">The Belgian coastline, shared.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-8">The Belgian coastline, shared.</h2>
             <div className="space-y-5 text-muted-foreground leading-relaxed">
               <p>Follow The Kust is a one-day run along the Belgian shoreline.</p>
               <p>Two distances toward Knokke:</p>
@@ -91,14 +91,14 @@ const FollowTheKust = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp}>
             <p className="text-caption text-muted-foreground mb-4">Pricing</p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium mb-16">Choose your distance.</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-16">Choose your distance.</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="bg-background p-8 md:p-10 flex flex-col">
-              <h3 className="font-display text-2xl font-medium mb-1">35 km</h3>
+              <h3 className="text-2xl font-medium mb-1">35 km</h3>
               <p className="text-caption text-muted-foreground mb-6">Ostend → Knokke</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€39</p>
+              <p className="text-4xl font-bold text-accent mb-8">€39</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {halfCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
@@ -116,9 +116,9 @@ const FollowTheKust = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-background p-8 md:p-10 flex flex-col border-2 border-accent">
-              <h3 className="font-display text-2xl font-medium mb-1">75 km</h3>
+              <h3 className="text-2xl font-medium mb-1">75 km</h3>
               <p className="text-caption text-muted-foreground mb-6">De Panne → Knokke</p>
-              <p className="font-display text-4xl font-bold text-accent mb-8">€59</p>
+              <p className="text-4xl font-bold text-accent mb-8">€59</p>
               <ul className="space-y-3 mb-10 flex-1">
                 {fullCoast.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
@@ -146,7 +146,7 @@ const FollowTheKust = () => {
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div {...fadeUp}>
-            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase mb-6">Run the kust with us.</h2>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase mb-6">Run the kust with us.</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">6 February 2027. The Belgian coast awaits.</p>
             <Link to="/checkout?product=Follow%20The%20Kust&return=/follow-the-kust">
               <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground font-medium text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>

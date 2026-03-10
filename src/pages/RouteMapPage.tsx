@@ -128,11 +128,11 @@ const RouteMapPage = () => {
     return (
       <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-8 text-center">
         <SEO title="Route Map" description="Explore the full coastline route, stage by stage." path="/route-map" />
-        <p className="font-display text-lg text-foreground mb-2">Route Map</p>
+        <p className="text-lg text-foreground mb-2">Route Map</p>
         <p className="text-sm text-muted-foreground mb-8 max-w-xs">
           The interactive route map is best experienced on a larger screen.
         </p>
-        <Link to="/archive" className="text-sm font-display text-accent hover:text-accent/80 transition-colors">
+        <Link to="/archive" className="text-sm text-accent hover:text-accent/80 transition-colors">
           ← Explore the Archive instead
         </Link>
       </main>
@@ -148,12 +148,12 @@ const RouteMapPage = () => {
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16 py-6">
         <Link
           to="/archive"
-          className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors duration-300 font-display"
+          className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors duration-300"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           Archive
         </Link>
-        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40 font-display">
+        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40">
           Route Map
         </span>
       </header>
@@ -298,11 +298,11 @@ const RouteMapPage = () => {
           {hoveredStage ? (
             <div className="flex items-baseline justify-between">
               <div className="flex items-baseline gap-6">
-                <span className="text-[32px] font-display text-accent leading-none tracking-tight tabular-nums">
+                <span className="text-[32px] text-accent leading-none tracking-tight tabular-nums">
                   {String(hoveredStage.stageNumber).padStart(3, '0')}
                 </span>
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-display text-foreground tracking-wide">
+                  <span className="text-sm text-foreground tracking-wide">
                     {hoveredStage.location}
                   </span>
                   <span className="text-[11px] text-muted-foreground tracking-wider uppercase">
@@ -312,21 +312,21 @@ const RouteMapPage = () => {
               </div>
               <div className="flex items-baseline gap-6">
                 {hoveredStage.shoreholder && (
-                  <span className="text-[11px] text-muted-foreground/60 font-display uppercase tracking-wider">
+                  <span className="text-[11px] text-muted-foreground/60 uppercase tracking-wider">
                     {hoveredStage.shoreholder}
                   </span>
                 )}
-                <span className="text-[10px] text-muted-foreground/30 font-display uppercase tracking-widest">
+                <span className="text-[10px] text-muted-foreground/30 uppercase tracking-widest">
                   Click to view →
                 </span>
               </div>
             </div>
           ) : (
             <div className="flex items-baseline justify-between">
-              <span className="text-[11px] text-muted-foreground/30 font-display uppercase tracking-[0.2em]">
+              <span className="text-[11px] text-muted-foreground/30 uppercase tracking-[0.2em]">
                 Hover a segment to explore
               </span>
-              <span className="text-[11px] text-muted-foreground/20 font-display uppercase tracking-[0.2em]">
+              <span className="text-[11px] text-muted-foreground/20 uppercase tracking-[0.2em]">
                 {COMPLETED_STAGES.length} stages · Europe
               </span>
             </div>

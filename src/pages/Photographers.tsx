@@ -28,7 +28,7 @@ const Photographers = () => {
       <section className="pt-32 pb-16 px-6 md:px-12 max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <p className="text-caption text-muted-foreground mb-4">The Team</p>
-          <h1 className="font-display text-4xl md:text-6xl font-medium mt-2 mb-6">Photographers</h1>
+          <h1 className="text-4xl md:text-6xl font-medium mt-2 mb-6">Photographers</h1>
           <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
             Nine photographers documenting every kilometre of Follow The Coast. Each contributing a unique perspective to the project.
           </p>
@@ -42,7 +42,7 @@ const Photographers = () => {
               <div className="aspect-[3/4] overflow-hidden bg-secondary mb-5">
                 <img src={p.photo} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
               </div>
-              <h3 className="font-display text-lg font-medium">{p.name}</h3>
+              <h3 className="text-lg font-medium">{p.name}</h3>
               <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{p.bio}</p>
               <div className="flex items-center gap-4 mt-4">
                 <a href={p.website} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`${p.name} website`}>
