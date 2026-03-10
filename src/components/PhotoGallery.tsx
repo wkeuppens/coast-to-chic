@@ -43,7 +43,7 @@ export const PhotoGallery = () => {
         >
           <div>
             <p className="text-label mb-element">Gallery</p>
-            <h2 className="font-display text-2xl md:text-3xl tracking-tight">Along the way</h2>
+            <h2 className="text-2xl md:text-3xl tracking-tight">Along the way</h2>
           </div>
           <Link
             to="/archive"

@@ -34,7 +34,7 @@ export const MarqueeTicker = () => {
             <div key={stat.label}>
               <CountUp
                 end={stat.value}
-                className="font-display text-3xl md:text-4xl tracking-tight block text-foreground"
+                className="text-3xl md:text-4xl tracking-tight block text-foreground"
               />
               <p className="text-caption text-muted-foreground mt-2">{stat.label}</p>
             </div>

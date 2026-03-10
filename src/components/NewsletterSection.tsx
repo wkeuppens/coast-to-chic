@@ -20,7 +20,7 @@ export const NewsletterSection = () => {
         >
           <hr className="rule mb-8" />
           <p className="text-label mb-element">Updates</p>
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-4">
+          <h2 className="text-2xl md:text-3xl tracking-tight mb-4">
             New stages. Books. Routes.
           </h2>
           <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-text">

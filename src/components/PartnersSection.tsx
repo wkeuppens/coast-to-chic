@@ -24,7 +24,7 @@ export const PartnersSection = () => {
           <p className="text-label">Partners</p>
           <div className="flex flex-wrap gap-8 md:gap-12">
             {partners.map((p) => (
-              <span key={p} className="text-muted-foreground font-display text-sm tracking-wider uppercase">
+              <span key={p} className="text-muted-foreground text-sm tracking-wider uppercase">
                 {p}
               </span>
             ))}
