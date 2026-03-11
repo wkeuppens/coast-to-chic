@@ -40,7 +40,7 @@ export const NewsletterSection = () => {
             />
             <button
               type="submit"
-              className="text-caption text-foreground bg-transparent border-b border-foreground px-0 py-3 hover:opacity-50 transition-opacity whitespace-nowrap"
+              className="bg-accent text-white text-caption px-6 py-3 rounded-full hover:opacity-80 transition-opacity whitespace-nowrap"
             >
               Subscribe →
             </button>
