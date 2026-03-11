@@ -41,7 +41,7 @@ const columns = [
  */
 export const Footer = () => {
   return (
-    <footer className="bg-foreground text-primary-foreground">
+    <footer className="text-primary-foreground" style={{ backgroundColor: 'hsl(var(--coast-blue))' }}>
       <div className="px-page py-16 md:py-24">
         <div className="max-w-content mx-auto">
           {/* Links grid */}

@@ -58,7 +58,7 @@ export const StagesSection = () => {
               className="group py-6 md:py-8 border-b border-foreground/15 flex items-baseline justify-between gap-4"
             >
               <div>
-                <h3 className="text-lg md:text-xl group-hover:opacity-50 transition-opacity duration-500">
+                <h3 className="text-lg md:text-xl group-hover:text-accent transition-colors duration-500">
                   {stage.title}
                 </h3>
                 <p className="text-sm text-muted-foreground mt-0.5">
