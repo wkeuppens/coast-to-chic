@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown, BookOpen } from 'lucide-react';
+import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown, BookOpen, X, MapPin } from 'lucide-react';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import beachRunners from '@/assets/beach-runners.jpg';
 import { SEO } from '@/components/SEO';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const pricingTiers = [
   {
