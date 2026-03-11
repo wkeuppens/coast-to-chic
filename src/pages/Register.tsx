@@ -401,6 +401,53 @@ const Register = () => {
           </Link>
         </div>
       </section>
+
+      {/* Map Modal */}
+      <AnimatePresence>
+        {mapStage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setMapStage(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="bg-background border border-border w-full max-w-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+                <div>
+                  <p className="text-caption text-accent">Stage #{mapStage.nr}</p>
+                  <h3 className="text-lg">{mapStage.from} → {mapStage.to}</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{mapStage.date}</p>
+                </div>
+                <button
+                  onClick={() => setMapStage(null)}
+                  className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div ref={mapRef} className="h-[400px] w-full" />
+              <div className="px-6 py-3 border-t border-border flex items-center gap-6 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-accent inline-block" />
+                  Start
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-foreground inline-block" />
+                  End
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
