@@ -315,13 +315,17 @@ const Register = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
-                  className={`grid grid-cols-[60px_1fr_1fr_100px] md:grid-cols-[80px_120px_1fr_1fr_120px] gap-4 py-4 border-b border-border items-center ${
-                    stage.status === 'open' ? 'hover:bg-background cursor-pointer transition-colors' : 'opacity-50'
+                  onClick={() => setMapStage(stage)}
+                  className={`grid grid-cols-[60px_1fr_1fr_100px] md:grid-cols-[80px_120px_1fr_1fr_120px] gap-4 py-4 border-b border-border items-center cursor-pointer hover:bg-background transition-colors group ${
+                    stage.status !== 'open' ? 'opacity-50' : ''
                   }`}
                 >
                   <span className="tabular-nums">#{stage.nr}</span>
                   <span className="text-sm text-muted-foreground hidden md:block">{stage.date}</span>
-                  <span className="text-sm">{stage.from}</span>
+                  <span className="text-sm flex items-center gap-1.5">
+                    <MapPin size={12} className="text-accent opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    {stage.from}
+                  </span>
                   <span className="text-sm">{stage.to}</span>
                   <span className="text-right">
                     {stage.status === 'open' ? (
