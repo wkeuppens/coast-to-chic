@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown, BookOpen } from 'lucide-react';
+import { ArrowLeft, Check, Users, User, UsersRound, ChevronDown, BookOpen, X, MapPin } from 'lucide-react';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { MagneticButton } from '@/components/MagneticButton';
 import wavesLogo from '@/assets/waves-logo.png';
 import beachRunners from '@/assets/beach-runners.jpg';
 import { SEO } from '@/components/SEO';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const pricingTiers = [
   {
@@ -50,21 +52,74 @@ const included: (string | React.ReactNode)[] = [
 ];
 
 const sampleStages = [
-  { nr: 221, date: '01-11-2026', from: 'Korogonianika', to: 'Plitra', status: 'open' },
-  { nr: 222, date: '02-11-2026', from: 'Plitra', to: 'Ag. Kiriaki', status: 'taken' },
-  { nr: 223, date: '03-11-2026', from: 'Ag. Kiriaki', to: 'Paralia', status: 'taken' },
-  { nr: 224, date: '04-11-2026', from: 'Paralia', to: 'Kirche Panagia > Iria', status: 'open' },
-  { nr: 225, date: '06-11-2026', from: 'Kirche Panagia > Iria', to: 'Achladitsa', status: 'taken' },
-  { nr: 226, date: '07-11-2026', from: 'Achladitsa', to: 'Nisida', status: 'taken' },
-  { nr: 227, date: '08-11-2026', from: 'Nisida', to: 'Stikas > Megara', status: 'taken' },
-  { nr: 231, date: '13-11-2026', from: 'Ag. Konstantinos', to: 'Mpoufalo', status: 'open' },
-  { nr: 235, date: '17-11-2026', from: 'Mili <> Pigadia', to: 'Egglisia Agia Varvara > Vigla', status: 'open' },
+  { nr: 221, date: '01-11-2026', from: 'Korogonianika', to: 'Plitra', status: 'open', startCoord: [36.82, 22.53] as [number, number], endCoord: [36.75, 22.56] as [number, number] },
+  { nr: 222, date: '02-11-2026', from: 'Plitra', to: 'Ag. Kiriaki', status: 'taken', startCoord: [36.75, 22.56] as [number, number], endCoord: [36.68, 22.62] as [number, number] },
+  { nr: 223, date: '03-11-2026', from: 'Ag. Kiriaki', to: 'Paralia', status: 'taken', startCoord: [36.68, 22.62] as [number, number], endCoord: [36.61, 22.71] as [number, number] },
+  { nr: 224, date: '04-11-2026', from: 'Paralia', to: 'Kirche Panagia > Iria', status: 'open', startCoord: [36.61, 22.71] as [number, number], endCoord: [36.55, 22.80] as [number, number] },
+  { nr: 225, date: '06-11-2026', from: 'Kirche Panagia > Iria', to: 'Achladitsa', status: 'taken', startCoord: [36.55, 22.80] as [number, number], endCoord: [36.49, 22.88] as [number, number] },
+  { nr: 226, date: '07-11-2026', from: 'Achladitsa', to: 'Nisida', status: 'taken', startCoord: [36.49, 22.88] as [number, number], endCoord: [36.45, 22.96] as [number, number] },
+  { nr: 227, date: '08-11-2026', from: 'Nisida', to: 'Stikas > Megara', status: 'taken', startCoord: [36.45, 22.96] as [number, number], endCoord: [36.40, 23.04] as [number, number] },
+  { nr: 231, date: '13-11-2026', from: 'Ag. Konstantinos', to: 'Mpoufalo', status: 'open', startCoord: [36.35, 23.12] as [number, number], endCoord: [36.30, 23.20] as [number, number] },
+  { nr: 235, date: '17-11-2026', from: 'Mili <> Pigadia', to: 'Egglisia Agia Varvara > Vigla', status: 'open', startCoord: [36.25, 23.28] as [number, number], endCoord: [36.20, 23.36] as [number, number] },
 ];
 
 const Register = () => {
   const [selectedTier, setSelectedTier] = useState('duo');
   const [showAllStages, setShowAllStages] = useState(false);
+  const [mapStage, setMapStage] = useState<typeof sampleStages[0] | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
 
+  useEffect(() => {
+    if (!mapStage || !mapRef.current) return;
+
+    // Clean up previous map
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+    }
+
+    const map = L.map(mapRef.current, { zoomControl: false });
+    mapInstanceRef.current = map;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+    }).addTo(map);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    const startIcon = L.divIcon({
+      className: '',
+      html: `<div style="width:14px;height:14px;background:#C45D3E;border:2px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+    const endIcon = L.divIcon({
+      className: '',
+      html: `<div style="width:14px;height:14px;background:#0E0E0E;border:2px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+
+    const startMarker = L.marker(mapStage.startCoord, { icon: startIcon }).addTo(map);
+    const endMarker = L.marker(mapStage.endCoord, { icon: endIcon }).addTo(map);
+    startMarker.bindPopup(`<strong>Start:</strong> ${mapStage.from}`);
+    endMarker.bindPopup(`<strong>End:</strong> ${mapStage.to}`);
+
+    const line = L.polyline([mapStage.startCoord, mapStage.endCoord], {
+      color: '#C45D3E',
+      weight: 2.5,
+      dashArray: '6 6',
+    }).addTo(map);
+
+    const bounds = L.latLngBounds([mapStage.startCoord, mapStage.endCoord]);
+    map.fitBounds(bounds, { padding: [60, 60], maxZoom: 13 });
+
+    return () => {
+      map.remove();
+      mapInstanceRef.current = null;
+    };
+  }, [mapStage]);
   const visibleStages = showAllStages ? sampleStages : sampleStages.slice(0, 5);
 
   return (
@@ -260,13 +315,17 @@ const Register = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
-                  className={`grid grid-cols-[60px_1fr_1fr_100px] md:grid-cols-[80px_120px_1fr_1fr_120px] gap-4 py-4 border-b border-border items-center ${
-                    stage.status === 'open' ? 'hover:bg-background cursor-pointer transition-colors' : 'opacity-50'
+                  onClick={() => setMapStage(stage)}
+                  className={`grid grid-cols-[60px_1fr_1fr_100px] md:grid-cols-[80px_120px_1fr_1fr_120px] gap-4 py-4 border-b border-border items-center cursor-pointer hover:bg-background transition-colors group ${
+                    stage.status !== 'open' ? 'opacity-50' : ''
                   }`}
                 >
                   <span className="tabular-nums">#{stage.nr}</span>
                   <span className="text-sm text-muted-foreground hidden md:block">{stage.date}</span>
-                  <span className="text-sm">{stage.from}</span>
+                  <span className="text-sm flex items-center gap-1.5">
+                    <MapPin size={12} className="text-accent opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    {stage.from}
+                  </span>
                   <span className="text-sm">{stage.to}</span>
                   <span className="text-right">
                     {stage.status === 'open' ? (
@@ -342,6 +401,53 @@ const Register = () => {
           </Link>
         </div>
       </section>
+
+      {/* Map Modal */}
+      <AnimatePresence>
+        {mapStage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setMapStage(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="bg-background border border-border w-full max-w-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+                <div>
+                  <p className="text-caption text-accent">Stage #{mapStage.nr}</p>
+                  <h3 className="text-lg">{mapStage.from} → {mapStage.to}</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{mapStage.date}</p>
+                </div>
+                <button
+                  onClick={() => setMapStage(null)}
+                  className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div ref={mapRef} className="h-[400px] w-full" />
+              <div className="px-6 py-3 border-t border-border flex items-center gap-6 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-accent inline-block" />
+                  Start
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-foreground inline-block" />
+                  End
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
