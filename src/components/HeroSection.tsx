@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { MagneticButton } from './MagneticButton';
-import coastalTown from '@/assets/coastal-town.jpg';
+import heroRunnerCoast from '@/assets/hero-runner-coast.jpg';
 
 /**
  * Hero — full-viewport photograph with title and pill CTA.
