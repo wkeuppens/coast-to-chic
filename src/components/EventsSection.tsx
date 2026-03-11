@@ -69,7 +69,7 @@ export const EventsSection = () => {
                     className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.015]"
                   />
                 </div>
-                <h3 className="text-base md:text-lg mb-1 group-hover:opacity-50 transition-opacity duration-500">
+                <h3 className="text-base md:text-lg mb-1 group-hover:text-accent transition-colors duration-500">
                   {event.title}
                 </h3>
                 <p className="text-caption text-muted-foreground">{event.meta}</p>
