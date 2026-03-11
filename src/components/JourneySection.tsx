@@ -28,14 +28,11 @@ export const JourneySection = () => {
             </h2>
             <div className="space-y-4 text-muted-foreground text-sm leading-relaxed max-w-text">
               <p>
-                Started July 2019 from a beach in Knokke. Salt air, grey sky, 
-                bare feet on wet sand. The simple rule: keep the sea on your right 
-                and run south.
+                Started July 2019 from a beach in Knokke. Salt air, grey sky. 
+                The simple rule: keep the sea on your right and run south.
               </p>
               <p>
                 Belgium. France. Spain. Portugal. Now Italy.
-                Each stage is 100 kilometres of coastline — one day, one van, 
-                one photographer.
               </p>
               <p>Athens by end of 2026.</p>
             </div>
