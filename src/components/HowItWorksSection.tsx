@@ -54,7 +54,7 @@ export const HowItWorksSection = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 + i * 0.08 }}
             >
-              <span className="text-caption text-muted-foreground block mb-3">{step.number}</span>
+              <span className="text-caption text-accent block mb-3">{step.number}</span>
               <h3 className="text-lg mb-2">{step.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
             </motion.div>
@@ -72,10 +72,10 @@ export const HowItWorksSection = () => {
             <div>
               <p className="text-label mb-4">Support included</p>
               <ul className="space-y-2 text-sm text-foreground">
-                <li>— Van with driver, 24 hours</li>
-                <li>— Photographer, all day</li>
-                <li>— Food, water, coffee</li>
-                <li>— Photos delivered after. Your name in the book</li>
+                <li><span className="text-accent">—</span> Van with driver, 24 hours</li>
+                <li><span className="text-accent">—</span> Photographer, all day</li>
+                <li><span className="text-accent">—</span> Food, water, coffee</li>
+                <li><span className="text-accent">—</span> Photos delivered after. Your name in the book</li>
               </ul>
             </div>
             <div>
