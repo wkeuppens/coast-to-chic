@@ -13,7 +13,7 @@ export const HeroSection = () => {
       <motion.img
         src={heroRunnerCoast}
         alt="Runner on a coastal trail along the European shoreline"
-        className="absolute inset-0 w-full h-full object-cover object-[20%_center] md:object-[30%_center] lg:object-center"
+        className="absolute inset-0 w-full h-full object-cover object-[30%_center] md:object-[30%_center] lg:object-center"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2.5, ease: [0.25, 0.46, 0.45, 0.94] }}
