@@ -392,13 +392,6 @@ const Register = () => {
           >
             Come as you are.<br />We're looking forward to meeting you on the coastline.
           </motion.p>
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mt-8"
-          >
-            <ArrowLeft size={16} />
-            <span>Back to home</span>
-          </Link>
         </div>
       </section>
 
