@@ -26,35 +26,33 @@ const RouteMapPage = lazy(() => import("./pages/RouteMapPage"));
 
 const App = () => (
   <HelmetProvider>
-    <TooltipProvider>
-      <BrowserRouter>
-        <Suspense fallback={<div className="min-h-screen bg-background" />}>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/order-books" element={<OrderBooks />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/eu-stages" element={<EUStages />} />
-            <Route path="/all-stages" element={<AllStages />} />
-            <Route path="/homerun" element={<HomeRun />} />
-            <Route path="/follow-the-kust" element={<FollowTheKust />} />
-            <Route path="/tour-du-mont-blanc" element={<TourDuMontBlanc />} />
-            <Route path="/archive" element={<Archive />} />
-            <Route path="/gallery" element={<Navigate to="/archive" replace />} />
-            <Route path="/shoreholders" element={<Shoreholders />} />
-            <Route path="/route-map" element={<RouteMapPage />} />
-            <Route path="/timeline" element={<Timeline />} />
-            <Route path="/participant-handbook" element={<ParticipantHandbook />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/prints" element={<Prints />} />
-            <Route path="/photographers" element={<Photographers />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/support" element={<SupportTheProject />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
+    <BrowserRouter>
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/order-books" element={<OrderBooks />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/eu-stages" element={<EUStages />} />
+          <Route path="/all-stages" element={<AllStages />} />
+          <Route path="/homerun" element={<HomeRun />} />
+          <Route path="/follow-the-kust" element={<FollowTheKust />} />
+          <Route path="/tour-du-mont-blanc" element={<TourDuMontBlanc />} />
+          <Route path="/archive" element={<Archive />} />
+          <Route path="/gallery" element={<Navigate to="/archive" replace />} />
+          <Route path="/shoreholders" element={<Shoreholders />} />
+          <Route path="/route-map" element={<RouteMapPage />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/participant-handbook" element={<ParticipantHandbook />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/prints" element={<Prints />} />
+          <Route path="/photographers" element={<Photographers />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/support" element={<SupportTheProject />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   </HelmetProvider>
 );
 
