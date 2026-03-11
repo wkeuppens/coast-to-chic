@@ -56,6 +56,7 @@ export default {
           "warm-grey": "hsl(var(--coast-warm-grey))",
           paper: "hsl(var(--coast-paper))",
           rust: "hsl(var(--coast-rust))",
+          blue: "hsl(var(--coast-blue))",
         },
         inv: {
           DEFAULT: "hsl(var(--inv-foreground))",
