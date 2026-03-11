@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://ftc-web.lovable.app';
+const SITE_URL = 'https://ftcredesigned.lovable.app';
 const DEFAULT_TITLE = 'Follow the Coast — Run the European Coastline';
 const DEFAULT_DESCRIPTION = 'Run 100km stages along the European coastline from Belgium to Athens. Books, side routes, and community.';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;

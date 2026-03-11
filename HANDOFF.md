@@ -1,6 +1,6 @@
 # Follow The Coast — Developer Handoff
 
-> Last updated: March 2026 · Based on current codebase analysis
+> Last updated: March 11, 2026 · Final audit pass
 
 ---
 
@@ -113,11 +113,12 @@ Bun (lockfiles: `bun.lock`, `bun.lockb`).
 | `--secondary` | `40 10% 93%` | Tinted warm grey |
 | `--muted` | `40 8% 88%` | Muted surfaces |
 | `--muted-foreground` | `0 0% 42%` | Secondary text |
-| `--accent` | `12 45% 48%` | Terracotta — sparingly used |
+| `--accent` | `12 45% 48%` | Terracotta — primary CTA color, hover accents |
 | `--border` | `40 8% 85%` | Subtle warm grey borders |
 | `--coast-charcoal` | `0 0% 8%` | Brand charcoal |
 | `--coast-paper` | `40 20% 97%` | Brand paper |
 | `--coast-rust` | `12 45% 48%` | Brand terracotta |
+| `--coast-blue` | `200 90% 15%` | Deep navy (#032d47) — footer background |
 
 Dark mode tokens are defined under `.dark` class.
 
@@ -385,10 +386,11 @@ All animation is handled by **Framer Motion** (`framer-motion ^12.30.0`).
 |---|---|
 | Nav links | Color transition + underline border-bottom |
 | Gallery images | `scale(1.015)` over 1000ms ease-out |
-| Stage rows | Opacity fade to 50% |
-| Event cards | Image scale + title opacity fade |
+| Stage rows | Text color transitions to terracotta accent |
+| Event cards (side routes) | Image scale + title color transitions to terracotta |
 | Footer links | Color transition (inv-muted → inv) |
 | MagneticButton | Spring-physics cursor tracking |
+| CTA pill buttons | Terracotta background (`bg-accent`) with opacity fade on hover |
 
 ### Transitions
 
