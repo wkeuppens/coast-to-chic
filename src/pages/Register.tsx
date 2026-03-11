@@ -66,8 +66,60 @@ const sampleStages = [
 const Register = () => {
   const [selectedTier, setSelectedTier] = useState('duo');
   const [showAllStages, setShowAllStages] = useState(false);
+  const [mapStage, setMapStage] = useState<typeof sampleStages[0] | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
 
-  const visibleStages = showAllStages ? sampleStages : sampleStages.slice(0, 5);
+  useEffect(() => {
+    if (!mapStage || !mapRef.current) return;
+
+    // Clean up previous map
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+    }
+
+    const map = L.map(mapRef.current, { zoomControl: false });
+    mapInstanceRef.current = map;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+    }).addTo(map);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    const startIcon = L.divIcon({
+      className: '',
+      html: `<div style="width:14px;height:14px;background:#C45D3E;border:2px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+    const endIcon = L.divIcon({
+      className: '',
+      html: `<div style="width:14px;height:14px;background:#0E0E0E;border:2px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+
+    const startMarker = L.marker(mapStage.startCoord, { icon: startIcon }).addTo(map);
+    const endMarker = L.marker(mapStage.endCoord, { icon: endIcon }).addTo(map);
+    startMarker.bindPopup(`<strong>Start:</strong> ${mapStage.from}`);
+    endMarker.bindPopup(`<strong>End:</strong> ${mapStage.to}`);
+
+    const line = L.polyline([mapStage.startCoord, mapStage.endCoord], {
+      color: '#C45D3E',
+      weight: 2.5,
+      dashArray: '6 6',
+    }).addTo(map);
+
+    const bounds = L.latLngBounds([mapStage.startCoord, mapStage.endCoord]);
+    map.fitBounds(bounds, { padding: [60, 60], maxZoom: 13 });
+
+    return () => {
+      map.remove();
+      mapInstanceRef.current = null;
+    };
+  }, [mapStage]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
