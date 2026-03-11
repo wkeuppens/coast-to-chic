@@ -113,11 +113,12 @@ Bun (lockfiles: `bun.lock`, `bun.lockb`).
 | `--secondary` | `40 10% 93%` | Tinted warm grey |
 | `--muted` | `40 8% 88%` | Muted surfaces |
 | `--muted-foreground` | `0 0% 42%` | Secondary text |
-| `--accent` | `12 45% 48%` | Terracotta — sparingly used |
+| `--accent` | `12 45% 48%` | Terracotta — primary CTA color, hover accents |
 | `--border` | `40 8% 85%` | Subtle warm grey borders |
 | `--coast-charcoal` | `0 0% 8%` | Brand charcoal |
 | `--coast-paper` | `40 20% 97%` | Brand paper |
 | `--coast-rust` | `12 45% 48%` | Brand terracotta |
+| `--coast-blue` | `200 90% 15%` | Deep navy (#032d47) — footer background |
 
 Dark mode tokens are defined under `.dark` class.
 
