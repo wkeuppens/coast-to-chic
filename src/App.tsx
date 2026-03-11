@@ -28,9 +28,8 @@ const RouteMapPage = lazy(() => import("./pages/RouteMapPage"));
 const App = () => (
   <HelmetProvider>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
+        <Suspense fallback={<div className="min-h-screen bg-background" />}>
         <Suspense fallback={<div className="min-h-screen bg-background" />}>
           <ScrollToTop />
           <Routes>

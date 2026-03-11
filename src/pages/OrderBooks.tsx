@@ -97,7 +97,7 @@ const OrderBooks = () => {
       <SEO title="Order Books" description="Follow the Coast photo books. 5,000 km per volume. Photos, routes, and field notes. Free shipping across Europe." path="/order-books" />
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <img src={wavesLogo} alt="" className="h-8 w-auto brightness-0" />
+          <img src={wavesLogo} alt="Follow the Coast logo" className="h-8 w-auto brightness-0" />
           <span className="text-[10px] font-bold uppercase tracking-wider leading-tight">
             <span className="block">Follow</span>
             <span className="block">The</span>
