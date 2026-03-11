@@ -72,10 +72,10 @@ export const HowItWorksSection = () => {
             <div>
               <p className="text-label mb-4">Support included</p>
               <ul className="space-y-2 text-sm text-foreground">
-                <li>— Van with driver, 24 hours</li>
-                <li>— Photographer, all day</li>
-                <li>— Food, water, coffee</li>
-                <li>— Photos delivered after. Your name in the book</li>
+                <li><span className="text-accent">—</span> Van with driver, 24 hours</li>
+                <li><span className="text-accent">—</span> Photographer, all day</li>
+                <li><span className="text-accent">—</span> Food, water, coffee</li>
+                <li><span className="text-accent">—</span> Photos delivered after. Your name in the book</li>
               </ul>
             </div>
             <div>
