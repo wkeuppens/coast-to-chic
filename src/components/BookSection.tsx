@@ -49,7 +49,7 @@ export const BookSection = () => {
             <div className="flex flex-col justify-end">
               <MagneticButton
                 href="/order-books"
-                className="inline-flex items-center justify-center bg-foreground text-primary-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-80 transition-opacity"
+                className="inline-flex items-center justify-center bg-accent text-accent-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-80 transition-opacity"
               >
                 Explore the books
               </MagneticButton>
