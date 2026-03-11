@@ -52,15 +52,15 @@ const included: (string | React.ReactNode)[] = [
 ];
 
 const sampleStages = [
-  { nr: 221, date: '01-11-2026', from: 'Korogonianika', to: 'Plitra', status: 'open' },
-  { nr: 222, date: '02-11-2026', from: 'Plitra', to: 'Ag. Kiriaki', status: 'taken' },
-  { nr: 223, date: '03-11-2026', from: 'Ag. Kiriaki', to: 'Paralia', status: 'taken' },
-  { nr: 224, date: '04-11-2026', from: 'Paralia', to: 'Kirche Panagia > Iria', status: 'open' },
-  { nr: 225, date: '06-11-2026', from: 'Kirche Panagia > Iria', to: 'Achladitsa', status: 'taken' },
-  { nr: 226, date: '07-11-2026', from: 'Achladitsa', to: 'Nisida', status: 'taken' },
-  { nr: 227, date: '08-11-2026', from: 'Nisida', to: 'Stikas > Megara', status: 'taken' },
-  { nr: 231, date: '13-11-2026', from: 'Ag. Konstantinos', to: 'Mpoufalo', status: 'open' },
-  { nr: 235, date: '17-11-2026', from: 'Mili <> Pigadia', to: 'Egglisia Agia Varvara > Vigla', status: 'open' },
+  { nr: 221, date: '01-11-2026', from: 'Korogonianika', to: 'Plitra', status: 'open', startCoord: [36.82, 22.53] as [number, number], endCoord: [36.75, 22.56] as [number, number] },
+  { nr: 222, date: '02-11-2026', from: 'Plitra', to: 'Ag. Kiriaki', status: 'taken', startCoord: [36.75, 22.56] as [number, number], endCoord: [36.68, 22.62] as [number, number] },
+  { nr: 223, date: '03-11-2026', from: 'Ag. Kiriaki', to: 'Paralia', status: 'taken', startCoord: [36.68, 22.62] as [number, number], endCoord: [36.61, 22.71] as [number, number] },
+  { nr: 224, date: '04-11-2026', from: 'Paralia', to: 'Kirche Panagia > Iria', status: 'open', startCoord: [36.61, 22.71] as [number, number], endCoord: [36.55, 22.80] as [number, number] },
+  { nr: 225, date: '06-11-2026', from: 'Kirche Panagia > Iria', to: 'Achladitsa', status: 'taken', startCoord: [36.55, 22.80] as [number, number], endCoord: [36.49, 22.88] as [number, number] },
+  { nr: 226, date: '07-11-2026', from: 'Achladitsa', to: 'Nisida', status: 'taken', startCoord: [36.49, 22.88] as [number, number], endCoord: [36.45, 22.96] as [number, number] },
+  { nr: 227, date: '08-11-2026', from: 'Nisida', to: 'Stikas > Megara', status: 'taken', startCoord: [36.45, 22.96] as [number, number], endCoord: [36.40, 23.04] as [number, number] },
+  { nr: 231, date: '13-11-2026', from: 'Ag. Konstantinos', to: 'Mpoufalo', status: 'open', startCoord: [36.35, 23.12] as [number, number], endCoord: [36.30, 23.20] as [number, number] },
+  { nr: 235, date: '17-11-2026', from: 'Mili <> Pigadia', to: 'Egglisia Agia Varvara > Vigla', status: 'open', startCoord: [36.25, 23.28] as [number, number], endCoord: [36.20, 23.36] as [number, number] },
 ];
 
 const Register = () => {
