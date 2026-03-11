@@ -120,6 +120,7 @@ const Register = () => {
       mapInstanceRef.current = null;
     };
   }, [mapStage]);
+  const visibleStages = showAllStages ? sampleStages : sampleStages.slice(0, 5);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
