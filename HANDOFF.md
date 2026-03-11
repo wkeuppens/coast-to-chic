@@ -386,10 +386,11 @@ All animation is handled by **Framer Motion** (`framer-motion ^12.30.0`).
 |---|---|
 | Nav links | Color transition + underline border-bottom |
 | Gallery images | `scale(1.015)` over 1000ms ease-out |
-| Stage rows | Opacity fade to 50% |
-| Event cards | Image scale + title opacity fade |
+| Stage rows | Text color transitions to terracotta accent |
+| Event cards (side routes) | Image scale + title color transitions to terracotta |
 | Footer links | Color transition (inv-muted → inv) |
 | MagneticButton | Spring-physics cursor tracking |
+| CTA pill buttons | Terracotta background (`bg-accent`) with opacity fade on hover |
 
 ### Transitions
 
