@@ -24,6 +24,11 @@ const Shoreholders = lazy(() => import("./pages/Shoreholders"));
 const Timeline = lazy(() => import("./pages/Timeline"));
 const RouteMapPage = lazy(() => import("./pages/RouteMapPage"));
 
+// New pages
+const Iceland = lazy(() => import("./pages/Iceland"));
+const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
+const Contact = lazy(() => import("./pages/Contact"));
+
 const App = () => (
   <HelmetProvider>
     <BrowserRouter>
@@ -49,6 +54,10 @@ const App = () => (
           <Route path="/photographers" element={<Photographers />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/support" element={<SupportTheProject />} />
+          {/* New routes */}
+          <Route path="/iceland" element={<Iceland />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

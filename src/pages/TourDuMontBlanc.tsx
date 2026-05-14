@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { EditorialArrow } from '@/components/EditorialArrow';
-import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Calendar, Mountain, Clock } from 'lucide-react';
 import { SideRouteLayout, QuickFacts, ContentSection, WideSection, fadeUp } from '@/components/layouts/SideRouteLayout';
+import { EventCheckoutButton } from '@/components/EventCheckoutButton';
 import tmbHero from '@/assets/tmb-lake.jpg';
 
 const sevenDayPerks = [
@@ -66,8 +64,8 @@ const TourDuMontBlanc = () => (
         <p className="text-caption text-muted-foreground mb-4">Pricing</p>
         <h2 className="text-3xl md:text-4xl mb-block">Pick your pace.</h2>
       </motion.div>
-
       <div className="grid md:grid-cols-2 gap-8">
+
         {/* 7 days */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="bg-background p-8 md:p-10 flex flex-col border-2 border-accent">
           <h3 className="text-2xl mb-1">7 days</h3>
@@ -82,12 +80,11 @@ const TourDuMontBlanc = () => (
               </li>
             ))}
           </ul>
-          <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=7%20days&price=%E2%82%AC1%2C499&return=/tour-du-mont-blanc">
-            <MagneticButton className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm" strength={0.2}>
-              <EditorialArrow size={14} className="invert" />
-              Register — €1,499
-            </MagneticButton>
-          </Link>
+          <EventCheckoutButton
+            eventId="tmb_2026_7day"
+            price={1499}
+            label="Register — €1,499"
+          />
         </motion.div>
 
         {/* 4 days */}
@@ -104,12 +101,11 @@ const TourDuMontBlanc = () => (
               </li>
             ))}
           </ul>
-          <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&variant=4%20days&price=%E2%82%AC999&return=/tour-du-mont-blanc">
-            <MagneticButton className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-8 py-3 rounded-full hover:opacity-90 transition-opacity text-sm" strength={0.2}>
-              <EditorialArrow size={14} className="invert" />
-              Register — €999
-            </MagneticButton>
-          </Link>
+          <EventCheckoutButton
+            eventId="tmb_2026_4day"
+            price={999}
+            label="Register — €999"
+          />
         </motion.div>
       </div>
     </WideSection>
@@ -120,12 +116,10 @@ const TourDuMontBlanc = () => (
         <motion.div {...fadeUp}>
           <h2 className="text-3xl md:text-5xl uppercase mb-4">August 2026 · Chamonix</h2>
           <p className="text-muted-foreground mb-10 max-w-md mx-auto">Three countries. 4–7 days on the trail.</p>
-          <Link to="/checkout?product=Tour%20du%20Mont%20Blanc&return=/tour-du-mont-blanc">
-            <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>
-              <EditorialArrow size={18} className="invert" />
-              Run with us
-            </MagneticButton>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <EventCheckoutButton eventId="tmb_2026_7day" price={1499} label="7 days — €1,499" />
+            <EventCheckoutButton eventId="tmb_2026_4day" price={999} label="4 days — €999" />
+          </div>
           <p className="text-caption text-muted-foreground mt-6">Registrations close March 15, 2026.</p>
         </motion.div>
       </div>

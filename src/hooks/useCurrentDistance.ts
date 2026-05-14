@@ -1,23 +1,34 @@
+/**
+ * src/hooks/useCurrentDistance.ts
+ * Replaced: was using hardcoded calculators.
+ * Now fetches real stats from the backend API.
+ */
 import { useState, useEffect } from 'react';
-import { calculateCurrentDistance, hasProjectStarted } from '@/lib/distanceCalculator';
-import { calculateCountries, calculateRunners, calculateBooks } from '@/lib/counterCalculator';
+import { archive } from '@/lib/api';
 
 export function useCurrentDistance(updateIntervalMs: number = 60000) {
-  const [distance, setDistance] = useState(() => calculateCurrentDistance());
-  const [started, setStarted] = useState(() => hasProjectStarted());
-  const [countries, setCountries] = useState(() => calculateCountries());
-  const [runners, setRunners] = useState(() => calculateRunners());
-  const [books, setBooks] = useState(() => calculateBooks());
+  const [distance, setDistance] = useState(0);
+  const [countries, setCountries] = useState(0);
+  const [runners, setRunners] = useState(0);
+  const [books, setBooks] = useState(0);
+  const [started, setStarted] = useState(true);
+
+  const fetchStats = async () => {
+    try {
+      const stats = await archive.stats();
+      setDistance(stats.totalKm);
+      setCountries(stats.countries);
+      setRunners(stats.runners);
+      setBooks(stats.booksSold);
+      setStarted(stats.completedStages > 0);
+    } catch {
+      // Silently fail — counters stay at last known values
+    }
+  };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDistance(calculateCurrentDistance());
-      setStarted(hasProjectStarted());
-      setCountries(calculateCountries());
-      setRunners(calculateRunners());
-      setBooks(calculateBooks());
-    }, updateIntervalMs);
-
+    fetchStats();
+    const interval = setInterval(fetchStats, updateIntervalMs);
     return () => clearInterval(interval);
   }, [updateIntervalMs]);
 

@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { EditorialArrow } from '@/components/EditorialArrow';
-import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Calendar, Clock, Users } from 'lucide-react';
 import { SideRouteLayout, QuickFacts, ContentSection, WideSection, fadeUp } from '@/components/layouts/SideRouteLayout';
+import { EventCheckoutButton } from '@/components/EventCheckoutButton';
 import harborBoats from '@/assets/harbor-boats.jpg';
 
 const inclusions = [
@@ -96,12 +94,11 @@ const HomeRun = () => (
           <h2 className="text-3xl md:text-5xl uppercase mb-4">Run Venice with us.</h2>
           <p className="text-2xl mt-6 mb-2">€199</p>
           <p className="text-muted-foreground mb-10 text-sm">Checkpoints, community, and your name in the book.</p>
-          <Link to="/checkout?product=Home%20Run%20%E2%80%93%20Venice&variant=100km&price=%E2%82%AC199&return=/homerun">
-            <MagneticButton className="inline-flex items-center gap-3 bg-accent text-accent-foreground text-lg px-10 py-4 rounded-full hover:opacity-90 transition-opacity" strength={0.2}>
-              <EditorialArrow size={18} className="invert" />
-              Register for the Home Run
-            </MagneticButton>
-          </Link>
+          <EventCheckoutButton
+            eventId="home_run"
+            price={199}
+            label="Register for the Home Run"
+          />
         </motion.div>
       </div>
     </section>

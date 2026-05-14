@@ -1,15 +1,34 @@
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { EditorialArrow } from '@/components/EditorialArrow';
-import { SHOREHOLDERS } from '@/data/shoreholders';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { shoreholders as api, type ApiShoreholder } from '@/lib/api';
+// Fallback to static data while API loads
+import { SHOREHOLDERS as STATIC_SHOREHOLDERS } from '@/data/shoreholders';
 
 const Shoreholders = () => {
+  const [entries, setEntries] = useState(STATIC_SHOREHOLDERS);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
+
+  useEffect(() => {
+    api.list()
+      .then((data: ApiShoreholder[]) => {
+        if (data.length > 0) {
+          setEntries(data.map(s => ({
+            stageNumber: s.stageNumber,
+            name: s.name,
+            location: '', // location comes from stage data
+            country: s.nationality ?? '',
+            year: s.runDate ? new Date(s.runDate).getFullYear() : new Date().getFullYear(),
+          })));
+        }
+      })
+      .catch(() => { /* keep static fallback */ });
+  }, []);
 
   return (
     <>
@@ -27,9 +46,8 @@ const Shoreholders = () => {
               Back to Archive
             </Link>
           </motion.div>
-
           <div ref={ref} className="space-y-0">
-            {SHOREHOLDERS.map((entry, i) => (
+            {entries.map((entry, i) => (
               <motion.div
                 key={entry.stageNumber}
                 initial={{ opacity: 0 }}
@@ -39,7 +57,7 @@ const Shoreholders = () => {
               >
                 <span className="text-xs text-muted-foreground tabular-nums">{String(entry.stageNumber).padStart(3, '0')}</span>
                 <span className="text-sm text-foreground">{entry.name}</span>
-                <span className="text-sm text-muted-foreground">{entry.location}, {entry.country}</span>
+                <span className="text-sm text-muted-foreground">{entry.country}</span>
                 <span className="text-xs text-muted-foreground/60 text-right tabular-nums">{entry.year}</span>
               </motion.div>
             ))}
