@@ -1,13 +1,15 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { MagneticButton } from './MagneticButton';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-/**
- * Support section — quiet, editorial. No loud CTA.
- */
 export const SupportSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { data: settings } = useSiteSettings();
+
+  const headline = settings?.supportHeadline ?? 'This journey moves with support';
+  const body = settings?.supportBody ?? 'Follow the Coast continues thanks to runners, readers, and partners who choose to carry it forward.';
 
   return (
     <section className="py-section px-page">
@@ -17,15 +19,11 @@ export const SupportSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          
-          <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Support</p>
-          <h2 className="text-2xl md:text-3xl tracking-tight mb-block">
-            This journey moves with support
-          </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-text">
-            Follow the Coast continues thanks to runners, readers, and partners 
-            who choose to carry it forward.
+          <p className="text-label mb-element">
+            <span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Support
           </p>
+          <h2 className="text-2xl md:text-3xl tracking-tight mb-block">{headline}</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-text">{body}</p>
           <MagneticButton
             href="/support"
             className="inline-flex items-center justify-center bg-accent text-accent-foreground rounded-full px-6 py-2.5 text-sm tracking-wide hover:opacity-80 transition-opacity"

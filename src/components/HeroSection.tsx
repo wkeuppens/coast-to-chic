@@ -1,28 +1,26 @@
 import { motion } from 'framer-motion';
 import { MagneticButton } from './MagneticButton';
 import heroRunnerCoast from '@/assets/hero-runner-coast.jpg';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-/**
- * Hero — full-viewport photograph with title and pill CTA.
- * Like the opening plate of a book.
- */
 export const HeroSection = () => {
+  const { data: settings } = useSiteSettings();
+
+  const headline = settings?.heroHeadline ?? 'Follow The Coast';
+  const subline = settings?.heroSubline ?? "All of Europe's coastline. Counter-clockwise. 100 km at a time.";
+  const heroImage = settings?.heroImageUrl ?? heroRunnerCoast;
+
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Full-bleed photograph */}
       <motion.img
-        src={heroRunnerCoast}
+        src={heroImage}
         alt="Runner on a coastal trail along the European shoreline"
         className="absolute inset-0 w-full h-full object-cover object-[30%_center] md:object-[30%_center] lg:object-center"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       />
-
-      {/* Gradient for legibility */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-
-      {/* Title block — bottom-right aligned */}
       <div className="absolute inset-0 flex flex-col justify-end items-end p-8 md:p-12 lg:p-16 text-right">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -31,16 +29,14 @@ export const HeroSection = () => {
           className="flex flex-col items-end"
         >
           <h1 className="font-display text-primary-foreground text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.9] mb-4">
-            Follow
-            <br />
-            The Coast
+            {headline.split(' ').slice(0, 2).join('\n').split('\n').map((line, i) => (
+              <span key={i}>{line}{i === 0 ? <br /> : ''}</span>
+            ))}
           </h1>
           <p className="text-caption text-primary-foreground/60 max-w-md mb-8">
-            All of Europe's coastline. Counter-clockwise. 100 km at a time.
+            {subline}
             <span className="inline-block w-3 h-px bg-accent ml-2 align-middle" />
           </p>
-
-          {/* CTAs */}
           <div className="flex items-center gap-4">
             <MagneticButton
               href="/register"

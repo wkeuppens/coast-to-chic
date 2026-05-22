@@ -7,20 +7,17 @@ import harborBoats from '@/assets/harbor-boats.jpg';
 import sailboatSea from '@/assets/sailboat-sea.jpg';
 import coastalFortress from '@/assets/coastal-fortress.jpg';
 import coastalTown from '@/assets/coastal-town.jpg';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-const images = [
-  { src: coastalPath, alt: 'Coastal path, Biarritz', label: 'Stage 089' },
-  { src: cliffBay, alt: 'Cliff bay, Sagres', label: 'Stage 031' },
-  { src: harborBoats, alt: 'Harbor boats, Venice', label: 'Stage 156' },
-  { src: sailboatSea, alt: 'Sailboat at sea, Amalfi', label: 'Stage 118' },
-  { src: coastalFortress, alt: 'Coastal fortress, Saint-Malo', label: 'Stage 067' },
-  { src: coastalTown, alt: 'Coastal town, Cinque Terre', label: 'Stage 142' },
+const FALLBACK_IMAGES = [
+  { imageUrl: coastalPath, alt: 'Coastal path, Biarritz', label: 'Stage 089' },
+  { imageUrl: cliffBay, alt: 'Cliff bay, Sagres', label: 'Stage 031' },
+  { imageUrl: harborBoats, alt: 'Harbor boats, Venice', label: 'Stage 156' },
+  { imageUrl: sailboatSea, alt: 'Sailboat at sea, Amalfi', label: 'Stage 118' },
+  { imageUrl: coastalFortress, alt: 'Coastal fortress, Saint-Malo', label: 'Stage 067' },
+  { imageUrl: coastalTown, alt: 'Coastal town, Cinque Terre', label: 'Stage 142' },
 ];
 
-/**
- * Horizontal scroll gallery — photographs glide past like turning pages.
- * Large, cinematic, no thumbnails.
- */
 export const PhotoGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef(null);
@@ -30,10 +27,14 @@ export const PhotoGallery = () => {
     offset: ['start end', 'end start'],
   });
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
+  const { data: settings } = useSiteSettings();
+
+  const images = settings?.galleryImages?.length
+    ? settings.galleryImages
+    : FALLBACK_IMAGES;
 
   return (
     <section ref={containerRef} className="py-chapter overflow-hidden">
-      {/* Header */}
       <div ref={headerRef} className="px-page mb-block">
         <motion.div
           initial={{ opacity: 0 }}
@@ -42,23 +43,18 @@ export const PhotoGallery = () => {
           className="max-w-content mx-auto flex items-end justify-between"
         >
           <div>
-            <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Gallery</p>
+            <p className="text-label mb-element">
+              <span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Gallery
+            </p>
             <h2 className="text-2xl md:text-3xl tracking-tight">Along the way</h2>
           </div>
-          <Link
-            to="/archive"
-            className="hidden md:block text-caption text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <Link to="/archive" className="hidden md:block text-caption text-muted-foreground hover:text-foreground transition-colors">
             Full archive →
           </Link>
         </motion.div>
       </div>
 
-      {/* Horizontal image strip */}
-      <motion.div
-        style={{ x }}
-        className="flex gap-3 md:gap-4 pl-[var(--margin-page)]"
-      >
+      <motion.div style={{ x }} className="flex gap-3 md:gap-4 pl-[var(--margin-page)]">
         {images.map((img, i) => (
           <Link
             key={i}
@@ -67,13 +63,12 @@ export const PhotoGallery = () => {
             style={{ aspectRatio: '3 / 2' }}
           >
             <img
-              src={img.src}
+              src={img.imageUrl}
               alt={img.alt}
               loading="lazy"
               decoding="async"
               className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.015]"
             />
-            {/* Caption — appears on hover */}
             <div className="absolute bottom-0 left-0 right-0 p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <p className="text-caption text-primary-foreground/70">{img.label}</p>
             </div>
@@ -81,7 +76,6 @@ export const PhotoGallery = () => {
         ))}
       </motion.div>
 
-      {/* Mobile link */}
       <div className="md:hidden px-page mt-6">
         <Link to="/archive" className="text-caption text-muted-foreground hover:text-foreground transition-colors">
           Full archive →

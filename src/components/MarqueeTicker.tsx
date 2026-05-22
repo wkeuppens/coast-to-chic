@@ -1,22 +1,18 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { CountUp } from './CountUp';
-import { useCurrentDistance } from '@/hooks/useCurrentDistance';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-/**
- * Quiet data strip — like the colophon data in the book.
- * Stats arrive calmly, no fanfare.
- */
 export const MarqueeTicker = () => {
-  const { distance, countries, runners, books } = useCurrentDistance(60000);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const { data: settings } = useSiteSettings();
 
   const stats = [
-    { value: distance, label: 'km' },
-    { value: countries, label: 'countries' },
-    { value: runners, label: 'runners' },
-    { value: books, label: 'books published' },
+    { value: settings?.totalKm ?? 0, label: 'km' },
+    { value: settings?.totalCountries ?? 0, label: 'countries' },
+    { value: settings?.totalRunners ?? 0, label: 'runners' },
+    { value: settings?.booksSold ?? 0, label: 'books published' },
   ];
 
   return (

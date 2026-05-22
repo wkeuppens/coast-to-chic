@@ -1,50 +1,47 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-const steps = [
-  {
-    number: '01',
-    title: 'Pick a stage',
-    body: '100 km of coastline. You choose where.',
-  },
-  {
-    number: '02',
-    title: 'Plan the route',
-    body: 'We give start and finish. You shape the middle.',
-  },
-  {
-    number: '03',
-    title: 'Run it',
-    body: <>7 am start. A van. A <Link to="/photographers" className="underline underline-offset-4 decoration-muted-foreground/30 hover:decoration-foreground transition-colors">photographer</Link>. The coast.</>,
-  },
+const FALLBACK_STEPS = [
+  { number: '01', title: 'Pick a stage', body: '100 km of coastline. You choose where.' },
+  { number: '02', title: 'Plan the route', body: 'We give start and finish. You shape the middle.' },
+  { number: '03', title: 'Run it', body: '7 am start. A van. A photographer. The coast.' },
+];
+const FALLBACK_SUPPORT = [
+  'Van with driver, 24 hours',
+  'Photographer, all day',
+  'Food, water, coffee',
+  'Photos delivered after. Your name in the book',
 ];
 
-/**
- * How it works — numbered steps + practical details.
- * Calm, factual, editorial. Like the back-matter of a book.
- */
 export const HowItWorksSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { data: settings } = useSiteSettings();
+
+  const headline = settings?.howItWorksHeadline ?? 'A van. A photographer. You.';
+  const steps = settings?.howItWorksSteps?.length ? settings.howItWorksSteps : FALLBACK_STEPS;
+  const support = settings?.supportIncluded?.length ? settings.supportIncluded : FALLBACK_SUPPORT;
+  const pricingSolo = settings?.pricingSolo ?? 699;
+  const pricingDuo = settings?.pricingDuo ?? 999;
+  const pricingGroup = settings?.pricingGroup ?? 1299;
 
   return (
     <section className="py-section px-page">
       <div ref={ref} className="max-w-content mx-auto">
-        {/* Section heading */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="mb-block"
         >
-          <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />How it works</p>
-          <h2 className="text-2xl md:text-3xl tracking-tight">
-            A van. A photographer. You.
-          </h2>
+          <p className="text-label mb-element">
+            <span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />How it works
+          </p>
+          <h2 className="text-2xl md:text-3xl tracking-tight">{headline}</h2>
         </motion.div>
 
-        {/* Steps */}
         <hr className="rule mb-8" />
         <div className="grid md:grid-cols-3 gap-12 md:gap-16 mb-block">
           {steps.map((step, i) => (
@@ -61,7 +58,6 @@ export const HowItWorksSection = () => {
           ))}
         </div>
 
-        {/* Support & fee — quiet metadata blocks */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -72,18 +68,17 @@ export const HowItWorksSection = () => {
             <div>
               <p className="text-label mb-4">Support included</p>
               <ul className="space-y-2 text-sm text-foreground">
-                <li><span className="text-accent">—</span> Van with driver, 24 hours</li>
-                <li><span className="text-accent">—</span> Photographer, all day</li>
-                <li><span className="text-accent">—</span> Food, water, coffee</li>
-                <li><span className="text-accent">—</span> Photos delivered after. Your name in the book</li>
+                {support.map((item, i) => (
+                  <li key={i}><span className="text-accent">—</span> {item}</li>
+                ))}
               </ul>
             </div>
             <div>
               <p className="text-label mb-4">Participation</p>
               <div className="space-y-1.5 text-sm text-foreground">
-                <p>€699 — 1 person</p>
-                <p>€999 — 2 people</p>
-                <p>€1299 — 3 or more</p>
+                <p>€{pricingSolo} — 1 person</p>
+                <p>€{pricingDuo} — 2 people</p>
+                <p>€{pricingGroup} — 3 or more</p>
               </div>
               <p className="text-xs text-muted-foreground mt-4 max-w-text">
                 Covers crew, fuel, lodging, <Link to="/photographers" className="underline underline-offset-4 decoration-muted-foreground/30 hover:decoration-foreground transition-colors">photographer</Link>, food.
