@@ -9,6 +9,7 @@ import { MapPin, Clock, Calendar } from 'lucide-react';
 import { waitlist, checkout, type IcelandStage } from '@/lib/api';
 import { sanityClient } from '@/lib/sanityClient';
 import { useSiteSettings } from '@/hooks/useSanityData';
+import 'leaflet/dist/leaflet.css';
 
 async function fetchIcelandStages(releaseAt: string | null): Promise<{ stages: IcelandStage[]; summary: any }> {
   if (!sanityClient) return { stages: [], summary: { total: 0, available: 0, booked: 0, locked: 0 } };
