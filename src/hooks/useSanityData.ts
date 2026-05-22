@@ -33,7 +33,7 @@ type UseSanityResult<T> = {
   error: Error | null
 }
 
-function useSanityFetch<T>(fetcher: () => Promise<T>): UseSanityResult<T> {
+export function useSanityFetch<T>(fetcher: () => Promise<T>): UseSanityResult<T> {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)

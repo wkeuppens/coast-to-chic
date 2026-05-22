@@ -1,68 +1,68 @@
 /**
- * API Client — Centralized fetch wrapper for backend integration.
+ * API Client — routes requests to Supabase Edge Functions.
  *
- * Usage:
- *   import { api } from '@/lib/apiClient';
- *   const stages = await api.get<StageResponse[]>('/archive/tiles');
- *   await api.post('/newsletter', { email });
- *
- * Configure the base URL via the VITE_API_BASE_URL environment variable.
+ * Read operations (stages, prints, etc.) come from Sanity via sanityQueries.ts.
+ * Write operations (checkout, newsletter, contact) go to Supabase Edge Functions.
  */
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string
 
-interface ApiError {
-  status: number;
-  message: string;
-  body?: unknown;
+// Maps legacy /api/* paths to Supabase Edge Function names
+const FUNCTION_MAP: Record<string, string> = {
+  '/api/checkout':   'checkout',
+  '/api/newsletter': 'newsletter',
+  '/api/contact':    'contact',
+}
+
+function getFunctionUrl(path: string): string | null {
+  // Strip query params for matching
+  const basePath = path.split('?')[0]
+  // Match exact or prefix
+  for (const [apiPath, fnName] of Object.entries(FUNCTION_MAP)) {
+    if (basePath === apiPath || basePath.startsWith(apiPath + '/')) {
+      const suffix = basePath.slice(apiPath.length)
+      return `${SUPABASE_URL}/functions/v1/${fnName}${suffix}`
+    }
+  }
+  return null
 }
 
 async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  headers?: Record<string, string>
 ): Promise<T> {
-  const url = `${BASE_URL}${path}`;
+  const fnUrl = getFunctionUrl(path)
 
-  const res = await fetch(url, {
+  if (!fnUrl) {
+    // Path not mapped — fail gracefully
+    console.warn(`[API] No Edge Function mapped for: ${path}`)
+    throw new Error(`No backend configured for ${path}`)
+  }
+
+  const res = await fetch(fnUrl, {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...headers,
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
     },
     body: body ? JSON.stringify(body) : undefined,
-  });
+  })
 
   if (!res.ok) {
-    const error: ApiError = {
-      status: res.status,
-      message: res.statusText,
-    };
-    try {
-      error.body = await res.json();
-    } catch {
-      // response may not be JSON
-    }
-    throw error;
+    const err = await res.json().catch(() => ({ error: res.statusText }))
+    throw Object.assign(new Error(err.error ?? `Request failed: ${path}`), { status: res.status })
   }
 
-  // Handle 204 No Content
-  if (res.status === 204) return undefined as T;
-
-  return res.json() as Promise<T>;
+  if (res.status === 204) return undefined as T
+  return res.json() as Promise<T>
 }
 
 export const api = {
-  get: <T>(path: string, headers?: Record<string, string>) =>
-    request<T>('GET', path, undefined, headers),
-
-  post: <T>(path: string, body?: unknown, headers?: Record<string, string>) =>
-    request<T>('POST', path, body, headers),
-
-  put: <T>(path: string, body?: unknown, headers?: Record<string, string>) =>
-    request<T>('PUT', path, body, headers),
-
-  delete: <T>(path: string, headers?: Record<string, string>) =>
-    request<T>('DELETE', path, undefined, headers),
-};
+  get:    <T>(path: string) => request<T>('GET', path),
+  post:   <T>(path: string, body?: unknown) => request<T>('POST', path, body),
+  put:    <T>(path: string, body?: unknown) => request<T>('PUT', path, body),
+  delete: <T>(path: string) => request<T>('DELETE', path),
+}

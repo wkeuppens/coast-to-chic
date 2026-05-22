@@ -1,25 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { EditorialArrow } from '@/components/EditorialArrow';
 import { SEO } from '@/components/SEO';
-import { prints as printsApi, checkout, type ApiPrint } from '@/lib/api';
-
-// Placeholder prints while API loads / if API returns nothing
-const PLACEHOLDER_PRINTS: ApiPrint[] = Array.from({ length: 9 }, (_, i) => ({
-  id: String(i + 1),
-  slug: `print-${i + 1}`,
-  title: 'Coastal Dawn',
-  stageNumber: null,
-  imageUrl: '/placeholder.svg',
-  priceEur: 195,
-  dimensions: '50×70cm',
-  editionSize: 11,
-  available: true,
-}));
+import { checkout, type ApiPrint } from '@/lib/api';
+import { usePrints } from '@/hooks/useSanityData';
 
 function PrintCheckout({ print, onClose }: { print: ApiPrint; onClose: () => void }) {
   const [form, setForm] = useState({ name: '', email: '' });
@@ -30,12 +16,7 @@ function PrintCheckout({ print, onClose }: { print: ApiPrint; onClose: () => voi
     e.preventDefault();
     setSubmitting(true); setError('');
     try {
-      const res = await checkout.print({
-        printId: print.id,
-        printTitle: print.title,
-        priceEur: print.priceEur,
-        customerEmail: form.email,
-      });
+      const res = await checkout.print({ printId: print.id, printTitle: print.title, priceEur: print.priceEur, customerEmail: form.email });
       if (res.paymentUrl) window.location.href = res.paymentUrl;
       else setError(res.error ?? 'Something went wrong.');
     } catch (e) {
@@ -58,123 +39,115 @@ function PrintCheckout({ print, onClose }: { print: ApiPrint; onClose: () => voi
           className="bg-accent text-white text-caption px-6 py-2.5 rounded-full hover:opacity-80 transition-opacity disabled:opacity-50">
           {submitting ? 'Processing…' : `Order — €${print.priceEur}`}
         </button>
-        <button type="button" onClick={onClose} className="text-xs text-muted-foreground hover:text-foreground">
+        <button type="button" onClick={onClose}
+          className="text-caption text-muted-foreground hover:text-foreground transition-colors px-4">
           Cancel
         </button>
       </div>
+      <p className="text-xs text-muted-foreground">You'll be redirected to Stripe to complete payment.</p>
     </form>
   );
 }
 
 const Prints = () => {
-  const [allPrints, setAllPrints] = useState<ApiPrint[]>(PLACEHOLDER_PRINTS);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [orderingId, setOrderingId] = useState<string | null>(null);
+  const { data: prints, loading } = usePrints();
+  const [selected, setSelected] = useState<ApiPrint | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    printsApi.list().then(data => { if (data.length > 0) setAllPrints(data); }).catch(() => {});
-  }, []);
-
-  const currentIndex = selectedId ? allPrints.findIndex(p => p.id === selectedId) : -1;
-  const navigate = (dir: 1 | -1) => {
-    const next = (currentIndex + dir + allPrints.length) % allPrints.length;
-    setSelectedId(allPrints[next].id);
-    setOrderingId(null);
-  };
-  const selected = allPrints.find(p => p.id === selectedId);
+  const displayPrints = prints ?? [];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SEO title="Prints" description="Limited edition prints from Follow the Coast photographers. Museum-quality paper." path="/prints" />
+      <SEO title="Prints" description="Limited edition prints from Follow the Coast. Coastal photography in numbered editions." path="/prints" />
       <Navigation />
 
-      <section className="pt-32 pb-16 px-6 md:px-12 max-w-4xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-          <p className="text-caption text-accent mb-4">Limited Editions</p>
-          <h1 className="text-4xl md:text-6xl tracking-tight mt-2 mb-8">From the archive</h1>
-          <div className="space-y-4 max-w-xl">
-            <p className="text-muted-foreground leading-relaxed">
-              Each stage along the coastline is documented by a photographer. These prints are selected from that archive.
-              Museum-quality paper. Edition of 11.
-            </p>
-          </div>
+      <section className="pt-32 pb-12 px-page max-w-content mx-auto">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+          <p className="text-label mb-element"><span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Prints</p>
+          <h1 className="text-3xl md:text-4xl tracking-tight mb-4">Limited editions</h1>
+          <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
+            Numbered prints from the archive. Each edition is small. Once sold, gone.
+          </p>
         </motion.div>
       </section>
 
-      <section className="px-6 md:px-12 pb-24 max-w-4xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-          {allPrints.filter(p => p.available).map((print, i) => (
-            <motion.button
-              key={print.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              onClick={() => { setSelectedId(print.id); setOrderingId(null); }}
-              className="text-left group"
-            >
-              <div className="aspect-[3/4] overflow-hidden bg-secondary mb-3">
-                <img src={print.imageUrl ?? '/placeholder.svg'} alt={print.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" loading="lazy" />
-              </div>
-              <p className="text-sm">{print.title}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{print.dimensions} · Ed. {print.editionSize} · €{print.priceEur}</p>
-            </motion.button>
-          ))}
-        </div>
+      <section className="px-page pb-24">
+        {loading ? (
+          <div className="text-sm text-muted-foreground py-8">Loading…</div>
+        ) : !displayPrints.length ? (
+          <div className="text-sm text-muted-foreground py-8 max-w-content mx-auto">No prints available at the moment. Check back soon.</div>
+        ) : (
+          <div className="max-w-content mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            {displayPrints.map((print, i) => (
+              <motion.div key={print.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.06 }}>
+                <button className="w-full text-left group" onClick={() => { setSelected(print); setLightboxIndex(null); }}>
+                  <div className="aspect-[3/4] overflow-hidden bg-secondary mb-4">
+                    {print.imageUrl ? (
+                      <img src={print.imageUrl} alt={print.title} loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.015]" />
+                    ) : (
+                      <div className="w-full h-full bg-muted" />
+                    )}
+                  </div>
+                  <h3 className="text-base group-hover:text-accent transition-colors duration-300">{print.title}</h3>
+                  {print.stageNumber && <p className="text-caption text-muted-foreground mt-1">Stage {print.stageNumber}</p>}
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-sm text-accent">€{print.priceEur}</span>
+                    {print.dimensions && <span className="text-caption text-muted-foreground">{print.dimensions}</span>}
+                  </div>
+                  {print.editionSize && (
+                    <p className="text-caption text-muted-foreground mt-1">Edition of {print.editionSize}</p>
+                  )}
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Lightbox */}
+      {/* Print detail modal */}
       <AnimatePresence>
         {selected && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex flex-col"
-            onClick={() => setSelectedId(null)}>
-            <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-6 z-10">
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">{selected.title}</p>
-                <p className="text-sm">{selected.dimensions} · Edition of {selected.editionSize}</p>
-              </div>
-              <button onClick={() => setSelectedId(null)}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="flex-1 flex items-center justify-center px-16 relative" onClick={e => e.stopPropagation()}>
-              <div className="flex items-center justify-between absolute inset-x-6 top-1/2 -translate-y-1/2 pointer-events-none">
-                <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors pointer-events-auto">
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button onClick={() => navigate(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors pointer-events-auto">
-                  <ChevronRight className="w-4 h-4" />
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setSelected(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.97 }}
+              className="bg-background border border-border max-w-lg w-full p-8 max-h-[90vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h2 className="text-xl">{selected.title}</h2>
+                  {selected.stageNumber && <p className="text-caption text-muted-foreground mt-1">Stage {selected.stageNumber}</p>}
+                </div>
+                <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <X size={20} />
                 </button>
               </div>
-
-              <div className="max-w-md w-full">
-                <img src={selected.imageUrl ?? '/placeholder.svg'} alt={selected.title}
-                  className="w-full aspect-[3/4] object-cover mb-6" />
-
-                {orderingId === selected.id ? (
-                  <PrintCheckout print={selected} onClose={() => setOrderingId(null)} />
-                ) : (
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm">{selected.title}</p>
-                      <p className="text-xs text-muted-foreground">€{selected.priceEur}</p>
-                    </div>
-                    <button onClick={() => setOrderingId(selected.id)}
-                      className="bg-accent text-white text-caption px-6 py-2.5 rounded-full hover:opacity-80 transition-opacity">
-                      Order this print
-                    </button>
-                  </div>
-                )}
+              {selected.imageUrl && (
+                <div className="aspect-[3/4] overflow-hidden bg-secondary mb-6">
+                  <img src={selected.imageUrl} alt={selected.title} className="w-full h-full object-cover" />
+                </div>
+              )}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl text-accent">€{selected.priceEur}</span>
+                <div className="text-right text-caption text-muted-foreground">
+                  {selected.dimensions && <p>{selected.dimensions}</p>}
+                  {selected.editionSize && <p>Edition of {selected.editionSize}</p>}
+                </div>
               </div>
-            </div>
+              <PrintCheckout print={selected} onClose={() => setSelected(null)} />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <Footer />
     </div>
   );
 };

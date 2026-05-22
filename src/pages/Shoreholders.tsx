@@ -1,34 +1,27 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { EditorialArrow } from '@/components/EditorialArrow';
 import { motion, useInView } from 'framer-motion';
-import { shoreholders as api, type ApiShoreholder } from '@/lib/api';
-// Fallback to static data while API loads
+import { useShoreholders } from '@/hooks/useSanityData';
 import { SHOREHOLDERS as STATIC_SHOREHOLDERS } from '@/data/shoreholders';
 
 const Shoreholders = () => {
-  const [entries, setEntries] = useState(STATIC_SHOREHOLDERS);
+  const { data: sanityData } = useShoreholders();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
 
-  useEffect(() => {
-    api.list()
-      .then((data: ApiShoreholder[]) => {
-        if (data.length > 0) {
-          setEntries(data.map(s => ({
-            stageNumber: s.stageNumber,
-            name: s.name,
-            location: '', // location comes from stage data
-            country: s.nationality ?? '',
-            year: s.runDate ? new Date(s.runDate).getFullYear() : new Date().getFullYear(),
-          })));
-        }
-      })
-      .catch(() => { /* keep static fallback */ });
-  }, []);
+  const entries = sanityData?.length
+    ? sanityData.map(s => ({
+        stageNumber: s.stageNumber,
+        name: s.name,
+        location: '',
+        country: s.nationality ?? '',
+        year: s.runDate ? new Date(s.runDate).getFullYear() : new Date().getFullYear(),
+      }))
+    : STATIC_SHOREHOLDERS;
 
   return (
     <>
