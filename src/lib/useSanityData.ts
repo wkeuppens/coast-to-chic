@@ -21,8 +21,10 @@ import {
   type SanityBook,
   type SanityEvent,
   type SiteSettings,
-} from '../lib/sanityQueries'
-import type { ApiStage, ApiShoreholder, ApiPrint } from '../types/api'
+  type ApiStage,
+  type ApiShoreholder,
+  type ApiPrint,
+} from './sanityQueries'
 import type { StageTileData } from '../data/stages'
 
 type UseSanityResult<T> = {

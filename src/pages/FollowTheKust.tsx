@@ -71,7 +71,7 @@ const FollowTheKust = () => (
             eventId="ftk_35km"
             price={39}
             label="Register — €39"
-            offerDinner
+            addDinner
           />
         </motion.div>
 
@@ -92,7 +92,7 @@ const FollowTheKust = () => (
             eventId="ftk_75km"
             price={59}
             label="Register — €59"
-            offerDinner
+            addDinner
           />
         </motion.div>
       </div>
@@ -108,8 +108,8 @@ const FollowTheKust = () => (
           <h2 className="text-3xl md:text-5xl uppercase mb-6">Run the kust with us.</h2>
           <p className="text-muted-foreground mb-10 max-w-md mx-auto">6 February 2027. The Belgian coast awaits.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <EventCheckoutButton eventId="ftk_35km" price={39} label="35km — €39" offerDinner />
-            <EventCheckoutButton eventId="ftk_75km" price={59} label="75km — €59" offerDinner />
+            <EventCheckoutButton eventId="ftk_35km" price={39} label="35km — €39" addDinner />
+            <EventCheckoutButton eventId="ftk_75km" price={59} label="75km — €59" addDinner />
           </div>
         </motion.div>
       </div>

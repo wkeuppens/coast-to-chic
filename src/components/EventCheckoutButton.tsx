@@ -18,7 +18,8 @@ type EventId =
   | 'ftk_35km' | 'ftk_75km'
   | 'trg_shared' | 'trg_own'
   | 'madeira'
-  | 'tmb_2026_4day' | 'tmb_2027_4day' | 'tmb_2027_7day'
+  | 'tmb_2026_4day' | 'tmb_2026_7day' | 'tmb_2027_4day' | 'tmb_2027_7day'
+  | 'home_run'
   | 'iceland';
 
 interface Props {
