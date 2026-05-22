@@ -1,15 +1,21 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-const partners = ['Duvel', 'Victus', "D'Ieteren"];
+const FALLBACK_PARTNERS = ['Duvel', 'Victus', "D'Ieteren"];
 
 /**
  * Partners — minimal text list. No logos, no boxes.
- * Like a colophon acknowledgment.
+ * Like a colophon acknowledgment. Content from Sanity CMS.
  */
 export const PartnersSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const { data: settings } = useSiteSettings();
+
+  const partners = settings?.partners?.length
+    ? settings.partners.map(p => p.name)
+    : FALLBACK_PARTNERS;
 
   return (
     <section className="px-page py-8 md:py-12">

@@ -4,37 +4,56 @@ import { Link } from 'react-router-dom';
 import ftkHero from '@/assets/ftk-hero.jpg';
 import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
 import harborBoats from '@/assets/harbor-boats.jpg';
+import { useEvents } from '@/hooks/useSanityData';
 
-const events = [
+// Fallback events shown while Sanity loads or if no events are published yet
+const FALLBACK_EVENTS = [
   {
     id: 'homerun',
     title: 'Home Run Venice',
     meta: 'Venice — 20 Apr 2026 — 100 km',
-    image: harborBoats,
-    href: '/homerun',
+    imageUrl: null,
+    fallbackImage: harborBoats,
+    slug: 'homerun',
   },
   {
     id: 'ftk',
     title: 'Follow The Kust',
     meta: 'Belgium — 6 Feb 2027 — 35 or 75 km',
-    image: ftkHero,
-    href: '/follow-the-kust',
+    imageUrl: null,
+    fallbackImage: ftkHero,
+    slug: 'follow-the-kust',
   },
   {
     id: 'tmb',
     title: 'Tour du Mont Blanc',
     meta: 'France, Italy, Switzerland — Summer 2026 — 170 km',
-    image: tmbLakePanorama,
-    href: '/tour-du-mont-blanc',
+    imageUrl: null,
+    fallbackImage: tmbLakePanorama,
+    slug: 'tour-du-mont-blanc',
   },
 ];
 
 /**
  * Side routes — editorial cards with large images, minimal metadata.
+ * Content from Sanity CMS. Falls back to hardcoded data while loading.
  */
 export const EventsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { data: sanityEvents } = useEvents();
+
+  // Use Sanity events if available, otherwise show fallbacks
+  const events = sanityEvents && sanityEvents.length > 0
+    ? sanityEvents.map(e => ({
+        id: e.id,
+        title: e.title,
+        meta: e.meta ?? '',
+        imageUrl: e.imageUrl,
+        fallbackImage: harborBoats,
+        slug: e.slug,
+      }))
+    : FALLBACK_EVENTS;
 
   return (
     <section id="events" className="py-section px-page">
@@ -53,7 +72,7 @@ export const EventsSection = () => {
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {events.map((event, i) => (
-            <Link key={event.id} to={event.href}>
+            <Link key={event.id} to={`/${event.slug}`}>
               <motion.article
                 initial={{ opacity: 0, y: 12 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -62,7 +81,7 @@ export const EventsSection = () => {
               >
                 <div className="overflow-hidden mb-4" style={{ aspectRatio: '4 / 3' }}>
                   <img
-                    src={event.image}
+                    src={event.imageUrl ?? event.fallbackImage}
                     alt={event.title}
                     loading="lazy"
                     decoding="async"

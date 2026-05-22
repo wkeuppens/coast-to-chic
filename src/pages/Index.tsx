@@ -18,6 +18,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { FullBleedImage } from '@/components/editorial/FullBleedImage';
 import coastalPath from '@/assets/coastal-path.jpg';
 import sailboatSea from '@/assets/sailboat-sea.jpg';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
 /**
  * Homepage — structured like the opening of the book:
@@ -40,6 +41,7 @@ import sailboatSea from '@/assets/sailboat-sea.jpg';
 const Index = () => {
   const isFirstVisit = !sessionStorage.getItem('ftc_visited');
   const [isLoading, setIsLoading] = useState(isFirstVisit);
+  const { data: settings } = useSiteSettings();
 
   const handleLoadingComplete = () => {
     sessionStorage.setItem('ftc_visited', '1');
@@ -59,7 +61,7 @@ const Index = () => {
 
         {/* Chapter 2: The Story */}
         <JourneySection />
-        <PullQuote text="Sea on the right. Always south. 100 km at a time." />
+        <PullQuote text={settings?.pullQuote1 ?? 'Sea on the right. Always south. 100 km at a time.'} />
 
         {/* Chapter 3: Participation */}
         <HowItWorksSection />
@@ -77,7 +79,7 @@ const Index = () => {
 
         {/* Chapter 6: The Books */}
         <BookSection />
-        <PullQuote text="Salty breeze. The sound of your own footsteps." variant="light" />
+        <PullQuote text={settings?.pullQuote2 ?? 'Salty breeze. The sound of your own footsteps.'} variant="light" />
 
         {/* Chapter 7: Side Routes */}
         <EventsSection />
