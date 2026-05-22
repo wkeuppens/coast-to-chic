@@ -6,7 +6,45 @@ import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Clock, Calendar } from 'lucide-react';
-import { iceland, waitlist, checkout, type IcelandStage } from '@/lib/api';
+import { waitlist, checkout, type IcelandStage } from '@/lib/api';
+import { sanityClient } from '@/lib/sanityClient';
+
+async function fetchIcelandStages(): Promise<{ stages: IcelandStage[]; summary: any }> {
+  if (!sanityClient) return { stages: [], summary: { total: 0, available: 0, booked: 0, locked: 0 } };
+  const raw = await sanityClient.fetch(`
+    *[_type == "stage" && isIceland == true] | order(stageNumber asc) {
+      _id, stageNumber, stageNumber as displayNumber,
+      title, startLocation, endLocation, startCoord, endCoord,
+      status, runDate, description,
+      "shoreholder": shoreholder->name,
+    }
+  `);
+  const stages: IcelandStage[] = raw.map((r: any) => ({
+    id: r._id,
+    stageNumber: r.stageNumber,
+    displayNumber: r.stageNumber,
+    title: r.title,
+    startLocation: r.startLocation,
+    endLocation: r.endLocation,
+    startCoord: r.startCoord ?? null,
+    endCoord: r.endCoord ?? null,
+    status: r.status === 'completed' ? 'booked' : r.status === 'available' ? 'available' : 'locked',
+    runDate: r.runDate ?? null,
+    startTime: null,
+    releaseAt: null,
+    secondsUntilRelease: null,
+    image: null,
+    description: r.description ?? null,
+    shoreholder: r.shoreholder ?? null,
+  }));
+  const summary = {
+    total: stages.length,
+    available: stages.filter(s => s.status === 'available').length,
+    booked: stages.filter(s => s.status === 'booked').length,
+    locked: stages.filter(s => s.status === 'locked').length,
+  };
+  return { stages, summary };
+}
 
 // ── Countdown hook ────────────────────────────────────────────────────────────
 
@@ -251,7 +289,7 @@ const Iceland = () => {
   const fetchData = useCallback(async () => {
     try {
       const [result, wl] = await Promise.all([
-        iceland.stages(),
+        fetchIcelandStages(),
         waitlist.icelandCount().catch(() => ({ count: 0 })),
       ]);
       setData(result);

@@ -29,9 +29,9 @@ export const HeroSection = () => {
           className="flex flex-col items-end"
         >
           <h1 className="font-display text-primary-foreground text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.9] mb-4">
-            {headline.split(' ').slice(0, 2).join('\n').split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 ? <br /> : ''}</span>
-            ))}
+            {headline.split(' ')[0]}
+            <br />
+            {headline.split(' ').slice(1).join(' ')}
           </h1>
           <p className="text-caption text-primary-foreground/60 max-w-md mb-8">
             {subline}
