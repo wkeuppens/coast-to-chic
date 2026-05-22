@@ -25,7 +25,7 @@ export const sanityClient = createClient({
  * Usage: urlFor(stage.image).width(800).url()
  */
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { SanityImageSource } from '@sanity/image-url'
 
 const builder = imageUrlBuilder(sanityClient)
 
