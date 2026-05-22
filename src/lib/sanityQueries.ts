@@ -7,8 +7,55 @@
  */
 
 import { sanityClient, urlFor } from './sanityClient'
-import type { ApiStage, ApiShoreholder, ApiPrint } from '../types/api'
 import type { StageTileData } from '../data/stages'
+
+// ── Local types (aligned with Sanity schema, not backend API) ───────────────
+
+export interface ApiStage {
+  id: string
+  stageNumber: number
+  title: string
+  country: string
+  region: string | null
+  distanceKm: number | null
+  startLocation: string
+  endLocation: string
+  startCoord: { lat: number; lng: number } | null
+  endCoord: { lat: number; lng: number } | null
+  shoreholder: string | null
+  shoreholderSlug: string | null
+  runDate: string | null
+  status: 'completed' | 'upcoming'
+  image: string
+  description: string | null
+  bookNumber: number | null
+  isIceland: boolean
+}
+
+export interface ApiShoreholder {
+  id: string
+  slug: string
+  name: string
+  nationality: string | null
+  bio: string | null
+  avatarUrl: string | null
+  instagramHandle: string | null
+  stageNumber: number
+  runDate: string | null
+}
+
+export interface ApiPrint {
+  id: string
+  slug: string
+  title: string
+  stageNumber: number | null
+  imageUrl: string | null
+  priceEur: number
+  dimensions: string | null
+  editionSize: number | null
+  available: boolean
+}
+
 
 // ── Stages ────────────────────────────────────────────────────────────────────
 
