@@ -2,17 +2,20 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { CountUp } from './CountUp';
 import { useSiteSettings } from '@/hooks/useSanityData';
+import { calculateCurrentDistance } from '@/lib/distanceCalculator';
+import { calculateCountries, calculateRunners, calculateBooks } from '@/lib/counterCalculator';
 
 export const MarqueeTicker = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
   const { data: settings } = useSiteSettings();
 
+  // Use Sanity values when set, otherwise fall back to live calculated values
   const stats = [
-    { value: settings?.totalKm ?? 0, label: 'km' },
-    { value: settings?.totalCountries ?? 0, label: 'countries' },
-    { value: settings?.totalRunners ?? 0, label: 'runners' },
-    { value: settings?.booksSold ?? 0, label: 'books published' },
+    { value: settings?.totalKm || calculateCurrentDistance(), label: 'km' },
+    { value: settings?.totalCountries || calculateCountries(), label: 'countries' },
+    { value: settings?.totalRunners || calculateRunners(), label: 'runners' },
+    { value: settings?.booksSold || calculateBooks(), label: 'books published' },
   ];
 
   return (
