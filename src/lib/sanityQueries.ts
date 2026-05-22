@@ -9,6 +9,12 @@
 import { sanityClient, urlFor } from './sanityClient'
 import type { StageTileData } from '../data/stages'
 
+// If Sanity isn't configured, all fetches return empty arrays silently.
+const fetch = async <T>(query: string, params?: Record<string, unknown>): Promise<T> => {
+  if (!sanityClient) return [] as unknown as T
+  return sanityClient.fetch<T>(query, params)
+}
+
 // ── Local types (aligned with Sanity schema, not backend API) ───────────────
 
 export interface ApiStage {
@@ -81,14 +87,14 @@ const STAGE_FIELDS = `
 `
 
 export async function fetchStages(): Promise<ApiStage[]> {
-  const raw = await sanityClient.fetch(
+  const raw = await fetch(
     `*[_type == "stage"] | order(stageNumber asc) { ${STAGE_FIELDS} }`
   )
   return raw.map(mapStage)
 }
 
 export async function fetchStage(stageNumber: number): Promise<ApiStage> {
-  const raw = await sanityClient.fetch(
+  const raw = await fetch(
     `*[_type == "stage" && stageNumber == $stageNumber][0] { ${STAGE_FIELDS} }`,
     { stageNumber }
   )
@@ -96,7 +102,7 @@ export async function fetchStage(stageNumber: number): Promise<ApiStage> {
 }
 
 export async function fetchCompletedStages(): Promise<ApiStage[]> {
-  const raw = await sanityClient.fetch(
+  const raw = await fetch(
     `*[_type == "stage" && status == "completed"] | order(stageNumber asc) { ${STAGE_FIELDS} }`
   )
   return raw.map(mapStage)
@@ -174,7 +180,7 @@ function getSeason(date: string | null): string {
 // ── Shoreholders ──────────────────────────────────────────────────────────────
 
 export async function fetchShoreholders(): Promise<ApiShoreholder[]> {
-  const raw = await sanityClient.fetch(`
+  const raw = await fetch(`
     *[_type == "shoreholder"] | order(name asc) {
       _id,
       slug,
@@ -217,7 +223,7 @@ export interface SanityBook {
 }
 
 export async function fetchBooks(): Promise<SanityBook[]> {
-  const raw = await sanityClient.fetch(`
+  const raw = await fetch(`
     *[_type == "book"] | order(volumeNumber asc) {
       _id, title, subtitle, bookId, volumeNumber, price,
       description, coverImage, spreadImages, stageRange, available
@@ -257,7 +263,7 @@ export interface SanityEvent {
 }
 
 export async function fetchEvents(): Promise<SanityEvent[]> {
-  const raw = await sanityClient.fetch(`
+  const raw = await fetch(`
     *[_type == "event"] | order(sortOrder asc, eventDate asc) {
       _id, title, slug, eventId, meta, location, eventDate,
       distanceKm, image, registrationOpen, sortOrder
@@ -281,7 +287,7 @@ export async function fetchEvents(): Promise<SanityEvent[]> {
 // ── Prints ────────────────────────────────────────────────────────────────────
 
 export async function fetchPrints(): Promise<ApiPrint[]> {
-  const raw = await sanityClient.fetch(`
+  const raw = await fetch(`
     *[_type == "print" && available == true] | order(_createdAt desc) {
       _id, slug, title, stageNumber, image, priceEur, dimensions, editionSize, available
     }
@@ -320,7 +326,7 @@ export interface SiteSettings {
 }
 
 export async function fetchSiteSettings(): Promise<SiteSettings | null> {
-  return sanityClient.fetch(`*[_type == "siteSettings"][0] {
+  return fetch(`*[_type == "siteSettings"][0] {
     heroHeadline, heroSubline,
     pullQuote1, pullQuote2,
     journeyLabel, journeyHeadline,
