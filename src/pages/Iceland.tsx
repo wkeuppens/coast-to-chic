@@ -8,8 +8,9 @@ import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { waitlist, checkout, type IcelandStage } from '@/lib/api';
 import { sanityClient } from '@/lib/sanityClient';
+import { useSiteSettings } from '@/hooks/useSanityData';
 
-async function fetchIcelandStages(): Promise<{ stages: IcelandStage[]; summary: any }> {
+async function fetchIcelandStages(releaseAt: string | null): Promise<{ stages: IcelandStage[]; summary: any }> {
   if (!sanityClient) return { stages: [], summary: { total: 0, available: 0, booked: 0, locked: 0 } };
   const raw = await sanityClient.fetch(`
     *[_type == "stage" && isIceland == true] | order(stageNumber asc) {
@@ -19,6 +20,12 @@ async function fetchIcelandStages(): Promise<{ stages: IcelandStage[]; summary: 
       "shoreholder": shoreholder->name,
     }
   `);
+
+  const now = Date.now();
+  const releaseMs = releaseAt ? new Date(releaseAt).getTime() : null;
+  const secondsUntilRelease = releaseMs ? Math.max(0, Math.floor((releaseMs - now) / 1000)) : null;
+  const isReleased = releaseMs ? now >= releaseMs : false;
+
   const stages: IcelandStage[] = raw.map((r: any) => ({
     id: r._id,
     stageNumber: r.stageNumber,
@@ -28,15 +35,18 @@ async function fetchIcelandStages(): Promise<{ stages: IcelandStage[]; summary: 
     endLocation: r.endLocation,
     startCoord: r.startCoord ?? null,
     endCoord: r.endCoord ?? null,
-    status: r.status === 'completed' ? 'booked' : r.status === 'available' ? 'available' : 'locked',
+    status: r.status === 'completed' ? 'booked'
+      : r.status === 'available' || isReleased ? 'available'
+      : 'locked',
     runDate: r.runDate ?? null,
     startTime: null,
-    releaseAt: null,
-    secondsUntilRelease: null,
+    releaseAt: releaseAt ?? null,
+    secondsUntilRelease,
     image: null,
     description: r.description ?? null,
     shoreholder: r.shoreholder ?? null,
   }));
+
   const summary = {
     total: stages.length,
     available: stages.filter(s => s.status === 'available').length,
@@ -280,6 +290,8 @@ function StageRow({ stage }: { stage: IcelandStage }) {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 const Iceland = () => {
+  const { data: settings } = useSiteSettings();
+  const releaseAt = settings?.icelandReleaseAt ?? null;
   const [data, setData] = useState<{ stages: IcelandStage[]; summary: any } | null>(null);
   const [waitlistCount, setWaitlistCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -289,7 +301,7 @@ const Iceland = () => {
   const fetchData = useCallback(async () => {
     try {
       const [result, wl] = await Promise.all([
-        fetchIcelandStages(),
+        fetchIcelandStages(releaseAt),
         waitlist.icelandCount().catch(() => ({ count: 0 })),
       ]);
       setData(result);
@@ -302,7 +314,7 @@ const Iceland = () => {
     fetchData();
     const interval = setInterval(fetchData, 10000);
     return () => clearInterval(interval);
-  }, [fetchData]);
+  }, [releaseAt]);
 
   return (
     <>

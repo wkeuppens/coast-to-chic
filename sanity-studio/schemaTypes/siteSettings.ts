@@ -137,6 +137,14 @@ export const siteSettings = defineType({
 
     // ── Stats ─────────────────────────────────────────────────────────────
     defineField({
+      name: 'icelandReleaseAt',
+      title: 'Iceland — Stage Release Time',
+      description: 'All 46 Iceland stages go live at this moment. Adjust here to change the release time.',
+      type: 'datetime',
+      group: 'stats',
+      options: { dateFormat: 'YYYY-MM-DD', timeFormat: 'HH:mm', timeStep: 15 },
+    }),
+    defineField({
       name: 'totalKm',
       title: 'Total km run',
       type: 'number',
