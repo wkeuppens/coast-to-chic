@@ -395,7 +395,7 @@ function StageRow({ stage }: { stage: IcelandStage }) {
 
 const Iceland = () => {
   const { data: settings } = useSiteSettings();
-  const releaseAt = settings?.icelandReleaseAt ?? '2026-05-27T18:00:00.000Z';
+  const releaseAt = settings?.icelandReleaseAt ?? '2026-05-23T00:00:00.000Z'; // past = open now for testing
   const [statuses, setStatuses] = useState<Record<number, 'locked' | 'available' | 'booked'>>({});
   const [waitlistCount, setWaitlistCount] = useState(0);
   const ref = useRef(null);
