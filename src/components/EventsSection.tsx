@@ -3,19 +3,10 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ftkHero from '@/assets/ftk-hero.jpg';
 import tmbLakePanorama from '@/assets/tmb-lake-panorama.jpg';
-import harborBoats from '@/assets/harbor-boats.jpg';
 import { useEvents } from '@/hooks/useSanityData';
 
 // Fallback events shown while Sanity loads or if no events are published yet
 const FALLBACK_EVENTS = [
-  {
-    id: 'homerun',
-    title: 'Home Run Venice',
-    meta: 'Venice — 20 Apr 2026 — 100 km',
-    imageUrl: null,
-    fallbackImage: harborBoats,
-    slug: 'homerun',
-  },
   {
     id: 'ftk',
     title: 'Follow The Kust',
@@ -27,7 +18,7 @@ const FALLBACK_EVENTS = [
   {
     id: 'tmb',
     title: 'Tour du Mont Blanc',
-    meta: 'France, Italy, Switzerland — Summer 2026 — 170 km',
+    meta: 'France, Italy, Switzerland — 4–9 Aug 2026 — 170 km',
     imageUrl: null,
     fallbackImage: tmbLakePanorama,
     slug: 'tour-du-mont-blanc',
