@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
@@ -298,22 +298,31 @@ const Iceland = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  const fetchData = useCallback(async () => {
-    try {
-      const [result, wl] = await Promise.all([
-        fetchIcelandStages(releaseAt),
-        waitlist.icelandCount().catch(() => ({ count: 0 })),
-      ]);
-      setData(result);
-      setWaitlistCount(wl.count);
-    } catch { /* keep last known data */ }
-    finally { setLoading(false); }
-  }, []);
-
+  // Fetch stages independently of releaseAt — releaseAt only affects display status
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 10000);
-    return () => clearInterval(interval);
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const [result, wl] = await Promise.all([
+          fetchIcelandStages(releaseAt),
+          waitlist.icelandCount().catch(() => ({ count: 0 })),
+        ]);
+        if (!cancelled) {
+          setData(result);
+          setWaitlistCount(wl.count);
+        }
+      } catch (err) {
+        console.error('[Iceland] fetch failed:', err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    const interval = setInterval(load, 30000);
+    return () => { cancelled = true; clearInterval(interval); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [releaseAt]);
 
   return (
