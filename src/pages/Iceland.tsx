@@ -12,7 +12,6 @@ import { useSiteSettings } from '@/hooks/useSanityData';
 import 'leaflet/dist/leaflet.css';
 
 async function fetchIcelandStages(releaseAt: string | null): Promise<{ stages: IcelandStage[]; summary: any }> {
-  if (!sanityClient) return { stages: [], summary: { total: 0, available: 0, booked: 0, locked: 0 } };
   const raw = await sanityClient.fetch(`
     *[_type == "stage" && isIceland == true] | order(stageNumber asc) {
       _id, stageNumber, stageNumber as displayNumber,

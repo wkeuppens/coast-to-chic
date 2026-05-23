@@ -1,9 +1,8 @@
 import { sanityClient, urlFor } from './sanityClient'
 import type { StageTileData } from '../data/stages'
 
-// If Sanity isn't configured, all fetches return empty arrays silently.
+// Safe fetch wrapper
 const fetch = async <T>(query: string, params?: Record<string, unknown>): Promise<T> => {
-  if (!sanityClient) return [] as unknown as T
   return sanityClient.fetch<T>(query, params)
 }
 
@@ -302,7 +301,6 @@ export interface SiteSettings {
 }
 
 export async function fetchSiteSettings(): Promise<SiteSettings | null> {
-  if (!sanityClient) return null
   const r = await sanityClient.fetch<Record<string, unknown>>(`
     *[_type == "siteSettings"][0] {
       heroImage, heroHeadline, heroSubline,
