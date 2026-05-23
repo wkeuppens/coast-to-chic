@@ -149,16 +149,16 @@ export const RouteMap = () => {
         {ph==='iceland' && <ActiveDot x={REYKJAVIK[0]} y={REYKJAVIK[1]}/>}
 
         {/* Transition dots */}
-        {/* Knokke — label to the right of dot, clear of the coastline */}
+        {/* Knokke — label to the left, line goes right and upper-right */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.5}}>
           <Dot x={PT_KNOKKE[0]} y={PT_KNOKKE[1]}/>
-          <Label x={PT_KNOKKE[0]+52} y={PT_KNOKKE[1]} text="KNOKKE" above={false}/>
+          <Label x={PT_KNOKKE[0]-52} y={PT_KNOKKE[1]} text="KNOKKE" above/>
         </motion.g>
 
-        {/* WE ARE HERE — label below and left, clear of both thick and thin lines */}
+        {/* WE ARE HERE — label above dot, sea is above Croatian coast */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.6}}>
           <ActiveDot x={PT_CURRENT[0]} y={PT_CURRENT[1]}/>
-          <Label x={PT_CURRENT[0]-52} y={PT_CURRENT[1]+22} text="WE ARE HERE" above={false}/>
+          <Label x={PT_CURRENT[0]} y={PT_CURRENT[1]-12} text="WE ARE HERE" above/>
         </motion.g>
 
         {(ph==='between'||ph==='iceland'||ph==='post_iceland')&&(
@@ -174,10 +174,11 @@ export const RouteMap = () => {
         </motion.g>
 
         <motion.g initial={{opacity:0}} animate={isInView?{opacity:1}:{}} transition={{delay:3.2}}>
-          <circle cx={PT_NORDKAPP[0]} cy={PT_NORDKAPP[1]} r={2} fill="hsl(var(--foreground))" opacity={0.2}/>
-          <text x={PT_NORDKAPP[0]} y={PT_NORDKAPP[1]-8} textAnchor="middle"
-            fill="hsl(var(--foreground))" fontSize={7} opacity={0.25}
-            fontFamily="sans-serif" letterSpacing="0.08em">GRENSE JAKOBSELV</text>
+          <circle cx={604.6} cy={52.9} r={2} fill="hsl(var(--foreground))" opacity={0.3}/>
+          <text x={604.6} y={42} textAnchor="middle" fill="hsl(var(--foreground))"
+            fontSize={7} opacity={0.3} fontFamily="sans-serif" letterSpacing="0.06em">
+            GRENSE JAKOBSELV
+          </text>
         </motion.g>
 
       </svg>
