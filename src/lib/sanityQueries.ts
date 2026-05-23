@@ -108,7 +108,7 @@ export async function fetchStageTiles() {
   return stages.map((s, i) => ({
     id: s.id, title: s.title, stageNumber: s.stageNumber, location: s.startLocation,
     country: s.country, year: s.runDate ? new Date(s.runDate).getFullYear() : new Date().getFullYear(),
-    season: getSeason(s.runDate), status: s.status === 'completed' ? 'Completed' : 'Upcoming',
+    season: getSeason(s.runDate), status: (s.status === 'completed' ? 'Completed' : 'Upcoming') as 'Completed' | 'Upcoming',
     shoreholder: s.shoreholder ?? undefined,
     startCoord: s.startCoord ? [s.startCoord.lat, s.startCoord.lng] : undefined,
     endCoord: s.endCoord ? [s.endCoord.lat, s.endCoord.lng] : undefined,
