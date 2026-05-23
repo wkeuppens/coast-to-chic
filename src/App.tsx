@@ -28,6 +28,10 @@ const RouteMapPage = lazy(() => import("./pages/RouteMapPage"));
 const Iceland = lazy(() => import("./pages/Iceland"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Events = lazy(() => import("./pages/Events"));
+const Book3 = lazy(() => import("./pages/Book3"));
+const TrailRetreatGirona = lazy(() => import("./pages/TrailRetreatGirona"));
+const CrossingMadeira = lazy(() => import("./pages/CrossingMadeira"));
 
 const App = () => (
   <HelmetProvider>
@@ -58,6 +62,10 @@ const App = () => (
           <Route path="/iceland" element={<Iceland />} />
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/book-3" element={<Book3 />} />
+          <Route path="/trail-retreat-girona" element={<TrailRetreatGirona />} />
+          <Route path="/crossing-madeira" element={<CrossingMadeira />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

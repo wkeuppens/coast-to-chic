@@ -4,33 +4,39 @@ const columns = [
   {
     title: 'Project',
     links: [
-      { label: 'Register', href: '/register' },
+      { label: 'Iceland 2027', href: '/iceland' },
+      { label: 'EU Stages', href: '/eu-stages' },
       { label: 'Archive', href: '/archive' },
       { label: 'Shoreholders', href: '/shoreholders' },
       { label: 'Timeline', href: '/timeline' },
     ],
   },
   {
-    title: 'Publications',
+    title: 'Events',
     links: [
-      { label: 'Books', href: '/order-books' },
-      { label: 'Prints', href: '/prints' },
+      { label: 'All events', href: '/events' },
+      { label: 'Follow The Kust', href: '/follow-the-kust' },
+      { label: 'Trail Retreat Girona', href: '/trail-retreat-girona' },
+      { label: 'Crossing Madeira', href: '/crossing-madeira' },
+      { label: 'Tour du Mont Blanc', href: '/tour-du-mont-blanc' },
     ],
   },
   {
-    title: 'Side Routes',
+    title: 'Publications',
     links: [
-      { label: 'Home Run', href: '/homerun' },
-      { label: 'Follow The Kust', href: '/follow-the-kust' },
-      { label: 'Tour du Mont Blanc', href: '/tour-du-mont-blanc' },
+      { label: 'Book 3 — Gibraltar → Monaco', href: '/book-3' },
+      { label: 'Order books', href: '/order-books' },
+      { label: 'Prints', href: '/prints' },
     ],
   },
   {
     title: 'Contact',
     links: [
       { label: 'Instagram', href: 'https://www.instagram.com/followthecoast_' },
+      { label: 'YouTube', href: 'https://www.youtube.com/channel/UCL6tnj4kOTP-X5DmxfWhnLA' },
+      { label: 'WhatsApp community', href: 'https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV' },
       { label: 'Email', href: 'mailto:hello@followthecoast.com' },
-      { label: 'Support', href: '/support' },
+      { label: 'Partner with us', href: '/support' },
     ],
   },
 ];

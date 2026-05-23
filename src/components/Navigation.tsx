@@ -4,10 +4,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useNavTheme } from '@/hooks/useNavTheme';
 
 const navItems = [
+  { label: 'Iceland 2027', href: '/iceland' },
+  { label: 'Events', href: '/events' },
+  { label: 'Book 3', href: '/book-3' },
   { label: 'Archive', href: '/archive' },
-  { label: 'Prints', href: '/prints' },
   { label: 'Books', href: '/order-books' },
-  { label: 'Side Routes', href: '/#events' },
   { label: 'Support', href: '/support' },
 ] as const;
 

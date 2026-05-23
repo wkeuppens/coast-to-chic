@@ -465,6 +465,24 @@ const Iceland = () => {
               Stage registration is €1,399 per team, including three books.
               June 12 – July 13, 2027.
             </p>
+            <div className="flex flex-wrap gap-4 mb-8">
+              <a
+                href="https://www.followthecoast.com/download/FTC_Iceland_2027_v7.12.05.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 border border-border rounded-full px-5 py-2 text-sm hover:border-foreground/50 transition-colors"
+              >
+                ↓ Download brochure
+              </a>
+              <a
+                href="https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 border border-border rounded-full px-5 py-2 text-sm hover:border-foreground/50 transition-colors"
+              >
+                Join WhatsApp community
+              </a>
+            </div>
             <div className="flex gap-10 py-8 border-t border-border">
               <div>
                 <p className="text-3xl tracking-tight">{summary.available}</p>
