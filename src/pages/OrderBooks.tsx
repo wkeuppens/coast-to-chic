@@ -22,10 +22,10 @@ import spreadBasque from '@/assets/book-spread-basque.jpg';
 
 type BookId = 'book_1' | 'book_2' | 'book_3';
 
-const BOOKS: { id: BookId; volume: string; subtitle: string; image: any }[] = [
-  { id: 'book_1', volume: 'Volume I', subtitle: 'Knokke — San Sebastián', image: bookMockup },
-  { id: 'book_2', volume: 'Volume II', subtitle: 'San Sebastián — Gibraltar', image: bookVol2Cover },
-  { id: 'book_3', volume: 'Volume III', subtitle: 'Gibraltar — Monaco', image: bookMockup },
+const BOOKS: { id: BookId; volume: string; subtitle: string; image: any; available: boolean; availableFrom?: string }[] = [
+  { id: 'book_1', volume: 'Volume I', subtitle: 'Knokke — San Sebastián', image: bookMockup, available: true },
+  { id: 'book_2', volume: 'Volume II', subtitle: 'San Sebastián — Gibraltar', image: bookVol2Cover, available: true },
+  { id: 'book_3', volume: 'Volume III', subtitle: 'Gibraltar — Monaco', image: bookMockup, available: false, availableFrom: 'July 20' },
 ];
 
 const EU_COUNTRIES = [
@@ -92,8 +92,11 @@ const OrderBooks = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const toggleBook = (id: BookId) =>
+  const toggleBook = (id: BookId) => {
+    const book = BOOKS.find(b => b.id === id);
+    if (!book?.available) return; // Can't select unavailable books
     setSelected(s => s.includes(id) ? s.filter(b => b !== id) : [...s, id]);
+  };
 
   const booksTotal = TIER_PRICES[selected.length] ?? 0;
   const shipping = (() => {
@@ -168,18 +171,29 @@ const OrderBooks = () => {
                 {BOOKS.map(book => {
                   const isSelected = selected.includes(book.id);
                   return (
-                    <button type="button" key={book.id} onClick={() => toggleBook(book.id)}
-                      className={`w-full text-left flex items-center gap-4 p-4 border transition-colors ${isSelected ? 'border-foreground bg-secondary/50' : 'border-border hover:border-foreground/40'}`}>
+                    <button type="button" key={book.id}
+                      onClick={() => toggleBook(book.id)}
+                      disabled={!book.available}
+                      className={`w-full text-left flex items-center gap-4 p-4 border transition-colors ${
+                        !book.available ? 'border-border opacity-50 cursor-not-allowed'
+                        : isSelected ? 'border-foreground bg-secondary/50'
+                        : 'border-border hover:border-foreground/40'
+                      }`}>
                       <img src={book.image} alt={book.volume} className="w-12 h-16 object-cover shrink-0" />
                       <div className="flex-1">
                         <p className="text-sm font-medium">{book.volume}</p>
                         <p className="text-xs text-muted-foreground">{book.subtitle}</p>
+                        {!book.available && book.availableFrom && (
+                          <p className="text-xs text-accent mt-1">Available {book.availableFrom}</p>
+                        )}
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-sm">€65</span>
-                        <div className={`w-4 h-4 border flex items-center justify-center ${isSelected ? 'bg-foreground border-foreground' : 'border-border'}`}>
-                          {isSelected && <svg className="w-2.5 h-2.5 text-background" fill="none" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                        </div>
+                        {book.available && (
+                          <div className={`w-4 h-4 border flex items-center justify-center ${isSelected ? 'bg-foreground border-foreground' : 'border-border'}`}>
+                            {isSelected && <svg className="w-2.5 h-2.5 text-background" fill="none" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                          </div>
+                        )}
                       </div>
                     </button>
                   );

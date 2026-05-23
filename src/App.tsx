@@ -10,7 +10,7 @@ const OrderBooks = lazy(() => import("./pages/OrderBooks"));
 const Register = lazy(() => import("./pages/Register"));
 const EUStages = lazy(() => import("./pages/EUStages"));
 const AllStages = lazy(() => import("./pages/AllStages"));
-const HomeRun = lazy(() => import("./pages/HomeRun"));
+// HomeRun page removed — event completed
 const FollowTheKust = lazy(() => import("./pages/FollowTheKust"));
 const TourDuMontBlanc = lazy(() => import("./pages/TourDuMontBlanc"));
 const Archive = lazy(() => import("./pages/Gallery"));
@@ -40,7 +40,7 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/eu-stages" element={<EUStages />} />
           <Route path="/all-stages" element={<AllStages />} />
-          <Route path="/homerun" element={<HomeRun />} />
+          <Route path="/homerun" element={<Navigate to="/" replace />} />
           <Route path="/follow-the-kust" element={<FollowTheKust />} />
           <Route path="/tour-du-mont-blanc" element={<TourDuMontBlanc />} />
           <Route path="/archive" element={<Archive />} />

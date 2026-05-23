@@ -1,9 +1,8 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { SEO } from '@/components/SEO';
 import { Footer } from '@/components/Footer';
-import { EditorialArrow } from '@/components/EditorialArrow';
 import coastalPath from '@/assets/coastal-path.jpg';
 import supportVictus from '@/assets/support-victus.jpg';
 import supportSunsetBeer from '@/assets/support-sunset-beer.jpg';
@@ -11,6 +10,61 @@ import supportCoastalVan from '@/assets/support-coastal-van.jpg';
 import supportDuvelFlag from '@/assets/support-duvel-flag.jpg';
 import supportVictusPack from '@/assets/support-victus-pack.jpg';
 import supportNightBeers from '@/assets/support-night-beers.jpg';
+import { api } from '@/lib/apiClient';
+
+function PartnerForm() {
+  const [form, setForm] = useState({ name: '', company: '', email: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true); setError('');
+    try {
+      await api.post('/api/contact', {
+        name: form.name,
+        email: form.email,
+        subject: `Partnership enquiry — ${form.company}`,
+        message: form.message,
+      });
+      setDone(true);
+    } catch {
+      setError('Something went wrong. Email us directly at hello@followthecoast.com');
+    } finally { setSubmitting(false); }
+  };
+
+  if (done) return (
+    <p className="text-sm text-foreground py-8">
+      Message received. We'll be in touch.
+    </p>
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid sm:grid-cols-2 gap-4">
+        <input type="text" placeholder="Your name" required value={form.name}
+          onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+          className="border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-foreground transition-colors" />
+        <input type="text" placeholder="Company / brand" value={form.company}
+          onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
+          className="border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-foreground transition-colors" />
+      </div>
+      <input type="email" placeholder="Email address" required value={form.email}
+        onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+        className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-foreground transition-colors" />
+      <textarea placeholder="Tell us about your brand and what kind of partnership you have in mind" required value={form.message}
+        onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+        rows={5}
+        className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-foreground transition-colors resize-none" />
+      {error && <p className="text-xs text-red-500">{error}</p>}
+      <button type="submit" disabled={submitting}
+        className="bg-accent text-white text-sm px-8 py-3 rounded-full hover:opacity-80 transition-opacity disabled:opacity-50">
+        {submitting ? 'Sending…' : 'Send message'}
+      </button>
+    </form>
+  );
+}
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -123,21 +177,14 @@ const SupportTheProject = () => {
 
         {/* Contact */}
         <section id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-secondary">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-2xl md:text-4xl mb-6">
+          <div className="max-w-2xl mx-auto">
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-2xl md:text-4xl mb-4">
               Start the conversation
             </motion.h2>
-            <motion.a
-              href="mailto:hello@followthecoast.com"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-accent-foreground text-sm uppercase tracking-wider hover:opacity-90 transition-opacity"
-            >
-              <EditorialArrow size={14} className="invert" />
-              hello@followthecoast.com
-            </motion.a>
+            <p className="text-muted-foreground mb-10 leading-relaxed">
+              Every partnership finds its own form. Tell us about your brand and what you're looking for.
+            </p>
+            <PartnerForm />
           </div>
         </section>
 

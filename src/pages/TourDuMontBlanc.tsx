@@ -25,7 +25,7 @@ const fourDayPerks = [
 const TourDuMontBlanc = () => (
   <SideRouteLayout
     title="Tour du Mont Blanc"
-    description="Run the Tour du Mont Blanc with Follow the Coast. 4 or 7 days through France, Italy, and Switzerland. August 2026."
+    description="Run the Tour du Mont Blanc with Follow the Coast. 4 or 7 days through France, Italy, and Switzerland. August 2026 (4–9 Aug)."
     path="/tour-du-mont-blanc"
     heroImage={tmbHero}
     heroAlt="Mont Blanc mountain trail"
@@ -33,10 +33,10 @@ const TourDuMontBlanc = () => (
   >
     <QuickFacts
       facts={[
-        { icon: Calendar, label: 'Dates', value: '1–9 Aug 2026' },
+        { icon: Calendar, label: 'Dates', value: '4–9 Aug 2026' },
         { icon: MapPin, label: 'Start', value: 'Chamonix, France' },
         { icon: Mountain, label: 'Daily', value: '25km + 1500hm' },
-        { icon: Clock, label: 'Duration', value: '4 or 7 days' },
+        { icon: Clock, label: 'Duration', value: '4–9 August 2026' },
       ]}
     />
 
@@ -69,7 +69,7 @@ const TourDuMontBlanc = () => (
         {/* 7 days */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="bg-background p-8 md:p-10 flex flex-col border-2 border-accent">
           <h3 className="text-2xl mb-1">7 days</h3>
-          <p className="text-caption text-muted-foreground mb-2">1 – 9 August 2026</p>
+          <p className="text-caption text-muted-foreground mb-2">1 – 9 August 2026 (4–9 Aug)</p>
           <p className="text-xs text-muted-foreground mb-6">25km + 1500hm per day</p>
           <p className="text-4xl text-accent mb-block">€1,499</p>
           <ul className="space-y-3 mb-10 flex-1">
@@ -81,7 +81,7 @@ const TourDuMontBlanc = () => (
             ))}
           </ul>
           <EventCheckoutButton
-            eventId="tmb_2026_7day"
+            eventId="tmb_2027_4day"
             price={1499}
             label="Register — €1,499"
           />
@@ -90,7 +90,7 @@ const TourDuMontBlanc = () => (
         {/* 4 days */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-background p-8 md:p-10 flex flex-col">
           <h3 className="text-2xl mb-1">4 days</h3>
-          <p className="text-caption text-muted-foreground mb-2">4 – 9 August 2026</p>
+          <p className="text-caption text-muted-foreground mb-2">4 – 9 August 2026 (4–9 Aug)</p>
           <p className="text-xs text-muted-foreground mb-6">25km + 2500hm per day</p>
           <p className="text-4xl text-accent mb-block">€999</p>
           <ul className="space-y-3 mb-10 flex-1">
@@ -102,7 +102,7 @@ const TourDuMontBlanc = () => (
             ))}
           </ul>
           <EventCheckoutButton
-            eventId="tmb_2026_4day"
+            eventId="tmb_2027_4day"
             price={999}
             label="Register — €999"
           />
@@ -114,11 +114,11 @@ const TourDuMontBlanc = () => (
     <section className="py-section px-page">
       <div className="max-w-2xl mx-auto text-center">
         <motion.div {...fadeUp}>
-          <h2 className="text-3xl md:text-5xl uppercase mb-4">August 2026 · Chamonix</h2>
+          <h2 className="text-3xl md:text-5xl uppercase mb-4">August 2026 (4–9 Aug) · Chamonix</h2>
           <p className="text-muted-foreground mb-10 max-w-md mx-auto">Three countries. 4–7 days on the trail.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <EventCheckoutButton eventId="tmb_2026_7day" price={1499} label="7 days — €1,499" />
-            <EventCheckoutButton eventId="tmb_2026_4day" price={999} label="4 days — €999" />
+            <EventCheckoutButton eventId="tmb_2027_4day" price={1499} label="7 days — €1,499" />
+            <EventCheckoutButton eventId="tmb_2027_4day" price={999} label="4 days — €999" />
           </div>
           <p className="text-caption text-muted-foreground mt-6">Registrations close March 15, 2026.</p>
         </motion.div>

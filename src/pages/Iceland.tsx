@@ -9,19 +9,14 @@ import { MapPin, Clock, Calendar } from 'lucide-react';
 import { waitlist, checkout, type IcelandStage } from '@/lib/api';
 import { useSiteSettings } from '@/hooks/useSanityData';
 import { ICELAND_STAGES_STATIC, type IcelandStageStatic } from '@/data/icelandStages';
+import { SUPABASE_URL, supabaseHeaders } from '@/lib/supabase';
 import 'leaflet/dist/leaflet.css';
-
-const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || 'https://vcrvszujqdunroopsxwh.supabase.co'
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined
 
 async function fetchLiveStatuses(): Promise<Record<number, 'locked' | 'available' | 'booked'>> {
   try {
     const res = await fetch(`${SUPABASE_URL}/functions/v1/sanity-proxy`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(SUPABASE_KEY ? { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } : {}),
-      },
+      headers: supabaseHeaders,
       body: JSON.stringify({ query: '*[_type=="stage"&&isIceland==true]{stageNumber,status}' }),
     })
     if (!res.ok) return {}
