@@ -145,6 +145,23 @@ export const siteSettings = defineType({
       options: { dateFormat: 'YYYY-MM-DD', timeFormat: 'HH:mm', timeStep: 15 },
     }),
     defineField({
+      name: 'icelandPreviewMode',
+      title: 'Iceland — Preview Mode',
+      description: 'Override how the page appears. Use to test before launch. Always reset to "Real" when done.',
+      type: 'string',
+      group: 'stats',
+      options: {
+        list: [
+          { title: '🟢 Real — use release time above', value: 'real' },
+          { title: '🔵 Simulate: Countdown showing', value: 'countdown' },
+          { title: '🟡 Simulate: All stages open', value: 'open' },
+          { title: '🔴 Simulate: All stages locked', value: 'locked' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'real',
+    }),
+    defineField({
       name: 'totalKm',
       title: 'Total km run',
       type: 'number',

@@ -280,6 +280,7 @@ export interface SiteSettings {
   totalRunners: number | null
   booksSold: number | null
   icelandReleaseAt: string | null
+  icelandPreviewMode: 'real' | 'countdown' | 'open' | 'locked' | null
   // Gallery
   galleryImages: { imageUrl: string; alt: string; label: string }[]
   // Stage highlights
@@ -307,7 +308,7 @@ export async function fetchSiteSettings(): Promise<SiteSettings | null> {
       journeyLabel, journeyHeadline, journeyParagraphs,
       howItWorksHeadline, howItWorksSteps, supportIncluded,
       pricingSolo, pricingDuo, pricingGroup,
-      totalKm, totalCountries, totalRunners, booksSold, icelandReleaseAt,
+      totalKm, totalCountries, totalRunners, booksSold, icelandReleaseAt, icelandPreviewMode,
       galleryImages[]{ image, alt, label },
       stageHighlights[]{ title, description, detail, href },
       bookSectionHeadline, bookSectionImage,
@@ -336,6 +337,7 @@ export async function fetchSiteSettings(): Promise<SiteSettings | null> {
     totalRunners: (r.totalRunners as number | null) ?? null,
     booksSold: (r.booksSold as number | null) ?? null,
     icelandReleaseAt: (r.icelandReleaseAt as string | null) ?? null,
+    icelandPreviewMode: (r.icelandPreviewMode as 'real' | 'countdown' | 'open' | 'locked' | null) ?? null,
     galleryImages: ((r.galleryImages as { image: Parameters<typeof urlFor>[0]; alt: string; label: string }[]) || []).map(g => ({
       imageUrl: g.image ? urlFor(g.image).width(1200).url() : '',
       alt: g.alt || '',

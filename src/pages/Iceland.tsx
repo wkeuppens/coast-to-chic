@@ -8,7 +8,7 @@ import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { waitlist, checkout, type IcelandStage } from '@/lib/api';
 import { useSiteSettings } from '@/hooks/useSanityData';
-import { ICELAND_STAGES_STATIC } from '@/data/icelandStages';
+import { ICELAND_STAGES_STATIC, type IcelandStageStatic } from '@/data/icelandStages';
 import 'leaflet/dist/leaflet.css';
 
 const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || 'https://vcrvszujqdunroopsxwh.supabase.co'
@@ -36,23 +36,69 @@ async function fetchLiveStatuses(): Promise<Record<number, 'locked' | 'available
   }
 }
 
+type PreviewMode = 'real' | 'countdown' | 'open' | 'locked'
+
 function buildStages(
   statuses: Record<number, 'locked' | 'available' | 'booked'>,
-  releaseAt: string | null
+  releaseAt: string | null,
+  previewMode: PreviewMode,
 ): { stages: IcelandStage[]; summary: { total: number; available: number; booked: number; locked: number } } {
   const now = Date.now()
   const releaseMs = releaseAt ? new Date(releaseAt).getTime() : null
-  const secondsUntilRelease = releaseMs ? Math.max(0, Math.floor((releaseMs - now) / 1000)) : null
-  const isReleased = releaseMs ? now >= releaseMs : false
 
-  const stages = ICELAND_STAGES_STATIC.map(s => ({
-    ...s,
-    releaseAt,
-    secondsUntilRelease,
-    status: (statuses[s.stageNumber]
-      ? statuses[s.stageNumber]
-      : isReleased ? 'available' : 'locked') as 'locked' | 'available' | 'booked',
-  }))
+  // Preview mode overrides release time logic
+  let effectiveIsReleased: boolean
+  let effectiveSecondsUntil: number | null
+  let effectiveReleaseAt: string | null = releaseAt
+
+  if (previewMode === 'open') {
+    effectiveIsReleased = true
+    effectiveSecondsUntil = 0
+  } else if (previewMode === 'locked') {
+    effectiveIsReleased = false
+    effectiveSecondsUntil = 999999
+    effectiveReleaseAt = new Date(now + 999999000).toISOString()
+  } else if (previewMode === 'countdown') {
+    effectiveIsReleased = false
+    // Show a countdown 2 hours from now
+    effectiveSecondsUntil = 7200
+    effectiveReleaseAt = new Date(now + 7200000).toISOString()
+  } else {
+    // real
+    effectiveIsReleased = releaseMs ? now >= releaseMs : false
+    effectiveSecondsUntil = releaseMs ? Math.max(0, Math.floor((releaseMs - now) / 1000)) : null
+  }
+
+  const stages = ICELAND_STAGES_STATIC.map(s => {
+    const liveStatus = statuses[s.stageNumber]
+    const status: 'locked' | 'available' | 'booked' =
+      liveStatus === 'booked' ? 'booked'
+      : effectiveIsReleased ? 'available'
+      : 'locked'
+
+    return {
+      id: s.id,
+      stageNumber: s.stageNumber,
+      displayNumber: s.displayNumber,
+      title: s.title,
+      startLocation: s.startLocation,
+      endLocation: s.endLocation,
+      startCoord: s.startCoord,
+      endCoord: s.endCoord,
+      runDate: s.runDate,
+      startTime: s.startTime,
+      distanceKm: s.distanceKm,
+      elevationM: s.elevationM,
+      category: s.category,
+      risk: s.risk,
+      status,
+      releaseAt: effectiveReleaseAt,
+      secondsUntilRelease: effectiveSecondsUntil,
+      image: null,
+      description: s.description,
+      shoreholder: null,
+    } as IcelandStage & { elevationM: number | null; category: 1 | 2 | 3; risk: string | null }
+  })
 
   return {
     stages,
@@ -151,7 +197,7 @@ function IcelandMap({ stages }: { stages: IcelandStage[] }) {
 
 interface TeamMember { name: string; email: string }
 
-function StageRow({ stage }: { stage: IcelandStage }) {
+function StageRow({ stage }: { stage: IcelandStage & { elevationM?: number | null; category?: 1 | 2 | 3; risk?: string | null } }) {
   const [expanded, setExpanded] = useState(false);
   const countdown = useCountdown(stage.secondsUntilRelease);
   const isOpen = stage.status === 'available' || countdown.isOpen;
@@ -232,13 +278,23 @@ function StageRow({ stage }: { stage: IcelandStage }) {
           <p className="text-sm text-foreground truncate">
             {stage.startLocation} <span className="text-muted-foreground">→</span> {stage.endLocation}
           </p>
-          <div className="flex gap-3 mt-0.5">
+          <div className="flex gap-3 mt-0.5 flex-wrap">
             {stage.runDate && (
               <span className="text-xs text-muted-foreground">
                 {new Date(stage.runDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>
             )}
             {stage.startTime && <span className="text-xs text-muted-foreground">{stage.startTime} local</span>}
+            {stage.elevationM && <span className="text-xs text-muted-foreground">↑ {stage.elevationM.toLocaleString()}m</span>}
+            {stage.category && (
+              <span className={`text-[10px] uppercase tracking-wider px-1.5 py-0.5 ${
+                stage.category === 1 ? 'bg-green-100 text-green-700'
+                : stage.category === 2 ? 'bg-yellow-100 text-yellow-700'
+                : 'bg-red-100 text-red-700'
+              }`}>
+                Cat {stage.category}
+              </span>
+            )}
           </div>
         </div>
         <span className={`text-[10px] uppercase tracking-wider px-3 py-1 shrink-0 ${statusStyle}`}>
@@ -370,14 +426,14 @@ function StageRow({ stage }: { stage: IcelandStage }) {
 
 const Iceland = () => {
   const { data: settings } = useSiteSettings();
-  const releaseAt = settings?.icelandReleaseAt ?? '2026-05-23T00:00:00.000Z'; // past = open now for testing
+  const releaseAt = settings?.icelandReleaseAt ?? '2026-05-27T18:00:00.000Z';
+  const previewMode = (settings?.icelandPreviewMode ?? 'real') as PreviewMode;
   const [statuses, setStatuses] = useState<Record<number, 'locked' | 'available' | 'booked'>>({});
   const [waitlistCount, setWaitlistCount] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  // Static data shows immediately — no loading state needed
-  const { stages, summary } = buildStages(statuses, releaseAt);
+  const { stages, summary } = buildStages(statuses, releaseAt, previewMode);
 
   // Fetch live statuses in background via Supabase proxy
   useEffect(() => {
