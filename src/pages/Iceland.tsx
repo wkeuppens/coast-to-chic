@@ -7,24 +7,22 @@ import { SEO } from '@/components/SEO';
 import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { waitlist, checkout, type IcelandStage } from '@/lib/api';
-import { sanityClient } from '@/lib/sanityClient';
 import { useSiteSettings } from '@/hooks/useSanityData';
 import 'leaflet/dist/leaflet.css';
 
 async function fetchIcelandStages(releaseAt: string | null): Promise<{ stages: IcelandStage[]; summary: any }> {
-  const raw = await sanityClient.fetch(`
-    *[_type == "stage" && isIceland == true] | order(stageNumber asc) {
-      _id, stageNumber, stageNumber as displayNumber,
-      title, startLocation, endLocation, startCoord, endCoord,
-      status, runDate, description,
-      "shoreholder": shoreholder->name,
-    }
-  `);
+  const query = encodeURIComponent('*[_type=="stage"&&isIceland==true]|order(stageNumber asc){_id,stageNumber,title,startLocation,endLocation,startCoord,endCoord,status,runDate,description}')
+  const url = `https://3l5lwj8d.api.sanity.io/v2024-01-01/data/query/production?query=${query}`
 
-  const now = Date.now();
-  const releaseMs = releaseAt ? new Date(releaseAt).getTime() : null;
-  const secondsUntilRelease = releaseMs ? Math.max(0, Math.floor((releaseMs - now) / 1000)) : null;
-  const isReleased = releaseMs ? now >= releaseMs : false;
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Sanity API error: ${res.status}`)
+  const json = await res.json()
+  const raw = json.result ?? []
+
+  const now = Date.now()
+  const releaseMs = releaseAt ? new Date(releaseAt).getTime() : null
+  const secondsUntilRelease = releaseMs ? Math.max(0, Math.floor((releaseMs - now) / 1000)) : null
+  const isReleased = releaseMs ? now >= releaseMs : false
 
   const stages: IcelandStage[] = raw.map((r: any) => ({
     id: r._id,
@@ -44,16 +42,16 @@ async function fetchIcelandStages(releaseAt: string | null): Promise<{ stages: I
     secondsUntilRelease,
     image: null,
     description: r.description ?? null,
-    shoreholder: r.shoreholder ?? null,
-  }));
+    shoreholder: null,
+  }))
 
   const summary = {
     total: stages.length,
     available: stages.filter(s => s.status === 'available').length,
     booked: stages.filter(s => s.status === 'booked').length,
     locked: stages.filter(s => s.status === 'locked').length,
-  };
-  return { stages, summary };
+  }
+  return { stages, summary }
 }
 
 // ── Countdown hook ────────────────────────────────────────────────────────────
