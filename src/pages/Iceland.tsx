@@ -8,50 +8,61 @@ import { MagneticButton } from '@/components/MagneticButton';
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { waitlist, checkout, type IcelandStage } from '@/lib/api';
 import { useSiteSettings } from '@/hooks/useSanityData';
+import { ICELAND_STAGES_STATIC } from '@/data/icelandStages';
 import 'leaflet/dist/leaflet.css';
 
-async function fetchIcelandStages(releaseAt: string | null): Promise<{ stages: IcelandStage[]; summary: any }> {
-  const query = encodeURIComponent('*[_type=="stage"&&isIceland==true]|order(stageNumber asc){_id,stageNumber,title,startLocation,endLocation,startCoord,endCoord,status,runDate,description}')
-  const url = `https://3l5lwj8d.api.sanity.io/v2024-01-01/data/query/production?query=${query}`
+const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || 'https://vcrvszujqdunroopsxwh.supabase.co'
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined
 
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`Sanity API error: ${res.status}`)
-  const json = await res.json()
-  const raw = json.result ?? []
+async function fetchLiveStatuses(): Promise<Record<number, 'locked' | 'available' | 'booked'>> {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/sanity-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(SUPABASE_KEY ? { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } : {}),
+      },
+      body: JSON.stringify({ query: '*[_type=="stage"&&isIceland==true]{stageNumber,status}' }),
+    })
+    if (!res.ok) return {}
+    const json = await res.json()
+    const result: Record<number, 'locked' | 'available' | 'booked'> = {}
+    for (const r of (json.result ?? [])) {
+      result[r.stageNumber] = r.status === 'completed' ? 'booked' : r.status
+    }
+    return result
+  } catch {
+    return {}
+  }
+}
 
+function buildStages(
+  statuses: Record<number, 'locked' | 'available' | 'booked'>,
+  releaseAt: string | null
+): { stages: IcelandStage[]; summary: { total: number; available: number; booked: number; locked: number } } {
   const now = Date.now()
   const releaseMs = releaseAt ? new Date(releaseAt).getTime() : null
   const secondsUntilRelease = releaseMs ? Math.max(0, Math.floor((releaseMs - now) / 1000)) : null
   const isReleased = releaseMs ? now >= releaseMs : false
 
-  const stages: IcelandStage[] = raw.map((r: any) => ({
-    id: r._id,
-    stageNumber: r.stageNumber,
-    displayNumber: r.stageNumber,
-    title: r.title,
-    startLocation: r.startLocation,
-    endLocation: r.endLocation,
-    startCoord: r.startCoord ?? null,
-    endCoord: r.endCoord ?? null,
-    status: r.status === 'completed' ? 'booked'
-      : r.status === 'available' || isReleased ? 'available'
-      : 'locked',
-    runDate: r.runDate ?? null,
-    startTime: null,
-    releaseAt: releaseAt ?? null,
+  const stages = ICELAND_STAGES_STATIC.map(s => ({
+    ...s,
+    releaseAt,
     secondsUntilRelease,
-    image: null,
-    description: r.description ?? null,
-    shoreholder: null,
+    status: (statuses[s.stageNumber]
+      ? statuses[s.stageNumber]
+      : isReleased ? 'available' : 'locked') as 'locked' | 'available' | 'booked',
   }))
 
-  const summary = {
-    total: stages.length,
-    available: stages.filter(s => s.status === 'available').length,
-    booked: stages.filter(s => s.status === 'booked').length,
-    locked: stages.filter(s => s.status === 'locked').length,
+  return {
+    stages,
+    summary: {
+      total: stages.length,
+      available: stages.filter(s => s.status === 'available').length,
+      booked: stages.filter(s => s.status === 'booked').length,
+      locked: stages.filter(s => s.status === 'locked').length,
+    },
   }
-  return { stages, summary }
 }
 
 // ── Countdown hook ────────────────────────────────────────────────────────────
@@ -289,39 +300,25 @@ function StageRow({ stage }: { stage: IcelandStage }) {
 
 const Iceland = () => {
   const { data: settings } = useSiteSettings();
-  const releaseAt = settings?.icelandReleaseAt ?? null;
-  const [data, setData] = useState<{ stages: IcelandStage[]; summary: any } | null>(null);
+  const releaseAt = settings?.icelandReleaseAt ?? '2026-05-27T18:00:00.000Z';
+  const [statuses, setStatuses] = useState<Record<number, 'locked' | 'available' | 'booked'>>({});
   const [waitlistCount, setWaitlistCount] = useState(0);
-  const [loading, setLoading] = useState(true);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  // Fetch stages independently of releaseAt — releaseAt only affects display status
+  // Static data shows immediately — no loading state needed
+  const { stages, summary } = buildStages(statuses, releaseAt);
+
+  // Fetch live statuses in background via Supabase proxy
   useEffect(() => {
     let cancelled = false;
-
-    async function load() {
-      try {
-        const [result, wl] = await Promise.all([
-          fetchIcelandStages(releaseAt),
-          waitlist.icelandCount().catch(() => ({ count: 0 })),
-        ]);
-        if (!cancelled) {
-          setData(result);
-          setWaitlistCount(wl.count);
-        }
-      } catch (err) {
-        console.error('[Iceland] fetch failed:', err);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    load();
-    const interval = setInterval(load, 30000);
+    fetchLiveStatuses().then(s => { if (!cancelled) setStatuses(s); });
+    waitlist.icelandCount().then(wl => { if (!cancelled) setWaitlistCount(wl.count); }).catch(() => {});
+    const interval = setInterval(() => {
+      fetchLiveStatuses().then(s => { if (!cancelled) setStatuses(s); });
+    }, 30000);
     return () => { cancelled = true; clearInterval(interval); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [releaseAt]);
+  }, []);
 
   return (
     <>
@@ -347,40 +344,33 @@ const Iceland = () => {
               Stage registration is €1,399 per team, including three books.
               June 12 – July 13, 2027.
             </p>
-
-            {!loading && data && (
-              <div className="flex gap-10 py-8 border-t border-border">
-                <div>
-                  <p className="text-3xl tracking-tight">{data.summary.available}</p>
-                  <p className="text-caption text-muted-foreground mt-1">Available</p>
-                </div>
-                <div>
-                  <p className="text-3xl tracking-tight">{data.summary.booked}</p>
-                  <p className="text-caption text-muted-foreground mt-1">Registered</p>
-                </div>
-                <div>
-                  <p className="text-3xl tracking-tight">{data.summary.total}</p>
-                  <p className="text-caption text-muted-foreground mt-1">Total stages</p>
-                </div>
-                {waitlistCount > 0 && (
-                  <div>
-                    <p className="text-3xl tracking-tight">{waitlistCount}</p>
-                    <p className="text-caption text-muted-foreground mt-1">On waitlist</p>
-                  </div>
-                )}
+            <div className="flex gap-10 py-8 border-t border-border">
+              <div>
+                <p className="text-3xl tracking-tight">{summary.available}</p>
+                <p className="text-caption text-muted-foreground mt-1">Available</p>
               </div>
-            )}
+              <div>
+                <p className="text-3xl tracking-tight">{summary.booked}</p>
+                <p className="text-caption text-muted-foreground mt-1">Registered</p>
+              </div>
+              <div>
+                <p className="text-3xl tracking-tight">{summary.total}</p>
+                <p className="text-caption text-muted-foreground mt-1">Total stages</p>
+              </div>
+              {waitlistCount > 0 && (
+                <div>
+                  <p className="text-3xl tracking-tight">{waitlistCount}</p>
+                  <p className="text-caption text-muted-foreground mt-1">On waitlist</p>
+                </div>
+              )}
+            </div>
           </motion.div>
         </div>
 
-        {/* Map */}
-        {data && (
-          <div className="px-page max-w-content mx-auto mb-16">
-            <IcelandMap stages={data.stages} />
-          </div>
-        )}
+        <div className="px-page max-w-content mx-auto mb-16">
+          <IcelandMap stages={stages} />
+        </div>
 
-        {/* Stage list */}
         <div ref={ref} className="px-page max-w-content mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
@@ -388,10 +378,7 @@ const Iceland = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="border-t border-border">
-              {loading && (
-                <div className="py-16 text-center text-sm text-muted-foreground">Loading stages…</div>
-              )}
-              {data?.stages.map(stage => (
+              {stages.map(stage => (
                 <StageRow key={stage.id} stage={stage} />
               ))}
             </div>
