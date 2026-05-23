@@ -5,7 +5,6 @@
     "": {
       "name": "vite_react_shadcn_ts",
       "dependencies": {
-        "@sanity/client": "^7.22.0",
         "@sanity/image-url": "^2.1.1",
         "@supabase/supabase-js": "^2.106.1",
         "@types/leaflet": "^1.9.21",
@@ -21,6 +20,7 @@
       },
       "devDependencies": {
         "@eslint/js": "^9.32.0",
+        "@sanity/client": "^7.22.0",
         "@testing-library/jest-dom": "^6.6.0",
         "@testing-library/react": "^16.0.0",
         "@types/node": "^22.16.5",
