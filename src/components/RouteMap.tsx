@@ -104,7 +104,7 @@ export const RouteMap = () => {
 
   return (
     <div ref={ref} className="w-full h-full flex items-center justify-center">
-      <svg viewBox="0 0 800 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet" fill="none">
+      <svg viewBox="100 20 570 570" className="w-full h-full" preserveAspectRatio="xMidYMid meet" fill="none">
 
         {/* Context: Ireland, Denmark, Britain */}
         {COAST.map((d,i)=>(
@@ -149,15 +149,16 @@ export const RouteMap = () => {
         {ph==='iceland' && <ActiveDot x={REYKJAVIK[0]} y={REYKJAVIK[1]}/>}
 
         {/* Transition dots */}
+        {/* Knokke — label to the right of dot, clear of the coastline */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.5}}>
           <Dot x={PT_KNOKKE[0]} y={PT_KNOKKE[1]}/>
-          <Label x={PT_KNOKKE[0]} y={PT_KNOKKE[1]} text="KNOKKE" above/>
+          <Label x={PT_KNOKKE[0]+52} y={PT_KNOKKE[1]} text="KNOKKE" above={false}/>
         </motion.g>
 
-        {/* WE ARE HERE — offset right so label doesn't grey out the line */}
+        {/* WE ARE HERE — label below and left, clear of both thick and thin lines */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.6}}>
           <ActiveDot x={PT_CURRENT[0]} y={PT_CURRENT[1]}/>
-          <Label x={PT_CURRENT[0]+52} y={PT_CURRENT[1]} text="WE ARE HERE" above={false}/>
+          <Label x={PT_CURRENT[0]-52} y={PT_CURRENT[1]+22} text="WE ARE HERE" above={false}/>
         </motion.g>
 
         {(ph==='between'||ph==='iceland'||ph==='post_iceland')&&(
