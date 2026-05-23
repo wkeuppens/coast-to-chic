@@ -156,25 +156,214 @@ function StageRow({ stage }: { stage: IcelandStage }) {
   const countdown = useCountdown(stage.secondsUntilRelease);
   const isOpen = stage.status === 'available' || countdown.isOpen;
 
-  // Team form state
-  const [teamSize, setTeamSize] = useState<1 | 2 | 3>(1);
-  const [members, setMembers] = useState<TeamMember[]>([
-    { name: '', email: '' },
-    { name: '', email: '' },
-    { name: '', email: '' },
-  ]);
+  const [members, setMembers] = useState<TeamMember[]>([{ name: '', email: '' }]);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
   const [waitlistDone, setWaitlistDone] = useState(false);
 
-  const updateMember = (i: number, field: keyof TeamMember, value: string) => {
+  const updateMember = (i: number, field: keyof TeamMember, value: string) =>
     setMembers(m => m.map((mem, idx) => idx === i ? { ...mem, [field]: value } : mem));
+
+  const addMember = () => {
+    if (members.length < 6) setMembers(m => [...m, { name: '', email: '' }]);
   };
 
-  const PRICES: Record<number, number> = { 1: 699, 2: 999, 3: 1299 };
-  const TIERS: Record<number, string> = { 1: 'stage_solo', 2: 'stage_duo', 3: 'stage_group' };
-  const price = PRICES[teamSize];
+  const removeMember = (i: number) => {
+    if (members.length > 1) setMembers(m => m.filter((_, idx) => idx !== i));
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true); setError('');
+    try {
+      const res = await checkout.event({
+        eventId: 'iceland',
+        customerEmail: members[0].email,
+        customerName: members[0].name,
+        stageNumber: stage.stageNumber,
+        tier: 'iceland_team',
+        teamMembers: members,
+      } as any);
+      if (res.paymentUrl) window.location.href = res.paymentUrl;
+      else setError(res.error ?? 'Something went wrong. Please try again.');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong.');
+    } finally { setSubmitting(false); }
+  };
+
+  const handleWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault(); setSubmitting(true);
+    try {
+      await waitlist.joinStage(stage.displayNumber, members[0].email, members[0].name);
+      setWaitlistDone(true);
+    } catch { setError('Something went wrong.'); }
+    finally { setSubmitting(false); }
+  };
+
+  const handleNotify = async (e: React.FormEvent) => {
+    e.preventDefault(); setSubmitting(true);
+    try {
+      await waitlist.joinIceland(members[0].email, members[0].name);
+      setDone(true);
+    } catch { setError('Something went wrong.'); }
+    finally { setSubmitting(false); }
+  };
+
+  const statusLabel = stage.status === 'booked' ? 'Registered'
+    : isOpen ? 'Available'
+    : countdown.formatted;
+
+  const statusStyle = stage.status === 'booked'
+    ? 'text-muted-foreground bg-secondary'
+    : isOpen ? 'text-white bg-accent'
+    : 'text-muted-foreground bg-secondary font-mono';
+
+  return (
+    <div className="border-b border-border/50 last:border-0">
+      <button
+        className="w-full text-left py-4 flex items-center gap-4 hover:bg-secondary/30 transition-colors px-2"
+        onClick={() => setExpanded(e => !e)}
+      >
+        <span className="text-sm text-muted-foreground tabular-nums w-8 shrink-0 font-mono">
+          {String(stage.displayNumber).padStart(2, '0')}
+        </span>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-foreground truncate">
+            {stage.startLocation} <span className="text-muted-foreground">→</span> {stage.endLocation}
+          </p>
+          <div className="flex gap-3 mt-0.5">
+            {stage.runDate && (
+              <span className="text-xs text-muted-foreground">
+                {new Date(stage.runDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </span>
+            )}
+            {stage.startTime && <span className="text-xs text-muted-foreground">{stage.startTime} local</span>}
+          </div>
+        </div>
+        <span className={`text-[10px] uppercase tracking-wider px-3 py-1 shrink-0 ${statusStyle}`}>
+          {statusLabel}
+        </span>
+      </button>
+
+      {expanded && (
+        <div className="px-2 pb-8 pt-2">
+          {stage.description && (
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-lg">{stage.description}</p>
+          )}
+
+          {/* Available — registration */}
+          {isOpen && !done && (
+            <form onSubmit={handleRegister} className="max-w-md space-y-5">
+              <div>
+                <p className="text-sm font-medium mb-1">Stage #{stage.displayNumber} — €1,399</p>
+                <p className="text-xs text-muted-foreground">
+                  Includes 3 books, crew, photographer, food & logistics. One or more runners per stage.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                  Runner{members.length > 1 ? 's' : ''}
+                </p>
+                {members.map((m, i) => (
+                  <div key={i} className="flex gap-2 items-start">
+                    <div className="flex-1 grid grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        placeholder={i === 0 ? 'Your name' : `Runner ${i + 1} name`}
+                        required
+                        value={m.name}
+                        onChange={e => updateMember(i, 'name', e.target.value)}
+                        className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      />
+                      <input
+                        type="email"
+                        placeholder={i === 0 ? 'Your email' : `Runner ${i + 1} email`}
+                        required
+                        value={m.email}
+                        onChange={e => updateMember(i, 'email', e.target.value)}
+                        className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      />
+                    </div>
+                    {members.length > 1 && (
+                      <button type="button" onClick={() => removeMember(i)}
+                        className="text-muted-foreground hover:text-foreground transition-colors mt-2 text-lg leading-none">
+                        ×
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {members.length < 6 && (
+                  <button type="button" onClick={addMember}
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
+                    + Add another runner
+                  </button>
+                )}
+              </div>
+
+              {error && <p className="text-xs text-red-500">{error}</p>}
+
+              <div>
+                <button type="submit" disabled={submitting}
+                  className="bg-accent text-white text-sm px-8 py-3 hover:opacity-80 transition-opacity disabled:opacity-50 w-full">
+                  {submitting ? 'Reserving…' : `Register — €1,399`}
+                </button>
+                <p className="text-xs text-muted-foreground mt-2 text-center">
+                  Redirected to Stripe. Stage confirmed once payment completes.
+                </p>
+              </div>
+            </form>
+          )}
+
+          {/* Booked — waitlist */}
+          {stage.status === 'booked' && (
+            waitlistDone
+              ? <p className="text-sm text-foreground">You're on the waitlist for Stage {stage.displayNumber}.</p>
+              : <form onSubmit={handleWaitlist} className="max-w-md space-y-3">
+                  <p className="text-sm text-muted-foreground">This stage is taken. Join the waitlist — we'll contact you if it opens up.</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Your name" value={members[0].name}
+                      onChange={e => updateMember(0, 'name', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
+                    <input type="email" placeholder="Email" required value={members[0].email}
+                      onChange={e => updateMember(0, 'email', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  {error && <p className="text-xs text-red-500">{error}</p>}
+                  <button type="submit" disabled={submitting}
+                    className="bg-secondary text-foreground text-sm px-6 py-2 hover:bg-secondary/70 transition-colors disabled:opacity-50">
+                    {submitting ? '…' : 'Join waitlist'}
+                  </button>
+                </form>
+          )}
+
+          {/* Locked — notify */}
+          {stage.status === 'locked' && !countdown.isOpen && (
+            done
+              ? <p className="text-sm text-foreground">We'll notify you when Iceland opens.</p>
+              : <form onSubmit={handleNotify} className="max-w-md space-y-3">
+                  <p className="text-sm text-muted-foreground">Get notified the moment registration opens.</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Your name" value={members[0].name}
+                      onChange={e => updateMember(0, 'name', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
+                    <input type="email" placeholder="Email" required value={members[0].email}
+                      onChange={e => updateMember(0, 'email', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  {error && <p className="text-xs text-red-500">{error}</p>}
+                  <button type="submit" disabled={submitting}
+                    className="bg-secondary text-foreground text-sm px-6 py-2 hover:bg-secondary/70 transition-colors disabled:opacity-50">
+                    {submitting ? '…' : 'Notify me'}
+                  </button>
+                </form>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();

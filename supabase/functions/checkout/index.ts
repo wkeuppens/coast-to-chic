@@ -154,27 +154,20 @@ Deno.serve(async (req) => {
 
     // ── Iceland Stage ────────────────────────────────────────────────────────
     else if (productType === 'event' && body.eventId === 'iceland') {
-      const { stageNumber, tier, teamMembers } = body
-      const tierPrices: Record<string, { amount: number; label: string }> = {
-        stage_solo:  { amount: 69900,  label: 'Solo (1 runner)' },
-        stage_duo:   { amount: 99900,  label: 'Duo (2 runners)' },
-        stage_group: { amount: 129900, label: 'Team (3 runners)' },
-      }
-      const { amount, label } = tierPrices[tier] ?? tierPrices.stage_solo
+      const { stageNumber, teamMembers } = body
 
       lineItems = [{
         price_data: {
           currency: 'eur',
           product_data: {
-            name: `Iceland 2027 — Stage #${stageNumber} — ${label}`,
+            name: `Iceland 2027 — Stage #${stageNumber}`,
             description: 'Includes 3 books, crew, photographer, food & logistics.',
           },
-          unit_amount: amount,
+          unit_amount: 139900, // €1,399
         },
         quantity: 1,
       }]
 
-      // Store all team members in metadata
       const memberData: Record<string, string> = {}
       if (Array.isArray(teamMembers)) {
         teamMembers.forEach((m: { name: string; email: string }, i: number) => {
@@ -187,7 +180,7 @@ Deno.serve(async (req) => {
         ...metadata,
         productType: 'iceland_stage',
         stageNumber: String(stageNumber),
-        tier,
+        runnerCount: String(Array.isArray(teamMembers) ? teamMembers.length : 1),
         ...memberData,
       }
     }
