@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { smoothPath } from '@/lib/pathSmoothing';
-import { fetchAndParseSVG } from '@/lib/svgCache';
+import { RouteMap } from '@/components/RouteMap';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -10,19 +9,6 @@ interface LoadingScreenProps {
 export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<'loading' | 'revealing' | 'done'>('loading');
-  const [pathData, setPathData] = useState<string | null>(null);
-  const [viewBox, setViewBox] = useState("0 0 800 600");
-
-  // Load the route SVG path (cached, shared with RouteMap)
-  useEffect(() => {
-    fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
-      .then(result => {
-        if (result) {
-          setPathData(result.pathData);
-          setViewBox(result.viewBox);
-        }
-      });
-  }, []);
 
   useEffect(() => {
     // Simulate loading progress
@@ -68,45 +54,14 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
-          {/* Route map trace as loading indicator */}
+          {/* Route map as loading indicator */}
           <motion.div
             className="relative w-64 h-48 md:w-80 md:h-60 mb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <svg
-              viewBox={viewBox}
-              className="w-full h-full"
-              preserveAspectRatio="xMidYMid meet"
-              fill="none"
-            >
-              {/* Background path (faint) */}
-              {pathData && (
-                <path
-                  d={pathData}
-                  stroke="hsl(var(--muted-foreground) / 0.15)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-              )}
-              {/* Animated progress path */}
-              {pathData && (
-                <motion.path
-                  d={pathData}
-                  stroke="hsl(var(--foreground))"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: progress / 100 }}
-                  transition={{ duration: 0.1, ease: "linear" }}
-                />
-              )}
-            </svg>
+            <RouteMap />
           </motion.div>
 
           {/* Logo/Brand mark */}

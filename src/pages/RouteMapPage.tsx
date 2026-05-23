@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SEO } from '@/components/SEO';
-import { smoothPath } from '@/lib/pathSmoothing';
-import { fetchAndParseSVG } from '@/lib/svgCache';
+import { RouteMap } from '@/components/RouteMap';
 import { STAGES } from '@/data/stages';
 
 const COMPLETED_STAGES = STAGES.filter(s => s.status === 'Completed');
@@ -98,13 +97,10 @@ const RouteMapPage = () => {
 
   useEffect(() => {
     if (isMobile) return;
-    fetchAndParseSVG('/route-map.svg', (d) => smoothPath(d, 3, 1.2, false))
-      .then(result => {
-        if (result) {
-          setPathData(result.pathData);
-          setViewBox(result.viewBox);
-        }
-      });
+    // route-map.svg has been replaced by the new RouteMap component.
+    // RouteMapPage now uses RouteMap for the overview. Stage-level
+    // interactive map will be rebuilt in a future iteration.
+    setPathData(null);
   }, [isMobile]);
 
   useEffect(() => {
