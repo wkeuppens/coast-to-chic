@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { RouteMap } from '@/components/RouteMap';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -54,14 +53,19 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
-          {/* Route map as loading indicator */}
+          {/* Simple animated line as loading indicator */}
           <motion.div
-            className="relative w-64 h-48 md:w-80 md:h-60 mb-8"
+            className="relative w-48 h-2 mb-12 bg-foreground/10 overflow-hidden rounded-full"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <RouteMap />
+            <motion.div
+              className="absolute inset-y-0 left-0 bg-accent rounded-full"
+              initial={{ width: '0%' }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.1, ease: 'linear' }}
+            />
           </motion.div>
 
           {/* Logo/Brand mark */}
