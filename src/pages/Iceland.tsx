@@ -149,41 +149,66 @@ function IcelandMap({ stages }: { stages: IcelandStage[] }) {
 
 // ── Stage row ─────────────────────────────────────────────────────────────────
 
+interface TeamMember { name: string; email: string }
+
 function StageRow({ stage }: { stage: IcelandStage }) {
   const [expanded, setExpanded] = useState(false);
   const countdown = useCountdown(stage.secondsUntilRelease);
-  const [form, setForm] = useState({ name: '', email: '' });
+  const isOpen = stage.status === 'available' || countdown.isOpen;
+
+  // Team form state
+  const [teamSize, setTeamSize] = useState<1 | 2 | 3>(1);
+  const [members, setMembers] = useState<TeamMember[]>([
+    { name: '', email: '' },
+    { name: '', email: '' },
+    { name: '', email: '' },
+  ]);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
   const [waitlistDone, setWaitlistDone] = useState(false);
 
-  const statusLabel = stage.status === 'booked' ? 'Registered'
-    : (stage.status === 'available' || countdown.isOpen) ? 'Available'
-    : countdown.formatted;
+  const updateMember = (i: number, field: keyof TeamMember, value: string) => {
+    setMembers(m => m.map((mem, idx) => idx === i ? { ...mem, [field]: value } : mem));
+  };
 
-  const statusStyle = stage.status === 'booked'
-    ? 'text-muted-foreground bg-secondary'
-    : (stage.status === 'available' || countdown.isOpen)
-    ? 'text-accent-foreground bg-accent'
-    : 'text-muted-foreground bg-secondary font-mono';
+  const PRICES: Record<number, number> = { 1: 699, 2: 999, 3: 1299 };
+  const TIERS: Record<number, string> = { 1: 'stage_solo', 2: 'stage_duo', 3: 'stage_group' };
+  const price = PRICES[teamSize];
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true); setError('');
+    const activeMembers = members.slice(0, teamSize);
+    const primary = activeMembers[0];
     try {
-      const res = await checkout.event({ eventId: 'iceland', customerEmail: form.email, customerName: form.name });
-      if (res.paymentUrl) { window.location.href = res.paymentUrl; }
-      else setError(res.error ?? 'Something went wrong.');
-    } catch (e) { setError(e instanceof Error ? e.message : 'Something went wrong.'); }
-    finally { setSubmitting(false); }
+      // Pass all team member details as metadata to Stripe
+      const res = await checkout.event({
+        eventId: 'iceland',
+        customerEmail: primary.email,
+        customerName: primary.name,
+        // Extra metadata passed through
+        stageNumber: stage.stageNumber,
+        tier: TIERS[teamSize],
+        teamMembers: activeMembers,
+      } as any);
+      if (res.paymentUrl) {
+        window.location.href = res.paymentUrl;
+      } else {
+        setError(res.error ?? 'Something went wrong. Please try again.');
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await waitlist.joinStage(stage.displayNumber, form.email, form.name);
+      await waitlist.joinStage(stage.displayNumber, members[0].email, members[0].name);
       setWaitlistDone(true);
     } catch { setError('Something went wrong.'); }
     finally { setSubmitting(false); }
@@ -193,11 +218,21 @@ function StageRow({ stage }: { stage: IcelandStage }) {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await waitlist.joinIceland(form.email, form.name);
+      await waitlist.joinIceland(members[0].email, members[0].name);
       setDone(true);
     } catch { setError('Something went wrong.'); }
     finally { setSubmitting(false); }
   };
+
+  const statusLabel = stage.status === 'booked' ? 'Registered'
+    : isOpen ? 'Available'
+    : countdown.formatted;
+
+  const statusStyle = stage.status === 'booked'
+    ? 'text-muted-foreground bg-secondary'
+    : isOpen
+    ? 'text-white bg-accent'
+    : 'text-muted-foreground bg-secondary font-mono';
 
   return (
     <div className="border-b border-border/50 last:border-0">
@@ -213,9 +248,12 @@ function StageRow({ stage }: { stage: IcelandStage }) {
             {stage.startLocation} <span className="text-muted-foreground">→</span> {stage.endLocation}
           </p>
           <div className="flex gap-3 mt-0.5">
-            {stage.runDate && <span className="text-xs text-muted-foreground">{new Date(stage.runDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>}
-            {stage.startTime && <span className="text-xs text-muted-foreground">{stage.startTime.slice(0, 5)} local</span>}
-            {stage.distanceKm && <span className="text-xs text-muted-foreground">~{stage.distanceKm}km</span>}
+            {stage.runDate && (
+              <span className="text-xs text-muted-foreground">
+                {new Date(stage.runDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </span>
+            )}
+            {stage.startTime && <span className="text-xs text-muted-foreground">{stage.startTime} local</span>}
           </div>
         </div>
         <span className={`text-[10px] uppercase tracking-wider px-3 py-1 shrink-0 ${statusStyle}`}>
@@ -224,70 +262,127 @@ function StageRow({ stage }: { stage: IcelandStage }) {
       </button>
 
       {expanded && (
-        <div className="px-2 pb-6 pt-2">
+        <div className="px-2 pb-8 pt-2">
           {stage.description && (
-            <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-lg">{stage.description}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-lg">{stage.description}</p>
           )}
 
-          {/* Register */}
-          {(stage.status === 'available' || countdown.isOpen) && !done && (
-            <form onSubmit={handleRegister} className="flex flex-col gap-3 max-w-sm">
-              <p className="text-sm text-foreground">€1,399 per team — includes 3 books</p>
-              <input type="text" placeholder="Your name" required value={form.name}
-                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors" />
-              <input type="email" placeholder="Email address" required value={form.email}
-                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors" />
+          {/* Available — full registration form */}
+          {isOpen && !done && (
+            <form onSubmit={handleRegister} className="max-w-md space-y-6">
+
+              {/* Team size selector */}
+              <div>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Team size</p>
+                <div className="flex gap-2">
+                  {([1, 2, 3] as const).map(n => (
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => setTeamSize(n)}
+                      className={`flex-1 py-2 text-sm border transition-colors ${
+                        teamSize === n
+                          ? 'border-foreground bg-foreground text-background'
+                          : 'border-border text-muted-foreground hover:border-foreground/50'
+                      }`}
+                    >
+                      {n === 1 ? 'Solo' : n === 2 ? 'Duo' : 'Team'}<br />
+                      <span className="text-xs opacity-70">€{PRICES[n]}</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Price per team — includes 3 books, crew, photographer, food.
+                </p>
+              </div>
+
+              {/* Team member fields */}
+              <div className="space-y-4">
+                {Array.from({ length: teamSize }).map((_, i) => (
+                  <div key={i}>
+                    <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wider">
+                      {i === 0 ? 'Primary contact' : `Runner ${i + 1}`}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        placeholder="Full name"
+                        required
+                        value={members[i].name}
+                        onChange={e => updateMember(i, 'name', e.target.value)}
+                        className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        required
+                        value={members[i].email}
+                        onChange={e => updateMember(i, 'email', e.target.value)}
+                        className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
               {error && <p className="text-xs text-red-500">{error}</p>}
-              <button type="submit" disabled={submitting}
-                className="bg-accent text-white text-sm px-6 py-2.5 hover:opacity-80 transition-opacity disabled:opacity-50 self-start">
-                {submitting ? 'Processing…' : 'Register — €1,399'}
-              </button>
+
+              <div>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="bg-accent text-white text-sm px-8 py-3 hover:opacity-80 transition-opacity disabled:opacity-50 w-full"
+                >
+                  {submitting ? 'Reserving…' : `Register Stage ${stage.displayNumber} — €${price}`}
+                </button>
+                <p className="text-xs text-muted-foreground mt-2 text-center">
+                  You'll be redirected to Stripe. Stage is reserved once payment completes.
+                </p>
+              </div>
             </form>
           )}
 
-          {/* Booked: waitlist */}
+          {/* Booked — waitlist */}
           {stage.status === 'booked' && (
             waitlistDone
-              ? <p className="text-sm text-foreground">You're on the waitlist.</p>
-              : <form onSubmit={handleWaitlist} className="flex flex-col gap-3 max-w-sm">
-                  <p className="text-xs text-muted-foreground">Join waitlist for Stage {stage.displayNumber}</p>
-                  <div className="flex gap-2">
-                    <input type="text" placeholder="Name" value={form.name}
-                      onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                      className="border border-border bg-transparent px-3 py-2 text-sm flex-1 focus:outline-none" />
-                    <input type="email" placeholder="Email" required value={form.email}
-                      onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                      className="border border-border bg-transparent px-3 py-2 text-sm flex-1 focus:outline-none" />
-                    <button type="submit" disabled={submitting}
-                      className="bg-secondary text-foreground text-sm px-4 py-2 hover:bg-secondary/70 transition-colors disabled:opacity-50 whitespace-nowrap">
-                      {submitting ? '…' : 'Join'}
-                    </button>
+              ? <p className="text-sm text-foreground">You're on the waitlist for Stage {stage.displayNumber}.</p>
+              : <form onSubmit={handleWaitlist} className="max-w-md space-y-3">
+                  <p className="text-sm text-muted-foreground">This stage is taken. Join the waitlist — we'll contact you if it opens up.</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Your name" value={members[0].name}
+                      onChange={e => updateMember(0, 'name', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
+                    <input type="email" placeholder="Email" required value={members[0].email}
+                      onChange={e => updateMember(0, 'email', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
                   </div>
                   {error && <p className="text-xs text-red-500">{error}</p>}
+                  <button type="submit" disabled={submitting}
+                    className="bg-secondary text-foreground text-sm px-6 py-2 hover:bg-secondary/70 transition-colors disabled:opacity-50">
+                    {submitting ? '…' : 'Join waitlist'}
+                  </button>
                 </form>
           )}
 
-          {/* Locked: notify */}
+          {/* Locked — notify */}
           {stage.status === 'locked' && !countdown.isOpen && (
             done
-              ? <p className="text-sm text-foreground">You're on the list — we'll notify you when this opens.</p>
-              : <form onSubmit={handleNotify} className="flex flex-col gap-3 max-w-sm">
-                  <p className="text-xs text-muted-foreground">Notify me when Iceland opens</p>
-                  <div className="flex gap-2">
-                    <input type="text" placeholder="Name" value={form.name}
-                      onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                      className="border border-border bg-transparent px-3 py-2 text-sm flex-1 focus:outline-none" />
-                    <input type="email" placeholder="Email" required value={form.email}
-                      onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                      className="border border-border bg-transparent px-3 py-2 text-sm flex-1 focus:outline-none" />
-                    <button type="submit" disabled={submitting}
-                      className="bg-secondary text-foreground text-sm px-4 py-2 hover:bg-secondary/70 transition-colors disabled:opacity-50 whitespace-nowrap">
-                      {submitting ? '…' : 'Notify me'}
-                    </button>
+              ? <p className="text-sm text-foreground">We'll notify you when Iceland opens.</p>
+              : <form onSubmit={handleNotify} className="max-w-md space-y-3">
+                  <p className="text-sm text-muted-foreground">Get notified the moment registration opens.</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Your name" value={members[0].name}
+                      onChange={e => updateMember(0, 'name', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
+                    <input type="email" placeholder="Email" required value={members[0].email}
+                      onChange={e => updateMember(0, 'email', e.target.value)}
+                      className="border border-border bg-transparent px-3 py-2 text-sm focus:outline-none" />
                   </div>
                   {error && <p className="text-xs text-red-500">{error}</p>}
+                  <button type="submit" disabled={submitting}
+                    className="bg-secondary text-foreground text-sm px-6 py-2 hover:bg-secondary/70 transition-colors disabled:opacity-50">
+                    {submitting ? '…' : 'Notify me'}
+                  </button>
                 </form>
           )}
         </div>

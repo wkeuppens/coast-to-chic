@@ -152,8 +152,45 @@ Deno.serve(async (req) => {
       metadata = { ...metadata, printId }
     }
 
-    // ── Book launch (free) ───────────────────────────────────────────────────
-    else if (productType === 'book_launch_free') {
+    // ── Iceland Stage ────────────────────────────────────────────────────────
+    else if (productType === 'event' && body.eventId === 'iceland') {
+      const { stageNumber, tier, teamMembers } = body
+      const tierPrices: Record<string, { amount: number; label: string }> = {
+        stage_solo:  { amount: 69900,  label: 'Solo (1 runner)' },
+        stage_duo:   { amount: 99900,  label: 'Duo (2 runners)' },
+        stage_group: { amount: 129900, label: 'Team (3 runners)' },
+      }
+      const { amount, label } = tierPrices[tier] ?? tierPrices.stage_solo
+
+      lineItems = [{
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: `Iceland 2027 — Stage #${stageNumber} — ${label}`,
+            description: 'Includes 3 books, crew, photographer, food & logistics.',
+          },
+          unit_amount: amount,
+        },
+        quantity: 1,
+      }]
+
+      // Store all team members in metadata
+      const memberData: Record<string, string> = {}
+      if (Array.isArray(teamMembers)) {
+        teamMembers.forEach((m: { name: string; email: string }, i: number) => {
+          memberData[`runner_${i + 1}_name`] = m.name
+          memberData[`runner_${i + 1}_email`] = m.email
+        })
+      }
+
+      metadata = {
+        ...metadata,
+        productType: 'iceland_stage',
+        stageNumber: String(stageNumber),
+        tier,
+        ...memberData,
+      }
+    }
       // Free event — no Stripe session needed, just return success
       return new Response(
         JSON.stringify({ success: true, message: 'Registered for book launch' }),
