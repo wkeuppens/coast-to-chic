@@ -94,7 +94,7 @@ export const RouteMap = () => {
 
   const THIN   = 'hsl(var(--foreground))'
   const w = {thin:0.8, thick:2.2, medium:1.5}
-  const op = {thin:0.18, thick:1, medium:0.45, dot:0.25}
+  const op = {thin:0.18, thick:1, dot:0.25}
 
   const seg2Style = ph==='before_progress'
     ? {strokeWidth:w.thin, opacity:op.thin, strokeDasharray:undefined}
@@ -120,9 +120,9 @@ export const RouteMap = () => {
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:2,ease:'easeInOut',delay:2.8}}/>
 
-        {/* seg1: Istanbul→Volos — planned dashed */}
-        <motion.path d={SEG1} stroke={THIN} strokeWidth={w.medium}
-          strokeLinecap="round" strokeDasharray="5 5" opacity={op.medium} fill="none"
+        {/* seg1: Istanbul→Volos — planned, same thin weight as context */}
+        <motion.path d={SEG1} stroke={THIN} strokeWidth={w.thin}
+          strokeLinecap="round" strokeDasharray="4 6" opacity={op.thin} fill="none"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:0.6,ease:'easeInOut',delay:2.6}}/>
 
@@ -140,18 +140,13 @@ export const RouteMap = () => {
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:2.0,ease:'easeInOut',delay:0.5}}/>
 
-        {/* Iceland inset */}
-        <rect x={14} y={9} width={158} height={88} rx={4}
-          fill="hsl(var(--background))" fillOpacity={0.6}
-          stroke="hsl(var(--foreground))" strokeWidth={0.5} strokeOpacity={0.2}/>
+        {/* Iceland inset — outline only, no box or label */}
         <motion.path d={icelandPath} stroke={THIN}
           strokeWidth={ph==='iceland'?w.thick:w.thin}
           strokeLinecap="round" opacity={ph==='iceland'?1:0.25} fill="none"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:1.5,ease:'easeInOut',delay:0.3}}/>
         {ph==='iceland' && <ActiveDot x={REYKJAVIK[0]} y={REYKJAVIK[1]}/>}
-        <text x={92} y={100} textAnchor="middle" fill="hsl(var(--foreground))"
-          fontSize={7.5} fontFamily="sans-serif" letterSpacing="0.1em" opacity={0.35}>ICELAND 2027</text>
 
         {/* Transition dots */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.5}}>
@@ -159,9 +154,10 @@ export const RouteMap = () => {
           <Label x={PT_KNOKKE[0]} y={PT_KNOKKE[1]} text="KNOKKE" above/>
         </motion.g>
 
+        {/* WE ARE HERE — offset right so label doesn't grey out the line */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.6}}>
           <ActiveDot x={PT_CURRENT[0]} y={PT_CURRENT[1]}/>
-          <Label x={PT_CURRENT[0]} y={PT_CURRENT[1]} text="WE ARE HERE" above/>
+          <Label x={PT_CURRENT[0]+52} y={PT_CURRENT[1]} text="WE ARE HERE" above={false}/>
         </motion.g>
 
         {(ph==='between'||ph==='iceland'||ph==='post_iceland')&&(
@@ -180,7 +176,7 @@ export const RouteMap = () => {
           <circle cx={PT_NORDKAPP[0]} cy={PT_NORDKAPP[1]} r={2} fill="hsl(var(--foreground))" opacity={0.2}/>
           <text x={PT_NORDKAPP[0]} y={PT_NORDKAPP[1]-8} textAnchor="middle"
             fill="hsl(var(--foreground))" fontSize={7} opacity={0.25}
-            fontFamily="sans-serif" letterSpacing="0.08em">NORWAY →</text>
+            fontFamily="sans-serif" letterSpacing="0.08em">GRENSE JAKOBSELV</text>
         </motion.g>
 
       </svg>
