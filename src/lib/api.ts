@@ -146,3 +146,40 @@ export const archive = {
     }
   },
 }
+
+// ── Archive tiles — used by Register page to show available stages ────────────
+// Routes through sanity-proxy. Returns stages matching ApiStage shape.
+import { sanityFetch } from './sanityClient'
+
+// Extend archive with tiles()
+;(archive as any).tiles = async (): Promise<ApiStage[]> => {
+  const raw = await sanityFetch<Record<string, unknown>[]>(`
+    *[_type=="stage"&&isIceland!=true]|order(stageNumber asc){
+      _id,stageNumber,title,country,region,distanceKm,
+      startLocation,endLocation,startCoord,endCoord,
+      status,runDate,description,bookNumber,isIceland,
+      "shoreholder":shoreholder->name,
+      "shoreholderSlug":shoreholder->slug.current
+    }`)
+  return raw.map((r: Record<string, unknown>) => ({
+    id: r._id as string,
+    stageNumber: r.stageNumber as number,
+    displayNumber: r.stageNumber as number,
+    title: r.title as string,
+    country: r.country as string,
+    region: (r.region as string | null) ?? null,
+    distanceKm: (r.distanceKm as number | null) ?? null,
+    startLocation: r.startLocation as string,
+    endLocation: r.endLocation as string,
+    startCoord: (r.startCoord as { lat: number; lng: number } | null) ?? null,
+    endCoord: (r.endCoord as { lat: number; lng: number } | null) ?? null,
+    shoreholder: (r.shoreholder as string | null) ?? null,
+    shoreholderSlug: (r.shoreholderSlug as string | null) ?? null,
+    runDate: (r.runDate as string | null) ?? null,
+    status: r.status as ApiStage['status'],
+    image: '',
+    description: (r.description as string | null) ?? null,
+    bookNumber: (r.bookNumber as number | null) ?? null,
+    isIceland: (r.isIceland as boolean) ?? false,
+  }))
+}

@@ -6,6 +6,9 @@ import { Footer } from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { checkout, type SessionResponse } from '@/lib/api';
 
+const WHATSAPP = 'https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV'
+const BROCHURE = 'https://www.followthecoast.com/download/FTC_Iceland_2027_v7.12.05.pdf'
+
 const OrderSuccess = () => {
   const [data, setData] = useState<SessionResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -20,13 +23,16 @@ const OrderSuccess = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const productType = data?.productType ?? data?.metadata?.productType ?? null;
+
   const headline = (() => {
-    switch (data?.productType) {
-      case 'book':  return 'Your books are on their way.';
-      case 'stage': return 'Stage registered.';
-      case 'event': return `${data.eventName ?? 'Event'} — confirmed.`;
-      case 'print': return 'Print ordered.';
-      default:      return 'Order confirmed.';
+    switch (productType) {
+      case 'book':          return 'Your books are on their way.';
+      case 'stage':         return 'Stage registered.';
+      case 'iceland_stage': return `Iceland 2027 — Stage #${data?.metadata?.stageNumber ?? ''} confirmed.`;
+      case 'event':         return `${data?.eventName ?? 'Event'} — confirmed.`;
+      case 'print':         return 'Print ordered.';
+      default:              return 'Order confirmed.';
     }
   })();
 
@@ -36,41 +42,70 @@ const OrderSuccess = () => {
       <Navigation />
       <main className="min-h-screen bg-background flex items-center justify-center px-page">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="max-w-md w-full text-center py-24"
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
+          className="max-w-lg w-full py-24"
         >
           {loading ? (
             <p className="text-sm text-muted-foreground">Loading…</p>
           ) : error ? (
             <>
               <p className="text-sm text-muted-foreground mb-8">{error}</p>
-              <Link to="/" className="text-sm text-accent hover:opacity-80 transition-opacity">
-                Back to Follow the Coast
-              </Link>
+              <Link to="/" className="text-sm text-accent hover:opacity-80 transition-opacity">← Back to Follow the Coast</Link>
             </>
           ) : (
             <>
               <p className="text-label mb-6">
-                <span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />
-                Confirmed
+                <span className="inline-block w-2.5 h-px bg-accent mr-2 align-middle" />Confirmed
               </p>
               <h1 className="text-3xl md:text-4xl tracking-tight mb-5">{headline}</h1>
+
               {data?.customerEmail && (
                 <p className="text-sm text-muted-foreground mb-2">
                   A confirmation email is on its way to {data.customerEmail}.
                 </p>
               )}
               {data?.amountTotal && (
-                <p className="text-sm text-muted-foreground mb-10">
+                <p className="text-sm text-muted-foreground mb-8">
                   Total paid: €{(data.amountTotal / 100).toFixed(2)}
                 </p>
               )}
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 bg-accent text-white text-sm px-8 py-3 rounded-full hover:opacity-80 transition-opacity"
-              >
+
+              {/* Iceland-specific next steps */}
+              {productType === 'iceland_stage' && (
+                <div className="border-t border-border pt-8 mb-10 space-y-4">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Your stage guide with full logistics will be sent 6 weeks before your stage date.
+                    In the meantime, join the Iceland 2027 WhatsApp group and download the brochure.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                    <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center bg-accent text-white text-sm px-6 py-2.5 rounded-full hover:opacity-80 transition-opacity">
+                      Join WhatsApp group
+                    </a>
+                    <a href={BROCHURE} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center border border-border text-sm px-6 py-2.5 rounded-full hover:border-foreground/50 transition-colors">
+                      Download brochure
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* Stage-specific next steps */}
+              {productType === 'stage' && (
+                <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+                  Your stage guide with all logistics will be sent closer to your stage date. Reply to your confirmation email with any questions.
+                </p>
+              )}
+
+              {/* Book shipping note */}
+              {productType === 'book' && (
+                <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+                  Books are shipped by our fulfilment partner. Allow 5–7 working days for delivery within Europe.
+                </p>
+              )}
+
+              <Link to="/"
+                className="inline-flex items-center gap-2 bg-accent text-white text-sm px-8 py-3 rounded-full hover:opacity-80 transition-opacity">
                 Back to Follow the Coast
               </Link>
             </>
