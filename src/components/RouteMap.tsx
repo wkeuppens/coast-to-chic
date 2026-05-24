@@ -1,18 +1,17 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useMemo } from 'react';
 
-// Context coastline: Ireland, Denmark/Jutland, Britain only
+// Ireland + Britain only (Danish island removed)
 const COAST = [
   `M 197.5 363.0 C 198.0 365.4 201.4 367.4 199.6 372.8 C 197.8 378.2 198.0 379.8 190.1 384.7 C 182.2 389.6 177.9 391.1 168.0 392.5 C 158.1 393.9 152.2 394.4 150.3 390.5 C 148.4 386.6 159.5 383.6 160.4 376.7 C 161.3 369.8 151.3 369.0 153.9 362.8 C 156.5 356.6 164.3 356.2 170.9 351.9 C 177.5 347.5 175.3 347.2 180.3 345.4 C 185.3 343.6 184.8 342.8 190.8 344.8 C 196.8 346.8 202.5 348.9 204.2 353.5 C 205.9 358.1 199.2 360.6 197.5 363.0`,
-  `M 429.6 331.3 C 430.6 333.1 434.5 333.8 433.6 338.5 C 432.7 343.2 431.2 349.1 426.1 350.0 C 421.0 350.9 416.7 345.5 413.0 342.0 C 409.3 338.5 407.1 338.8 411.3 336.1 C 415.5 333.4 425.0 332.5 429.6 331.3`,
   `M 222.4 294.6 C 226.2 294.3 237.0 289.5 237.4 293.3 C 237.8 297.1 224.2 306.3 224.1 309.9 C 223.9 313.5 230.2 308.3 236.8 307.8 C 243.4 307.3 247.9 304.8 250.5 307.9 C 253.1 311.0 250.9 313.8 247.3 320.1 C 243.7 326.5 235.6 329.8 236.0 333.3 C 236.4 336.8 242.6 329.4 248.9 334.2 C 255.2 339.0 255.9 347.4 261.1 352.5 C 266.3 357.6 265.6 350.2 269.6 354.7 C 273.7 359.2 274.5 365.1 277.3 370.4 C 280.1 375.7 276.2 373.8 280.9 375.8 C 285.6 377.8 292.6 375.5 296.0 378.3 C 299.4 381.1 296.5 383.8 294.5 386.9 C 292.5 390.0 288.5 388.0 288.1 390.7 C 287.8 393.4 294.7 394.1 293.1 397.5 C 291.6 400.9 288.9 402.5 281.9 404.2 C 274.9 405.9 274.7 403.2 265.2 404.1 C 255.7 405.0 250.7 407.4 243.9 407.6 C 237.1 407.9 241.5 404.2 238.0 405.1 C 234.5 406.0 234.8 410.0 229.8 411.1 C 224.9 412.2 223.3 408.9 218.2 409.7 C 213.1 410.5 213.2 413.9 209.4 414.5 C 205.6 415.1 199.9 416.0 202.8 412.0 C 205.7 408.0 213.7 402.6 221.1 398.5 C 228.5 394.4 234.4 396.9 232.3 395.7 C 230.2 394.4 218.5 395.4 212.7 393.5 C 206.9 391.6 206.8 390.6 209.2 388.3 C 211.6 386.0 220.6 387.0 222.2 384.2 C 223.8 381.4 216.5 381.0 215.4 377.0 C 214.3 373.0 212.6 370.0 217.8 368.1 C 223.0 366.2 231.2 371.1 236.3 369.4 C 241.4 367.7 239.9 365.6 238.2 361.4 C 236.5 357.2 235.5 355.4 229.6 352.6 C 223.7 349.8 218.9 351.8 214.4 350.2 C 209.9 348.6 211.1 348.9 211.5 346.3 C 211.9 343.8 215.9 342.6 216.0 340.0 C 216.1 337.4 214.6 335.3 211.9 336.0 C 209.2 336.7 207.1 344.6 205.2 342.8 C 203.3 341.0 206.2 334.2 204.4 328.9 C 202.6 323.5 198.5 327.2 198.1 321.4 C 197.7 315.6 199.1 312.8 202.7 305.8 C 206.3 298.8 207.5 296.1 212.4 293.3 C 217.3 290.5 219.9 294.3 222.4 294.6`
 ]
 
-// Main coastline split at FTC waypoints (seg[0] removed — nothing east of Istanbul)
-// seg1: Istanbul → Volos (planned 2027)
-// seg2: Volos → Croatia/Montenegro (in-progress Oct-Nov 2026)
-// seg3: Croatia → Knokke (completed, thick)
-// seg4: Knokke → Nordkapp (future, clipped at Nordkapp)
+// Main coastline split at FTC waypoints
+// seg1: Istanbul→Volos (planned 2027, thin dashed)
+// seg2: Volos→Croatia (in-progress Oct-Nov 2026)
+// seg3: Croatia→Knokke (completed, thick)
+// seg4: Knokke→Grense Jakobselv (future, thin dotted)
 const SEG1 = `M 635.1 518.0 C 630.8 518.8 625.2 517.5 620.2 518.5 C 615.2 519.5 618.8 519.6 614.9 521.9 C 611.0 524.2 608.1 527.4 604.5 527.6 C 600.9 527.8 601.5 524.4 600.5 522.6 C 599.5 520.8 602.6 521.0 600.7 520.4 C 598.9 519.8 596.6 520.4 593.1 520.1 C 589.6 519.8 592.0 518.7 586.6 519.1 C 581.2 519.5 573.0 519.7 571.4 521.9 C 569.8 524.1 579.5 526.0 580.1 527.9 C 580.7 529.8 577.0 529.2 573.7 529.6 C 570.4 530.0 570.2 531.0 566.8 529.6 C 563.4 528.2 562.5 525.0 560.2 524.2 C 558.0 523.4 557.7 524.4 557.8 526.5 C 557.9 528.6 558.3 530.0 560.6 532.8`
 const SEG2 = `M 560.6 532.8 C 562.9 535.6 566.5 536.0 566.9 537.8 C 567.3 539.6 561.7 538.2 562.2 540.0 C 562.8 541.8 565.8 542.8 569.1 544.8 C 572.4 546.8 573.7 545.6 575.3 547.8 C 576.9 550.0 578.4 552.9 575.5 553.7 C 572.6 554.5 565.9 550.3 563.9 550.9 C 561.9 551.5 568.6 554.6 567.6 556.2 C 566.6 557.8 560.5 554.7 559.7 557.2 C 558.9 559.7 565.3 563.9 564.4 566.2 C 563.5 568.5 560.7 567.4 556.1 566.3 C 551.5 565.2 549.6 565.0 545.9 561.9 C 542.2 558.8 542.9 557.5 541.2 553.8 C 539.5 550.0 540.8 549.8 539.0 546.9 C 537.2 544.0 536.9 544.8 534.1 542.1 C 531.3 539.4 529.5 538.4 527.7 536.2 C 525.9 534.0 527.6 534.2 526.9 533.2 C 526.2 532.2 525.4 533.2 524.8 532.4 C 524.2 531.6 526.3 531.5 524.5 530.1 C 522.7 528.7 519.6 528.8 517.6 526.6 C 515.6 524.5 516.5 524.6 516.5 521.5 C 516.5 518.4 516.8 516.8 517.5 514.1 C 518.2 511.4 519.4 512.1 519.3 510.8 C 519.2 509.5 518.3 509.6 517.1 509.0 C 515.9 508.4 516.0 509.3 514.5 508.2 C 513.0 507.1 513.2 506.1 511.0 504.6 C 508.8 503.2 509.9 503.9 505.6 502.4`
 const SEG3 = `M 505.6 502.4 C 501.3 500.8 498.6 500.4 493.9 498.4 C 489.1 496.4 491.3 496.2 486.6 494.4 C 481.9 492.5 480.7 493.9 475.2 491.0 C 469.7 488.1 466.7 485.1 464.7 482.8 C 462.7 480.5 468.0 483.3 467.2 481.9 C 466.4 480.5 463.0 479.2 461.5 477.1 C 460.0 475.0 463.4 474.7 461.3 473.3 C 459.2 471.9 456.2 470.6 453.2 471.4 C 450.2 472.2 451.3 476.1 449.4 476.4 C 447.5 476.7 446.5 474.6 445.7 472.6 C 444.9 470.6 445.8 469.6 446.0 468.5 C 446.2 467.4 445.6 468.7 446.4 468.4 C 447.2 468.1 451.0 468.0 449.2 467.3 C 447.4 466.6 444.3 465.0 439.3 465.6 C 434.3 466.2 431.5 467.2 429.1 469.7 C 426.7 472.1 430.0 473.1 429.8 475.4 C 429.6 477.6 427.7 476.4 428.3 478.7 C 428.9 481.0 428.4 481.6 432.4 484.5 C 436.3 487.4 439.6 486.4 444.1 490.1 C 448.6 493.8 445.3 494.8 450.4 499.3 C 455.4 503.8 458.4 506.0 464.3 508.2 C 470.2 510.4 470.9 507.5 474.1 508.1 C 477.3 508.7 477.2 509.4 477.1 510.5 C 477.0 511.6 471.7 511.2 473.6 512.7 C 475.5 514.2 479.7 514.8 484.8 516.6 C 489.9 518.4 489.0 517.7 494.0 519.9 C 499.0 522.1 501.7 523.5 504.7 525.4 C 507.7 527.3 506.2 525.9 506.0 527.4 C 505.8 528.9 506.0 531.5 503.7 531.2 C 501.4 530.9 501.1 528.0 496.7 526.3 C 492.2 524.6 489.9 523.2 485.9 524.5 C 481.9 525.8 479.7 528.7 480.6 531.4 C 481.5 534.1 487.7 532.9 489.6 535.3 C 491.5 537.6 489.9 539.3 488.2 540.8 C 486.5 542.3 485.9 539.0 482.9 541.4 C 479.9 543.8 479.2 547.9 476.3 550.3 C 473.4 552.7 472.4 551.7 471.1 551.1 C 469.8 550.5 470.5 550.1 471.1 547.9 C 471.7 545.7 472.3 544.2 473.6 542.3 C 474.9 540.3 476.9 542.2 476.4 540.1 C 475.9 538.0 473.7 536.9 471.5 534.0 C 469.3 531.1 469.9 530.4 467.7 528.7 C 465.4 527.1 464.7 528.9 462.5 527.4 C 460.3 525.9 461.7 524.4 458.8 522.8 C 455.9 521.1 454.2 522.4 450.8 520.8 C 447.4 519.2 449.0 517.8 445.3 516.5 C 441.6 515.2 440.9 517.2 436.1 515.8 C 431.4 514.4 431.6 513.9 426.3 510.9 C 421.0 507.9 419.9 507.1 414.9 503.8 C 409.9 500.5 409.5 501.9 406.4 497.5 C 403.3 493.1 405.0 489.5 402.5 486.4 C 400.0 483.3 400.4 486.4 396.3 485.1 C 392.2 483.9 390.1 481.9 386.1 481.4 C 382.1 480.8 383.6 481.2 380.4 482.9 C 377.1 484.6 376.2 486.6 373.1 488.1 C 370.0 489.6 372.0 487.2 367.9 489.0 C 363.8 490.8 365.6 494.5 356.6 495.3 C 347.6 496.1 342.7 492.1 332.0 492.2 C 321.3 492.3 318.7 493.3 313.8 495.9 C 308.9 498.5 312.5 499.2 312.3 502.5 C 312.1 505.8 315.8 505.5 313.0 508.9 C 310.2 512.3 308.1 513.7 301.1 516.1 C 294.1 518.5 289.4 516.9 285.1 518.4 C 280.8 519.9 286.2 519.6 284.0 522.0 C 281.8 524.4 279.4 524.3 276.3 527.9 C 273.2 531.5 271.5 532.9 271.5 536.5 C 271.5 540.1 277.0 539.9 276.4 542.5 C 275.8 545.1 271.7 544.3 269.2 547.1 C 266.7 549.9 269.6 551.6 266.5 553.8 C 263.4 556.0 261.6 553.3 257.0 555.8 C 252.4 558.3 254.4 561.7 248.2 563.7 C 242.0 565.7 239.2 563.8 232.3 563.8 C 225.4 563.8 225.3 562.8 220.4 563.6 C 215.5 564.5 215.8 565.4 212.6 567.2 C 209.4 569.1 210.5 570.3 207.8 571.0 C 205.1 571.7 204.4 571.2 201.7 570.1 C 199.0 569.0 199.1 569.0 197.0 566.7 C 194.9 564.4 197.3 562.7 193.5 560.9 C 189.7 559.1 186.0 559.1 181.8 559.4 C 177.6 559.7 179.7 561.7 176.8 562.0 C 173.9 562.3 173.4 560.7 170.2 560.6 C 166.9 560.5 164.9 563.4 163.8 561.7 C 162.7 560.0 165.5 557.3 165.7 553.7 C 165.9 550.1 166.2 549.2 164.5 547.4 C 162.8 545.6 161.1 547.6 158.9 546.4 C 156.8 545.2 156.4 545.2 155.9 542.5 C 155.4 539.8 155.4 538.3 156.9 535.6 C 158.4 532.9 160.4 533.8 161.9 531.8 C 163.4 529.8 161.9 530.2 162.8 527.5 C 163.7 524.8 164.8 523.8 165.4 521.1 C 166.0 518.4 165.8 518.7 165.1 516.6 C 164.4 514.5 163.3 514.6 162.6 512.7 C 161.8 510.8 162.1 511.9 162.1 509.0 C 162.1 506.1 163.8 504.4 162.7 501.2 C 161.6 498.0 154.4 499.6 157.6 496.4 C 160.8 493.2 167.1 489.8 175.3 488.3 C 183.6 486.8 182.6 489.9 190.6 490.4 C 198.6 490.9 199.9 489.9 207.4 490.3 C 214.9 490.8 214.8 491.9 220.7 492.2 C 226.6 492.5 223.4 491.7 231.0 491.6 C 238.6 491.6 244.5 493.6 251.2 492.0 C 257.9 490.4 255.5 492.7 257.7 485.3 C 259.9 477.9 262.7 471.2 260.1 462.4 C 257.5 453.6 252.7 454.6 247.2 450.0 C 241.7 445.4 245.1 446.6 238.0 443.9 C 230.9 441.2 224.0 442.7 218.9 439.3 C 213.8 435.9 213.9 433.3 217.6 430.4 C 221.3 427.5 224.5 427.6 233.8 427.7 C 243.1 427.8 250.6 433.6 254.8 430.9 C 259.1 428.2 248.9 419.0 250.8 416.8 C 252.8 414.6 252.4 423.3 262.6 422.2 C 272.8 421.1 283.5 417.5 291.7 412.4 C 299.9 407.3 291.8 405.2 295.5 401.9 C 299.2 398.6 301.2 400.6 306.4 399.3 C 311.6 398.0 312.3 398.2 316.4 396.7`
@@ -25,19 +24,21 @@ const ICELAND: [number,number][] = [
 ]
 const REYKJAVIK: [number,number] = [51.3, 67.2]
 
+// Transition points on the path
 const PT_KNOKKE:   [number,number] = [316.4, 396.7]
 const PT_CURRENT:  [number,number] = [505.6, 502.4]
 const PT_VOLOS:    [number,number] = [560.6, 532.8]
 const PT_ISTANBUL: [number,number] = [635.1, 518.0]
-const PT_NORDKAPP: [number,number] = [597.2, 48.3]
+// Actual end of SEG4 (clipped at Grense Jakobselv)
+const PT_GJ:       [number,number] = [604.6, 52.9]
 
 function smooth(pts: [number,number][], t = 0.5): string {
   if (pts.length < 2) return ''
   const d: string[] = [`M ${pts[0][0]} ${pts[0][1]}`]
   for (let i = 1; i < pts.length; i++) {
     const p0=pts[i-2]??pts[i-1],p1=pts[i-1],p2=pts[i],p3=pts[i+1]??pts[i]
-    const cp1x=p1[0]+(p2[0]-p0[0])*t/2,cp1y=p1[1]+(p2[1]-p0[1])*t/2
-    const cp2x=p2[0]-(p3[0]-p1[0])*t/2,cp2y=p2[1]-(p3[1]-p1[1])*t/2
+    const cp1x=p1[0]+(p2[0]-p0[0])*t/2, cp1y=p1[1]+(p2[1]-p0[1])*t/2
+    const cp2x=p2[0]-(p3[0]-p1[0])*t/2, cp2y=p2[1]-(p3[1]-p1[1])*t/2
     d.push(`C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${p2[0]} ${p2[1]}`)
   }
   return d.join(' ')
@@ -53,25 +54,27 @@ const D = {
 type Phase = 'before_progress'|'in_progress'|'between'|'iceland'|'post_iceland'
 function getPhase(): Phase {
   if (TODAY < D.inProgressStart) return 'before_progress'
-  if (TODAY <= D.inProgressEnd) return 'in_progress'
-  if (TODAY < D.icelandStart) return 'between'
-  if (TODAY <= D.icelandEnd) return 'iceland'
+  if (TODAY <= D.inProgressEnd)  return 'in_progress'
+  if (TODAY < D.icelandStart)    return 'between'
+  if (TODAY <= D.icelandEnd)     return 'iceland'
   return 'post_iceland'
 }
 
-function Label({x,y,text,above=true}:{x:number;y:number;text:string;above?:boolean}) {
-  const oy = above ? -14 : 16
+// Label with leader line from dot to text
+function Label({dx,dy,lx,ly,text}:{dx:number,dy:number,lx:number,ly:number,text:string}) {
   return (
     <g>
-      <rect x={x-46} y={y+oy-9} width={92} height={14} rx={2}
-        fill="hsl(var(--background))" fillOpacity={0.92}/>
-      <text x={x} y={y+oy} textAnchor="middle" fill="hsl(var(--foreground))"
+      <line x1={dx} y1={dy} x2={lx} y2={ly}
+        stroke="hsl(var(--foreground))" strokeWidth={0.5} opacity={0.3}/>
+      <rect x={lx-46} y={ly-9} width={92} height={14} rx={2}
+        fill="hsl(var(--background))" fillOpacity={0.95}/>
+      <text x={lx} y={ly} textAnchor="middle" fill="hsl(var(--foreground))"
         fontSize={9.5} opacity={0.75} fontFamily="sans-serif" letterSpacing="0.07em">{text}</text>
     </g>
   )
 }
 
-function ActiveDot({x,y}:{x:number;y:number}) {
+function ActiveDot({x,y}:{x:number,y:number}) {
   return (
     <g>
       <circle cx={x} cy={y} r={5} fill="hsl(var(--accent))" stroke="hsl(var(--background))" strokeWidth={1.5}/>
@@ -82,7 +85,7 @@ function ActiveDot({x,y}:{x:number;y:number}) {
   )
 }
 
-function Dot({x,y,r=3.5}:{x:number;y:number;r?:number}) {
+function Dot({x,y,r=3.5}:{x:number,y:number,r?:number}) {
   return <circle cx={x} cy={y} r={r} fill="hsl(var(--foreground))" opacity={0.55}/>
 }
 
@@ -92,93 +95,91 @@ export const RouteMap = () => {
   const ph = useMemo(getPhase,[])
   const icelandPath = useMemo(()=>smooth(ICELAND,0.5),[])
 
-  const THIN   = 'hsl(var(--foreground))'
-  const w = {thin:0.8, thick:2.2, medium:1.5}
-  const op = {thin:0.18, thick:1, dot:0.25}
-
-  const seg2Style = ph==='before_progress'
-    ? {strokeWidth:w.thin, opacity:op.thin, strokeDasharray:undefined}
-    : ph==='in_progress'
-    ? {strokeWidth:w.thick, opacity:1, strokeDasharray:'8 5'}
-    : {strokeWidth:w.thick, opacity:1, strokeDasharray:undefined}
+  const FG = 'hsl(var(--foreground))'
+  const thin = {stroke:FG,strokeWidth:0.8,opacity:0.18}
+  const thick = {stroke:FG,strokeWidth:2.2,opacity:1}
+  const seg2Style = ph==='before_progress' ? thin
+    : ph==='in_progress' ? {stroke:FG,strokeWidth:2.2,opacity:1,strokeDasharray:'8 5'}
+    : thick
 
   return (
     <div ref={ref} className="w-full h-full flex items-center justify-center">
-      <svg viewBox="100 20 570 570" className="w-full h-full" preserveAspectRatio="xMidYMid meet" fill="none">
+      {/* viewBox starts at x=0 so Iceland inset is visible, extends to x=670 for Istanbul */}
+      <svg viewBox="0 15 670 565" className="w-full h-full" preserveAspectRatio="xMidYMid meet" fill="none">
 
-        {/* Context: Ireland, Denmark, Britain */}
+        {/* Ireland + Britain */}
         {COAST.map((d,i)=>(
-          <motion.path key={i} d={d} stroke={THIN} strokeWidth={w.thin}
-            strokeLinecap="round" strokeLinejoin="round" opacity={op.thin} fill="none"
+          <motion.path key={i} d={d} {...thin} fill="none"
+            strokeLinecap="round" strokeLinejoin="round"
             initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
             transition={{duration:2,ease:'easeInOut',delay:0.2+i*0.1}}/>
         ))}
 
-        {/* seg4: Knokke→Nordkapp — future dotted */}
-        <motion.path d={SEG4} stroke={THIN} strokeWidth={w.thin}
-          strokeLinecap="round" strokeDasharray="2 7" opacity={op.dot} fill="none"
+        {/* SEG4: Knokke→Grense Jakobselv — future dotted */}
+        <motion.path d={SEG4} stroke={FG} strokeWidth={0.8}
+          strokeLinecap="round" strokeDasharray="2 7" opacity={0.25} fill="none"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:2,ease:'easeInOut',delay:2.8}}/>
 
-        {/* seg1: Istanbul→Volos — planned, same thin weight as context */}
-        <motion.path d={SEG1} stroke={THIN} strokeWidth={w.thin}
-          strokeLinecap="round" strokeDasharray="4 6" opacity={op.thin} fill="none"
+        {/* SEG1: Istanbul→Volos — planned thin dashed */}
+        <motion.path d={SEG1} stroke={FG} strokeWidth={0.8}
+          strokeLinecap="round" strokeDasharray="4 6" opacity={0.18} fill="none"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:0.6,ease:'easeInOut',delay:2.6}}/>
 
-        {/* seg2: Volos→Croatia — in-progress or thin */}
-        <motion.path d={SEG2} stroke={THIN} strokeWidth={seg2Style.strokeWidth}
-          strokeLinecap="round"
-          strokeDasharray={seg2Style.strokeDasharray}
-          opacity={seg2Style.opacity} fill="none"
+        {/* SEG2: Volos→Croatia — in-progress or thin */}
+        <motion.path d={SEG2} {...seg2Style} fill="none" strokeLinecap="round"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:0.8,ease:'easeInOut',delay:2.4}}/>
 
-        {/* seg3: Croatia→Knokke — completed, thick */}
-        <motion.path d={SEG3} stroke={THIN} strokeWidth={w.thick}
-          strokeLinecap="round" strokeLinejoin="round" opacity={op.thick} fill="none"
+        {/* SEG3: Croatia→Knokke — completed thick */}
+        <motion.path d={SEG3} {...thick} fill="none"
+          strokeLinecap="round" strokeLinejoin="round"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:2.0,ease:'easeInOut',delay:0.5}}/>
 
-        {/* Iceland inset — outline only, no box or label */}
-        <motion.path d={icelandPath} stroke={THIN}
-          strokeWidth={ph==='iceland'?w.thick:w.thin}
+        {/* Iceland outline */}
+        <motion.path d={icelandPath} stroke={FG}
+          strokeWidth={ph==='iceland'?2.2:0.8}
           strokeLinecap="round" opacity={ph==='iceland'?1:0.25} fill="none"
           initial={{pathLength:0}} animate={isInView?{pathLength:1}:{pathLength:0}}
           transition={{duration:1.5,ease:'easeInOut',delay:0.3}}/>
         {ph==='iceland' && <ActiveDot x={REYKJAVIK[0]} y={REYKJAVIK[1]}/>}
 
-        {/* Transition dots */}
-        {/* Knokke — label to the left, line goes right and upper-right */}
+        {/* KNOKKE — inland = south (higher y), into Belgium */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.5}}>
           <Dot x={PT_KNOKKE[0]} y={PT_KNOKKE[1]}/>
-          <Label x={PT_KNOKKE[0]-52} y={PT_KNOKKE[1]} text="KNOKKE" above/>
+          <Label dx={PT_KNOKKE[0]} dy={PT_KNOKKE[1]}
+                 lx={PT_KNOKKE[0]+30} ly={PT_KNOKKE[1]+38} text="KNOKKE"/>
         </motion.g>
 
-        {/* WE ARE HERE — label above dot, sea is above Croatian coast */}
+        {/* WE ARE HERE — inland = northeast (higher x, lower y), into Balkans */}
         <motion.g initial={{opacity:0,scale:0}} animate={isInView?{opacity:1,scale:1}:{}} transition={{delay:2.6}}>
           <ActiveDot x={PT_CURRENT[0]} y={PT_CURRENT[1]}/>
-          <Label x={PT_CURRENT[0]} y={PT_CURRENT[1]-12} text="WE ARE HERE" above/>
+          <Label dx={PT_CURRENT[0]} dy={PT_CURRENT[1]}
+                 lx={PT_CURRENT[0]+55} ly={PT_CURRENT[1]-38} text="WE ARE HERE"/>
         </motion.g>
 
         {(ph==='between'||ph==='iceland'||ph==='post_iceland')&&(
           <motion.g initial={{opacity:0}} animate={isInView?{opacity:1}:{}} transition={{delay:2.8}}>
             <Dot x={PT_VOLOS[0]} y={PT_VOLOS[1]}/>
-            <Label x={PT_VOLOS[0]} y={PT_VOLOS[1]} text="VOLOS NOV '26" above={false}/>
+            <Label dx={PT_VOLOS[0]} dy={PT_VOLOS[1]}
+                   lx={PT_VOLOS[0]+55} ly={PT_VOLOS[1]-30} text="VOLOS NOV '26"/>
           </motion.g>
         )}
 
         <motion.g initial={{opacity:0}} animate={isInView?{opacity:1}:{}} transition={{delay:2.9}}>
           <Dot x={PT_ISTANBUL[0]} y={PT_ISTANBUL[1]} r={3}/>
-          <Label x={PT_ISTANBUL[0]} y={PT_ISTANBUL[1]} text="ISTANBUL" above/>
+          <Label dx={PT_ISTANBUL[0]} dy={PT_ISTANBUL[1]}
+                 lx={PT_ISTANBUL[0]-52} ly={PT_ISTANBUL[1]-30} text="ISTANBUL"/>
         </motion.g>
 
+        {/* Grense Jakobselv — at actual end of SEG4 */}
         <motion.g initial={{opacity:0}} animate={isInView?{opacity:1}:{}} transition={{delay:3.2}}>
-          <circle cx={604.6} cy={52.9} r={2} fill="hsl(var(--foreground))" opacity={0.3}/>
-          <text x={604.6} y={42} textAnchor="middle" fill="hsl(var(--foreground))"
-            fontSize={7} opacity={0.3} fontFamily="sans-serif" letterSpacing="0.06em">
-            GRENSE JAKOBSELV
-          </text>
+          <circle cx={PT_GJ[0]} cy={PT_GJ[1]} r={2} fill={FG} opacity={0.35}/>
+          <text x={PT_GJ[0]-5} y={PT_GJ[1]+16} textAnchor="end"
+            fill={FG} fontSize={7} opacity={0.35}
+            fontFamily="sans-serif" letterSpacing="0.06em">GRENSE JAKOBSELV</text>
         </motion.g>
 
       </svg>
