@@ -137,7 +137,7 @@ const OrderBooks = () => {
 
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <img src={wavesLogo} alt="Follow the Coast logo" className="h-8 w-auto brightness-0" />
+          <img src={wavesLogo} alt="Follow the Coast logo" className="h-8 w-auto brightness-0"  loading="lazy"/>
           <span className="text-[10px] uppercase tracking-wider leading-tight">
             <span className="block">Follow</span><span className="block">The</span><span className="block">Coast</span>
           </span>
@@ -179,7 +179,7 @@ const OrderBooks = () => {
                         : isSelected ? 'border-foreground bg-secondary/50'
                         : 'border-border hover:border-foreground/40'
                       }`}>
-                      <img src={book.image} alt={book.volume} className="w-12 h-16 object-cover shrink-0" />
+                      <img src={book.image} alt={book.volume} className="w-12 h-16 object-cover shrink-0"  loading="lazy"/>
                       <div className="flex-1">
                         <p className="text-sm font-medium">{book.volume}</p>
                         <p className="text-xs text-muted-foreground">{book.subtitle}</p>

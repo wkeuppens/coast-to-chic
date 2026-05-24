@@ -22,7 +22,7 @@ const Book3 = () => (
 
     {/* Hero */}
     <section className="relative h-[75vh] overflow-hidden">
-      <img src={coastalPath} alt="Mediterranean coastline" className="w-full h-full object-cover" />
+      <img src={coastalPath} alt="Mediterranean coastline" className="w-full h-full object-cover"  loading="lazy"/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
       <div className="absolute bottom-0 left-0 px-page pb-16 max-w-content mx-auto w-full">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
@@ -61,7 +61,7 @@ const Book3 = () => (
           </MagneticButton>
         </motion.div>
         <div className="space-y-3">
-          <img src={bookMockup} alt="Follow the Coast Book 3" className="w-full object-cover" />
+          <img src={bookMockup} alt="Follow the Coast Book 3" className="w-full object-cover"  loading="lazy"/>
         </div>
       </div>
     </section>

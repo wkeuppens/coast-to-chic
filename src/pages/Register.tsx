@@ -179,7 +179,7 @@ const Register = () => {
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <img src={wavesLogo} alt="Follow the Coast logo" className="h-8 w-auto brightness-0" />
+          <img src={wavesLogo} alt="Follow the Coast logo" className="h-8 w-auto brightness-0"  loading="lazy"/>
           <span className="text-[10px] uppercase tracking-wider leading-tight">
             <span className="block">Follow</span><span className="block">The</span><span className="block">Coast</span>
           </span>
@@ -191,7 +191,7 @@ const Register = () => {
 
       {/* Hero */}
       <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <img src={beachRunners} alt="Runners on the coast" loading="eager" className="w-full h-full object-cover" />
+        <img src={beachRunners} alt="Runners on the coast" loading="eager" className="w-full h-full object-cover"  loading="lazy"/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 lg:px-24 pb-12 md:pb-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>

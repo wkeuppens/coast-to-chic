@@ -36,7 +36,7 @@ const columns = [
       { label: 'YouTube', href: 'https://www.youtube.com/channel/UCL6tnj4kOTP-X5DmxfWhnLA' },
       { label: 'WhatsApp community', href: 'https://chat.whatsapp.com/BazCDyy7n0wDcAhFwyq1xV' },
       { label: 'Email', href: 'mailto:hello@followthecoast.com' },
-      { label: 'Partner with us', href: '/support' },
+      { label: 'Partner with us', href: '/support#contact' },
     ],
   },
 ];

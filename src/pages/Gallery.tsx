@@ -102,7 +102,7 @@ const Lightbox = ({
               className={`w-16 h-10 overflow-hidden rounded transition-all duration-200 ${i === current ? 'ring-2 ring-white/80 opacity-100' : 'opacity-40 hover:opacity-70'}`}
               aria-label={`View photo ${i + 1}`}
             >
-              <img src={photo.src} alt="" className="w-full h-full object-cover" />
+              <img src={photo.src} alt="" className="w-full h-full object-cover"  loading="lazy"/>
             </button>
           ))}
         </div>

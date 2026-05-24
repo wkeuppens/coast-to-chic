@@ -131,7 +131,7 @@ const Prints = () => {
               </div>
               {selected.imageUrl && (
                 <div className="aspect-[3/4] overflow-hidden bg-secondary mb-6">
-                  <img src={selected.imageUrl} alt={selected.title} className="w-full h-full object-cover" />
+                  <img src={selected.imageUrl} alt={selected.title} className="w-full h-full object-cover"  loading="lazy"/>
                 </div>
               )}
               <div className="flex items-center justify-between mb-2">

@@ -25,7 +25,7 @@ const EUStages = () => {
 
       {/* Hero */}
       <section className="relative h-[60vh] overflow-hidden">
-        <img src={sailboatSea} alt="European coastline" className="w-full h-full object-cover" />
+        <img src={sailboatSea} alt="European coastline" className="w-full h-full object-cover"  loading="lazy"/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 px-page pb-12 max-w-content mx-auto">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
