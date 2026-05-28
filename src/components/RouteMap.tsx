@@ -110,8 +110,10 @@ export const RouteMap = () => {
       <svg
         viewBox="0 15 670 565" className="w-full h-full cursor-pointer" preserveAspectRatio="xMidYMid meet" fill="none"
         onClick={() => navigate('/route-map')}
-        title="Explore the route map"
+        role="img"
+        aria-label="Interactive map of the Follow the Coast route from Belgium to Athens"
       >
+        <title>Follow the Coast — European coastal route map</title>
 
         {/* Ireland + Britain */}
         {COAST.map((d,i)=>(

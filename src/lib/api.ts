@@ -105,7 +105,7 @@ function mapStage(r: Record<string, unknown>): ApiStage {
 // ── Checkout ───────────────────────────────────────────────────────────────────
 
 export const checkout = {
-  books: (p: { selectedBooks: string[]; countryCode: string; customerEmail: string; customerName: string }) =>
+  books: (p: { selectedBooks: string[]; countryCode: string; customerEmail: string; customerName: string; addCanaryIslands?: boolean }) =>
     req<CheckoutResponse>('POST', 'checkout', { productType: 'book', ...p }),
 
   stage: (p: { stageNumber: number; tier: string; customerEmail: string; customerName: string }) =>
