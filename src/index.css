@@ -83,9 +83,13 @@
     --inv-faint: 40 20% 97% / 0.18;
     --inv-border: 40 20% 97% / 0.1;
 
-    /* ── Typography ── */
-    --font-display: 'Pressura GT', 'Helvetica Neue', sans-serif;
-    --font-body: 'Beausite Classic', 'Georgia', serif;
+    /* ── Typography ──
+       Body: IBM Plex Sans (Light/Regular) — neutral, generous line height
+       Index: IBM Plex Mono — every number, coordinate, date, reference
+       Display: Beausite Classic (kept rare) — true headlines only */
+    --font-display: 'Beausite Classic', 'IBM Plex Sans', 'Georgia', serif;
+    --font-body: 'IBM Plex Sans', 'Helvetica Neue', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
 
     /* ── Spacing rhythm (vertical) ── */
     --space-section: clamp(6rem, 12vw, 10rem);
@@ -157,12 +161,14 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.65;
+    font-weight: 300;
+    font-size: 0.9375rem;
+    line-height: 1.7;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-body);
+    font-weight: 300;
     line-height: 1.1;
   }
 
@@ -186,26 +192,47 @@
     font-family: var(--font-body);
   }
 
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
   .text-balance {
     text-wrap: balance;
   }
 
-  /* ── Editorial caption: tracked uppercase small ── */
+  /* ── Editorial caption: tracked uppercase small (mono) ── */
   .text-caption {
-    font-family: var(--font-body);
+    font-family: var(--font-mono);
     font-size: 0.625rem;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     line-height: 1.4;
   }
 
-  /* ── Section label ── */
+  /* ── Section label (mono) ── */
   .text-label {
-    font-family: var(--font-body);
+    font-family: var(--font-mono);
     font-size: 0.6875rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: hsl(var(--muted-foreground));
+  }
+
+  /* ── INDEX: every stage number, coordinate, distance, date ── */
+  .text-index {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+  .text-index-sm {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
   }
 
   /* ── Thin editorial rules ── */
@@ -265,5 +292,14 @@
   /* ── Mask utilities ── */
   .mask-fade-bottom {
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+
+  /* Hide scrollbar but keep scroll behavior — used by CoastLine scrubber */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
