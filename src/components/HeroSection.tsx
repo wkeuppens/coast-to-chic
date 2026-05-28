@@ -36,17 +36,6 @@ export const HeroSection = () => {
 
   return (
     <section className="relative w-full">
-      {/* Wordmark + hairline pinned top-left, rule extends to right edge */}
-      <div className="absolute top-0 left-0 right-0 z-20 pt-6 px-page flex items-baseline gap-6 text-primary-foreground mix-blend-difference">
-        <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em]">
-          Follow the Coast
-        </span>
-        <span className="flex-1 border-t border-current opacity-60" />
-        <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] opacity-70">
-          SYS · 001 · 50.85°N · 04.35°E
-        </span>
-      </div>
-
       {/* Full-bleed documentary plate */}
       <div className="relative h-[78vh] md:h-[88vh] w-full overflow-hidden">
         <motion.img
@@ -57,21 +46,6 @@ export const HeroSection = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, ease: 'easeOut' }}
         />
-
-        {/* Edge-pinned stage crop, in the spirit of the Instagram posts */}
-        <div className="absolute top-0 right-0 h-full flex flex-col justify-end pointer-events-none">
-          <span
-            className="font-mono text-primary-foreground/85 leading-none"
-            style={{
-              fontSize: 'clamp(8rem, 22vw, 22rem)',
-              transform: 'translateX(18%)',
-              letterSpacing: '-0.04em',
-            }}
-            aria-hidden="true"
-          >
-            168
-          </span>
-        </div>
 
         {/* Tide-line caption pinned bottom-left */}
         <div className="absolute bottom-6 left-0 right-0 px-page text-primary-foreground">
