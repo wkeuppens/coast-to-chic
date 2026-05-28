@@ -77,6 +77,7 @@ export const checkout = {
   books: (params: {
     selectedBooks: string[]; countryCode: string
     customerEmail: string; customerName: string
+    addCanaryIslands?: boolean
   }) => req<CheckoutResponse>('POST', 'checkout', { productType: 'book', ...params }),
 
   stage: (params: {
