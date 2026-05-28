@@ -41,7 +41,7 @@ export const EventsSection = () => {
         title: e.title,
         meta: e.meta ?? '',
         imageUrl: e.imageUrl,
-        fallbackImage: harborBoats,
+        fallbackImage: ftkHero,
         slug: e.slug,
       }))
     : FALLBACK_EVENTS;
