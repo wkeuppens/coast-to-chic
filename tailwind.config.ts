@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Pressura GT', 'Helvetica Neue', 'sans-serif'],
-        body: ['Beausite Classic', 'Georgia', 'serif'],
+        display: ['Beausite Classic', 'IBM Plex Sans', 'Georgia', 'serif'],
+        body: ['IBM Plex Sans', 'Helvetica Neue', 'system-ui', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'ui-monospace', 'SF Mono', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
