@@ -3,24 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Follow the Coast — Run the European Coastline</title>
-    <meta name="description" content="Follow the Coast: run 100km stages along the European coastline from Belgium to Athens. Books, events, and community.">
+    <meta name="theme-color" content="#032d47" />
+    <meta name="color-scheme" content="light" />
+    <title>Follow the Coast — Editorial Coastal Photography & 100km Running Stages Across Europe</title>
+    <meta
+      name="description"
+      content="Follow the Coast is an editorial photography and running project documenting the European coastline in 100km stages — from Belgium to Athens. Photobooks, limited prints, and stage events."
+    />
+    <meta
+      name="keywords"
+      content="editorial coastal photography, European coastline photobook, long-distance running Europe, travel photography Belgium, documentary running project, Follow the Coast"
+    />
     <meta name="author" content="Follow the Coast" />
-    <link rel="canonical" href="https://ftcredesigned.lovable.app/" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <!-- Open Graph -->
+    <meta property="og:site_name" content="Follow the Coast" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ftcredesigned.lovable.app/" />
-    <meta property="og:title" content="Follow the Coast — Run the European Coastline">
-    <meta property="og:description" content="Follow the Coast: run 100km stages along the European coastline from Belgium to Athens. Books, events, and community.">
-    <meta property="og:image" content="https://ftcredesigned.lovable.app/og-image.jpg">
+    <meta property="og:title" content="Follow the Coast — Editorial Coastal Photography & 100km Running Stages Across Europe" />
+    <meta property="og:description" content="An editorial photography and running project documenting the European coastline in 100km stages, from Belgium to Athens." />
+    <meta property="og:image" content="https://ftcredesigned.lovable.app/og-image.jpg" />
+    <meta property="og:image:alt" content="Runners on the European coast at sunrise — Follow the Coast" />
+    <meta property="og:locale" content="en_GB" />
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Follow the Coast — Run the European Coastline">
-    <meta name="twitter:description" content="Follow the Coast: run 100km stages along the European coastline from Belgium to Athens. Books, events, and community.">
-    <meta name="twitter:image" content="https://ftcredesigned.lovable.app/og-image.jpg">
+    <meta name="twitter:title" content="Follow the Coast — Editorial Coastal Photography & 100km Running Stages" />
+    <meta name="twitter:description" content="An editorial photography and running project documenting the European coastline in 100km stages." />
+    <meta name="twitter:image" content="https://ftcredesigned.lovable.app/og-image.jpg" />
+
+    <!-- Sitewide Organization + WebSite JSON-LD (per-page schemas added via Helmet) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://ftcredesigned.lovable.app/#org",
+            "name": "Follow the Coast",
+            "alternateName": ["FTC", "Follow the Coast Europe"],
+            "url": "https://ftcredesigned.lovable.app/",
+            "logo": "https://ftcredesigned.lovable.app/favicon.ico",
+            "description": "Editorial photography and running project documenting the European coastline in 100km stages, from Belgium to Athens.",
+            "areaServed": "Europe",
+            "founder": { "@type": "Person", "name": "Follow the Coast" },
+            "knowsAbout": [
+              "editorial coastal photography",
+              "European coastline",
+              "long-distance running",
+              "documentary photobooks",
+              "travel photography"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://ftcredesigned.lovable.app/#website",
+            "url": "https://ftcredesigned.lovable.app/",
+            "name": "Follow the Coast",
+            "publisher": { "@id": "https://ftcredesigned.lovable.app/#org" },
+            "inLanguage": "en-GB"
+          },
+          {
+            "@type": "CreativeWork",
+            "name": "Follow the Coast — Coastal Archive",
+            "creator": { "@id": "https://ftcredesigned.lovable.app/#org" },
+            "about": "Editorial photography of the European coastline",
+            "url": "https://ftcredesigned.lovable.app/archive"
+          }
+        ]
+      }
+    </script>
 
     <!-- Preload critical fonts -->
     <link rel="preload" href="/fonts/GT_Pressura_Regular.ttf" as="font" type="font/ttf" crossorigin />

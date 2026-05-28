@@ -1,0 +1,33 @@
+# Follow the Coast
+
+> An editorial photography and running project documenting the European coastline in 100km stages — from Belgium to Athens. Photobooks, limited prints, and stage events.
+
+Follow the Coast (FTC) is a long-form documentary running and photography project. Each stage is a 100km run along the European coast, photographed and published as an editorial photobook. The project blends endurance running, travel writing, and editorial coastal photography across Belgium, the Netherlands, France, Spain, Portugal, Italy, the Balkans, Greece, and special expeditions including Iceland and Madeira.
+
+Audience: runners, photography collectors, editorial publishers, travel-and-culture readers, and brand partners in outdoor and travel.
+
+## Pages
+- [Home](/): project overview, current stage, latest book, upcoming events
+- [Events](/events): upcoming stages, public runs, retreats
+- [Register](/register): join an upcoming stage as a runner
+- [Order books](/order-books): the Follow the Coast photobook series
+- [Book 3](/book-3): latest photobook
+- [Prints](/prints): limited-edition coastal photography prints
+- [Photographers](/photographers): the editorial photographers behind the project
+- [Coastal Archive](/archive): browseable photographic archive of every stage
+- [All stages](/all-stages): index of every 100km coastal stage
+- [EU stages](/eu-stages): stages mapped across mainland Europe
+- [Route map](/route-map): interactive coastal route from Belgium to Athens
+- [Follow the Kust](/follow-the-kust): the original Belgian-coast prologue
+- [Tour du Mont Blanc](/tour-du-mont-blanc): alpine side expedition
+- [Crossing Madeira](/crossing-madeira): Madeira island crossing
+- [Trail Retreat Girona](/trail-retreat-girona): Girona trail running retreat
+- [Iceland](/iceland): Iceland expedition release
+- [Shoreholders](/shoreholders): community partners hosting runners along the coast
+- [Timeline](/timeline): chronological history of the project
+- [Support the project](/support): patronage and partnerships
+- [Participant handbook](/participant-handbook): logistics for registered runners
+- [Contact](/contact): inquiries, press, partnerships
+
+## Optional
+- [Privacy](/privacy)
