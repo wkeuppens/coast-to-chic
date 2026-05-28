@@ -1,14 +1,13 @@
 /**
  * src/lib/api.ts
  * All FTC API calls routed through Supabase Edge Functions.
- * Replaces the old VITE_API_BASE_URL pattern which was never set.
  */
 
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase'
+import { sanityFetch } from './sanityClient'
 
 async function req<T>(method: string, fnName: string, body?: unknown): Promise<T> {
-  const url = `${SUPABASE_URL}/functions/v1/${fnName}`
-  const res = await fetch(url, {
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/${fnName}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +24,7 @@ async function req<T>(method: string, fnName: string, body?: unknown): Promise<T
   return res.json()
 }
 
-// ── Types ──────────────────────────────────────────────────────────────────────
+// ── Types (single source of truth) ────────────────────────────────────────────
 
 export interface ApiStage {
   id: string; stageNumber: number; displayNumber?: number; title: string
@@ -71,31 +70,55 @@ export interface ApiPrint {
   editionSize: number | null; available: boolean
 }
 
+// ── Sanity stage query (shared) ────────────────────────────────────────────────
+
+const STAGE_FIELDS = `_id,stageNumber,title,country,region,distanceKm,
+  startLocation,endLocation,startCoord,endCoord,status,runDate,
+  description,bookNumber,isIceland,
+  "shoreholder":shoreholder->name,
+  "shoreholderSlug":shoreholder->slug.current`
+
+function mapStage(r: Record<string, unknown>): ApiStage {
+  return {
+    id: r._id as string,
+    stageNumber: r.stageNumber as number,
+    displayNumber: r.stageNumber as number,
+    title: r.title as string,
+    country: r.country as string,
+    region: (r.region as string | null) ?? null,
+    distanceKm: (r.distanceKm as number | null) ?? null,
+    startLocation: r.startLocation as string,
+    endLocation: r.endLocation as string,
+    startCoord: (r.startCoord as { lat: number; lng: number } | null) ?? null,
+    endCoord: (r.endCoord as { lat: number; lng: number } | null) ?? null,
+    shoreholder: (r.shoreholder as string | null) ?? null,
+    shoreholderSlug: (r.shoreholderSlug as string | null) ?? null,
+    runDate: (r.runDate as string | null) ?? null,
+    status: r.status as ApiStage['status'],
+    image: '',
+    description: (r.description as string | null) ?? null,
+    bookNumber: (r.bookNumber as number | null) ?? null,
+    isIceland: (r.isIceland as boolean) ?? false,
+  }
+}
+
 // ── Checkout ───────────────────────────────────────────────────────────────────
 
 export const checkout = {
-  books: (params: {
-    selectedBooks: string[]; countryCode: string
-    customerEmail: string; customerName: string
-  }) => req<CheckoutResponse>('POST', 'checkout', { productType: 'book', ...params }),
+  books: (p: { selectedBooks: string[]; countryCode: string; customerEmail: string; customerName: string }) =>
+    req<CheckoutResponse>('POST', 'checkout', { productType: 'book', ...p }),
 
-  stage: (params: {
-    stageNumber: number; tier: string
-    customerEmail: string; customerName: string
-  }) => req<CheckoutResponse>('POST', 'checkout', { productType: 'stage', ...params }),
+  stage: (p: { stageNumber: number; tier: string; customerEmail: string; customerName: string }) =>
+    req<CheckoutResponse>('POST', 'checkout', { productType: 'stage', ...p }),
 
-  event: (params: {
-    eventId: string; addDinner?: boolean
-    customerEmail: string; customerName: string
-    stageNumber?: number; teamMembers?: { name: string; email: string }[]
-    [key: string]: unknown
-  }) => req<CheckoutResponse>('POST', 'checkout', { productType: 'event', ...params }),
+  event: (p: { eventId: string; addDinner?: boolean; customerEmail: string; customerName: string; stageNumber?: number; teamMembers?: { name: string; email: string }[]; [k: string]: unknown }) =>
+    req<CheckoutResponse>('POST', 'checkout', { productType: 'event', ...p }),
 
-  bookLaunchFree: (params: { customerEmail: string; customerName: string }) =>
-    req<CheckoutResponse>('POST', 'checkout', { productType: 'book_launch_free', ...params }),
+  bookLaunchFree: (p: { customerEmail: string; customerName: string }) =>
+    req<CheckoutResponse>('POST', 'checkout', { productType: 'book_launch_free', ...p }),
 
-  print: (params: { printId: string; printTitle: string; priceEur: number; customerEmail: string }) =>
-    req<CheckoutResponse>('POST', 'checkout', { productType: 'print', ...params }),
+  print: (p: { printId: string; printTitle: string; priceEur: number; customerEmail: string }) =>
+    req<CheckoutResponse>('POST', 'checkout', { productType: 'print', ...p }),
 
   session: (sessionId: string) =>
     req<SessionResponse>('POST', 'checkout', { productType: 'session', sessionId }),
@@ -124,62 +147,41 @@ export const newsletter = {
 // ── Contact ────────────────────────────────────────────────────────────────────
 
 export const contact = {
-  send: (params: { name: string; email: string; subject?: string; message: string; source?: string }) =>
-    req<{ success: boolean }>('POST', 'contact', params),
+  send: (p: { name: string; email: string; subject?: string; message: string; source?: string }) =>
+    req<{ success: boolean }>('POST', 'contact', p),
 }
 
-// ── Archive (Sanity proxy) ─────────────────────────────────────────────────────
+// ── Archive ────────────────────────────────────────────────────────────────────
 
 export const archive = {
+  /** All EU stages (non-Iceland) from Sanity, for Register + RouteMap page */
+  tiles: async (): Promise<ApiStage[]> => {
+    const raw = await sanityFetch<Record<string, unknown>[]>(
+      `*[_type=="stage"&&isIceland!=true]|order(stageNumber asc){${STAGE_FIELDS}}`
+    )
+    return raw.map(mapStage)
+  },
+
+  /** Completed stages only, for Route Map interactive */
+  completed: async (): Promise<ApiStage[]> => {
+    const raw = await sanityFetch<Record<string, unknown>[]>(
+      `*[_type=="stage"&&status=="completed"&&isIceland!=true]|order(stageNumber asc){${STAGE_FIELDS}}`
+    )
+    return raw.map(mapStage)
+  },
+
   stats: async () => {
-    const res = await req<{ result: unknown[] }>('POST', 'sanity-proxy', {
-      query: '*[_type=="siteSettings"][0]{totalKm,totalCountries,totalRunners,booksSold}',
-    })
-    const r = (res as any).result?.[0] ?? {}
+    const results = await sanityFetch<Record<string, unknown>[]>(
+      '*[_type=="siteSettings"][0..0]{totalKm,totalCountries,totalRunners,booksSold}'
+    )
+    const r = results[0] ?? {}
     return {
       completedStages: 239,
       totalStages: 407,
-      totalKm: r.totalKm ?? 23900,
-      countries: r.totalCountries ?? 11,
-      runners: r.totalRunners ?? 312,
-      booksSold: r.booksSold ?? 4000,
+      totalKm: (r.totalKm as number) ?? 23900,
+      countries: (r.totalCountries as number) ?? 11,
+      runners: (r.totalRunners as number) ?? 312,
+      booksSold: (r.booksSold as number) ?? 4000,
     }
   },
-}
-
-// ── Archive tiles — used by Register page to show available stages ────────────
-// Routes through sanity-proxy. Returns stages matching ApiStage shape.
-import { sanityFetch } from './sanityClient'
-
-// Extend archive with tiles()
-;(archive as any).tiles = async (): Promise<ApiStage[]> => {
-  const raw = await sanityFetch<Record<string, unknown>[]>(`
-    *[_type=="stage"&&isIceland!=true]|order(stageNumber asc){
-      _id,stageNumber,title,country,region,distanceKm,
-      startLocation,endLocation,startCoord,endCoord,
-      status,runDate,description,bookNumber,isIceland,
-      "shoreholder":shoreholder->name,
-      "shoreholderSlug":shoreholder->slug.current
-    }`)
-  return raw.map((r: Record<string, unknown>) => ({
-    id: r._id as string,
-    stageNumber: r.stageNumber as number,
-    displayNumber: r.stageNumber as number,
-    title: r.title as string,
-    country: r.country as string,
-    region: (r.region as string | null) ?? null,
-    distanceKm: (r.distanceKm as number | null) ?? null,
-    startLocation: r.startLocation as string,
-    endLocation: r.endLocation as string,
-    startCoord: (r.startCoord as { lat: number; lng: number } | null) ?? null,
-    endCoord: (r.endCoord as { lat: number; lng: number } | null) ?? null,
-    shoreholder: (r.shoreholder as string | null) ?? null,
-    shoreholderSlug: (r.shoreholderSlug as string | null) ?? null,
-    runDate: (r.runDate as string | null) ?? null,
-    status: r.status as ApiStage['status'],
-    image: '',
-    description: (r.description as string | null) ?? null,
-    bookNumber: (r.bookNumber as number | null) ?? null,
-    isIceland: (r.isIceland as boolean) ?? false,
-  }))
 }

@@ -1,9 +1,11 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import { ScrollToTop } from "./components/ScrollToTop";
 
+const RouteMapPage     = lazy(() => import("./pages/RouteMapPage"));
 const NotFound         = lazy(() => import("./pages/NotFound"));
 const OrderBooks       = lazy(() => import("./pages/OrderBooks"));
 const Register         = lazy(() => import("./pages/Register"));
@@ -28,6 +30,7 @@ const TrailRetreatGirona = lazy(() => import("./pages/TrailRetreatGirona"));
 const CrossingMadeira  = lazy(() => import("./pages/CrossingMadeira"));
 
 const App = () => (
+  <ErrorBoundary>
   <HelmetProvider>
     <BrowserRouter>
       <Suspense fallback={<div className="min-h-screen bg-background" />}>
@@ -59,12 +62,13 @@ const App = () => (
           <Route path="/homerun"             element={<Navigate to="/" replace />} />
           <Route path="/gallery"             element={<Navigate to="/archive" replace />} />
           <Route path="/checkout"            element={<Navigate to="/" replace />} />
-          <Route path="/route-map"           element={<Navigate to="/archive" replace />} />
+          <Route path="/route-map"           element={<RouteMapPage />} />
           <Route path="*"                    element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
   </HelmetProvider>
+  </ErrorBoundary>
 );
 
 export default App;

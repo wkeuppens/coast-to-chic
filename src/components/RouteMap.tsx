@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Ireland + Britain only (Danish island removed)
 const COAST = [
@@ -94,6 +95,7 @@ export const RouteMap = () => {
   const isInView = useInView(ref, {once:true,margin:'-50px'})
   const ph = useMemo(getPhase,[])
   const icelandPath = useMemo(()=>smooth(ICELAND,0.5),[])
+  const navigate = useNavigate()
 
   const FG = 'hsl(var(--foreground))'
   const thin = {stroke:FG,strokeWidth:0.8,opacity:0.18}
@@ -105,7 +107,11 @@ export const RouteMap = () => {
   return (
     <div ref={ref} className="w-full h-full flex items-center justify-center">
       {/* viewBox starts at x=0 so Iceland inset is visible, extends to x=670 for Istanbul */}
-      <svg viewBox="0 15 670 565" className="w-full h-full" preserveAspectRatio="xMidYMid meet" fill="none">
+      <svg
+        viewBox="0 15 670 565" className="w-full h-full cursor-pointer" preserveAspectRatio="xMidYMid meet" fill="none"
+        onClick={() => navigate('/route-map')}
+        title="Explore the route map"
+      >
 
         {/* Ireland + Britain */}
         {COAST.map((d,i)=>(
