@@ -1,6 +1,6 @@
 /**
  * Lockup composition: defaults, metrics and canvas framing.
- * DOM-free, so the live scene, the SMIL export and the Lottie export all
+ * DOM-free, so the live scene, the frame renderer and the SMIL export all
  * measure the composition the same way.
  */
 import { SIERRA, WAVE } from './geometry.js';

@@ -1,114 +1,147 @@
 # Follow the Coast × Sierra House — animated lockup
 
-A stacked collaboration lockup that animates on a **fully transparent background**, so it can be
-laid over photography, video, a coloured panel or nothing at all. Supplied in **black**, **white**
-and the **Sierra House off-white** (`#F4EDE6`).
+A stacked collaboration lockup that animates on a **fully transparent background**, so it can be laid
+over photography, video, a coloured panel or nothing at all. Supplied in **black**, **white** and the
+**Sierra House off-white** (`#F4EDE6`).
+
+Open `preview.html` to see every delivered file over transparent, paper, coast blue, black and a
+photograph.
 
 ## The animation
+
+6.00 s, 60 fps. Times are the same in every format.
 
 | from | to | what happens |
 | --- | --- | --- |
 | 0.00s | 1.29s | the five Follow the Coast waves draw in left to right, each starting 85 ms after the one above |
-| 1.12s | 1.58s | the ✕ draws outward from its own centre, one arm then the other, settling on a small overshoot |
-| 1.50s | 3.87s | the Sierra House checkerboard lands **one square at a time** — 99 squares in a scattered order. The pyramid stays completely transparent, so the mountain reads as a hole in the checkerboard |
-| 3.98s | 4.84s | once every square is in place, the pyramid **fills from its base upwards**, like a tide coming in |
-| 4.84s | 6.00s | held |
+| 1.12s | 1.50s | the ✕ draws outward from its own centre, both arms at once, settling on a small overshoot by 1.62s |
+| 1.50s | 3.77s | the Sierra House checkerboard lands **one square at a time** — 98 squares. The pyramid stays completely transparent, so the mountain reads as a hole in the checkerboard |
+| 3.98s | 4.84s | once every square is in place, the pyramid **fills from its base upwards**, like a tide coming in. Its single-cell tip is the last thing to arrive |
+| 4.84s | 6.00s | held on the finished lockup |
 
-The looping builds add a 0.5 s fade to nothing at the end, so they restart cleanly from an empty frame.
+The squares are not spread evenly. At a constant rate all 98 land about one frame apart and nothing
+reads "checker by checker" at all, so the first few are opened out to roughly 40 ms, the middle
+flurries, and the last few settle again — you see the triangular hole close.
+
+The `-loop` builds add a 0.5 s fade to nothing after the hold (6.50 s total), so they restart from an
+empty frame with no jump.
 
 ## Which file do I want?
 
 | Folder | Use it for | Notes |
 | --- | --- | --- |
-| `dist/svg/` | web, decks, anything that scales | Self-contained SMIL animation, no scripts or external files. Works in an `<img>`, `<object>`, or a CSS background. Resolution-independent and ~80 KB. |
-| `dist/webm/` | web video, transparent overlay in a browser | VP9 with an alpha channel. Chrome, Edge, Firefox, Opera and Safari 16+. |
-| `dist/mov/` | Premiere, After Effects, Final Cut, Resolve | QuickTime Animation (RLE) — **lossless**, straight (un-premultiplied) alpha. Chosen over ProRes 4444 because it is about 5× smaller for flat vector artwork with no quality cost. |
-| `dist/apng/` | Slack, chat, README files, anywhere a "GIF" is asked for but real transparency is wanted | Animated PNG, full 8-bit alpha, no fringing. |
-| `dist/preview/` | sending someone a quick look | GIF and MP4, **flattened onto a background on purpose** — GIF alpha is 1-bit and would chew the antialiased edges. Not overlay assets. |
+| `dist/svg/` | web, decks, anything that scales | Self-contained SMIL animation, no scripts or external files. Works in an `<img>`, `<object>` or a CSS background. Resolution-independent, colour-exact, ~80 KB. **The safest default.** |
+| `dist/webm/` | transparent video overlay in a browser | VP9 with an alpha channel, 60 fps. **Chrome, Edge, Firefox and Opera — not Safari**, see below. |
+| `dist/mov/` | Premiere, After Effects, Final Cut, Resolve | QuickTime Animation (RLE): **lossless**, bit-exact colour, straight (un-premultiplied) alpha, 60 fps. About 5× smaller than ProRes 4444 for flat vector artwork with no quality cost. |
+| `dist/apng/` | Slack, chat, a README — anywhere a "GIF" is wanted but with real transparency | Animated PNG, full 8-bit alpha, no fringing. Cut from the looping timeline so it repeats cleanly. |
+| `dist/preview/` | sending someone a quick look | GIF and MP4, **flattened onto a background on purpose** — GIF alpha is 1-bit and would chew the antialiased edges. Not overlay assets. The MP4 plays once and holds; the GIF loops. |
 
-`tight` is cropped close to the lockup — use it for overlays. `square` is padded to a square frame —
-use it for social posts and anywhere a 1:1 canvas is expected.
+Two crops: **`tight`** (948 × 1440) is cropped close to the lockup — use it for overlays.
+**`square`** (1440 × 1440) is padded to 1:1 for social and anywhere a square canvas is expected.
 
-Open `preview.html` to see every file over transparent, paper, coast blue, black and a photograph.
+MOV and APNG ship for the tight crop in black and white only. That is not an oversight: the background
+is transparent, so padding the tight crop out to 1:1 — or any other aspect — in an editor costs
+nothing and loses nothing. Everything else is one command away, below.
 
-### Need something else?
+## Regenerating
 
 ```bash
-cd src
-node render.mjs --out ../.frames --size 2160 --fps 60 --opts '{"colour":"#000000","fit":"tight"}'   # PNG sequence
-node build.mjs --size 2160                                                                          # everything, larger
+cd brand/ftc-x-sierrahouse
+npm install          # Playwright, which rasterises the scene
+npm run build        # everything in dist/, at 1440px
+npm run verify -- --video   # re-run every check in the table below
 ```
+
+```bash
+node src/build.mjs --size 2160                                   # larger
+node src/render.mjs --out ../.frames --size 2160 --fps 60 \
+     --opts '{"colour":"#000000","fit":"square"}'                # PNG sequence
+```
+
 ProRes 4444 instead of RLE, if a workflow insists on it:
+
 ```bash
 ffmpeg -framerate 60 -i ../.frames/f%05d.png -c:v prores_ks -profile:v 4444 \
        -pix_fmt yuva444p10le -vendor apl0 -alpha_bits 16 out.mov
 ```
 
+Proportions, gaps, the ✕, the order the squares land in and every timing are parameters in
+`src/lockup.js` and `src/timeline.js` — nothing is baked into the exports.
+
 ## How the two marks were rebuilt
 
-Neither mark is a bitmap here — both are redrawn as exact vector geometry in `src/geometry.js`, which
+Neither mark is a bitmap here. Both are redrawn as exact vector geometry in `src/geometry.js`, which
 is what keeps the animation crisp at any size.
 
-**Sierra House emblem** was decoded from `sierrahouse-emblem-rgb-black.ai`. It is a 29 × 15 grid: a
-cell carries ink when `(row + col)` is even, or when it falls inside the stepped pyramid, which spans
-columns `14 ± row` from row 1 down. Rebuilt against the original artwork it scores **IoU 0.994**, the
-remainder being antialiasing along cell edges.
+**The Sierra House emblem** was decoded from the supplied `sierrahouse-emblem-rgb-black.ai`. It is a
+29 × 15 grid: a cell carries ink when `(row + col)` is even, or when it falls inside the stepped
+pyramid, which spans columns `14 ± row` from the single-cell tip at row 0 down to the full-width base.
+Rebuilt, it matches the original artwork at **IoU 0.994**, the remainder being antialiasing along cell
+edges.
 
-Because of how that staircase is drawn, only one checker cell — the one directly above the apex —
-ever shares an edge with the pyramid. That is why the checkerboard can animate in independently of
-the pyramid without leaving seams.
+That staircase means **no checker square ever shares an edge with the pyramid** — the cells beside and
+above each step always fall on the opposite parity. Which is why the checkerboard can animate
+independently of the pyramid without leaving seams where they meet. `npm run verify` checks this
+exhaustively.
 
-**Follow the Coast wave mark** was fitted to `src/assets/waves-logo.png`, the only version available.
-It is five strokes, each 2.5 periods of a cubic-bézier wave whose two control points meet at the
-midpoint of every half period, starting on a crest and ending on a trough. Parameters were solved by
-optimising the rendered result directly against the original PNG: **IoU 0.989**, mean alpha error
-0.42/255, and not one pixel off by more than 100/255.
+**The Follow the Coast wave mark** was fitted to `src/assets/waves-logo.png` **in the repository root**
+(not this folder), the only version available. It is five strokes, each 2.5 periods of a cubic-bézier
+wave whose two control points meet at the midpoint of every half period, starting on a crest and
+ending on a trough. The parameters were solved by optimising the rendered result directly against the
+original pixels: **IoU 0.989**, mean alpha error 0.42/255, and not one pixel off by more than 100/255.
 
-> If a vector master of the Follow the Coast mark exists, drop its numbers into `WAVE` in
-> `src/geometry.js` and everything downstream picks them up.
+> If a vector master of the Follow the Coast mark turns up, put its numbers into `WAVE` in
+> `src/geometry.js` and every export picks them up.
 
 ## Composition
 
-Both marks sit on one shared measure — the wave mark is drawn to the emblem's width, plus 1% optical
-overshoot, because the wave's edge is five butt-cut terminals with air between them and reads
-slightly narrow against the emblem's hard full-bleed edge. At that width the wave stroke (36.4 units)
-and the checker module (34.5 units) land on nearly the same weight, which is what holds the stack
-together as one object.
+Both marks sit on one shared measure: the wave mark is drawn to the emblem's width plus 1% optical
+overshoot, because the wave's edge is five butt-cut terminals with air between them and reads slightly
+narrow against the emblem's hard full-bleed edge. At that width the wave stroke (36.4 units) and the
+checker module (34.5 units) land on nearly the same weight, which is what holds the stack together as
+one object rather than two logos near each other.
 
-The ✕ is deliberately small but drawn at 0.68 of the wave stroke; at its first weight it disappeared
-below about 80 px. The gap below the ✕ is 1.2× the gap above it: the emblem's top edge is dead flat
-and crowds the ✕, while the wave's underside is scalloped and its optical edge sits higher than its
-bounding box.
-
-All of this lives in `src/lockup.js` and is parameterised — nothing is hard-coded into the exports.
+The ✕ is deliberately small but drawn at 0.68 of the wave stroke — at its first weight it disappeared
+below about 80 px, taking the one element that makes this a collaboration lockup with it. The gap
+below the ✕ is 1.2× the gap above: the emblem's top edge is dead flat and crowds it, while the wave's
+underside is scalloped and its optical edge sits above its bounding box.
 
 ## Verification
 
-Every export is checked against the live scene rather than eyeballed:
+`npm run verify -- --video` re-runs all of this and exits non-zero on any failure.
 
 | check | result |
 | --- | --- |
-| shipped WebM decoded back and compared to the source scene | IoU 0.992–1.000, mean alpha error ≤ 0.28/255 |
-| SMIL export vs. the frame renderer | mean alpha error 0.015/255 |
+| no checker square shares an edge with the pyramid | 0 shared edges, checked across the whole grid |
+| SMIL export vs. the frame renderer | mean alpha error 0.0098/255, worst IoU 0.986 |
 | first frame | completely empty — 0 pixels of ink |
 | looping build, last frame | completely empty, so it restarts seamlessly |
-| alpha type | straight, not premultiplied — partly-transparent edge pixels still carry the ink colour |
-| ink colour after encoding | black `#000000` and white `#FFFFFF` survive exactly |
-| the brief | at 3.87 s every checker square is in and the pyramid is still 99% transparent; it only fills afterwards |
+| alpha type, every colourway | straight, not premultiplied — partly-transparent edge pixels still carry the ink colour |
+| black through WebM | 100% of opaque pixels exactly `#000000` |
+| white through WebM | 98.8% exact; mean channel error 0.03/255, worst 10/255 |
+| off-white through WebM | mean channel error 2.12/255, worst 12/255 — never exact, see below |
+| black and white through MOV | every opaque pixel bit-exact — the codec is lossless |
+| the brief | at 3.87 s every checker square is in and the pyramid is still completely transparent; it only fills afterwards |
+
+The SVG is exact for all three colourways, being vector.
 
 ## Known limits
 
+- **Safari does not do transparent WebM.** Safari plays VP9 but ignores the alpha channel, so a WebM
+  overlay lands on an opaque black rectangle there. Safari's transparent-video path is HEVC with
+  alpha, which has to be encoded on a Mac. On the web, use the animated SVG: transparent everywhere,
+  scales freely, and smaller than the video.
+- **Reading WebM alpha with ffmpeg.** VP9 keeps its alpha in a side channel, so ffmpeg's native
+  decoder silently drops it and `ffprobe` reports `yuv420p`. Ask for the right decoder:
+  `ffmpeg -c:v libvpx-vp9 -i file.webm -pix_fmt rgba out%04d.png`. Browsers and NLEs are fine.
+- **Colour through VP9.** The 4:2:0 round trip is exact for black, within one step for white, and
+  moves the off-white about two steps — invisible in use, but if a value has to be exact, use the SVG
+  or the MOV.
 - **Minimum size.** Below roughly 60 px of lockup height the 29 × 15 checkerboard silvers into flat
-  grey and takes the pyramid with it. A reduction cut (fewer wave rows, coarser checker) would be
+  grey and takes the pyramid with it. A reduction cut — fewer wave rows, a coarser checker — would be
   needed for favicon or garment-label sizes.
 - **Clear space.** Keep at least one checker module — 3.4% of the lockup's width — clear on all four
   sides. The emblem is full-bleed, so anything tighter collides with its silhouette.
-- **Safari and transparent video.** WebM alpha needs Safari 16+. For older Safari, use the SVG.
-- **Reading WebM alpha with ffmpeg.** VP9 keeps its alpha in a side channel, so ffmpeg's native decoder
-  silently drops it and `ffprobe` reports `yuv420p`. Ask for the right decoder:
-  `ffmpeg -c:v libvpx-vp9 -i file.webm -pix_fmt rgba out%04d.png`. Browsers and NLEs handle it correctly.
-- **The off-white in WebM.** VP9's 4:2:0 round trip lands `#F4EDE6` on `#F2ECE5` — about 1/100 of a step,
-  invisible in use. Black and white are unaffected. Use the SVG or a MOV if the value must be exact.
 - **GIF.** 1-bit alpha only, which is why the GIFs here are matted rather than transparent.
 
 ## Layout of this folder
@@ -122,11 +155,12 @@ src/
   build-svg.mjs  self-contained SMIL export
   render.mjs     transparent PNG frames via Chromium
   build.mjs      builds everything in dist/
+  verify.mjs     checks the exports against the live scene
   frame.html     the page render.mjs screenshots
 dist/            generated — do not hand-edit
 preview.html     look at everything over five backgrounds
 ```
 
-`timeline.js` is the single source of truth for motion: the live scene, the PNG frames and the SMIL
-export all read from it, so they cannot drift apart. The SMIL export is verified against the frame
-renderer to a mean alpha error of 0.017/255.
+`timeline.js` is the single source of truth for motion. It exports a `when` schedule that the live
+scene, the frame renderer and the SMIL export all read, so they cannot drift — which they did, once,
+when two of them worked out the timings separately. `verify.mjs` exists to catch that happening again.

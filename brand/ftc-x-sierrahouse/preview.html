@@ -19,18 +19,23 @@
   .label { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8a8a8a; margin-right:4px; }
   main { padding:24px; display:grid; gap:24px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
   figure { margin:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; }
+  /* Mid-grey checks: light artwork and dark artwork both read against them,
+     and the squares still say "this is transparent". */
   .stage { display:grid; place-items:center; padding:26px; min-height:330px;
-           background-image:linear-gradient(45deg,#e6e8ea 25%,transparent 25%),linear-gradient(-45deg,#e6e8ea 25%,transparent 25%),
-                            linear-gradient(45deg,transparent 75%,#e6e8ea 75%),linear-gradient(-45deg,transparent 75%,#e6e8ea 75%);
-           background-size:18px 18px; background-position:0 0,0 9px,9px -9px,-9px 0; background-color:#fff; }
+           background-image:linear-gradient(45deg,#7d858d 25%,transparent 25%),linear-gradient(-45deg,#7d858d 25%,transparent 25%),
+                            linear-gradient(45deg,transparent 75%,#7d858d 75%),linear-gradient(-45deg,transparent 75%,#7d858d 75%);
+           background-size:18px 18px; background-position:0 0,0 9px,9px -9px,-9px 0; background-color:#98a0a7; }
   .stage.paper { background:var(--paper); }
   .stage.ink   { background:#032d47; }
   .stage.black { background:#000; }
+  /* Sits outside this folder, so it degrades to a plain colour if the folder
+     is copied somewhere else. */
   .stage.photo { background:#3d4a52 url("../../src/assets/coastal-path.jpg") center/cover; }
   .stage img, .stage video { max-width:100%; max-height:300px; height:auto; display:block; }
   figcaption { padding:10px 14px; border-top:1px solid var(--line); font-size:12px; color:#6b6b6b;
                display:flex; justify-content:space-between; gap:10px; }
   figcaption a { color:inherit; }
+  .none { font-size:12px; color:#f2f2f2; background:rgba(0,0,0,.35); padding:4px 10px; border-radius:99px; }
   [hidden] { display:none !important; }
 </style>
 </head>
@@ -52,6 +57,7 @@
   <span class="label">Format</span>
   <button data-fmt="svg" aria-pressed="true">SVG</button>
   <button data-fmt="webm" aria-pressed="false">WebM</button>
+  <button data-fmt="apng" aria-pressed="false">APNG</button>
   <button id="replay">Replay</button>
 </div>
 
@@ -62,17 +68,32 @@ const COLOURS = ['black', 'white', 'offwhite'];
 const FITS = ['tight', 'square'];
 const main = document.getElementById('grid');
 
-for (const c of COLOURS) for (const f of FITS) {
-  const base = `ftc-x-sierrahouse-${c}-${f}`;
+// Everything in dist/. `loop` variants fade out and restart; the rest hold on
+// the finished lockup.
+const TILES = [];
+for (const c of COLOURS) for (const f of FITS) for (const loop of [false, true]) {
+  const base = `ftc-x-sierrahouse-${c}-${f}${loop ? '-loop' : ''}`;
+  const t = { base, label: `${c} · ${f}${loop ? ' · loop' : ''}`, svg: `dist/svg/${base}.svg` };
+  // webm covers every colour and fit; loops are built for black and white tight only
+  if (!loop || (f === 'tight' && c !== 'offwhite')) t.webm = `dist/webm/${base}.webm`;
+  if (f === 'tight' && c !== 'offwhite') {
+    if (loop) t.apng = `dist/apng/${base}.png`;
+    else t.mov = `dist/mov/${base}.mov`;
+  }
+  TILES.push(t);
+}
+
+for (const t of TILES) {
   const fig = document.createElement('figure');
+  const links = ['svg', 'webm', 'mov', 'apng'].filter((k) => t[k])
+    .map((k) => `<a href="${t[k]}">${k}</a>`).join(' · ');
   fig.innerHTML =
     `<div class="stage">` +
-      `<img data-fmt="svg" src="dist/svg/${base}.svg" alt="${c} ${f} lockup">` +
-      `<video data-fmt="webm" src="dist/webm/${base}.webm" autoplay muted playsinline hidden></video>` +
+      `<img data-fmt="svg" src="${t.svg}" alt="${t.label}">` +
+      (t.webm ? `<video data-fmt="webm" src="${t.webm}" autoplay muted playsinline loop hidden></video>` : '') +
+      (t.apng ? `<img data-fmt="apng" src="${t.apng}" alt="${t.label} apng" hidden>` : '') +
     `</div>` +
-    `<figcaption><span>${c} · ${f}</span>` +
-      `<span><a href="dist/svg/${base}.svg">svg</a> · <a href="dist/webm/${base}.webm">webm</a></span>` +
-    `</figcaption>`;
+    `<figcaption><span>${t.label}</span><span>${links}</span></figcaption>`;
   main.appendChild(fig);
 }
 
@@ -87,10 +108,15 @@ document.querySelectorAll('button[data-bg]').forEach((b) => b.addEventListener('
 }));
 document.querySelectorAll('button[data-fmt]').forEach((b) => b.addEventListener('click', () => {
   press('fmt', b.dataset.fmt);
-  document.querySelectorAll('[data-fmt]').forEach((n) => {
-    if (n.tagName === 'BUTTON') return;
-    n.hidden = n.dataset.fmt !== b.dataset.fmt;
-    if (!n.hidden && n.tagName === 'VIDEO') { n.currentTime = 0; n.play(); }
+  document.querySelectorAll('.stage').forEach((s) => {
+    let shown = 0;
+    s.querySelectorAll('[data-fmt]').forEach((n) => {
+      n.hidden = n.dataset.fmt !== b.dataset.fmt;
+      if (!n.hidden) { shown++; if (n.tagName === 'VIDEO') { n.currentTime = 0; n.play(); } }
+    });
+    let note = s.querySelector('.none');
+    if (!shown && !note) { note = document.createElement('span'); note.className = 'none'; s.appendChild(note); }
+    if (note) { note.textContent = `not built as ${b.dataset.fmt}`; note.hidden = shown > 0; }
   });
 }));
 // SMIL restarts only on a fresh load, so re-point the src to replay.

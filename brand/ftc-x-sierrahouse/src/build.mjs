@@ -56,54 +56,64 @@ async function buildVideo(cname, fit, loop) {
   const meta = await render({ out: frames, fps: FPS, size: SIZE, opts: { colour: COLOURS[cname], fit, loop } });
   const seq = path.join(frames, 'f%05d.png');
   const made = [];
+  const matte = cname === 'black' ? '#F7F6F3' : INK;
+  const dur = meta.frames / FPS;
+  // color= is an endless source: without d= and shortest=1 the overlay never
+  // terminates and ffmpeg runs until it is killed.
+  const onMatte = `color=${matte}:s=${meta.W}x${meta.H}:r=${FPS}:d=${dur}[bg];` +
+                  `[bg][0:v]overlay=format=auto:shortest=1`;
 
-  // VP9 with alpha — the only widely supported transparent video on the web.
+  // VP9 with alpha — the only transparent video format the web reads directly.
   mk(path.join(DIST, 'webm'));
   const webm = path.join(DIST, 'webm', base + '.webm');
   ff(['-framerate', String(FPS), '-i', seq, '-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p',
       '-b:v', '0', '-crf', '24', '-row-mt', '1', '-auto-alt-ref', '0', '-deadline', 'good', '-cpu-used', '3',
-      ...(loop ? ['-metadata', 'title=' + base] : []), webm]);
+      webm]);
   made.push(webm);
 
-  if (fit === 'tight' && !loop && (cname === 'black' || cname === 'white')) {
+  const primary = fit === 'tight' && (cname === 'black' || cname === 'white');
+
+  if (primary && !loop) {
     // QuickTime Animation (RLE): lossless straight alpha, opens in every NLE and
-    // is ~5x smaller than ProRes 4444 for flat vector artwork.
+    // about 5x smaller than ProRes 4444 for flat vector artwork. Only the tight
+    // crop is shipped — with a transparent background, padding it out to any
+    // other aspect in an editor costs nothing.
     mk(path.join(DIST, 'mov'));
     const mov = path.join(DIST, 'mov', base + '.mov');
     ff(['-framerate', String(FPS), '-i', seq, '-c:v', 'qtrle', '-pix_fmt', 'argb', mov]);
     made.push(mov);
 
-    // APNG: full 8-bit alpha, plays in every browser and most chat clients.
+    // A matted MP4 so the animation can be watched anywhere. Plays once and holds.
+    mk(path.join(DIST, 'preview'));
+    const mp4 = path.join(DIST, 'preview', base + `-on-${cname === 'black' ? 'paper' : 'ink'}.mp4`);
+    ff(['-framerate', String(FPS), '-i', seq, '-filter_complex', `${onMatte},format=yuv420p`,
+        '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', mp4]);
+    made.push(mp4);
+  }
+
+  if (primary && loop) {
+    // APNG and GIF repeat by nature, so they are cut from the looping timeline.
+    // Built from the one-shot they would hard-cut from the finished lockup
+    // straight back to an empty frame every time round.
     mk(path.join(DIST, 'apng'));
     const apng = path.join(DIST, 'apng', base + '.png');
     ff(['-framerate', String(FPS), '-i', seq, '-plays', '0', '-f', 'apng', apng]);
     made.push(apng);
 
-    // Matted previews. GIF alpha is 1-bit, so these are flattened on purpose
-    // rather than shipped with chewed-up edges.
-    const matte = cname === 'black' ? '#F7F6F3' : INK;
+    // GIF alpha is 1-bit, so this one is flattened on purpose rather than
+    // shipped with chewed-up edges. Two passes with the palette on disk: one
+    // command with split[] buffers every frame and gets OOM-killed.
     mk(path.join(DIST, 'preview'));
     const gif = path.join(DIST, 'preview', base + `-on-${cname === 'black' ? 'paper' : 'ink'}.gif`);
-    // Two passes with a palette on disk: a single-command split[] would buffer
-    // every frame at full size and get the process OOM-killed.
-    // color= is an endless source: without d= and shortest=1 the overlay never
-    // terminates and ffmpeg runs until it is killed.
-    const dur = meta.frames / FPS;
-    const flat = `color=${matte}:s=${meta.W}x${meta.H}:r=${FPS}:d=${dur}[bg];` +
-                 `[bg][0:v]overlay=format=auto:shortest=1,fps=25,scale=520:-1:flags=lanczos`;
+    const flat = `${onMatte},fps=25,scale=520:-1:flags=lanczos`;
     const pal = path.join(TMP, base + '-palette.png');
     ff(['-framerate', String(FPS), '-i', seq, '-filter_complex', `${flat},palettegen=stats_mode=diff`, pal]);
     ff(['-framerate', String(FPS), '-i', seq, '-i', pal,
         '-filter_complex', `${flat}[v];[v][1:v]paletteuse=dither=bayer:bayer_scale=3`, gif]);
     fs.rmSync(pal, { force: true });
     made.push(gif);
-    const mp4 = path.join(DIST, 'preview', base + `-on-${cname === 'black' ? 'paper' : 'ink'}.mp4`);
-    ff(['-framerate', String(FPS), '-i', seq,
-        '-filter_complex', `color=${matte}:s=${meta.W}x${meta.H}:r=${FPS}:d=${dur}[bg];` +
-          `[bg][0:v]overlay=format=auto:shortest=1,format=yuv420p`,
-        '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', mp4]);
-    made.push(mp4);
   }
+
   fs.rmSync(frames, { recursive: true, force: true });
   return { meta, made };
 }

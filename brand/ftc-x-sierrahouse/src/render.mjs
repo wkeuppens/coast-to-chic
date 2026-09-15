@@ -2,11 +2,22 @@
  * Renders the lockup animation to a transparent PNG sequence with Chromium.
  *   node render.mjs --out DIR --fps 60 --size 1440 [--opts '{"colour":"#fff"}'] [--stills 0,1.3,2.5]
  */
-import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
+
+/** Chromium rasterises the scene. CJS resolution so both a local install and a
+ *  global one (NODE_PATH) work; Node's ESM resolver honours neither. */
+function loadChromium() {
+  const require = createRequire(import.meta.url);
+  for (const id of ['playwright', 'playwright-core']) {
+    try { return require(id).chromium; } catch { /* try the next one */ }
+  }
+  throw new Error('Playwright not found. Run `npm install` in brand/ftc-x-sierrahouse.');
+}
+
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json' };
 
@@ -36,7 +47,7 @@ const stills = arg('stills', null);
 export async function render({ out, fps, size, opts, stills }) {
   fs.mkdirSync(out, { recursive: true });
   const { srv, base } = await serve(HERE);
-  const browser = await chromium.launch({ args: ['--force-color-profile=srgb', '--disable-lcd-text'] });
+  const browser = await loadChromium().launch({ args: ['--force-color-profile=srgb', '--disable-lcd-text'] });
 
   // Work out the canvas shape before sizing the viewport.
   const probe = await browser.newPage({ viewport: { width: 100, height: 100 } });
@@ -52,13 +63,12 @@ export async function render({ out, fps, size, opts, stills }) {
   const even = (v) => Math.max(2, Math.round(v / 2) * 2);
   const W = even(aspect >= 1 ? size : size * aspect);
   const H = even(aspect >= 1 ? size / aspect : size);
-  // The emblem's staircase means only the apex cell touches the triangle edge-on,
-  // so a hairline outset on the triangle is all that is needed to close that seam.
-  const outset = opts.outset !== undefined ? opts.outset : (0.5 * vb[0]) / W;
+  // No shape in the lockup shares an edge with another, so nothing needs an
+  // outset to hide a seam. Kept as an option for odd rasterisers only.
+  const outset = opts.outset ?? 0;
 
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
-  await page.goto(base + '/frame.html?opts=' +
-    encodeURIComponent(JSON.stringify({ ...opts, outset })));
+  await page.goto(base + '/frame.html?opts=' + encodeURIComponent(JSON.stringify({ ...opts, outset })));
   await page.waitForFunction('window.__ready === true');
 
   const times = stills

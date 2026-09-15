@@ -6,7 +6,7 @@
  * looping build stays in sync no matter when a viewer joins.
  */
 import { SIERRA, WAVE, wavePath, waveCY, checkerCells, trianglePath } from './geometry.js';
-import { stateAt, orderCells, totalDuration, TIMING } from './timeline.js';
+import { stateAt, orderCells, totalDuration, when, TIMING } from './timeline.js';
 import { DEFAULTS, layout, frame } from './lockup.js';
 
 const f = (v, p = 4) => Number(v.toFixed(p)).toString();
@@ -42,8 +42,8 @@ export function buildAnimatedSVG(options = {}) {
   /* wave mark */
   let ftc = '';
   for (let i = 0; i < WAVE.count; i++) {
-    const t0 = T.waveStart + i * T.waveStagger;
-    const a = track(total, t0, t0 + T.waveDraw, 34, (t) => `${f(st(t).waves[i], 5)} 2`,
+    const { start: t0, dur } = when.wave(i);
+    const a = track(total, t0, t0 + dur, 34, (t) => `${f(st(t).waves[i], 5)} 2`,
       { attr: 'stroke-dasharray', loop: o.loop });
     ftc += `<path d="${wavePath(waveCY(i))}" fill="none" stroke-width="${f(WAVE.stroke, 3)}" stroke-linecap="butt" pathLength="1" stroke-dasharray="0 2" stroke-dashoffset="0">${a}</path>`;
   }
@@ -53,23 +53,23 @@ export function buildAnimatedSVG(options = {}) {
   const armD = [`M ${f(-half)} ${f(-half)} L ${f(half)} ${f(half)}`, `M ${f(half)} ${f(-half)} L ${f(-half)} ${f(half)}`];
   let arms = '';
   for (let i = 0; i < 2; i++) {
-    const t0 = T.xStart + i * T.xArmStagger;
-    const t1 = t0 + T.xArmDraw;
+    const { start: t0, dur } = when.xArm(i);
+    const t1 = t0 + dur;
     const da = track(total, t0, t1, 10, (t) => `${f(st(t).xArms[i], 5)} 3`, { attr: 'stroke-dasharray', loop: o.loop });
     const dof = track(total, t0, t1, 10, (t) => f(-(0.5 - st(t).xArms[i] / 2), 5), { attr: 'stroke-dashoffset', loop: o.loop });
     arms += `<path d="${armD[i]}" fill="none" stroke-width="${f(L.x.stroke, 3)}" stroke-linecap="butt" pathLength="1" stroke-dasharray="0 3" stroke-dashoffset="-0.5">${da}${dof}</path>`;
   }
-  const xScaleTrack = track(total, T.xStart, T.xStart + T.xArmDraw + T.xArmStagger + 0.12, 12,
+  const xs = when.xScale();
+  const xScaleTrack = track(total, xs.start, xs.start + xs.dur, 12,
     (t) => `${f(st(t).xScale, 5)} ${f(st(t).xScale, 5)}`,
     { tag: 'animateTransform', attr: 'transform', type: 'scale', loop: o.loop });
   const xGroup = `<g transform="translate(${f(L.x.cx, 3)} ${f(L.x.cy, 3)})"><g>${xScaleTrack}${arms}</g></g>`;
 
   /* emblem */
-  const step = ordered.length > 1 ? T.checkerSpread / (ordered.length - 1) : 0;
   let cells = '';
   ordered.forEach(({ r, c }, i) => {
-    const t0 = T.checkerStart + i * step;
-    const t1 = t0 + T.checkerPop;
+    const { start: t0, dur } = when.cell(i, ordered.length);
+    const t1 = t0 + dur;
     const cx = (c + 0.5) * SIERRA.cellW, cy = (r + 0.5) * SIERRA.cellH;
     const sc = track(total, t0, t1, 8, (t) => { const v = f(st(t).cells[i].s, 5); return `${v} ${v}`; },
       { tag: 'animateTransform', attr: 'transform', type: 'scale', loop: o.loop });
@@ -79,10 +79,13 @@ export function buildAnimatedSVG(options = {}) {
       `<rect x="${f(-w / 2)}" y="${f(-h / 2)}" width="${f(w)}" height="${f(h)}" stroke="none"/></g></g>`;
   });
 
-  const clipId = 'ftcxsh-rise';
-  const triY = track(total, T.triStart, T.triStart + T.triFill, 16,
+  // Unique per build, so several of these SVGs can be inlined in one document
+  // without their clip paths colliding.
+  const clipId = 'ftcxsh-rise-' + [o.colour, o.fit, o.loop, o.order].join('-').replace(/[^a-z0-9]+/gi, '');
+  const tri0 = when.triangle();
+  const triY = track(total, tri0.start, tri0.start + tri0.dur, 22,
     (t) => f(SIERRA.height * (1 - st(t).triangle), 4), { attr: 'y', loop: o.loop });
-  const triH = track(total, T.triStart, T.triStart + T.triFill, 16,
+  const triH = track(total, tri0.start, tri0.start + tri0.dur, 22,
     (t) => f(SIERRA.height * st(t).triangle, 4), { attr: 'height', loop: o.loop });
   const defs = `<defs><clipPath id="${clipId}" clipPathUnits="userSpaceOnUse">` +
     `<rect x="-10" y="${f(SIERRA.height, 3)}" width="${f(SIERRA.width + 20, 3)}" height="0">${triY}${triH}</rect></clipPath></defs>`;

@@ -25,7 +25,13 @@ export const SIERRA = {
   width: 566.929,
   height: 293.386,
   apexCol: 14,
-  apexRow: 1,
+  // The pyramid's single-cell tip sits at row 0, column 14. That cell also
+  // satisfies the checkerboard parity, so the finished artwork looks identical
+  // either way — but treating it as the tip is what makes the pyramid a clean
+  // shape: the triangular hole is unbroken while the squares land, the fill
+  // covers the emblem's full height with no dead time at the end, and no
+  // checker cell ever shares an edge with the pyramid, so there are no seams.
+  apexRow: 0,
 };
 SIERRA.cellW = SIERRA.width / SIERRA.cols;
 SIERRA.cellH = SIERRA.height / SIERRA.rows;
@@ -44,7 +50,7 @@ export function checkerCells() {
   return out;
 }
 
-/** The stepped pyramid as a single closed outline, walked clockwise. */
+/** The stepped pyramid as a single closed outline, walked clockwise from the tip. */
 export function trianglePath() {
   const { cellW, cellH, apexCol, apexRow, rows } = SIERRA;
   const pts = [];
