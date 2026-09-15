@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+#stage{position:fixed;inset:0}#stage svg{display:block;width:100%;height:100%}</style>
+<div id="stage"></div>
+<script type="module">
+import { mountScene } from './scene.js';
+const q = new URLSearchParams(location.search);
+const opts = {};
+for (const [k, v] of q) {
+  if (k === 'opts') Object.assign(opts, JSON.parse(v));
+}
+const s = mountScene(document.getElementById('stage'), opts);
+window.__scene = s;
+window.__setTime = (t) => s.setTime(t);
+window.__ready = true;
+</script>

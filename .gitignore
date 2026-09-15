@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Brand assets. The bare `dist` rule above is for the Vite build; the brand
+# folders' dist/ holds the delivered artwork itself, so it is kept.
+!brand/*/dist/
+brand/*/.frames/
