@@ -40,7 +40,7 @@ export const TIMING = {
   checkerSpread: 2.05, // time between first and last cell *starting*
   checkerPop: 0.22,
 
-  triStart: 3.98,
+  triStart: 3.92, // a beat after the last square, long enough to read the hole
   triFill: 0.86,
 
   end: 6.0,
@@ -151,8 +151,14 @@ export function stateAt(t, opts = {}) {
   // the emblem and carries 13% of its ink, so a height sweep dumped that in a
   // single frame and then crawled up the thin tip. Inverting a triangle's area,
   // A = 1-(1-u)^2, gives a fill that reads at a constant rate.
+  //
+  // The ease is a blend with a linear ramp rather than a plain inOutCubic: a
+  // pure S has zero velocity at its start, which held the picture for another
+  // five frames after the fill was meant to begin and squeezed the readable
+  // part of the sweep into 0.35s of an authored 0.86s.
   const tri = when.triangle();
-  const filled = easing.inOutCubic(span(t, tri.start, tri.dur));
+  const p = span(t, tri.start, tri.dur);
+  const filled = 0.45 * p + 0.55 * easing.inOutCubic(p);
   const triangle = 1 - Math.sqrt(1 - filled);
 
   let globalAlpha = 1;

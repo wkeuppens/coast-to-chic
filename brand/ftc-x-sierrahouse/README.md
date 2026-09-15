@@ -16,8 +16,13 @@ photograph.
 | 0.00s | 1.29s | the five Follow the Coast waves draw in left to right, each starting 85 ms after the one above |
 | 1.12s | 1.50s | the ✕ draws outward from its own centre, both arms at once, settling on a small overshoot by 1.62s |
 | 1.50s | 3.77s | the Sierra House checkerboard lands **one square at a time** — 98 squares. The pyramid stays completely transparent, so the mountain reads as a hole in the checkerboard |
-| 3.98s | 4.84s | once every square is in place, the pyramid **fills from its base upwards**, like a tide coming in. Its single-cell tip is the last thing to arrive |
-| 4.84s | 6.00s | held on the finished lockup |
+| 3.92s | 4.78s | once every square is in place, the pyramid **fills from its base upwards**, like a tide coming in. Its single-cell tip is the last thing to arrive |
+| 4.78s | 6.00s | held on the finished lockup |
+
+The fill sweeps the pyramid's **area**, not its height. A pyramid's mass is in its base — the
+full-width bottom row alone is 13% of its ink — so easing the height dumped that in a single frame
+and then crawled up the tip. Inverting a triangle's area spreads it evenly, and the ease is blended
+with a linear ramp so it moves on the first frame rather than holding.
 
 The squares are not spread evenly. At a constant rate all 98 land about one frame apart and nothing
 reads "checker by checker" at all, so the first few are opened out to roughly 40 ms, the middle
@@ -122,6 +127,7 @@ underside is scalloped and its optical edge sits above its bounding box.
 | off-white through WebM | mean channel error 2.12/255, worst 12/255 — never exact, see below |
 | black and white through MOV | every opaque pixel bit-exact — the codec is lossless |
 | the brief | at 3.87 s every checker square is in and the pyramid is still completely transparent; it only fills afterwards |
+| the fill reads as a fill | no single frame delivers more than 4% of the pyramid's area; 10%→90% of it sweeps over 0.53 s |
 
 The SVG is exact for all three colourways, being vector.
 
