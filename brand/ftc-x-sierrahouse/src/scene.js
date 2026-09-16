@@ -44,23 +44,24 @@ export function mountScene(container, options = {}) {
   root.appendChild(gFtc);
 
   /* --------------------------------------------------------------- ✕ ----- */
+  // Each leg lives in its own group so it can swing about the ✕'s centre
+  // independently of the other.
   const half = L.x.size / 2;
-  const gX = el('g', {});
-  const xArms = [
-    // top-left → bottom-right, then top-right → bottom-left
-    el('path', { d: `M ${-half} ${-half} L ${half} ${half}` }),
-    el('path', { d: `M ${half} ${-half} L ${-half} ${half}` }),
+  const gX = el('g', { transform: `translate(${L.x.cx.toFixed(3)} ${L.x.cy.toFixed(3)})` });
+  const armD = [
+    `M ${-half} ${-half} L ${half} ${half}`, // top-left to bottom-right
+    `M ${half} ${-half} L ${-half} ${half}`, // top-right to bottom-left, crossing it
   ];
-  for (const a of xArms) {
-    a.setAttribute('fill', 'none');
-    a.setAttribute('stroke', o.colour);
-    a.setAttribute('stroke-width', L.x.stroke);
-    a.setAttribute('stroke-linecap', 'butt');
-    a.setAttribute('pathLength', 1);
-    a.setAttribute('stroke-dasharray', '0 3');
-    a.setAttribute('stroke-dashoffset', -0.5);
-    gX.appendChild(a);
-  }
+  const xPivots = [];
+  const xArms = armD.map((d) => {
+    const pivot = el('g', {});
+    const p = el('path', {
+      d, fill: 'none', stroke: o.colour, 'stroke-width': L.x.stroke, 'stroke-linecap': 'butt',
+      pathLength: 1, 'stroke-dasharray': '0 3', 'stroke-dashoffset': 0,
+    });
+    pivot.appendChild(p); gX.appendChild(pivot); xPivots.push(pivot);
+    return p;
+  });
   root.appendChild(gX);
 
   /* ---------------------------------------------------------- emblem ----- */
@@ -96,11 +97,10 @@ export function mountScene(container, options = {}) {
     for (let i = 0; i < wavePaths.length; i++)
       wavePaths[i].setAttribute('stroke-dasharray', `${s.waves[i].toFixed(5)} 2`);
     for (let i = 0; i < xArms.length; i++) {
-      const p = s.xArms[i];
-      xArms[i].setAttribute('stroke-dasharray', `${p.toFixed(5)} 3`);
-      xArms[i].setAttribute('stroke-dashoffset', (-(0.5 - p / 2)).toFixed(5));
+      const { draw, rotate } = s.xArms[i];
+      xArms[i].setAttribute('stroke-dasharray', `${draw.toFixed(5)} 3`);
+      xPivots[i].setAttribute('transform', `rotate(${rotate.toFixed(4)})`);
     }
-    gX.setAttribute('transform', `translate(${L.x.cx.toFixed(3)} ${L.x.cy.toFixed(3)}) scale(${s.xScale.toFixed(5)})`);
     for (let i = 0; i < cellNodes.length; i++) {
       const { s: sc, o: op } = s.cells[i];
       const n = cellNodes[i];

@@ -14,6 +14,9 @@ export const easing = {
   inOutCubic: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
   outBack: (t, s = 1.45) => 1 + (s + 1) * Math.pow(t - 1, 3) + s * Math.pow(t - 1, 2),
   outExpo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  outQuad: (t) => 1 - (1 - t) * (1 - t),
+  /** The gentlest S there is — no sudden change of acceleration anywhere. */
+  inOutSine: (t) => -(Math.cos(Math.PI * t) - 1) / 2,
   /**
    * Fast at both ends, slow through the middle — the mirror of inOutCubic.
    * Used on the squares' start times, where advancing the schedule quickly
@@ -29,22 +32,26 @@ export const span = (t, start, dur) => clamp01((t - start) / dur);
 /* -------------------------------------------------------------- schedule -- */
 export const TIMING = {
   waveStart: 0.0,
-  waveStagger: 0.085,
-  waveDraw: 0.95,
+  waveStagger: 0.095,
+  waveDraw: 1.1,
 
-  xStart: 1.12,
-  xArmDraw: 0.34,
-  xArmStagger: 0.04, // longer and the first arm reads as a lone slash
+  // The ✕ is drawn as two separate strokes: one leg lands, then the other
+  // crosses it. Each swings into place from an angle as it draws.
+  xStart: 1.3,
+  xArmDraw: 0.46,
+  xArmStagger: 0.26, // long enough to read as "one, then the other"
+  xArmSettle: 0.18,  // the swing keeps easing out after the stroke is complete
+  xArmSwing: 26,     // degrees each leg travels, opposite ways
 
-  checkerStart: 1.5,
-  checkerSpread: 2.05, // time between first and last cell *starting*
-  checkerPop: 0.22,
+  checkerStart: 1.98,
+  checkerSpread: 2.4, // time between the first and last square *starting*
+  checkerPop: 0.34,
 
-  triStart: 3.92, // a beat after the last square, long enough to read the hole
-  triFill: 0.86,
+  triStart: 4.88, // a beat after the last square, long enough to read the hole
+  triFill: 1.05,
 
-  end: 6.0,
-  fadeOut: 0.5, // only used by the looping variant
+  end: 7.0,
+  fadeOut: 0.6, // only used by the looping variant
 };
 
 export const totalDuration = (loop) => TIMING.end + (loop ? TIMING.fadeOut : 0);
@@ -93,7 +100,8 @@ export function orderCells(cells, mode = 'scatter', seed = 20260915) {
 export const when = {
   wave: (i) => ({ start: TIMING.waveStart + i * TIMING.waveStagger, dur: TIMING.waveDraw }),
   xArm: (i) => ({ start: TIMING.xStart + i * TIMING.xArmStagger, dur: TIMING.xArmDraw }),
-  xScale: () => ({ start: TIMING.xStart, dur: TIMING.xArmDraw + TIMING.xArmStagger + 0.12 }),
+  /** The swing outlasts the stroke, so each leg settles rather than stopping. */
+  xSwing: (i) => ({ start: TIMING.xStart + i * TIMING.xArmStagger, dur: TIMING.xArmDraw + TIMING.xArmSettle }),
   triangle: () => ({ start: TIMING.triStart, dur: TIMING.triFill }),
   /**
    * Squares are spread on an arc, not a constant interval. At a flat rate all 98
@@ -104,7 +112,7 @@ export const when = {
   cell: (i, count) => {
     const k = count > 1 ? i / (count - 1) : 0;
     return {
-      start: TIMING.checkerStart + TIMING.checkerSpread * (0.5 * k + 0.5 * easing.outInCubic(k)),
+      start: TIMING.checkerStart + TIMING.checkerSpread * (0.72 * k + 0.28 * easing.outInCubic(k)),
       dur: TIMING.checkerPop,
     };
   },
@@ -114,7 +122,7 @@ export const when = {
 /**
  * Full animation state at time `t`.
  *  waves[i]    0..1 draw progress
- *  xArms[i]    0..1 draw progress, xScale = settle scale
+ *  xArms[i]    { draw: 0..1 stroke progress, rotate: degrees still to swing }
  *  cells[i]    { s: scale, o: opacity } for the i-th cell in animation order
  *  triangle    0..1 fill height, measured from the base upwards
  *  globalAlpha 1, except during the loop variant's tail fade
@@ -126,15 +134,21 @@ export function stateAt(t, opts = {}) {
   const waves = [];
   for (let i = 0; i < waveCount; i++) {
     const w = when.wave(i);
-    waves.push(easing.inOutCubic(span(t, w.start, w.dur)));
+    waves.push(easing.inOutSine(span(t, w.start, w.dur)));
   }
 
+  // Leg 0 runs top-left to bottom-right, leg 1 crosses it the other way. Each
+  // is drawn end to end while swinging in from an angle, the two from opposite
+  // sides, so the second visibly crosses the first.
   const xArms = [0, 1].map((i) => {
     const a = when.xArm(i);
-    return easing.outCubic(span(t, a.start, a.dur));
+    const sw = when.xSwing(i);
+    const dir = i === 0 ? -1 : 1;
+    return {
+      draw: easing.inOutSine(span(t, a.start, a.dur)),
+      rotate: dir * T.xArmSwing * (1 - easing.outCubic(span(t, sw.start, sw.dur))),
+    };
   });
-  const xs = when.xScale();
-  const xScale = 0.86 + 0.14 * easing.outBack(span(t, xs.start, xs.dur), 2.2);
 
   const cells = [];
   for (let i = 0; i < cellCount; i++) {
@@ -143,7 +157,9 @@ export function stateAt(t, opts = {}) {
     if (pop === 'hard') {
       cells.push({ s: 1, o: p > 0 ? 1 : 0 });
     } else {
-      cells.push({ s: 0.38 + 0.62 * easing.outBack(p, 1.9), o: easing.outQuart(Math.min(1, p * 1.9)) });
+      // No overshoot. A back-eased pop on 98 squares reads as chatter; a plain
+      // ease-out that lets opacity lead the scale reads as the squares settling.
+      cells.push({ s: 0.72 + 0.28 * easing.outCubic(p), o: easing.outQuad(Math.min(1, p * 1.45)) });
     }
   }
 
@@ -158,11 +174,11 @@ export function stateAt(t, opts = {}) {
   // part of the sweep into 0.35s of an authored 0.86s.
   const tri = when.triangle();
   const p = span(t, tri.start, tri.dur);
-  const filled = 0.45 * p + 0.55 * easing.inOutCubic(p);
+  const filled = 0.5 * p + 0.5 * easing.inOutSine(p);
   const triangle = 1 - Math.sqrt(1 - filled);
 
   let globalAlpha = 1;
   if (loop && t > T.end) globalAlpha = 1 - easing.inOutCubic(span(t, T.end, T.fadeOut));
 
-  return { waves, xArms, xScale, cells, triangle, globalAlpha };
+  return { waves, xArms, cells, triangle, globalAlpha };
 }

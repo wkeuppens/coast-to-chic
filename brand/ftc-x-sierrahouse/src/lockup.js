@@ -22,8 +22,8 @@ export const DEFAULTS = {
    * wave's underside is scalloped so its optical edge sits above its bounding
    * box, while the emblem's top is a hard full-bleed edge that crowds the ✕.
    */
-  gapTop: 0.072,
-  gapBottom: 0.086,
+  gapTop: 0.135,
+  gapBottom: 0.155,
   /** ✕ bounding box, as a fraction of the Sierra emblem's width. */
   xSize: 0.12,
   /** ✕ stroke weight, as a fraction of the wave stroke at lockup scale. */

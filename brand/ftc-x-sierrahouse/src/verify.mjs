@@ -17,11 +17,16 @@ import { fileURLToPath } from 'node:url';
 import { render } from './render.mjs';
 import { buildAnimatedSVG } from './build-svg.mjs';
 import { SIERRA, checkerCells, inTriangle } from './geometry.js';
+import { totalDuration } from './timeline.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(HERE, '../dist');
 const WITH_VIDEO = process.argv.includes('--video');
-const TIMES = [0, 0.35, 0.75, 1.2, 1.45, 1.9, 2.4, 2.9, 3.4, 3.9, 4.15, 4.45, 5.5];
+const FPS = 60;
+// Derived, not hardcoded: the timeline's length is free to change.
+const LAST = Math.round(totalDuration(false) * FPS) - 1;
+const LAST_LOOP = Math.round(totalDuration(true) * FPS) - 1;
+const TIMES = [0, ...Array.from({ length: 11 }, (_, i) => Number(((i + 1) * totalDuration(false) / 12).toFixed(2)))];
 const H = 700;
 
 function chromium() {
@@ -137,7 +142,7 @@ if (WITH_VIDEO) {
       if (!fs.existsSync(f)) continue;
       const dir = path.join(tmp, 'dec-' + cname); fs.mkdirSync(dir, { recursive: true });
       execFileSync('ffmpeg', ['-y', '-v', 'error', '-c:v', 'libvpx-vp9', '-i', f,
-        '-vf', "select='eq(n\\,359)'", '-vsync', '0', '-pix_fmt', 'rgba', path.join(dir, '%02d.png')]);
+        '-vf', `select='eq(n\\,${LAST})'`, '-vsync', '0', '-pix_fmt', 'rgba', path.join(dir, '%02d.png')]);
       const r = await page.evaluate(async ([u, want]) => {
         const img = await new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.src = u; });
         const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
@@ -175,7 +180,7 @@ if (WITH_VIDEO) {
       const f = path.join(DIST, 'mov', `ftc-x-sierrahouse-${cname}-tight.mov`);
       if (!fs.existsSync(f)) continue;
       const dir = path.join(tmp, 'mov-' + cname); fs.mkdirSync(dir, { recursive: true });
-      execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', f, '-vf', "select='eq(n\\,359)'",
+      execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', f, '-vf', `select='eq(n\\,${LAST})'`,
         '-vsync', '0', '-pix_fmt', 'rgba', path.join(dir, '%02d.png')]);
       const want = cname === 'black' ? [0, 0, 0] : [255, 255, 255];
       const r = await page.evaluate(async ([u, w]) => {
@@ -198,7 +203,7 @@ if (WITH_VIDEO) {
     if (fs.existsSync(loop)) {
       const ldir = path.join(tmp, 'loop'); fs.mkdirSync(ldir, { recursive: true });
       execFileSync('ffmpeg', ['-y', '-v', 'error', '-c:v', 'libvpx-vp9', '-i', loop,
-        '-vf', "select='eq(n\\,0)+eq(n\\,389)'", '-vsync', '0', '-pix_fmt', 'rgba', path.join(ldir, '%02d.png')]);
+        '-vf', `select='eq(n\\,0)+eq(n\\,${LAST_LOOP})'`, '-vsync', '0', '-pix_fmt', 'rgba', path.join(ldir, '%02d.png')]);
       const b2 = await chromium().launch();
       const p2 = await b2.newPage(); await p2.setContent('<body>');
       const ink = await p2.evaluate(async (u) => {

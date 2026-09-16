@@ -48,22 +48,26 @@ export function buildAnimatedSVG(options = {}) {
     ftc += `<path d="${wavePath(waveCY(i))}" fill="none" stroke-width="${f(WAVE.stroke, 3)}" stroke-linecap="butt" pathLength="1" stroke-dasharray="0 2" stroke-dashoffset="0">${a}</path>`;
   }
 
-  /* ✕ */
+  /* ✕ — one leg, then the other crossing it, each swinging in from an angle */
   const half = L.x.size / 2;
-  const armD = [`M ${f(-half)} ${f(-half)} L ${f(half)} ${f(half)}`, `M ${f(half)} ${f(-half)} L ${f(-half)} ${f(half)}`];
+  const armD = [
+    `M ${f(-half)} ${f(-half)} L ${f(half)} ${f(half)}`,
+    `M ${f(half)} ${f(-half)} L ${f(-half)} ${f(half)}`,
+  ];
   let arms = '';
   for (let i = 0; i < 2; i++) {
-    const { start: t0, dur } = when.xArm(i);
-    const t1 = t0 + dur;
-    const da = track(total, t0, t1, 10, (t) => `${f(st(t).xArms[i], 5)} 3`, { attr: 'stroke-dasharray', loop: o.loop });
-    const dof = track(total, t0, t1, 10, (t) => f(-(0.5 - st(t).xArms[i] / 2), 5), { attr: 'stroke-dashoffset', loop: o.loop });
-    arms += `<path d="${armD[i]}" fill="none" stroke-width="${f(L.x.stroke, 3)}" stroke-linecap="butt" pathLength="1" stroke-dasharray="0 3" stroke-dashoffset="-0.5">${da}${dof}</path>`;
+    const a = when.xArm(i);
+    const sw = when.xSwing(i);
+    const da = track(total, a.start, a.start + a.dur, 16,
+      (t) => `${f(st(t).xArms[i].draw, 5)} 3`, { attr: 'stroke-dasharray', loop: o.loop });
+    const rot = track(total, sw.start, sw.start + sw.dur, 18,
+      (t) => f(st(t).xArms[i].rotate, 4),
+      { tag: 'animateTransform', attr: 'transform', type: 'rotate', loop: o.loop });
+    arms += `<g transform="rotate(0)">${rot}` +
+      `<path d="${armD[i]}" fill="none" stroke-width="${f(L.x.stroke, 3)}" stroke-linecap="butt"` +
+      ` pathLength="1" stroke-dasharray="0 3" stroke-dashoffset="0">${da}</path></g>`;
   }
-  const xs = when.xScale();
-  const xScaleTrack = track(total, xs.start, xs.start + xs.dur, 12,
-    (t) => `${f(st(t).xScale, 5)} ${f(st(t).xScale, 5)}`,
-    { tag: 'animateTransform', attr: 'transform', type: 'scale', loop: o.loop });
-  const xGroup = `<g transform="translate(${f(L.x.cx, 3)} ${f(L.x.cy, 3)})"><g>${xScaleTrack}${arms}</g></g>`;
+  const xGroup = `<g transform="translate(${f(L.x.cx, 3)} ${f(L.x.cy, 3)})">${arms}</g>`;
 
   /* emblem */
   let cells = '';

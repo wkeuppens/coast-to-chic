@@ -4,20 +4,26 @@ A stacked collaboration lockup that animates on a **fully transparent background
 over photography, video, a coloured panel or nothing at all. Supplied in **black**, **white** and the
 **Sierra House off-white** (`#F4EDE6`).
 
-Open `preview.html` to see every delivered file over transparent, paper, coast blue, black and a
-photograph.
+Open `preview.html` to see every delivered file over a transparency grid, paper, black and a
+photograph. Nothing has a background baked in — the swatches change what sits *behind* the artwork.
 
 ## The animation
 
-6.00 s, 60 fps. Times are the same in every format.
+7.00 s, 60 fps. Times are the same in every format.
 
 | from | to | what happens |
 | --- | --- | --- |
-| 0.00s | 1.29s | the five Follow the Coast waves draw in left to right, each starting 85 ms after the one above |
-| 1.12s | 1.50s | the ✕ draws outward from its own centre, both arms at once, settling on a small overshoot by 1.62s |
-| 1.50s | 3.77s | the Sierra House checkerboard lands **one square at a time** — 98 squares. The pyramid stays completely transparent, so the mountain reads as a hole in the checkerboard |
-| 3.92s | 4.78s | once every square is in place, the pyramid **fills from its base upwards**, like a tide coming in. Its single-cell tip is the last thing to arrive |
-| 4.78s | 6.00s | held on the finished lockup |
+| 0.00s | 1.48s | the five Follow the Coast waves draw in left to right, each starting 95 ms after the one above |
+| 1.30s | 1.94s | one leg of the ✕ draws in, swinging into place from an angle |
+| 1.56s | 2.20s | the second leg draws across it, swinging in from the other side |
+| 1.98s | 4.72s | the Sierra House checkerboard lands **one square at a time** — 98 squares. The pyramid stays completely transparent, so the mountain reads as a hole in the checkerboard |
+| 4.88s | 5.93s | once every square is in place, the pyramid **fills from its base upwards**, like a tide coming in. Its single-cell tip is the last thing to arrive |
+| 5.93s | 7.00s | held on the finished lockup |
+
+The acts overlap rather than queueing: the ✕ starts while the last wave is still
+drawing, and the first squares land while the ✕ is still settling. Nothing in the
+piece uses an overshoot or a back-ease — every move is an ease-out or a sine-based
+S, which is what keeps it feeling unhurried rather than snappy.
 
 The fill sweeps the pyramid's **area**, not its height. A pyramid's mass is in its base — the
 full-width bottom row alone is 13% of its ink — so easing the height dumped that in a single frame
@@ -28,7 +34,7 @@ The squares are not spread evenly. At a constant rate all 98 land about one fram
 reads "checker by checker" at all, so the first few are opened out to roughly 40 ms, the middle
 flurries, and the last few settle again — you see the triangular hole close.
 
-The `-loop` builds add a 0.5 s fade to nothing after the hold (6.50 s total), so they restart from an
+The `-loop` builds add a 0.6 s fade to nothing after the hold (7.60 s total), so they restart from an
 empty frame with no jump.
 
 ## Which file do I want?
@@ -39,9 +45,9 @@ empty frame with no jump.
 | `dist/webm/` | transparent video overlay in a browser | VP9 with an alpha channel, 60 fps. **Chrome, Edge, Firefox and Opera — not Safari**, see below. |
 | `dist/mov/` | Premiere, After Effects, Final Cut, Resolve | QuickTime Animation (RLE): **lossless**, bit-exact colour, straight (un-premultiplied) alpha, 60 fps. About 5× smaller than ProRes 4444 for flat vector artwork with no quality cost. |
 | `dist/apng/` | Slack, chat, a README — anywhere a "GIF" is wanted but with real transparency | Animated PNG, full 8-bit alpha, no fringing. Cut from the looping timeline so it repeats cleanly. |
-| `dist/preview/` | sending someone a quick look | GIF and MP4, **flattened onto a background on purpose** — GIF alpha is 1-bit and would chew the antialiased edges. Not overlay assets. The MP4 plays once and holds; the GIF loops. |
+| `dist/preview/` | sending someone a quick look | GIF and MP4, **flattened onto a transparency checkerboard on purpose** — GIF alpha is 1-bit and would chew the antialiased edges, and a video file has to put *something* behind the artwork. The checkerboard is that something, so nothing implies a colour the real files do not have. Not overlay assets. |
 
-Two crops: **`tight`** (948 × 1440) is cropped close to the lockup — use it for overlays.
+Two crops: **`tight`** (892 × 1440) is cropped close to the lockup — use it for overlays.
 **`square`** (1440 × 1440) is padded to 1:1 for social and anywhere a square canvas is expected.
 
 MOV and APNG ship for the tight crop in black and white only. That is not an oversight: the background
@@ -107,9 +113,10 @@ checker module (34.5 units) land on nearly the same weight, which is what holds 
 one object rather than two logos near each other.
 
 The ✕ is deliberately small but drawn at 0.68 of the wave stroke — at its first weight it disappeared
-below about 80 px, taking the one element that makes this a collaboration lockup with it. The gap
-below the ✕ is 1.2× the gap above: the emblem's top edge is dead flat and crowds it, while the wave's
-underside is scalloped and its optical edge sits above its bounding box.
+below about 80 px, taking the one element that makes this a collaboration lockup with it. It sits in
+135 units of air above and 155 below, on an emblem 1000 units wide. The gap below is the larger of the
+two: the emblem's top edge is dead flat and crowds the ✕, while the wave's underside is scalloped and
+its optical edge sits above its bounding box.
 
 ## Verification
 
@@ -126,8 +133,8 @@ underside is scalloped and its optical edge sits above its bounding box.
 | white through WebM | 98.8% exact; mean channel error 0.03/255, worst 10/255 |
 | off-white through WebM | mean channel error 2.12/255, worst 12/255 — never exact, see below |
 | black and white through MOV | every opaque pixel bit-exact — the codec is lossless |
-| the brief | at 3.87 s every checker square is in and the pyramid is still completely transparent; it only fills afterwards |
-| the fill reads as a fill | no single frame delivers more than 4% of the pyramid's area; 10%→90% of it sweeps over 0.53 s |
+| the brief | at 4.80 s every checker square is in and the pyramid is still completely transparent; it only fills afterwards |
+| the fill reads as a fill | no single frame delivers more than 3% of the pyramid's area |
 
 The SVG is exact for all three colourways, being vector.
 

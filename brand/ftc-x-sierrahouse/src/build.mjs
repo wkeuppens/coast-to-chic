@@ -28,7 +28,14 @@ const COLOURS = {
   white: '#FFFFFF',
   offwhite: '#F4EDE6', // Sierra House brand off-white, straight from the .ai files
 };
-const INK = '#032d47'; // Follow the Coast coast-blue, used only to matte GIF/MP4 previews
+/**
+ * The matted previews sit on a neutral transparency checkerboard rather than a
+ * brand colour: it reads as "this background is not there" for the black and
+ * the white artwork alike, and does not imply a colour that isn't in the file.
+ */
+const checkerboard = (w, h, fps, dur) =>
+  `color=c=gray:s=${w}x${h}:r=${fps}:d=${dur},format=gray,` +
+  `geq=lum='if(mod(floor(X/${Math.max(8, Math.round(w / 34))})+floor(Y/${Math.max(8, Math.round(w / 34))})\,2)\,168\,138)',format=rgb24`;
 
 const ff = (args) => execFileSync('ffmpeg', ['-y', '-v', 'error', ...args], { stdio: ['ignore', 'pipe', 'pipe'] });
 const mk = (d) => fs.mkdirSync(d, { recursive: true });
@@ -56,11 +63,10 @@ async function buildVideo(cname, fit, loop) {
   const meta = await render({ out: frames, fps: FPS, size: SIZE, opts: { colour: COLOURS[cname], fit, loop } });
   const seq = path.join(frames, 'f%05d.png');
   const made = [];
-  const matte = cname === 'black' ? '#F7F6F3' : INK;
   const dur = meta.frames / FPS;
-  // color= is an endless source: without d= and shortest=1 the overlay never
-  // terminates and ffmpeg runs until it is killed.
-  const onMatte = `color=${matte}:s=${meta.W}x${meta.H}:r=${FPS}:d=${dur}[bg];` +
+  // The background source must be bounded: color= runs forever, so without d=
+  // and shortest=1 the overlay never terminates and ffmpeg runs until killed.
+  const onMatte = `${checkerboard(meta.W, meta.H, FPS, dur)}[bg];` +
                   `[bg][0:v]overlay=format=auto:shortest=1`;
 
   // VP9 with alpha — the only transparent video format the web reads directly.
@@ -85,7 +91,7 @@ async function buildVideo(cname, fit, loop) {
 
     // A matted MP4 so the animation can be watched anywhere. Plays once and holds.
     mk(path.join(DIST, 'preview'));
-    const mp4 = path.join(DIST, 'preview', base + `-on-${cname === 'black' ? 'paper' : 'ink'}.mp4`);
+    const mp4 = path.join(DIST, 'preview', base + '-preview.mp4');
     ff(['-framerate', String(FPS), '-i', seq, '-filter_complex', `${onMatte},format=yuv420p`,
         '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', mp4]);
     made.push(mp4);
@@ -104,7 +110,7 @@ async function buildVideo(cname, fit, loop) {
     // shipped with chewed-up edges. Two passes with the palette on disk: one
     // command with split[] buffers every frame and gets OOM-killed.
     mk(path.join(DIST, 'preview'));
-    const gif = path.join(DIST, 'preview', base + `-on-${cname === 'black' ? 'paper' : 'ink'}.gif`);
+    const gif = path.join(DIST, 'preview', base + '-preview.gif');
     const flat = `${onMatte},fps=25,scale=520:-1:flags=lanczos`;
     const pal = path.join(TMP, base + '-palette.png');
     ff(['-framerate', String(FPS), '-i', seq, '-filter_complex', `${flat},palettegen=stats_mode=diff`, pal]);
